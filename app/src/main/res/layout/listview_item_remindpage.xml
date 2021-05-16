@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:minHeight="100dp">
+
+    <ImageView
+        android:id="@+id/remindpage_tasklv_pic"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:src="@drawable/haimian_usericon"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:visibility="gone"
+        />
+
+    <ImageView
+        android:id="@+id/remindpage_tasklv_userIcon"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="10dp"
+        android:src="@drawable/spiderman_usericon"/>
+
+    <TextView
+        android:id="@+id/remindpage_tasklv_userID"
+        android:layout_width="wrap_content"
+        android:layout_height="15dp"
+        app:layout_constraintLeft_toRightOf="@id/remindpage_tasklv_userIcon"
+        app:layout_constraintTop_toTopOf="@id/remindpage_tasklv_userIcon"
+        app:layout_constraintBottom_toBottomOf="@id/remindpage_tasklv_userIcon"
+        android:layout_marginLeft="10dp"
+        android:text="洋葱"
+        android:textSize="12sp"
+        android:textColor="@color/black"/>
+
+    <TextView
+
+
+        android:id="@+id/remindpage_tasklv_deadline"
+        android:layout_width="wrap_content"
+        android:layout_height="15dp"
+        app:layout_constraintLeft_toRightOf="@id/remindpage_tasklv_userIcon"
+        app:layout_constraintTop_toTopOf="@id/remindpage_tasklv_userIcon"
+        app:layout_constraintBottom_toBottomOf="@id/remindpage_tasklv_userIcon"
+        android:layout_marginLeft="75dp"
+        android:text="截止时间"
+        android:textSize="12sp"
+        android:textColor="@color/black"/>
+
+    <ImageView
+        android:id="@+id/remindpage_tasklv_menu"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/remindpage_tasklv_userIcon"
+        app:layout_constraintBottom_toBottomOf="@id/remindpage_tasklv_userIcon"
+        android:src="@drawable/menu_icon"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/remindpage_tasklv_Describe"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        app:layout_constraintLeft_toLeftOf="@id/remindpage_tasklv_userIcon"
+        app:layout_constraintTop_toBottomOf="@id/remindpage_tasklv_userIcon"
+        android:gravity="center"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="10dp"
+        android:text="裂缝识别"
+        android:textSize="13sp"
+        android:textColor="@color/black"/>
+
+    <TextView
+        android:id="@+id/remindpage_tasklv_taskName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="@id/remindpage_tasklv_userIcon"
+        app:layout_constraintTop_toBottomOf="@id/remindpage_tasklv_Describe"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="10dp"
+        android:text="任务名称"
+        android:textSize="@dimen/font_16"
+        android:textColor="@color/black"/>
+
+    <TextView
+        android:id="@+id/remindpage_tasklv_TaskContent"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        app:layout_constraintLeft_toLeftOf="@id/remindpage_tasklv_userIcon"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/remindpage_tasklv_taskName"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:text="任务描述：改任务是XXXXXXXXXXX"
+        android:textSize="13sp"
+        android:textColor="@color/black"/>
+
+
+    <ImageView
+        android:id="@+id/remindpage_tasklv_CoinsIcon"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        app:layout_constraintLeft_toLeftOf="@id/remindpage_tasklv_userIcon"
+        app:layout_constraintTop_toBottomOf="@id/remindpage_tasklv_TaskContent"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:src="@drawable/jinbi"/>
+    <TextView
+        android:id="@+id/remindpage_tasklv_CoinsCount"
+        android:layout_width="50dp"
+        android:layout_height="20dp"
+        app:layout_constraintLeft_toRightOf="@id/remindpage_tasklv_CoinsIcon"
+        app:layout_constraintTop_toTopOf="@id/remindpage_tasklv_CoinsIcon"
+        app:layout_constraintBottom_toBottomOf="@id/remindpage_tasklv_CoinsIcon"
+        android:gravity="center"
+        android:text="10.0元"
+        android:textSize="10sp"
+        android:textColor="@color/black"/>
+    <ImageView
+        android:id="@+id/remindpage_tasklv_TaskCountIcon"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        app:layout_constraintLeft_toRightOf="@id/remindpage_tasklv_CoinsCount"
+        app:layout_constraintTop_toTopOf="@id/remindpage_tasklv_CoinsIcon"
+        app:layout_constraintBottom_toBottomOf="@id/remindpage_tasklv_CoinsIcon"
+        android:src="@drawable/mounts"/>
+    <TextView
+        android:id="@+id/remindpage_tasklv_TaskCount"
+        android:layout_width="30dp"
+        android:layout_height="20dp"
+        app:layout_constraintLeft_toRightOf="@id/remindpage_tasklv_TaskCountIcon"
+        app:layout_constraintTop_toTopOf="@id/remindpage_tasklv_CoinsIcon"
+        app:layout_constraintBottom_toBottomOf="@id/remindpage_tasklv_CoinsIcon"
+        android:gravity="center"
+        android:text="10个"
+        android:textSize="10sp"
+        android:textColor="@color/black"/>
+    <ImageView
+        android:id="@+id/remindpage_tasklv_ShareIcon"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/remindpage_tasklv_CoinsIcon"
+        app:layout_constraintBottom_toBottomOf="@id/remindpage_tasklv_CoinsIcon"
+        android:layout_marginRight="10dp"
+        android:src="@drawable/share_icon_1" />
+    <ImageView
+        android:id="@+id/remindpage_tasklv_FavoriteIcon"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        app:layout_constraintRight_toLeftOf="@id/remindpage_tasklv_ShareIcon"
+        app:layout_constraintTop_toTopOf="@id/remindpage_tasklv_CoinsIcon"
+        app:layout_constraintBottom_toBottomOf="@id/remindpage_tasklv_CoinsIcon"
+        android:layout_marginRight="12dp"
+        android:src="@drawable/love_icon" />
+
+    <View
+        android:id="@+id/listview_bottomline"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        app:layout_constraintTop_toBottomOf="@id/remindpage_tasklv_CoinsIcon"
+        android:layout_marginTop="7dp"
+        android:background="@color/listview_topline"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

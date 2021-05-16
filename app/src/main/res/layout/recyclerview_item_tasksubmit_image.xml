@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:minHeight="42dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <ImageView
+        android:id="@+id/taskSubmit_image_rvitem_pic"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="12dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:scaleType="fitXY"
+        android:src="@drawable/dot"/>
+
+
+    <ImageView
+        android:id="@+id/taskSubmit_image_rvitem_delete"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        app:layout_constraintRight_toRightOf="@id/taskSubmit_image_rvitem_pic"
+        android:layout_marginRight="5dp"
+        app:layout_constraintBottom_toTopOf="@id/taskSubmit_image_rvitem_pic"
+        app:layout_constraintTop_toTopOf="@id/taskSubmit_image_rvitem_pic"
+        app:layout_constraintLeft_toRightOf="@id/taskSubmit_image_rvitem_pic"
+        android:src="@drawable/delete_navigationcolor"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

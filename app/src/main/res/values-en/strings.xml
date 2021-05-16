@@ -1,0 +1,282 @@
+<resources>
+    <string name="app_name">WeSense</string>
+    <string name="title_home">Task</string>
+    <string name="title_map">Map</string>
+    <string name="title_mine">Account</string>
+    <string name="title_publish">Publish</string>
+    <string name="title_remind">Remind</string>
+    <string name="search_home_hint">Task Search</string>
+    <string name="sao1sao_home">Scan</string>
+    <string name="task_kind_dialogtitle">Task Type</string>
+    <string name="task_frequency_dialogtitle">Task Frequency</string>
+    <string name="task_uploadMode_dialogtitle">Task Upload Mode</string>
+    <string name="home_grid_0">Public Safety</string>
+    <string name="home_grid_1">Environment</string>
+    <string name="home_grid_2">Daily Life</string>
+    <string name="home_grid_3">Business</string>
+    <string name="home_grid_4">More</string>
+    <string name="home_search">Search</string>
+    <string name="home_toast_data_fail">Fail to request data.</string>
+    <string name="home_toast_data_update1">Update </string>
+    <string name="home_toast_data_update2"> task(s).</string>
+    <string name="fragment_mine_funclist_published">Published Tasks</string>
+    <string name="fragment_mine_funclist_received">Accepted Tasks</string>
+    <string name="fragment_mine_funclist_favorite">My Favorites</string>
+    <string name="fragment_mine_funclist_wallet">My Wallet</string>
+    <string name="fragment_mine_funclist_promotion">My Promotion</string>
+    <string name="fragment_mine_funclist_notificaiton">Notification</string>
+    <string name="fragment_mine_funclist_setting">Setting</string>
+    <string-array name="task_kinds">
+        <item>Public Safety</item>
+        <item>Environment</item>
+        <item>Daily Life</item>
+        <item>Business</item>
+        <item>Others</item>
+    </string-array>
+    <string-array name="task_frequency">
+        <item>3 Times/Day</item>
+        <item>1 Times/Day</item>
+        <item>3 Times/Week</item>
+    </string-array>
+    <string-array name="task_uploadMode">
+        <item>Real-time Upload</item>
+        <item>Background Upload</item>
+    </string-array>
+
+    <string name="title_activity_2rd_page">activity_2rd_page</string>
+    <string name="title_activity_search">activity_search</string>
+    <string name="title_activity_login">Activity_login</string>
+    <string name="action_settings">Setting</string>
+
+
+    <!--登录-->
+    <string name="login">Login</string>
+    <string name="login_input_username_hint">User</string>
+    <string name="hint_password">Password</string>
+    <string name="login_hold_hint">Automatic Login</string>
+    <string name="login_forget_hint">Forget Password？</string>
+    <string name="login_register_hint">Register</string>
+    <string name="login_other_hint">Or Log in With</string>
+    <string name="login_error">Login Error</string>
+    <string name="register_input_username_hint">Phone</string>
+    <string name="register_username_hint">User</string>
+    <string name="register_sms_auth_code">SMS Verification Code</string>
+    <string name="register_sms_hint">Get Verification Code</string>
+
+    <string name="loading_image">Preparing Pictures...</string>
+    <string name="register_done_hint">Done</string>
+    <string name="retrieve_pwd_step_hint">Next</string>
+    <string name="reset_pwd_hint">Please Enter a New Password of at Least Six Digits</string>
+    <string name="register_pwd_hint">Please Enter a Password of at Least Six Digits</string>
+    <string name="confirm">Confirm</string>
+    <string name="message_pwd_error">Password Wrong</string>
+    <string name="message_username_null">Username Not Filled in</string>
+    <string name="base_url">http://47.96.146.104:8889/</string>
+    <string name="intent_taskID_name">intent_taskID_name</string>
+
+    <string name="function_not_open">Not Open</string>
+
+    <string name="nickname">nickname</string>
+    <string name="mobilePhone">Mobile Phone</string>
+    <string name="introduction">Introduction</string>
+    <string name="notYetOpen">Not Yet Open</string>
+    <string name="loadFinish">Loading Finished</string>
+    <string name="publishSuccess">Successfully Published</string>
+    <string name="publishFail">Publishing failed</string>、
+    <string name="ordinaryTask">Regular Task</string>
+    <string name="differentPassword">The passwords entered twice are different</string>
+    <string name="format_reminder_name">User name is a 4-16 character consisting of letters and numbers and begins with a letter</string>
+    <string name="format_reminder_pwd">The password is a combination of letters and numbers, and the length is 6-16 digits.</string>
+    <string name="login_first">Please Login First</string>
+    <string name="taskAccept">Accept Task</string>
+    <string name="submitData">Submit Data</string>
+    <string name="taskCompleted">Completed Task</string>
+    <string name="completed">Completed</string>
+    <string name="QueryStatusCodeFailed">Fail to Query Status Code </string>
+    <string name="AcceptTaskSuccessful">Successfully Accepted Task</string>
+    <string name="AcceptTaskFailed">Accept Task Failed</string>
+    <string name="FailToQueryResult">Fail to query task completion result</string>
+    <string name="FailToGetData">Fail To Get Data</string>
+    <string name="Refresh">Refresh </string>
+    <string name="Now"> tasks.There are  </string>
+    <string name="TaskNum">  tasks in the list</string>
+    <string name="LoginSucceed">Successful Login</string>
+    <string name="LoginFailed">Login failed, username or password is incorrect</string>
+    <string name="registeSucceed">Successful Registration</string>
+    <string name="registeFailed">Registration Failed</string>
+    <string name="InputBoxNull">Input Box is Null</string>
+    <string name="DataTableHasBeenCreated">Data Table Has Been Created</string>
+    <string name="CreateDataBaseTableSuccessfully">Successfully Created DataBase Table</string>
+    <string name="NamePwdCantNull">User Name And Password Can Not Be Null</string>
+
+    <string name="Task_Detail_title">Task Detail</string>
+    <string name="Task_Detail_taskKind">Regular Task</string>
+    <string name="Task_Detail_coid">Coin:</string>
+    <string name="Task_Detail_deadline">Deadline:</string>
+
+    <string name="Task_Submit_title">Task Submit</string>
+
+    <string name="Task_Submit_input_describe">             Input The Description Of The Task.</string>
+    <string name="Task_Submit_photo_choose">             Choose Photos</string>
+    <string name="Task_Submit_data_upload">             Choose Data</string>
+    <string name="Task_Submit_data_pleaseChooseData"> Please Choose Data</string>
+    <string name="Task_Submit_audio_upload">         Choose Audio</string>
+    <string name="Task_Submit_video_upload">         Choose Video</string>
+    <string name="Task_Submit_submit">Submit</string>
+    <string name="Task_Submit_requireTask_error">Fail to get the taskID.</string>
+    <string name="Task_Submit_input_remind">The task description can not be empty.</string>
+    <string name="Task_Submit_success_remind">Successfully submitted the result.</string>
+    <string name="Task_Submit_fail_remind">Failed to submit the result.</string>
+    <string name="Task_Submit_add_error">Fail to find the File you want to upload.</string>
+    <string name="Task_Submit_add_size_error">File size is larger than 20M.</string>
+
+
+    <string name="fragment_remind_title">Task Remind</string>
+    <string name="fragment_remind_notOpen">The page is not open.</string>
+
+    <string name="fragment_publish_tip1">                Please choose the task template</string>
+
+    <string name="notlogin">Not login.</string>
+    <string name="fail_to_get_username">ErrorUsername.</string>
+    <string name="fail_to_load_data">Fail to load data.</string>
+
+    <!--activity_basic_taskpublish_1.xml-->
+    <string name="fragment_publish_template1">Basic Task Publishing Template</string>
+    <string name="fragment_publish_template2">Sensor Task Publishing Template</string>
+    <string name="fragment_publish_template1_sensors">Gallery Camera</string>
+    <string name="Step_one">         Step one</string>
+    <string name="sensor">Sensor:</string>
+    <string name="camera">GPS    Camera</string>
+    <string name="task_type">Task type:</string>
+    <string name="task_name">Task name:</string>
+    <string name="please_enter_task_name">Please enter the task name</string>
+    <string name="bonus">Bonus:</string>
+    <string name="enter_bonus_number">Please enter the number of bonuses</string>
+    <string name="task_number">Number:</string>
+    <string name="enter_task_number">Please enter the number of tasks</string>
+    <string name="Deadline">Deadline:</string>
+    <string name="Click_to_get_date">Click to select date</string>
+    <string name="task_details">Task details:</string>
+    <string name="briefly_describe">Please describe the task briefly</string>
+    <string name="fragment_publish_title">Publish Task</string>
+    <!--activity_editinfo.xml-->
+    <string name="data_edit">Data Editing</string>
+    <string name="edit">Data Editing</string>
+    <string name="sign_out">Sign out</string>
+    <!--activity_func_foodshare_publish.xml-->
+    <string name="share">Share</string>
+    <string name="food_describe">         Description of food</string>
+    <string name="upload_food_pic">         Upload some pictures of food"</string>
+    <!--activity_func_sportshare.xml-->
+    <string name="measure_motion">Measuring motion</string>
+    <string name="current_steps">Current steps:</string>
+    <!--activity_login.xml-->
+    <string name="wrong_user">Wrong User</string>
+    <!--activity_mine_minor2_accepted.xml-->
+    <string name="mine_minor2_accepted_All">All</string>
+    <string name="mine_minor2_accepted_processing">Processing</string>
+    <string name="mine_minor2_accepted_done">Completed</string>
+    <!--activity_mine_minor4_mywallet.xml-->
+    <string name="mine_minor4_mywallet_available_balance">Available Balance(yuan):</string>
+    <!--activity_mine_setting_general.xml-->
+    <string name="mine_setting_general">General</string>
+    <!--activity_mine_setting_general_multilan.xml-->
+    <string name="general_multilan_select_language">Select language category</string>
+    <!--activity_registe.xml-->
+    <string name="registe_Confirm_password_again">Confirm password again</string>
+    <!--activity_task_detail_published.xml-->
+    <string name="task_detail_published_Submitted_task_data">Submitted task data</string>
+
+    <string name="cancel">Cancel</string>
+    <string name="Custom_task_template">Custom task template</string>
+    <string name="def_taskpub_camera">Camera</string>
+    <string name="acceleration">Acceleration</string>
+    <string name="heart_rate">Heart rate</string>
+    <string name="microphone">Microphone</string>
+    <string name="distance">Distance</string>
+    <string name="Signature">Signature</string>
+    <string name="Edit_information">Edit</string>
+    <string name="publish_task">Publish Task</string>
+    <string name="recommend">Recommend</string>
+    <string name="login_or_register">login</string>
+    <string name="not_login">Not Login</string>
+    <string name="taskNoNew">No task updated.</string>
+
+
+    <string name="setting_general">General</string>
+    <string name="setting_sensorfunction">Sensor Function</string>
+    <string name="setting_help_feedback">Help/feedback</string>
+    <string name="setting_version">Version Update</string>
+    <string name="setting_general_version">Language Selection</string>
+
+    <string name="add">Add</string>
+    <string name="permission">Request for permission</string>
+    <string name="moredata">More Data...</string>
+    <string name="publishTask_nullRemind">Please fill all blanks.</string>
+    <string name="webUrl">https://www.crowdos.cn</string>
+    <string name="published_Task_Detail_title">Published Task Result</string>
+    <string name="App_Update">Update</string>
+    <string name="update_message">App has a new version, whether to update?</string>
+    <string name="no_update_message">There is no new version.</string>
+    <string name="coins_rank_info">Coins Ranking</string>
+    <string name="checkUserIcon">Check UserIcon</string>
+    <string name="updateUserIcon">Update UserIcon</string>
+    <string name="longitude">Longitude:</string>
+    <string name="latitude">Latitude:</string>
+    <string name="NoneQueryResult">None Query Result</string>
+    <string name="pwd_format_error">Password Format Error!</string>
+    <string name="chooseSensors">Click to choose sensors.</string>
+    <string name="Sensor_TYPE_ACCELEROMETER">AccelerometerSensor</string>
+    <string name="Sensor_TYPE_MAGNETIC_FIELD">Magnetic-FieldSensor</string>
+    <string name="Sensor_TYPE_ORIENTATION">OrientationSensor</string>
+    <string name="Sensor_TYPE_GYROSCOPE">GyroscopeSensor</string>
+    <string name="Sensor_TYPE_LIGHT">LightSensor</string>
+    <string name="Sensor_TYPE_PRESSURE">PressureSensor</string>
+    <string name="Sensor_TYPE_TEMPERATURE">TemperatureSensor</string>
+    <string name="Sensor_TYPE_PROXIMITY">ProximitySensor</string>
+    <string name="Sensor_TYPE_GRAVITY">GravitySensor</string>
+    <string name="Sensor_TYPE_LINEAR_ACCELERATION">Linear-AccelerationSensor</string>
+    <string name="Sensor_TYPE_ROTATION_VECTOR">Rotation-VectorSensor</string>
+    <string name="Sensor_TYPE_RELATIVE_HUMIDITY">Relative-HumiditySensor</string>
+    <string name="Sensor_TYPE_AMBIENT_TEMPERATURE">Ambient-TemperatureSensor</string>
+    <string name="Sensor_TYPE_MAGNETIC_FIELD_UNCALIBRATED">Magnetic FieldSensor(Uncalibrated)</string>
+    <string name="Sensor_TYPE_GAME_ROTATION_VECTOR">Game Rotation VectorSensor</string>
+    <string name="Sensor_TYPE_GYROSCOPE_UNCALIBRATED">GyroscopeSensor(Uncalibrated)</string>
+    <string name="Sensor_TYPE_SIGNIFICANT_MOTION">SignificantMotionSensor</string>
+    <string name="Sensor_TYPE_STEP_COUNTER">StepCounter</string>
+    <string name="Sensor_TYPE_STEP_DETECTOR">StepDetector</string>
+    <string name="Sensor_TYPE_GEOMAGNETIC_ROTATION_VECTOR">GeomagneticRotationVector</string>
+    <string name="Sensor_TYPE_HEART_RATE">HeartRateSensor</string>
+    <string name="Sensor_TYPE_HEART_BEAT">HeartBeatSensor</string>
+    <string name="Sensor_TYPE_POSE_6DOF">POSE_6DOFSensor</string>
+    <string name="Sensor_TYPE_STATIONARY_DETECT">StationaryDetector</string>
+    <string name="Sensor_TYPE_MOTION_DETECT">MotionDetector</string>
+    <string name="Sensor_TYPE_LOW_LATENCY_OFFBODY_DETECT">LowLatencyOffBodyDetector</string>
+    <string name="Sensor_TYPE_ACCELEROMETER_UNCALIBRATED">Accelerometer(Uncalibrated)</string>
+    <string name="taskSensorNeedRemind">Some sensors which this task requests you don\'t have!</string>
+    <string name="Task_Detail_sensorNeed">Sensor:</string>
+    <string name="Activity_sqlitedata_title">Sensor Data</string>
+    <string name="Activity_setting_sensordata_title">Sense Data</string>
+    <string name="setting_sensorData_chuanganqishuju">Sensor Data</string>
+    <string name="setting_sensorData_dangqianshujushuliang">Amount of Data:</string>
+    <string name="setting_sensorData_qingliganzhishuju">Clean Sense Data</string>
+    <string name="Activity_setting_sensordatafunciton_title">Sense Function</string>
+    <string name="setting_sensorData_delete_step1">Choose sensors you want to clean.</string>
+    <string name="setting_sensorData_delete_step2">Set the time</string>
+    <string name="startTime">Start Time:</string>
+    <string name="chooseTime">Click to choose time.</string>
+    <string name="sensorType">Sensor Type:</string>
+    <string name="sensorTime">Sense Time:</string>
+    <string name="senseData">Sense Data:</string>
+    <string name="no_more_sqlitedata">No more data.</string>
+    <string name="all">All</string>
+    <string name="delSensorDataRemind">Delete the sense data</string>
+    <string name="sensorIdentifyError">Sensor Identify Error</string>
+    <string name="setting_sensorData_kaiqiguanbiganzhi">Start/Stop Sense</string>
+    <string name="setting_sensorData_baocunshuju">Output Data</string>
+    <string name="fragment_publish_template2_minor">Choose sensor types.</string>
+    <string name="intent_taskSensorTypes_name">SensorTypesForSenseTask</string>
+    <string name="handling">Handling...</string>
+    <string name="failToAcceptTask">Fail to accept task.</string>
+
+</resources>

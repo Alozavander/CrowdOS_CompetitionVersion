@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <Button
+        android:id="@+id/putong"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:text="Normal Map"
+        android:textAllCaps="false"
+        android:background="@drawable/selector_orange"
+        android:gravity="center"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="4dp"
+        android:layout_marginTop="5dp"/>
+
+    <Button
+        android:id="@+id/weixing"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:text="Satellite Map"
+        android:textAllCaps="false"
+        android:background="@drawable/selector_orange"
+        android:gravity="center"
+        app:layout_constraintTop_toTopOf="@id/putong"
+        app:layout_constraintLeft_toRightOf="@id/putong"
+        android:layout_marginLeft="4dp"/>
+
+    <Button
+        android:id="@+id/yejian"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:text="Night Mode"
+        android:textAllCaps="false"
+        android:background="@drawable/selector_orange"
+        android:gravity="center"
+        app:layout_constraintTop_toTopOf="@id/putong"
+        app:layout_constraintLeft_toRightOf="@id/weixing"
+        android:layout_marginLeft="4dp"/>
+
+    <com.amap.api.maps.MapView
+        android:id="@+id/map"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <Button
+        android:id="@+id/Chinese"
+        android:text="Chinese"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:textAllCaps="false"
+        android:background="@drawable/selector_green"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="8dp"
+        android:layout_marginBottom="2dp"/>
+
+    <Button
+        android:id="@+id/English"
+        android:text="English"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:textAllCaps="false"
+        android:background="@drawable/selector_blue"
+        android:gravity="center"
+        app:layout_constraintLeft_toRightOf="@id/Chinese"
+        app:layout_constraintBottom_toBottomOf="@id/Chinese"
+        android:layout_marginLeft="4dp"/>
+
+    <ImageView
+        android:id="@+id/icon_compass"
+        android:clickable="true"
+        android:src="@drawable/icon_compass"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:scaleType="fitXY"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="50dp"
+        android:layout_marginRight="10dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

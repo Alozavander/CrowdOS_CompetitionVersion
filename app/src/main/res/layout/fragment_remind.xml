@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/remindpage_title"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:text="@string/fragment_remind_title"
+        android:textSize="18sp"
+        app:layout_constraintHeight_percent="0.09"
+        android:background="@color/color_Navigation"
+        android:textColor="@color/white"/>
+
+
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/remindpage_tablayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/remindpage_title"
+        app:tabTextColor="@color/black"
+        app:tabIndicatorColor="@color/color_Navigation"
+        >
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/remind_tabItem1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/mine_minor2_accepted_processing"
+            android:focusedByDefault="true"
+            />
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/remind_tabItem2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/mine_minor2_accepted_done"
+            />
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/remind_tabItem3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/recommend"
+            />
+    </com.google.android.material.tabs.TabLayout>
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/remindpage_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/remindpage_tablayout"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

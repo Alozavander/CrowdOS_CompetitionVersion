@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <TextView
+        android:id="@+id/minepage_task_detail_title"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:text="@string/Task_Detail_title"
+        android:textSize="18sp"
+        app:layout_constraintHeight_percent="0.09"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:background="@color/listview_topline"
+        app:layout_constraintTop_toBottomOf="@id/minepage_task_detail_title"/>
+    
+    <TextView
+        android:id="@+id/minepage_task_detail_describe"
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        android:text="裂缝检测"
+        android:textSize="25dp"
+        android:textColor="@color/black"
+        android:gravity="center|left"
+        android:layout_marginTop="4dp"
+        android:layout_marginLeft="15dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/minepage_task_detail_title"/>
+
+    <ImageView
+        android:id="@+id/minepage_task_detail_userIcon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/minepage_usericon_corner"
+        android:src="@drawable/haimian_usericon"
+        app:layout_constraintLeft_toLeftOf="@id/minepage_task_detail_describe"
+        app:layout_constraintTop_toBottomOf="@id/minepage_task_detail_describe"
+        android:layout_marginTop="5dp"/>
+    
+    <TextView
+        android:id="@+id/minepage_task_detail_userID"
+        android:layout_width="wrap_content"
+        android:layout_height="25dp"
+        android:text="烟囱"
+        android:textSize="15dp"
+        android:gravity="center|left"
+        app:layout_constraintTop_toTopOf="@id/minepage_task_detail_userIcon"
+        app:layout_constraintBottom_toBottomOf="@id/minepage_task_detail_userIcon"
+        app:layout_constraintLeft_toRightOf="@id/minepage_task_detail_userIcon"
+        android:layout_marginLeft="10dp"/>
+    
+    <TextView
+        android:id="@+id/minepage_task_detail_time"
+        android:layout_width="wrap_content"
+        android:layout_height="25dp"
+        android:text="2017.11.29"
+        android:gravity="center|left"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginRight="20dp"
+        app:layout_constraintTop_toTopOf="@id/minepage_task_detail_userID"/>
+
+    <ImageView
+        android:id="@+id/minepage_task_detail_icon1"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/navi_mine"
+        />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
