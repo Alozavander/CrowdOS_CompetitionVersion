@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/publishpage_title"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="0.09"
+        android:text="@string/publish_task"
+        android:gravity="center"
+        android:textSize="18sp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:background="@color/listview_topline"
+        app:layout_constraintTop_toBottomOf="@id/publishpage_title"/>
+
+    <EditText
+        android:id="@+id/publishpage_inputET"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="0.15"
+        android:background="@null"
+        app:layout_constraintTop_toBottomOf="@+id/publishpage_title"
+        android:layout_marginTop="4dp"
+        android:hint="@string/briefly_describe"
+        android:textSize="12dp"
+        android:gravity="top|left"
+        android:padding="5dp"
+        android:singleLine="false"
+        android:maxLines="4"
+        android:inputType="textMultiLine"
+        android:scrollHorizontally="false"
+        android:textColorHint="@color/colorPrimary"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:background="@color/listview_topline"
+        app:layout_constraintTop_toBottomOf="@id/publishpage_inputET"/>
+
+    <GridView
+        android:id="@+id/publishpage_photoGV"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="0.15"
+        app:layout_constraintTop_toBottomOf="@id/publishpage_inputET"
+        android:layout_marginTop="4dp"
+        android:numColumns="4" />
+    <ImageView
+        android:id="@+id/test"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        app:layout_constraintLeft_toLeftOf="@id/publishpage_photoGV"
+        app:layout_constraintTop_toTopOf="@id/publishpage_photoGV"
+        android:layout_marginLeft="7dp"
+        android:layout_marginTop="1dp"
+        android:src="@drawable/choose"/>
+
+    <TextView
+        android:id="@+id/publishpage_noticeTV"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="0.04"
+        app:layout_constraintTop_toBottomOf="@id/publishpage_photoGV"
+        android:text="温馨提示"
+        android:paddingLeft="10dp"
+        android:gravity="center|left"
+        android:textSize="12dp"
+        android:textColor="@color/colorPrimary" />
+
+    <TextView
+        android:id="@+id/publishpage_adressTV"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="0.07"
+        app:layout_constraintTop_toBottomOf="@id/publishpage_noticeTV"
+        android:text="地址"
+        android:paddingLeft="40dp"
+        android:gravity="center|left"
+        android:textSize="12dp"/>
+    <ImageView
+        android:id="@+id/publishpage_adressTVIcon"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        app:layout_constraintLeft_toLeftOf="@id/publishpage_adressTV"
+        app:layout_constraintTop_toTopOf="@id/publishpage_adressTV"
+        android:layout_margin="5dp"
+        android:layout_marginLeft="7dp"
+        android:layout_marginTop="1dp"
+        android:src="@drawable/ic_home_black_24dp"/>
+    <ImageView
+        android:id="@+id/publishpage_adressChooseIcon"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        app:layout_constraintRight_toRightOf="@id/publishpage_adressTV"
+        app:layout_constraintTop_toTopOf="@id/publishpage_adressTV"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/right_arrow"/>
+
+
+
+    <TextView
+        android:id="@+id/publishpage_nameTV"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="0.07"
+        app:layout_constraintTop_toBottomOf="@id/publishpage_adressTV"
+        android:text="洋葱"
+        android:paddingLeft="40dp"
+        android:gravity="center|left"
+        android:textSize="12dp"/>
+    <ImageView
+        android:id="@+id/publishpage_nameTVIcon"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        app:layout_constraintLeft_toLeftOf="@id/publishpage_nameTV"
+        app:layout_constraintTop_toTopOf="@id/publishpage_nameTV"
+        android:layout_margin="5dp"
+        android:layout_marginLeft="7dp"
+        android:layout_marginTop="1dp"
+        android:src="@drawable/ic_home_black_24dp"/>
+
+
+
+
+    <TextView
+        android:id="@+id/publishpage_phonenumberTV"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="0.07"
+        app:layout_constraintTop_toBottomOf="@id/publishpage_nameTV"
+        android:text="电话"
+        android:paddingLeft="40dp"
+        android:gravity="center|left"
+        android:textSize="12dp" />
+    <ImageView
+        android:id="@+id/publishpage_phonenumberTVIcon"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        app:layout_constraintLeft_toLeftOf="@id/publishpage_phonenumberTV"
+        app:layout_constraintTop_toTopOf="@id/publishpage_phonenumberTV"
+        android:layout_margin="5dp"
+        android:layout_marginLeft="7dp"
+        android:layout_marginTop="1dp"
+        android:src="@drawable/ic_home_black_24dp"/>
+
+
+
+    <TextView
+        android:id="@+id/publishpage_taskDetailTV"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="0.07"
+        app:layout_constraintTop_toBottomOf="@id/publishpage_phonenumberTV"
+        android:text="任务详情"
+        android:paddingLeft="10dp"
+        android:gravity="center|left"
+        android:textSize="12dp"/>
+    <ImageView
+        android:id="@+id/publishpage_taskDetailChooseIcon"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        app:layout_constraintRight_toRightOf="@id/publishpage_taskDetailTV"
+        app:layout_constraintTop_toTopOf="@id/publishpage_taskDetailTV"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/right_arrow"/>
+
+
+    <TextView
+        android:id="@+id/publishpage_taskCoinTV"
+        android:layout_width="0dp"
+        app:layout_constraintWidth_percent="0.5"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="0.07"
+        app:layout_constraintTop_toBottomOf="@id/publishpage_taskDetailTV"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:text="任务奖励"
+        android:paddingLeft="10dp"
+        android:gravity="center|left"
+        android:textSize="12dp"
+        android:textColor="@color/light_red"/>
+    <TextView
+        android:id="@+id/publishpage_taskCoinNumberTV"
+        android:layout_width="0dp"
+        app:layout_constraintWidth_percent="0.5"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="0.07"
+        app:layout_constraintTop_toBottomOf="@id/publishpage_taskDetailTV"
+        app:layout_constraintRight_toRightOf="parent"
+        android:text="1000元"
+        android:paddingRight="40dp"
+        android:gravity="center|right"
+        android:textSize="12dp"
+        android:textColor="@color/light_red"/>
+
+
+
+    <Button
+        android:id="@+id/publish_button"
+        android:layout_width="0dp"
+        app:layout_constraintWidth_percent="0.618"
+        android:layout_height="wrap_content"
+        android:text="立即发布"
+        app:layout_constraintTop_toBottomOf="@id/publishpage_taskCoinTV"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:textColor="@color/white"
+        style="@style/Widget.AppCompat.Button"
+        android:theme="@style/publishPage_button"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

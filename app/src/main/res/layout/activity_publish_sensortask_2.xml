@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.Activity_publish_sensortask_2">
+
+
+    <TextView
+        android:id="@+id/publishpage_sensortaskpublish_2_title"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/color_Navigation"
+        android:gravity="center"
+        android:text="@string/fragment_publish_template2"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:layout_constraintHeight_percent="0.09"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/publishpage_sensortaskpublish_2_backarrow"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginLeft="20dp"
+        android:src="@drawable/btn_back_white"
+        app:layout_constraintBottom_toBottomOf="@id/publishpage_sensortaskpublish_2_title"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="@id/publishpage_sensortaskpublish_2_title" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:background="@color/listview_topline"
+        app:layout_constraintTop_toBottomOf="@id/publishpage_sensortaskpublish_2_title" />
+
+    <TextView
+        android:id="@+id/publishpage_sensortaskpublish_2_remind"
+        android:layout_width="match_parent"
+        android:layout_height="14dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/colorPrimaryDark"
+        android:gravity="center|left"
+        android:text="@string/Step_one"
+        android:textColor="@color/white"
+        android:textSize="10sp"
+        app:layout_constraintTop_toBottomOf="@id/publishpage_sensortaskpublish_2_title" />
+
+
+    <TextView
+        android:id="@+id/publishpage_sensortaskpublish_2_sensor"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center|left"
+        android:text="@string/sensor"
+        android:textSize="14sp"
+        app:layout_constraintLeft_toLeftOf="@id/publishpage_sensortaskpublish_2_remind"
+        app:layout_constraintTop_toBottomOf="@id/publishpage_sensortaskpublish_2_remind" />
+
+    <TextView
+        android:id="@+id/publishpage_sensortaskpublish_2_sensor_content"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="15dp"
+        android:ellipsize="end"
+        android:gravity="center|left"
+        android:maxLines="2"
+        android:text="@string/chooseSensors"
+        android:textSize="14sp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/publishpage_sensortaskpublish_2_sensor"
+        app:layout_constraintTop_toBottomOf="@id/publishpage_sensortaskpublish_2_remind" />
+
+    <View
+        android:id="@+id/view2"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="4dp"
+        android:background="@color/listview_topline"
+        app:layout_constraintTop_toBottomOf="@id/publishpage_sensortaskpublish_2_sensor"
+        tools:layout_editor_absoluteX="7dp" />
+
+    <TextView
+        android:id="@+id/publishpage_sensortaskpublish_2_taskKind_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_marginTop="12dp"
+        android:gravity="center|left"
+        android:text="@string/task_type"
+        android:textSize="14sp"
+        app:layout_constraintLeft_toLeftOf="@id/publishpage_sensortaskpublish_2_sensor"
+        app:layout_constraintTop_toBottomOf="@id/publishpage_sensortaskpublish_2_sensor" />
+
+    <Spinner
+        android:id="@+id/publishpage_sensortaskpublish_2_taskKind_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_marginLeft="15dp"
+        android:entries="@array/task_kinds"
+        android:prompt="@string/task_kind_dialogtitle"
+        android:spinnerMode="dialog"
+        app:layout_constraintBottom_toBottomOf="@+id/publishpage_sensortaskpublish_2_taskKind_tv"
+        app:layout_constraintLeft_toRightOf="@id/publishpage_sensortaskpublish_2_taskKind_tv"
+        app:layout_constraintTop_toTopOf="@id/publishpage_sensortaskpublish_2_taskKind_tv" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginLeft="7dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginRight="15dp"
+        android:background="@color/listview_topline"
+        app:layout_constraintTop_toBottomOf="@id/publishpage_sensortaskpublish_2_taskKind_tv" />
+
+    <TextView
+        android:id="@+id/publishpage_sensortaskpublish_2_taskName_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_marginTop="12dp"
+        android:gravity="center|left"
+        android:text="@string/task_name"
+        android:textSize="14sp"
+        app:layout_constraintLeft_toLeftOf="@id/publishpage_sensortaskpublish_2_taskKind_tv"
+        app:layout_constraintTop_toBottomOf="@id/publishpage_sensortaskpublish_2_taskKind_tv" />
+
+    <EditText
+        android:id="@+id/publishpage_sensortaskpublish_2_taskName_ev"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_marginLeft="15dp"
+        android:background="@null"
+        android:gravity="center|left"
+        android:hint="@string/please_enter_task_name"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@id/publishpage_sensortaskpublish_2_taskName_tv"
+        app:layout_constraintLeft_toRightOf="@id/publishpage_sensortaskpublish_2_taskName_tv"
+        app:layout_constraintTop_toTopOf="@id/publishpage_sensortaskpublish_2_taskName_tv" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginLeft="7dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginRight="15dp"
+        android:background="@color/listview_topline"
+        app:layout_constraintTop_toBottomOf="@id/publishpage_sensortaskpublish_2_taskName_tv" />
+
+    <TextView
+        android:id="@+id/publishpage_sensortaskpublish_2_Coins_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_marginTop="12dp"
+        android:gravity="center|left"
+        android:text="@string/bonus"
+        android:textSize="14sp"
+        app:layout_constraintLeft_toLeftOf="@id/publishpage_sensortaskpublish_2_taskName_tv"
+        app:layout_constraintTop_toBottomOf="@id/publishpage_sensortaskpublish_2_taskName_tv" />
+
+    <EditText
+        android:id="@+id/publishpage_sensortaskpublish_2_Coins_ev"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_marginLeft="15dp"
+        android:background="@null"
+        android:digits="1234567890"
+        android:gravity="center|left"
+        android:hint="@string/enter_bonus_number"
+        android:inputType="phone|number"
+        android:maxLength="4"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/publishpage_sensortaskpublish_2_Coins_tv"
+        app:layout_constraintLeft_toRightOf="@id/publishpage_sensortaskpublish_2_Coins_tv"
+        app:layout_constraintTop_toTopOf="@id/publishpage_sensortaskpublish_2_Coins_tv" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginLeft="7dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginRight="15dp"
+        android:background="@color/listview_topline"
+        app:layout_constraintTop_toBottomOf="@id/publishpage_sensortaskpublish_2_Coins_tv" />
+
+    <TextView
+        android:id="@+id/publishpage_sensortaskpublish_2_taskMount_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_marginTop="12dp"
+        android:gravity="center|left"
+        android:text="@string/task_number"
+        android:textSize="14sp"
+        app:layout_constraintLeft_toLeftOf="@id/publishpage_sensortaskpublish_2_Coins_tv"
+        app:layout_constraintTop_toBottomOf="@id/publishpage_sensortaskpublish_2_Coins_tv" />
+
+    <EditText
+        android:id="@+id/publishpage_sensortaskpublish_2_taskMount_ev"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_marginLeft="15dp"
+        android:background="@null"
+        android:digits="1234567890"
+        android:gravity="center|left"
+        android:hint="@string/enter_task_number"
+        android:inputType="phone|number"
+        android:maxLength="2"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/publishpage_sensortaskpublish_2_taskMount_tv"
+        app:layout_constraintLeft_toRightOf="@id/publishpage_sensortaskpublish_2_taskMount_tv"
+        app:layout_constraintTop_toTopOf="@id/publishpage_sensortaskpublish_2_taskMount_tv" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginLeft="7dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginRight="15dp"
+        android:background="@color/listview_topline"
+        app:layout_constraintTop_toBottomOf="@id/publishpage_sensortaskpublish_2_taskMount_tv" />
+
+    <TextView
+        android:id="@+id/publishpage_sensortaskpublish_2_deadline_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_marginTop="12dp"
+        android:gravity="center|left"
+        android:text="@string/Deadline"
+        android:textSize="14sp"
+        app:layout_constraintLeft_toLeftOf="@id/publishpage_sensortaskpublish_2_taskMount_tv"
+        app:layout_constraintTop_toBottomOf="@id/publishpage_sensortaskpublish_2_taskMount_tv" />
+
+    <TextView
+        android:id="@+id/publishpage_sensortaskpublish_2_deadline_dp"
+        android:layout_width="120dp"
+        android:layout_height="20dp"
+        android:layout_marginLeft="15dp"
+        android:gravity="center|left"
+        android:hint="@string/Click_to_get_date"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/publishpage_sensortaskpublish_2_deadline_tv"
+        app:layout_constraintLeft_toRightOf="@id/publishpage_sensortaskpublish_2_deadline_tv"
+        app:layout_constraintTop_toTopOf="@id/publishpage_sensortaskpublish_2_deadline_tv" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginLeft="7dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginRight="15dp"
+        android:background="@color/listview_topline"
+        app:layout_constraintTop_toBottomOf="@id/publishpage_sensortaskpublish_2_deadline_tv"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/publishpage_sensortaskpublish_2_longitude_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_marginTop="12dp"
+        android:gravity="center|left"
+        android:text="@string/longitude"
+        android:textSize="14sp"
+        app:layout_constraintLeft_toLeftOf="@id/publishpage_sensortaskpublish_2_deadline_tv"
+        app:layout_constraintTop_toBottomOf="@id/publishpage_sensortaskpublish_2_deadline_tv"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/publishpage_sensortaskpublish_2_longitude_tv_content"
+        android:layout_width="80dp"
+        android:layout_height="20dp"
+        android:layout_marginLeft="15dp"
+        android:gravity="center|left"
+        android:hint="@string/longitude"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/publishpage_sensortaskpublish_2_longitude_tv"
+        app:layout_constraintLeft_toRightOf="@id/publishpage_sensortaskpublish_2_longitude_tv"
+        app:layout_constraintTop_toTopOf="@id/publishpage_sensortaskpublish_2_longitude_tv"
+        android:maxEms="9"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/publishpage_sensortaskpublish_2_latitude_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_marginLeft="15dp"
+        android:gravity="center|left"
+        android:text="@string/latitude"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/publishpage_sensortaskpublish_2_longitude_tv"
+        app:layout_constraintLeft_toRightOf="@id/publishpage_sensortaskpublish_2_longitude_tv_content"
+        app:layout_constraintTop_toTopOf="@id/publishpage_sensortaskpublish_2_longitude_tv"
+        android:visibility="gone"/>
+
+
+
+    <TextView
+        android:id="@+id/publishpage_sensortaskpublish_2_latitude_tv_content"
+        android:layout_width="80dp"
+        android:layout_height="20dp"
+        android:layout_marginLeft="15dp"
+        android:gravity="center|left"
+        android:hint="@string/latitude"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/publishpage_sensortaskpublish_2_longitude_tv"
+        app:layout_constraintLeft_toRightOf="@id/publishpage_sensortaskpublish_2_latitude_tv"
+        app:layout_constraintTop_toTopOf="@id/publishpage_sensortaskpublish_2_longitude_tv"
+        android:maxEms="9"
+        android:visibility="gone"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginLeft="7dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginRight="15dp"
+        android:background="@color/listview_topline"
+        app:layout_constraintTop_toBottomOf="@id/publishpage_sensortaskpublish_2_longitude_tv" />
+
+    <TextView
+        android:id="@+id/publishpage_sensortaskpublish_2_describe_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_marginTop="12dp"
+        android:gravity="center|left"
+        android:text="@string/task_details"
+        android:textSize="14sp"
+        app:layout_constraintLeft_toLeftOf="@id/publishpage_sensortaskpublish_2_longitude_tv"
+        app:layout_constraintTop_toBottomOf="@id/publishpage_sensortaskpublish_2_longitude_tv" />
+
+    <EditText
+        android:id="@+id/publishpage_sensortaskpublish_2_describe_ev"
+        android:layout_width="250dp"
+        android:layout_height="100dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="2dp"
+        android:background="@null"
+        android:gravity="left"
+        android:hint="@string/briefly_describe"
+        android:textSize="12sp"
+        app:layout_constraintLeft_toRightOf="@id/publishpage_sensortaskpublish_2_describe_tv"
+        app:layout_constraintTop_toTopOf="@id/publishpage_sensortaskpublish_2_describe_tv" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginLeft="7dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginRight="15dp"
+        android:background="@color/listview_topline"
+        app:layout_constraintTop_toBottomOf="@id/publishpage_sensortaskpublish_2_describe_ev" />
+
+    <Button
+        android:id="@+id/publishpage_sensortaskpublish_2_button"
+        style="@style/Widget.AppCompat.Button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/fragment_publish_title"
+        android:textColor="@color/white"
+        android:theme="@style/publishPage_button"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/publishpage_sensortaskpublish_2_describe_ev"
+        app:layout_constraintWidth_percent="0.618" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

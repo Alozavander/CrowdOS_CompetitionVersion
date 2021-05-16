@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:orientation="vertical">
+
+
+    <ProgressBar
+        android:id="@+id/activity_taskSub_pb_circle"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"/>
+    <TextView
+        android:id="@+id/activity_taskSub_pb_circle_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/activity_taskSub_pb_circle"
+        android:layout_marginTop="10dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:text="@string/handling"
+        android:visibility="gone"/>
+    
+    <com.daimajia.numberprogressbar.NumberProgressBar
+        android:id="@+id/activity_taskSub_number_progress_bar"
+        android:layout_width="0dp"
+        app:layout_constraintWidth_percent="0.8"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:visibility="gone"
+        />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/activity_taskSub_title"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="@color/color_Navigation"
+                android:gravity="center"
+                android:text="@string/Task_Submit_title"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/activity_taskSub_backarrow"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="20dp"
+                android:src="@drawable/btn_back_white"
+                app:layout_constraintBottom_toBottomOf="@id/activity_taskSub_title"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="@id/activity_taskSub_title" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="4dp"
+                android:background="@color/listview_topline"
+                app:layout_constraintTop_toBottomOf="@id/activity_taskSub_title" />
+
+            <TextView
+                android:id="@+id/activity_taskSub_remind_1"
+                android:layout_width="match_parent"
+                android:layout_height="16dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/colorPrimaryDark"
+                android:gravity="center|left"
+                android:text="@string/Task_Submit_input_describe"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                app:layout_constraintTop_toBottomOf="@id/activity_taskSub_title" />
+
+            <EditText
+                android:id="@+id/activity_taskSub_et"
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                android:layout_marginTop="10dp"
+                android:background="@null"
+                android:gravity="left|top"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/activity_taskSub_remind_1"
+                app:layout_constraintWidth_percent="0.97" />
+
+            <TextView
+                android:id="@+id/activity_taskSub_remind_2"
+                android:layout_width="match_parent"
+                android:layout_height="16dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/colorPrimaryDark"
+                android:gravity="center|left"
+                android:text="@string/Task_Submit_photo_choose"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                app:layout_constraintTop_toBottomOf="@id/activity_taskSub_et" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/activity_taskSub_image_rv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:choiceMode="singleChoice"
+                android:divider="@null"
+                android:fadingEdge="none"
+                android:listSelector="@android:color/transparent"
+                android:scrollbarStyle="outsideOverlay"
+                app:layout_constraintTop_toBottomOf="@id/activity_taskSub_remind_2"
+                tools:ignore="MissingConstraints"
+                tools:listitem="@layout/list_item_image" />
+
+            <Button
+                android:id="@+id/activity_taskSub_image_add"
+                style="@style/Widget.AppCompat.Button"
+                android:layout_width="60dp"
+                android:layout_height="40dp"
+                android:layout_marginRight="5dp"
+                android:text="@string/add"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_8"
+                android:theme="@style/publishPage_button"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/activity_taskSub_image_rv"
+                android:layout_marginTop="5dp"/>
+
+            <TextView
+                android:id="@+id/activity_taskSub_remind_3"
+                android:layout_width="match_parent"
+                android:layout_height="16dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/colorPrimaryDark"
+                android:gravity="center|left"
+                android:text="@string/Task_Submit_data_upload"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                app:layout_constraintTop_toBottomOf="@id/activity_taskSub_image_add" />
+
+            <TextView
+                android:id="@+id/activity_taskSub_sensorData_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:gravity="left|top"
+                app:layout_constraintLeft_toLeftOf="@id/activity_taskSub_et"
+                app:layout_constraintTop_toBottomOf="@id/activity_taskSub_remind_3"
+                app:layout_constraintWidth_percent="0.97" />
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/activity_taskSub_chooseData_rv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/activity_taskSub_remind_3"
+                app:layout_constraintWidth_percent="0.97"
+                tools:layout_editor_absoluteX="20dp" />
+
+            <Button
+                android:id="@+id/activity_taskSub_chooseData_add"
+                style="@style/Widget.AppCompat.Button"
+                android:layout_width="60dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="5dp"
+                android:text="@string/add"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_8"
+                android:theme="@style/publishPage_button"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/activity_taskSub_chooseData_rv" />
+
+            <TextView
+                android:id="@+id/activity_taskSub_remind_4"
+                android:layout_width="match_parent"
+                android:layout_height="16dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/colorPrimaryDark"
+                android:gravity="center|left"
+                android:text="@string/Task_Submit_audio_upload"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                app:layout_constraintTop_toBottomOf="@id/activity_taskSub_chooseData_add" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/activity_taskSub_audio_rv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/activity_taskSub_remind_4"
+                app:layout_constraintWidth_percent="0.97"
+                tools:layout_editor_absoluteX="20dp" />
+
+            <Button
+                android:id="@+id/activity_taskSub_audio_add"
+                style="@style/Widget.AppCompat.Button"
+                android:layout_width="60dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="5dp"
+                android:text="@string/add"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_8"
+                android:theme="@style/publishPage_button"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/activity_taskSub_audio_rv" />
+
+
+            <TextView
+                android:id="@+id/activity_taskSub_remind_5"
+                android:layout_width="match_parent"
+                android:layout_height="16dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/colorPrimaryDark"
+                android:gravity="center|left"
+                android:text="@string/Task_Submit_video_upload"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                app:layout_constraintTop_toBottomOf="@id/activity_taskSub_audio_add" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/activity_taskSub_video_rv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/activity_taskSub_remind_5"
+                app:layout_constraintWidth_percent="0.97"
+                tools:layout_editor_absoluteX="20dp" />
+
+            <Button
+                android:id="@+id/activity_taskSub_video_add"
+                style="@style/Widget.AppCompat.Button"
+                android:layout_width="60dp"
+                android:layout_height="40dp"
+                android:layout_marginRight="5dp"
+                android:text="@string/add"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_8"
+                android:theme="@style/publishPage_button"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/activity_taskSub_video_rv"
+                android:layout_marginTop="5dp"/>
+
+            <Button
+                android:id="@+id/activity_taskSub_submit_btn"
+                style="@style/Widget.AppCompat.Button"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:text="@string/Task_Submit_submit"
+                android:textColor="@color/white"
+                android:theme="@style/publishPage_button"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/activity_taskSub_video_add"
+                android:layout_marginTop="5dp"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

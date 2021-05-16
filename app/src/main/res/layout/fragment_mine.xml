@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/minepage_title"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:background="@color/homepage_title">
+
+        <ImageView
+            android:id="@+id/minepage_userIcon"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:layout_marginLeft="22dp"
+            android:background="@drawable/minepage_usericon_corner"
+            android:src="@drawable/haimian_usericon"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <TextView
+            android:id="@+id/minepage_userID"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:text="@string/login_input_username_hint"
+            android:textSize="8pt"
+            android:textColor="@color/white"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintLeft_toRightOf="@id/minepage_userIcon"
+            app:layout_constraintTop_toTopOf="@id/minepage_userIcon"/>
+
+        <TextView
+            android:id="@+id/minepage_userSign"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:text="@string/Signature"
+            android:textColor="@color/colorPrimary"
+            android:layout_marginTop="10dp"
+            app:layout_constraintLeft_toLeftOf="@id/minepage_userID"
+            app:layout_constraintTop_toBottomOf="@id/minepage_userID"/>
+
+
+        <Button
+            android:id="@+id/minepage_userInformationEdit_bt"
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:text="@string/Edit_information"
+            android:textSize="5pt"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="50dp"
+            app:layout_constraintBottom_toBottomOf="@id/minepage_userIcon"
+            app:layout_constraintRight_toRightOf="parent"
+            android:textColor="@color/white"
+            style="@style/Widget.AppCompat.Button"
+            android:theme="@style/publishPage_button"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <ListView
+        android:id="@+id/minepage_funciton_lv"
+        android:layout_width="0dp"
+        app:layout_constraintWidth_percent="0.9"
+        android:layout_height="0dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintHeight_percent="0.66"
+        app:layout_constraintTop_toBottomOf="@id/minepage_title"
+        android:layout_marginTop="10dp"
+        android:background="@color/white"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <ProgressBar
+            android:id="@+id/activity_func_sportShare_ev_pb"
+            style="?android:attr/progressBarStyleSmallInverse"
+            android:layout_centerInParent="true"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <ImageView
+            android:id="@+id/activity_func_sportShare_ev_im"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+    <TextView
+        android:id="@+id/activity_func_sportShare_ev_tv"
+        android:layout_marginStart="10dip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="加载中"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

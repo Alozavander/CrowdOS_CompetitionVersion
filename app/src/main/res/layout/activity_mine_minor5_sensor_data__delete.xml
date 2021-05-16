@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.Activity_mine_minor5_sensorData_Delete">
+
+    <TextView
+        android:id="@+id/setting_sensorData_delete_title"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/color_Navigation"
+        android:gravity="center"
+        android:text="@string/setting_sensorData_qingliganzhishuju"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:layout_constraintHeight_percent="0.09"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/setting_sensorData_delete_back"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginLeft="20dp"
+        android:src="@drawable/btn_back_white"
+        app:layout_constraintBottom_toBottomOf="@id/setting_sensorData_delete_title"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="@id/setting_sensorData_delete_title" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:background="@color/listview_topline"
+        app:layout_constraintTop_toBottomOf="@id/setting_sensorData_delete_title" />
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/setting_sensorData_delete_swiperefreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/setting_sensorData_delete_title">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/setting_sensorData_delete_remind1"
+                android:layout_width="match_parent"
+                android:layout_height="14dp"
+                android:layout_marginTop="8dp"
+                android:background="@color/colorPrimaryDark"
+                android:gravity="center|left"
+                android:text="@string/setting_sensorData_delete_step1"
+                android:textColor="@color/white"
+                android:textSize="10sp"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/setting_sensorData_delete_sensor"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center|left"
+                android:text="@string/sensor"
+                android:textSize="14sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/setting_sensorData_delete_remind1" />
+
+            <TextView
+                android:id="@+id/setting_sensorData_delete_sensor_choose"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="15dp"
+                android:ellipsize="end"
+                android:gravity="center|left"
+                android:maxLines="2"
+                android:text="@string/chooseSensors"
+                android:textSize="14sp"
+                app:layout_constraintLeft_toRightOf="@id/setting_sensorData_delete_sensor"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/setting_sensorData_delete_remind1" />
+
+            <View
+                android:id="@+id/view2"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginTop="4dp"
+                android:background="@color/listview_topline"
+                app:layout_constraintTop_toBottomOf="@id/setting_sensorData_delete_sensor"
+                tools:layout_editor_absoluteX="7dp" />
+
+            <TextView
+                android:id="@+id/setting_sensorData_delete_remind2"
+                android:layout_width="match_parent"
+                android:layout_height="14dp"
+                android:layout_marginTop="8dp"
+                android:background="@color/colorPrimaryDark"
+                android:gravity="center|left"
+                android:text="@string/setting_sensorData_delete_step2"
+                android:textColor="@color/white"
+                android:textSize="10sp"
+                app:layout_constraintTop_toBottomOf="@id/setting_sensorData_delete_sensor" />
+
+            <TextView
+                android:id="@+id/setting_sensorData_delete_startTime"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center|left"
+                android:text="@string/startTime"
+                android:textSize="14sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/setting_sensorData_delete_remind2" />
+
+            <TextView
+                android:id="@+id/setting_sensorData_delete_startTime_choose"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:ellipsize="end"
+                android:gravity="center|left"
+                android:maxLines="2"
+                android:text="@string/chooseTime"
+                android:textSize="14sp"
+                app:layout_constraintLeft_toRightOf="@id/setting_sensorData_delete_startTime"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@id/setting_sensorData_delete_startTime" />
+
+
+            <TextView
+                android:id="@+id/setting_sensorData_delete_endTime"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center|left"
+                android:text="@string/Deadline"
+                android:textSize="14sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/setting_sensorData_delete_startTime" />
+
+            <TextView
+                android:id="@+id/setting_sensorData_delete_endTime_choose"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="15dp"
+                android:ellipsize="end"
+                android:gravity="center|left"
+                android:maxLines="2"
+                android:text="@string/chooseTime"
+                android:textSize="14sp"
+                app:layout_constraintLeft_toLeftOf="@id/setting_sensorData_delete_startTime_choose"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@id/setting_sensorData_delete_endTime" />
+
+            <View
+                android:id="@+id/view3"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginTop="4dp"
+                android:background="@color/listview_topline"
+                app:layout_constraintTop_toBottomOf="@id/setting_sensorData_delete_endTime"
+                tools:layout_editor_absoluteX="7dp" />
+
+            <Button
+                android:id="@+id/setting_sensorData_delete_confirm_button"
+                style="@style/Widget.AppCompat.Button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="150dp"
+                android:text="@string/confirm"
+                android:textColor="@color/white"
+                android:theme="@style/publishPage_button"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/setting_sensorData_delete_endTime"
+                app:layout_constraintWidth_percent="0.618" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

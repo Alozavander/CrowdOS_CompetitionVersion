@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:id="@+id/activity_email_register_back"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/backarrow"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/activity_emaile_register_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="32dp"
+        android:text="使用邮箱注册账户       "
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_email_register_back" />
+    <TextView
+        android:id="@+id/activity_emaile_registe_email_input_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        android:text="邮箱地址"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="@+id/activity_emaile_register_title"
+        app:layout_constraintTop_toBottomOf="@+id/activity_emaile_register_title" />
+
+    <EditText
+        android:id="@+id/activity_emaile_registe_email_input_et"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:inputType="textEmailAddress"
+        android:hint="请输入可收到邮件的邮箱"
+        app:layout_constraintEnd_toEndOf="@+id/activity_emaile_register_title"
+        app:layout_constraintStart_toStartOf="@+id/activity_emaile_registe_email_input_title"
+        app:layout_constraintTop_toBottomOf="@+id/activity_emaile_registe_email_input_title" />
+
+    <TextView
+        android:id="@+id/activity_email_registe_verifynumber_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="验证码"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="@+id/activity_emaile_registe_email_input_et"
+        app:layout_constraintTop_toBottomOf="@+id/activity_emaile_registe_email_input_et" />
+
+    <EditText
+        android:id="@+id/activity_email_registe_et"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:hint="输入6位数字"
+        android:inputType="number"
+        android:maxLength="6"
+        android:digits="0123456789"
+        app:layout_constraintStart_toStartOf="@+id/activity_email_registe_verifynumber_title"
+        app:layout_constraintTop_toBottomOf="@+id/activity_email_registe_verifynumber_title"
+        app:layout_constraintEnd_toStartOf="@id/activity_email_registe_verifynumber_send_bt"/>
+
+    <Button
+        android:id="@+id/activity_email_registe_verifynumber_send_bt"
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        android:layout_marginEnd="8dp"
+        android:autoSizeMaxTextSize="10sp"
+        android:enabled="false"
+        android:text="发送验证码"
+        app:layout_constraintBottom_toBottomOf="@+id/activity_email_registe_et"
+        app:layout_constraintEnd_toEndOf="@+id/activity_emaile_registe_email_input_et"
+        app:layout_constraintTop_toTopOf="@+id/activity_email_registe_et" />
+
+    <Button
+        android:id="@+id/activity_email_registe_next_bt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:enabled="false"
+        android:text="下一步"
+        app:layout_constraintEnd_toEndOf="@+id/activity_emaile_register_title"
+        app:layout_constraintStart_toStartOf="@+id/activity_emaile_register_title"
+        app:layout_constraintTop_toBottomOf="@+id/activity_email_registe_et" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.Activity_pwdFind">
+
+    <ImageView
+        android:id="@+id/activity_pwdFind_back"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/backarrow"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/activity_pwdFind_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="32dp"
+        android:text="使用邮箱找回密码       "
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_pwdFind_back" />
+    <TextView
+        android:id="@+id/activity_pwdFind_email_input_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        android:text="邮箱地址"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="@+id/activity_pwdFind_title"
+        app:layout_constraintTop_toBottomOf="@+id/activity_pwdFind_title" />
+
+    <TextView
+        android:id="@+id/activity_pwdFind_email_input_et"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:inputType="textEmailAddress"
+        android:hint="邮箱"
+        android:textSize="22sp"
+        app:layout_constraintEnd_toEndOf="@+id/activity_pwdFind_title"
+        app:layout_constraintStart_toStartOf="@+id/activity_pwdFind_email_input_title"
+        app:layout_constraintTop_toBottomOf="@+id/activity_pwdFind_email_input_title" />
+
+    <TextView
+        android:id="@+id/activity_pwdFind_remind_title"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:text="我们将会把密码发送到您注册账户时使用的邮箱"
+        android:textColor="@color/homepage_title"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@+id/activity_pwdFind_email_input_et"
+        app:layout_constraintTop_toBottomOf="@+id/activity_pwdFind_email_input_et" />
+
+    <Button
+        android:id="@+id/activity_pwdFind_next_bt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:enabled="false"
+        android:text="下一步"
+        app:layout_constraintEnd_toEndOf="@+id/activity_pwdFind_title"
+        app:layout_constraintStart_toStartOf="@+id/activity_pwdFind_title"
+        app:layout_constraintTop_toBottomOf="@+id/activity_pwdFind_remind_title" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
