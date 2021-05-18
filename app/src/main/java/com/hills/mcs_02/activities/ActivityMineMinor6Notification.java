@@ -15,7 +15,7 @@ import com.hills.mcs_02.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Activity_mine_minor6_notification extends BaseActivity {
+public class ActivityMineMinor6Notification extends BaseActivity {
     private String TAG = "Activity_mine_minor7_setting";
     private ListView mListView;
 
@@ -29,10 +29,10 @@ public class Activity_mine_minor6_notification extends BaseActivity {
     }
 
     private void initBackBT() {
-        ImageView back_im = findViewById(R.id.minepage_minor7_backarrow);
-        back_im.setOnClickListener(new View.OnClickListener() {
+        ImageView backIv = findViewById(R.id.minepage_minor7_backarrow);
+        backIv.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 finish();
             }
         });
@@ -56,10 +56,10 @@ public class Activity_mine_minor6_notification extends BaseActivity {
                 System.out.println("------- setting -------");
                 System.out.println("position = " + position);
                 if(position == 0) {
-                    Intent intent = new Intent(Activity_mine_minor6_notification.this, Activity_mine_setting_general.class);
+                    Intent intent = new Intent(ActivityMineMinor6Notification.this, ActivityMineSettingGeneral.class);
                     startActivity(intent);
                 }
-                else Toast.makeText(Activity_mine_minor6_notification.this,getResources().getString(R.string.notYetOpen),Toast.LENGTH_SHORT).show();
+                else Toast.makeText(ActivityMineMinor6Notification.this,getResources().getString(R.string.notYetOpen),Toast.LENGTH_SHORT).show();
             }
         });
     }

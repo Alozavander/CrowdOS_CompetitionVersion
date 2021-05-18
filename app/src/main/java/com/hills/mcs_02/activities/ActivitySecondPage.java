@@ -13,7 +13,7 @@ import com.hills.mcs_02.Interface_published_taskDetail;
 import com.hills.mcs_02.R;
 
 //该类作为二级页面启动为Fragment作基石的Activity
-public class Activity_2rdPage extends BaseActivity implements Interface_published_taskDetail {
+public class ActivitySecondPage extends BaseActivity implements Interface_published_taskDetail {
 
     private FragmentManager mFragmentManager;
 
@@ -26,7 +26,7 @@ public class Activity_2rdPage extends BaseActivity implements Interface_publishe
         ImageView backImage = (ImageView) findViewById(R.id.activity_2rd_backarrow);
         backImage.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 finish();
             }
         });
@@ -74,7 +74,7 @@ public class Activity_2rdPage extends BaseActivity implements Interface_publishe
 
     @Override
     public void jump_to_TaskDetail_Published_Activity(String toJson) {
-        Intent intent = new Intent(Activity_2rdPage.this, Activity_Task_Detail_Published.class);
+        Intent intent = new Intent(ActivitySecondPage.this, ActivityTaskDetailPublished.class);
         intent.putExtra("taskGson",toJson);
         startActivity(intent);
     }

@@ -29,8 +29,8 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.hills.mcs_02.For_test;
 import com.hills.mcs_02.R;
-import com.hills.mcs_02.activities.Activity_gridPage;
-import com.hills.mcs_02.activities.Activity_login;
+import com.hills.mcs_02.activities.ActivityGridPage;
+import com.hills.mcs_02.activities.ActivityLogin;
 import com.hills.mcs_02.dataBeans.Bean_ListView_home;
 import com.hills.mcs_02.dataBeans.Task;
 import com.hills.mcs_02.networkClasses.interfacesPack.GetNewTen_Request_home_taskList;
@@ -289,27 +289,27 @@ public class Fragment_home extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 switch(position){
                     case 0:
-                        Intent intent_0 = new Intent(getActivity(), Activity_gridPage.class);
+                        Intent intent_0 = new Intent(getActivity(), ActivityGridPage.class);
                         intent_0.putExtra("pageName","Security");
                         startActivity(intent_0);
                         break;
                     case 1:
-                        Intent intent_1 = new Intent(getActivity(), Activity_gridPage.class);
+                        Intent intent_1 = new Intent(getActivity(), ActivityGridPage.class);
                         intent_1.putExtra("pageName","Environment");
                         startActivity(intent_1);
                         break;
                     case 2:
-                        Intent intent_2 = new Intent(getActivity(), Activity_gridPage.class);
+                        Intent intent_2 = new Intent(getActivity(), ActivityGridPage.class);
                         intent_2.putExtra("pageName","Daily Life");
                         startActivity(intent_2);
                         break;
                     case 3:
-                        Intent intent_3 = new Intent(getActivity(), Activity_gridPage.class);
+                        Intent intent_3 = new Intent(getActivity(), ActivityGridPage.class);
                         intent_3.putExtra("pageName","Business");
                         startActivity(intent_3);
                         break;
                     case 4:
-                        Intent intent_4 = new Intent(getActivity(), Activity_gridPage.class);
+                        Intent intent_4 = new Intent(getActivity(), ActivityGridPage.class);
                         intent_4.putExtra("pageName","More");
                         startActivity(intent_4);
                         break;
@@ -348,7 +348,7 @@ public class Fragment_home extends Fragment {
                 //检查是否登录
                 if (login_userID == -1) {
                     Toast.makeText(mContext, getResources().getString(R.string.login_first), Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(mContext, Activity_login.class);
+                    Intent intent = new Intent(mContext, ActivityLogin.class);
                     startActivity(intent);
                 }else{
                     Gson gson = new Gson();

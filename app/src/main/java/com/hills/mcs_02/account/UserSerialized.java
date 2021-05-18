@@ -4,8 +4,8 @@ import com.hills.mcs_02.dataBeans.User;
 
 import java.io.Serializable;
 
-public class User_serialized extends User implements Serializable {
-    private static final long serialVersionUID = -2396608765989592491L;
+public class UserSerialized extends User implements Serializable {
+    private static final long  SERIAL_VERSION_UID = -2396608765989592491L;
 
     private Integer userId;
     private String userName;
@@ -53,7 +53,7 @@ public class User_serialized extends User implements Serializable {
         this.coins = coins;
     }
 
-    public void setUser_serialized(User user){
+    public void setUserSerialized(User user){
         this.userName = user.getUserName();
         this.userId = user.getUserId();
         this.passWord = user.getPassWord();

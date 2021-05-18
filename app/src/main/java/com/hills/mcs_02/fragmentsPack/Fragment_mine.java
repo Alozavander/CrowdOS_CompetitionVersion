@@ -19,12 +19,12 @@ import androidx.fragment.app.Fragment;
 
 import com.hills.mcs_02.For_test;
 import com.hills.mcs_02.R;
-import com.hills.mcs_02.activities.Activity_login;
-import com.hills.mcs_02.activities.Activity_mine_minor1_publish;
-import com.hills.mcs_02.activities.Activity_mine_minor2_accepted;
-import com.hills.mcs_02.activities.Activity_mine_minor4_wallet;
-import com.hills.mcs_02.activities.Activity_mine_minor5_sensorData;
-import com.hills.mcs_02.activities.Activity_mine_minor7_setting;
+import com.hills.mcs_02.activities.ActivityLogin;
+import com.hills.mcs_02.activities.ActivityMineMinor1Publish;
+import com.hills.mcs_02.activities.ActivityMineMinor2Accepted;
+import com.hills.mcs_02.activities.ActivityMineMinor4Wallet;
+import com.hills.mcs_02.activities.ActivityMineMinor5SensorData;
+import com.hills.mcs_02.activities.ActivityMineMinor7Setting;
 import com.hills.mcs_02.dataBeans.Bean_ListView_mine;
 import com.hills.mcs_02.taskSubmit.SelectDialog;
 import com.hills.mcs_02.viewsAdapters.Adapter_ListeView_mine;
@@ -193,37 +193,37 @@ public class Fragment_mine extends Fragment {
                     int login_userID = Integer.parseInt(mContext.getSharedPreferences("user", Context.MODE_PRIVATE).getString("userID", "-1"));
                     //检查是否登录
                     if (login_userID == -1) {
-                        Intent intent = new Intent(getActivity(), Activity_login.class);
+                        Intent intent = new Intent(getActivity(), ActivityLogin.class);
                         startActivity(intent);
                     }else{
-                        Intent intent = new Intent(getActivity(), Activity_mine_minor1_publish.class);
+                        Intent intent = new Intent(getActivity(), ActivityMineMinor1Publish.class);
                         startActivity(intent);
                     }
                 }else if(position == 1){
                     int login_userID = Integer.parseInt(mContext.getSharedPreferences("user", Context.MODE_PRIVATE).getString("userID", "-1"));
                     //检查是否登录
                     if (login_userID == -1) {
-                        Intent intent = new Intent(getActivity(), Activity_login.class);
+                        Intent intent = new Intent(getActivity(), ActivityLogin.class);
                         startActivity(intent);
                     }else {
-                        Intent intent = new Intent(getActivity(), Activity_mine_minor2_accepted.class);
+                        Intent intent = new Intent(getActivity(), ActivityMineMinor2Accepted.class);
                         startActivity(intent);
                     }
                 }else if(position == 3){
                     int login_userID = Integer.parseInt(mContext.getSharedPreferences("user", Context.MODE_PRIVATE).getString("userID", "-1"));
                     //检查是否登录
                     if (login_userID == -1) {
-                        Intent intent = new Intent(getActivity(), Activity_login.class);
+                        Intent intent = new Intent(getActivity(), ActivityLogin.class);
                         startActivity(intent);
                     }else {
-                        Intent intent = new Intent(getActivity(), Activity_mine_minor4_wallet.class);
+                        Intent intent = new Intent(getActivity(), ActivityMineMinor4Wallet.class);
                         startActivity(intent);
                     }
                 }else if (position == 4){
-                    Intent intent = new Intent(getActivity(), Activity_mine_minor5_sensorData.class);
+                    Intent intent = new Intent(getActivity(), ActivityMineMinor5SensorData.class);
                     startActivity(intent);
                 }else if(position == 6){
-                    Intent intent = new Intent(getActivity(), Activity_mine_minor7_setting.class);
+                    Intent intent = new Intent(getActivity(), ActivityMineMinor7Setting.class);
                     startActivity(intent);
                 }
                 else Toast.makeText(mContext,getResources().getString(R.string.notYetOpen),Toast.LENGTH_SHORT).show();

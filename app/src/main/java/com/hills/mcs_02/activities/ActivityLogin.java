@@ -1,12 +1,24 @@
 package com.hills.mcs_02.activities;
 
+import com.google.gson.Gson;
+
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+
+
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -15,29 +27,23 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
+import com.hills.mcs_02.account.RegexVerify;
 import com.hills.mcs_02.BaseActivity;
-import com.hills.mcs_02.EmailRegiste.Activity_EmailRegister;
-import com.hills.mcs_02.R;
-import com.hills.mcs_02.account.Regex_Verfy;
 import com.hills.mcs_02.dataBeans.Bean_UserAccount;
 import com.hills.mcs_02.dataBeans.User;
+import com.hills.mcs_02.EmailRegiste.Activity_EmailRegister;
 import com.hills.mcs_02.networkClasses.interfacesPack.PostRequest_userAuth;
+import com.hills.mcs_02.R;
 
-import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
-public class Activity_login extends BaseActivity implements View.OnClickListener, View.OnFocusChangeListener,TextWatcher{
-    private EditText login_username_et;
-    private EditText login_pwd_et;
-    private ImageView back_iv;
-    private Button submit_bt;
-    private Button register_bt;
+
+
+public class ActivityLogin extends BaseActivity implements View.OnClickListener, View.OnFocusChangeListener,TextWatcher{
+    private EditText loginUsernameEt;
+    private EditText loginPwdEt;
+    private ImageView backIv;
+    private Button submitBtn;
+    private Button registerBtn;
     private Toast mToast;
     private Bean_UserAccount userAccount;
     private String TAG = "LoginPage";
@@ -60,35 +66,35 @@ public class Activity_login extends BaseActivity implements View.OnClickListener
     private void initAll(){
 
         //初始化当前页面的回退按钮，这里用了两种不同的方法绑定点击事件
-        back_iv = (ImageView)findViewById(R.id.minepage_login_backarrow);
-        back_iv.setOnClickListener(new View.OnClickListener() {
+        backIv = (ImageView)findViewById(R.id.minepage_login_backarrow);
+        backIv.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 finish();
             }
         });
 
         //初始化登陆界面的用户名和密码的EditText
-        login_username_et = (EditText)findViewById(R.id.minepage_login_et_username);
-        login_pwd_et = (EditText)findViewById(R.id.minepage_login_et_pwd);
+        loginUsernameEt = (EditText)findViewById(R.id.minepage_login_et_username);
+        loginPwdEt = (EditText)findViewById(R.id.minepage_login_et_pwd);
 
         //初始化提交、注册按钮
-        submit_bt = (Button)findViewById(R.id.bt_login_submit);
-        submit_bt.setOnClickListener(this);
+        submitBtn = (Button)findViewById(R.id.bt_login_submit);
+        submitBtn.setOnClickListener(this);
 
         //初始化QQ、微信登录接口
-        ImageView qq_iv = findViewById(R.id.login_qq_iv);
-        ImageView wechat_iv = findViewById(R.id.login_wechat_iv);
+        ImageView qqIv = findViewById(R.id.login_qq_iv);
+        ImageView wechatIv = findViewById(R.id.login_wechat_iv);
         final Context context = this;
-        qq_iv.setOnClickListener(new View.OnClickListener() {
+        qqIv.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 Toast.makeText(context,getResources().getString(R.string.notYetOpen),Toast.LENGTH_SHORT).show();
             }
         });
-        wechat_iv.setOnClickListener(new View.OnClickListener() {
+        wechatIv.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 Toast.makeText(context,getResources().getString(R.string.notYetOpen),Toast.LENGTH_SHORT).show();
             }
         });
@@ -109,47 +115,47 @@ public class Activity_login extends BaseActivity implements View.OnClickListener
                 finish();
             }
         });*/
-        register_bt = (Button)findViewById(R.id.bt_login_register);
-        register_bt.setOnClickListener(this);
+        registerBtn = (Button)findViewById(R.id.bt_login_register);
+        registerBtn.setOnClickListener(this);
 
         //点击事件绑定
-        login_pwd_et.setOnClickListener(this);
-        login_username_et.setOnClickListener(this);
+        loginPwdEt.setOnClickListener(this);
+        loginUsernameEt.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view){
         switch (view.getId()){
             case R.id.minepage_login_et_username:
-                login_pwd_et.clearFocus();
-                login_username_et.setFocusableInTouchMode(true);
-                login_username_et.requestFocus();
+                loginPwdEt.clearFocus();
+                loginUsernameEt.setFocusableInTouchMode(true);
+                loginUsernameEt.requestFocus();
                 break;
             case R.id.minepage_login_et_pwd:
-                login_username_et.clearFocus();
-                login_pwd_et.setFocusableInTouchMode(true);
-                login_pwd_et.requestFocus();
+                loginUsernameEt.clearFocus();
+                loginPwdEt.setFocusableInTouchMode(true);
+                loginPwdEt.requestFocus();
                 break;
             case R.id.bt_login_submit:
-                if(login_pwd_et.getText().toString() == null || login_username_et.getText().toString() == null) Toast.makeText(this,"用户名或密码不能为空",Toast.LENGTH_SHORT).show();
+                if(loginPwdEt.getText().toString() == null || loginUsernameEt.getText().toString() == null) Toast.makeText(this,"用户名或密码不能为空",Toast.LENGTH_SHORT).show();
                 else{
-                    Regex_Verfy regex_verfy = new Regex_Verfy();
+                    RegexVerify regexVerify = new RegexVerify();
                 //密码正则验证并登录
-                if(regex_verfy.pwd_verfy(login_pwd_et.getText().toString())) loginRequest();
+                if(regexVerify.pwdVerify(loginPwdEt.getText().toString())) loginRequest();
                 else {
-                    TextView pwd_tv = findViewById(R.id.minepage_login_pwd_error_tv);
-                    pwd_tv.setVisibility(View.VISIBLE);
-                    pwd_tv.setText("密码为字母、数字的组合，6-18位");
+                    TextView pwdTv = findViewById(R.id.minepage_login_pwd_error_tv);
+                    pwdTv.setVisibility(View.VISIBLE);
+                    pwdTv.setText("密码为字母、数字的组合，6-18位");
                     }
                 }
                 break;
             case R.id.bt_login_register:
                 //注册
-                startActivity(new Intent(Activity_login.this, Activity_EmailRegister.class));
+                startActivity(new Intent(ActivityLogin.this, Activity_EmailRegister.class));
                 break;
             case R.id.tv_login_forget_pwd:
                 //找回密码
-                startActivity(new Intent(Activity_login.this, Activity_pwdFind.class));
+                startActivity(new Intent(ActivityLogin.this, ActivityPwdFind.class));
                 break;
         }
     }
@@ -161,33 +167,33 @@ public class Activity_login extends BaseActivity implements View.OnClickListener
 
         if (id == R.id.minepage_login_et_username) {
             if (hasFocus) {
-                login_username_et.setActivated(true);
-                login_pwd_et.setActivated(false);
+                loginUsernameEt.setActivated(true);
+                loginPwdEt.setActivated(false);
             }
         } else {
             if (hasFocus) {
-                login_pwd_et.setActivated(true);
-                login_username_et.setActivated(false);
+                loginPwdEt.setActivated(true);
+                loginUsernameEt.setActivated(false);
             }
         }
     }
 
 
     @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+    public void beforeTextChanged(CharSequence seq, int start, int count, int after) {
 
     }
 
     @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
+    public void onTextChanged(CharSequence seq, int start, int before, int count) {
 
     }
 
     //用户名密码输入事件
     @Override
-    public void afterTextChanged(Editable s) {
-        String username = login_username_et.getText().toString().trim();
-        String pwd = login_pwd_et.getText().toString().trim();
+    public void afterTextChanged(Editable edit) {
+        String username = loginUsernameEt.getText().toString().trim();
+        String pwd = loginPwdEt.getText().toString().trim();
 
 
         /****
@@ -205,11 +211,11 @@ public class Activity_login extends BaseActivity implements View.OnClickListener
 
         //登录按钮是否可用
         if (!TextUtils.isEmpty(pwd) && !TextUtils.isEmpty(username)) {
-            submit_bt.setBackgroundResource(R.drawable.bg_login_submit);
-            submit_bt.setTextColor(getResources().getColor(R.color.white,null));
+            submitBtn.setBackgroundResource(R.drawable.bg_login_submit);
+            submitBtn.setTextColor(getResources().getColor(R.color.white,null));
         } else {
-            submit_bt.setBackgroundResource(R.drawable.bg_login_submit_lock);
-            submit_bt.setTextColor(getResources().getColor(R.color.account_lock_font_color,null));
+            submitBtn.setBackgroundResource(R.drawable.bg_login_submit_lock);
+            submitBtn.setTextColor(getResources().getColor(R.color.account_lock_font_color,null));
         }
     }
 
@@ -222,7 +228,7 @@ public class Activity_login extends BaseActivity implements View.OnClickListener
         if (null != mToast) {
             mToast.setText(msg);
         } else {
-            mToast = Toast.makeText(Activity_login.this, msg, Toast.LENGTH_SHORT);
+            mToast = Toast.makeText(ActivityLogin.this, msg, Toast.LENGTH_SHORT);
         }
 
         mToast.show();
@@ -232,7 +238,7 @@ public class Activity_login extends BaseActivity implements View.OnClickListener
     //登录
     private void loginRequest() {
         //Base64转码用户信息，用于验证
-        User user = new User(null,login_username_et.getText() + "",login_pwd_et.getText() + "","null",1000);
+        User user = new User(null,loginUsernameEt.getText() + "",loginPwdEt.getText() + "","null",1000);
         Log.i(TAG,user.toString());
         /**String userInfo = login_username_et.getText() + ":" + login_pwd_et.getText();
         final String auth_info = "Basic " + Base64.encodeToString(userInfo.getBytes(), Base64.NO_WRAP);
@@ -276,14 +282,14 @@ public class Activity_login extends BaseActivity implements View.OnClickListener
                         Log.i(TAG,"UserInfo: " + temp);
                        // Log.i(TAG,"UserInfo: " + temp);
                         user = new Gson().fromJson(temp ,User.class);
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                    } catch (Exception exp) {
+                        exp.printStackTrace();
                     }if(user != null) {
                         Log.i(TAG,"UserInfo: " + user);
-                        Toast.makeText(Activity_login.this, getResources().getString(R.string.LoginSucceed), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ActivityLogin.this, getResources().getString(R.string.LoginSucceed), Toast.LENGTH_SHORT).show();
                         //写入一些信息方便其他子页面能够使用
-                        SharedPreferences user_SP = getSharedPreferences("user", MODE_PRIVATE);
-                        SharedPreferences.Editor editor = user_SP.edit();
+                        SharedPreferences userSP = getSharedPreferences("user", MODE_PRIVATE);
+                        SharedPreferences.Editor editor = userSP.edit();
                         editor.putString("userID", user.getUserId() + "");
                         Log.i(TAG, user.getUserId() + "");
                         editor.putString("userName", user.getUserName());
@@ -294,16 +300,16 @@ public class Activity_login extends BaseActivity implements View.OnClickListener
                         sendBroadcast(intent);
                         finish();
                     }else{
-                        Toast.makeText(Activity_login.this, getResources().getString(R.string.LoginFailed), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ActivityLogin.this, getResources().getString(R.string.LoginFailed), Toast.LENGTH_SHORT).show();
                     }
                 }else{
                     Log.i(TAG,response.code() + response.message());
-                    Toast.makeText(Activity_login.this, getResources().getString(R.string.LoginFailed), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ActivityLogin.this, getResources().getString(R.string.LoginFailed), Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            public void onFailure(Call<ResponseBody> call, Throwable throwable) {
 
             }
         });

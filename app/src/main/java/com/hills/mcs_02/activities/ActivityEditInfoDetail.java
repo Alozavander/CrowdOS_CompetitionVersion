@@ -16,7 +16,7 @@ import com.hills.mcs_02.R;
 import java.io.File;
 
 //昵称、电话、简介的编辑页面，需要在页面finish时返回带结果数据的intent
-public class Activity_editInfo_detail extends BaseActivity {
+public class ActivityEditInfoDetail extends BaseActivity {
     private ListView mListView;
     private static final String TAG = "activity_enditInfo";
     private EditText textEditView;
@@ -34,25 +34,25 @@ public class Activity_editInfo_detail extends BaseActivity {
     }
 
     private void initInfo() {
-        TextView tempTitleTV = findViewById(R.id.minepage_editInfo_detail_title);
+        TextView tempTitleTv = findViewById(R.id.minepage_editInfo_detail_title);
         //根据intent中kind的键值改变当前页面的标题
         int kind = getIntent().getIntExtra("kind",-1);
         switch (kind){
             //默认值发出提醒
             case -1 :
-                Toast.makeText(Activity_editInfo_detail.this,"Info error!", Toast.LENGTH_SHORT);
+                Toast.makeText(ActivityEditInfoDetail.this,"Info error!", Toast.LENGTH_SHORT);
                 break;
             //0为昵称
             case 0 :
-                tempTitleTV.setText(getString(R.string.nickname));
+                tempTitleTv.setText(getString(R.string.nickname));
                 break;
             //1为phone
             case 1 :
-                tempTitleTV.setText(getString(R.string.mobilePhone));
+                tempTitleTv.setText(getString(R.string.mobilePhone));
                 break;
             //2为introduction
             case 2 :
-                tempTitleTV.setText(getString(R.string.introduction));
+                tempTitleTv.setText(getString(R.string.introduction));
                 break;
         }
 
@@ -66,23 +66,23 @@ public class Activity_editInfo_detail extends BaseActivity {
         //将回退图片绑定事件监听器
         findViewById(R.id.minepage_editInfo_detail_backerrow).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 //返回取消code
-                Activity_editInfo_detail.this.setResult(Activity.RESULT_CANCELED);
+                ActivityEditInfoDetail.this.setResult(Activity.RESULT_CANCELED);
                 finish();
             }
         });
 
         //给confirm绑定点击事件
-        Button confirm_bt = findViewById(R.id.minepage_editInfo_detail_confirm_bt);
-        confirm_bt.setOnClickListener(new View.OnClickListener() {
+        Button confirmBtn = findViewById(R.id.minepage_editInfo_detail_confirm_bt);
+        confirmBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 String text = textEditView.getText().toString();
                 Intent tempIntent = new Intent();
                 tempIntent.putExtra("text",text);
                 //将intent加入到此acitivity中的result里，便于结束唤起者获取
-                Activity_editInfo_detail.this.setResult(Activity.RESULT_OK,tempIntent);
+                ActivityEditInfoDetail.this.setResult(Activity.RESULT_OK,tempIntent);
                 finish();
             }
         });

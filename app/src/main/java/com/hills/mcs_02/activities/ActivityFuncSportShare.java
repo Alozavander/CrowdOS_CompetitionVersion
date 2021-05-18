@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
+
 import androidx.annotation.NonNull;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -21,27 +22,27 @@ import android.widget.Toast;
 
 import com.hills.mcs_02.BaseActivity;
 import com.hills.mcs_02.R;
+import com.hills.mcs_02.func_sportsShare.beans.func_sportShare_BaseBean;
+import com.hills.mcs_02.func_sportsShare.beans.func_sportShare_stepShareListBean;
 import com.hills.mcs_02.func_sportsShare.Func_sportShare_Adapter;
 import com.hills.mcs_02.func_sportsShare.StepService;
 import com.hills.mcs_02.func_sportsShare.UpdateUiCallBack;
-import com.hills.mcs_02.func_sportsShare.beans.func_sportShare_BaseBean;
-import com.hills.mcs_02.func_sportsShare.beans.func_sportShare_stepShareListBean;
+
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
 //该类作为二级页面启动为Fragment作基石的Activity
-public class Activity_func_sportShare extends BaseActivity {
+public class ActivityFuncSportShare extends BaseActivity {
     private static final String TAG = "func_sportShare";
 
-    private RecyclerView info_rv;
+    private RecyclerView infoRv;
     private SwipeRefreshLayout swipeRefreshLayout;
     private Func_sportShare_Adapter recyclerAdapter;
     private List<func_sportShare_BaseBean> beanList;
 
 
-    private TextView stepCount_tv;
+    private TextView stepCountTv;
     private Handler handler;
     private Boolean isBind;
     private StepService stepService;
@@ -80,12 +81,12 @@ public class Activity_func_sportShare extends BaseActivity {
 
 
     public void initService(){
-        stepCount_tv = findViewById(R.id.fragment_home_func_sportsShare_stepCount);
+        stepCountTv = findViewById(R.id.fragment_home_func_sportsShare_stepCount);
         handler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 if (msg.what == 1) {
-                    stepCount_tv.setText(msg.arg1 + "");
+                    stepCountTv.setText(msg.arg1 + "");
                 }
             }
         };
@@ -125,7 +126,7 @@ public class Activity_func_sportShare extends BaseActivity {
     public void initInfo_List(){
         Log.i(TAG,"即将初始化分享列表组件");
         //Toast.makeText(this,"即将初始化分享列表组件",Toast.LENGTH_SHORT).show();
-        info_rv = findViewById(R.id.activity_func_sport_rv);
+        infoRv = findViewById(R.id.activity_func_sport_rv);
         swipeRefreshLayout = findViewById(R.id.activity_func_sport_swiperefreshLayout);
         swipeRefreshLayout.setColorSchemeColors(Color.RED,Color.BLUE,Color.GREEN);
         Log.i(TAG,"初始化分享数据List");
@@ -133,9 +134,9 @@ public class Activity_func_sportShare extends BaseActivity {
         initBeanList();
         recyclerAdapter = new Func_sportShare_Adapter(beanList,this);
 
-        info_rv.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
-        info_rv.setAdapter(recyclerAdapter);
-        info_rv.addItemDecoration(new ItemDecroration(10,20));
+        infoRv.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
+        infoRv.setAdapter(recyclerAdapter);
+        infoRv.addItemDecoration(new ItemDecoration(10,20));
 
         initRefreshListener();
         Log.i(TAG,"初始化完成");
@@ -150,7 +151,10 @@ public class Activity_func_sportShare extends BaseActivity {
         if(beanList.size() <= 0){
             //beanList.add(new func_sportShare_stepCounter());
             for(int i = 0; i < 10; i++){
-                beanList.add(new func_sportShare_stepShareListBean(R.drawable.cat_usericon + "","User" + new Random().nextInt(1200),"2019.1.3.15:55",new Random().nextInt(30000) + ""));
+                beanList.add(new func_sportShare_stepShareListBean(R.drawable.cat_usericon + "",
+                    "User" + new Random().nextInt(1200),
+                    "2019.1.3.15:55",
+                    new Random().nextInt(30000) + ""));
             }
         }
     }
@@ -175,15 +179,15 @@ public class Activity_func_sportShare extends BaseActivity {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        List<func_sportShare_BaseBean> headDatas = new ArrayList<func_sportShare_BaseBean>();
+                        List<func_sportShare_BaseBean> headData = new ArrayList<func_sportShare_BaseBean>();
                         for (int i = 0; i <5 ; i++) {
-                            headDatas.add(new func_sportShare_stepShareListBean(R.drawable.cat_usericon + "","User" + new Random().nextInt(1200),"2019.1.3.15:55",new Random().nextInt(30000) + ""));
+                            headData.add(new func_sportShare_stepShareListBean(R.drawable.cat_usericon + "","User" + new Random().nextInt(1200),"2019.1.3.15:55",new Random().nextInt(30000) + ""));
                         }
-                        recyclerAdapter.AddHeaderItem(headDatas);
+                        recyclerAdapter.AddHeaderItem(headData);
 
                         //刷新完成
                         swipeRefreshLayout.setRefreshing(false);
-                        Toast.makeText(Activity_func_sportShare.this, "更新了 "+headDatas.size()+" 条目数据,当前列表有" + beanList.size() + "条数据", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ActivityFuncSportShare.this, "更新了 "+headData.size()+" 条目数据,当前列表有" + beanList.size() + "条数据", Toast.LENGTH_SHORT).show();
                     }
 
                 }, 3000);
@@ -194,7 +198,7 @@ public class Activity_func_sportShare extends BaseActivity {
 
     private void initLoadMoreListener() {
 
-        info_rv.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        infoRv.addOnScrollListener(new RecyclerView.OnScrollListener() {
             int lastVisibleItem ;
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -205,12 +209,12 @@ public class Activity_func_sportShare extends BaseActivity {
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            List<func_sportShare_BaseBean> footerDatas = new ArrayList<func_sportShare_BaseBean>();
+                            List<func_sportShare_BaseBean> footerData = new ArrayList<func_sportShare_BaseBean>();
                             for (int i = 0; i <5 ; i++) {
-                                footerDatas.add(new func_sportShare_stepShareListBean(R.drawable.cat_usericon + "","User" + new Random().nextInt(1200),"2019.1.3.15:55",new Random().nextInt(30000) + ""));
+                                footerData.add(new func_sportShare_stepShareListBean(R.drawable.cat_usericon + "","User" + new Random().nextInt(1200),"2019.1.3.15:55",new Random().nextInt(30000) + ""));
                             }
-                            recyclerAdapter.AddFooterItem(footerDatas);
-                            Toast.makeText(Activity_func_sportShare.this, "更新了 "+footerDatas.size()+" 条目数据,当前列表有" + beanList.size() + "条数据", Toast.LENGTH_SHORT).show();
+                            recyclerAdapter.AddFooterItem(footerData);
+                            Toast.makeText(ActivityFuncSportShare.this, "更新了 "+footerData.size()+" 条目数据,当前列表有" + beanList.size() + "条数据", Toast.LENGTH_SHORT).show();
                         }
                     }, 3000);
 
@@ -231,7 +235,7 @@ public class Activity_func_sportShare extends BaseActivity {
     }
 
     //给RecyclerView设置间距的类
-    class ItemDecroration extends RecyclerView.ItemDecoration{
+    class ItemDecoration extends RecyclerView.ItemDecoration{
         private int leftAndRightMargin;
         private int btmMargin;
 
@@ -248,7 +252,7 @@ public class Activity_func_sportShare extends BaseActivity {
             }
         }
 
-        public ItemDecroration(int leftAndRightMargin,int btmMargin) {
+        public ItemDecoration(int leftAndRightMargin,int btmMargin) {
             this.leftAndRightMargin = leftAndRightMargin;
             this.btmMargin = btmMargin;
         }

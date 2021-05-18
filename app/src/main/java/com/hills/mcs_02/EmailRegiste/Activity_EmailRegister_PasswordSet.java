@@ -19,7 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.gson.Gson;
 import com.hills.mcs_02.R;
-import com.hills.mcs_02.account.Regex_Verfy;
+import com.hills.mcs_02.account.RegexVerify;
 import com.hills.mcs_02.dataBeans.Bean_UserAccount;
 import com.hills.mcs_02.dataBeans.User;
 import com.hills.mcs_02.networkClasses.interfacesPack.PostRequest_userRegiste;
@@ -40,7 +40,7 @@ public class Activity_EmailRegister_PasswordSet extends AppCompatActivity implem
     private ImageView mBack_iv;
     private Button mConfirm_bt;
     private Bean_UserAccount userAccount;
-    private Regex_Verfy regex_verfy;
+    private RegexVerify regexVerify;
     private TextView mPw_input_error_tv;
     private TextView mPw_input_error_confirm_tv;
     private String mEmail_Address;
@@ -53,7 +53,7 @@ public class Activity_EmailRegister_PasswordSet extends AppCompatActivity implem
         setContentView(R.layout.activity_email_reigister_password_set);
 
         mFinishTag = new boolean[]{false, false, false};
-        regex_verfy = new Regex_Verfy();
+        regexVerify = new RegexVerify();
 
         //获取注册的邮箱地址
         Intent lIntent = getIntent();
@@ -91,7 +91,7 @@ public class Activity_EmailRegister_PasswordSet extends AppCompatActivity implem
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (!regex_verfy.registe_username_verfy(s.toString())) {
+                if (!regexVerify.registerUsernameVerfy(s.toString())) {
                     mPw_input_error_tv.setVisibility(View.VISIBLE);
                     mFinishTag[0] = false;
                 } else {

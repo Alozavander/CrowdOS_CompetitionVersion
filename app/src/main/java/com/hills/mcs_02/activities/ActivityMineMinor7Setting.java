@@ -1,5 +1,12 @@
 package com.hills.mcs_02.activities;
 
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
@@ -21,24 +28,19 @@ import androidx.core.content.FileProvider;
 import com.daimajia.numberprogressbar.NumberProgressBar;
 import com.hills.mcs_02.BaseActivity;
 import com.hills.mcs_02.BuildConfig;
-import com.hills.mcs_02.R;
 import com.hills.mcs_02.downloadPack.DownloadFileUtils;
 import com.hills.mcs_02.downloadPack.DownloadListener;
 import com.hills.mcs_02.networkClasses.interfacesPack.PostRequest_mine_minor7_update;
+import com.hills.mcs_02.R;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
-public class Activity_mine_minor7_setting extends BaseActivity {
+
+public class ActivityMineMinor7Setting extends BaseActivity {
     private String TAG = "Activity_mine_minor7_setting";
     private ListView mListView;
     private String appName;
@@ -54,10 +56,10 @@ public class Activity_mine_minor7_setting extends BaseActivity {
     }
 
     private void initBackBT() {
-        ImageView back_im = findViewById(R.id.minepage_minor7_backarrow);
-        back_im.setOnClickListener(new View.OnClickListener() {
+        ImageView backIv = findViewById(R.id.minepage_minor7_backarrow);
+        backIv.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 finish();
             }
         });
@@ -81,14 +83,14 @@ public class Activity_mine_minor7_setting extends BaseActivity {
                 System.out.println("------- setting -------");
                 System.out.println("position = " + position);
                 if(position == 0) {
-                    Intent intent = new Intent(Activity_mine_minor7_setting.this, Activity_mine_setting_general.class);
+                    Intent intent = new Intent(ActivityMineMinor7Setting.this, ActivityMineSettingGeneral.class);
                     startActivity(intent);
                 }
                 //在这里填写版本更新相关逻辑代码
                 else if(position == 2){
                     checkVersion();
                 }
-                else Toast.makeText(Activity_mine_minor7_setting.this,getResources().getString(R.string.notYetOpen),Toast.LENGTH_SHORT).show();
+                else Toast.makeText(ActivityMineMinor7Setting.this,getResources().getString(R.string.notYetOpen),Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -113,12 +115,12 @@ public class Activity_mine_minor7_setting extends BaseActivity {
                 }
                 //TODO：这里没有返回的是404
                 else{
-                    Toast.makeText(Activity_mine_minor7_setting.this,"暂无新版本可下载",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ActivityMineMinor7Setting.this,"暂无新版本可下载",Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            public void onFailure(Call<ResponseBody> call, Throwable throwable) {
 
             }
         });
@@ -126,7 +128,7 @@ public class Activity_mine_minor7_setting extends BaseActivity {
 
     private void downAlertDialog(){
         //弹出下载的提示框口
-        AlertDialog.Builder builder = new AlertDialog.Builder(Activity_mine_minor7_setting.this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(ActivityMineMinor7Setting.this);
         builder.setCancelable(false);
         builder.setTitle(R.string.App_Update);
         builder.setMessage(R.string.update_message);
@@ -194,7 +196,7 @@ public class Activity_mine_minor7_setting extends BaseActivity {
             @Override
             public void onFailure() {
                 dialog.dismiss();
-                Toast.makeText(Activity_mine_minor7_setting.this, "Download Failure.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ActivityMineMinor7Setting.this, "Download Failure.", Toast.LENGTH_SHORT).show();
             }
         };
         //加入后台对标的网址
@@ -208,7 +210,7 @@ public class Activity_mine_minor7_setting extends BaseActivity {
         if(! getPackageManager().canRequestPackageInstalls()) {
             System.out.println("can not request installs");
             //弹出下载的提示框口
-            AlertDialog.Builder builder = new AlertDialog.Builder(Activity_mine_minor7_setting.this);
+            AlertDialog.Builder builder = new AlertDialog.Builder(ActivityMineMinor7Setting.this);
             builder.setCancelable(false);
             builder.setTitle("权限授予");             //后续更改到string文件中
             builder.setMessage("请给予安装权限");
@@ -233,23 +235,23 @@ public class Activity_mine_minor7_setting extends BaseActivity {
     private void openAPK(File newApp) {
         if (newApp.isFile()) {
             //通过Intent跳转到下载的文件并打开
-            Intent intent1 = new Intent(Intent.ACTION_VIEW);
+            Intent intent = new Intent(Intent.ACTION_VIEW);
             Uri uri;
             //对不同版本特性做适配
-            uri = FileProvider.getUriForFile(Activity_mine_minor7_setting.this,getPackageName() + ".fileprovider", newApp);
-            intent1.setDataAndType(uri, "application/vnd.android.package-archive");
+            uri = FileProvider.getUriForFile(ActivityMineMinor7Setting.this,getPackageName() + ".fileprovider", newApp);
+            intent.setDataAndType(uri, "application/vnd.android.package-archive");
             try{
                 if(getPackageManager().canRequestPackageInstalls()) {
                     System.out.println("JUMP TO APK");
-                    intent1.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                    startActivity(intent1);
+                    intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                    startActivity(intent);
                 }
-            }catch (ActivityNotFoundException e){
-                e.printStackTrace();
+            }catch (ActivityNotFoundException exp){
+                exp.printStackTrace();
             }
             System.out.println("openAPK over");
         } else {
-            Toast.makeText(Activity_mine_minor7_setting.this, "APK Download Failure.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ActivityMineMinor7Setting.this, "APK Download Failure.", Toast.LENGTH_SHORT).show();
             Log.e(TAG,"APK Download Failure.");
         }
     }

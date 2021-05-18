@@ -11,9 +11,9 @@ import com.hills.mcs_02.R;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class Activity_2rdPageFragment extends Fragment {
+public class ActivitySecondPageFragment extends Fragment {
 
-    public Activity_2rdPageFragment() {
+    public ActivitySecondPageFragment() {
     }
 
     @Override

@@ -12,9 +12,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+
+import com.hills.mcs_02.fragmentsPack.MCS_RecyclerItemClickListener;
 import com.hills.mcs_02.R;
 import com.hills.mcs_02.StringStore;
-import com.hills.mcs_02.fragmentsPack.MCS_RecyclerItemClickListener;
 import com.hills.mcs_02.saveFile.FileExport;
 import com.hills.mcs_02.sensorFunction.SensorSQLiteOpenHelper;
 import com.hills.mcs_02.viewsAdapters.Adapter_RecyclerView_setting_sensorData;
@@ -23,7 +24,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Activity_mine_minor5_sensorData extends AppCompatActivity implements View.OnClickListener {
+public class ActivityMineMinor5SensorData extends AppCompatActivity implements View.OnClickListener {
     private RecyclerView mRecyclerView;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private Adapter_RecyclerView_setting_sensorData mAdapter;
@@ -41,11 +42,11 @@ public class Activity_mine_minor5_sensorData extends AppCompatActivity implement
 
     private void initData() {
         //menuContent_1:查看感知数据；menuContent_2:删除数据；menuContent_3：开启/关闭感知；menuContent_4：保存文件
-        String[] menuContent_1 = new String[2];
-        String[] menuContent_2 = new String[2];
-        String[] menuContent_3 = new String[2];
-        String[] menuContent_4 = new String[2];
-        menuContent_1[0] = getString(R.string.setting_sensorData_chuanganqishuju);
+        String[] menuContent1 = new String[2];
+        String[] menuContent2 = new String[2];
+        String[] menuContent3 = new String[2];
+        String[] menuContent4 = new String[2];
+        menuContent1[0] = getString(R.string.setting_sensorData_chuanganqishuju);
         Cursor c = new SensorSQLiteOpenHelper(this).getReadableDatabase().query(StringStore.SensorDataTable_Name,
                 new String[]{StringStore.SensorDataTable_SenseType,
                         StringStore.SensorDataTable_SenseTime,
@@ -53,21 +54,21 @@ public class Activity_mine_minor5_sensorData extends AppCompatActivity implement
                         StringStore.SensorDataTable_SenseData_2,
                         StringStore.SensorDataTable_SenseData_3},
                 null, null, null, null, null);
-        menuContent_1[1] = getString(R.string.setting_sensorData_dangqianshujushuliang) + "  " + c.getCount();
+        menuContent1[1] = getString(R.string.setting_sensorData_dangqianshujushuliang) + "  " + c.getCount();
         c.close();
-        menuContent_2[0] = getString(R.string.setting_sensorData_qingliganzhishuju);
-        menuContent_2[1] = null; //为null时在adapter中会把对应的次级内容组件隐藏
+        menuContent2[0] = getString(R.string.setting_sensorData_qingliganzhishuju);
+        menuContent2[1] = null; //为null时在adapter中会把对应的次级内容组件隐藏
 
-        menuContent_3[0] = getString(R.string.setting_sensorData_baocunshuju);
-        menuContent_3[1] = null; //为null时在adapter中会把对应的次级内容组件隐藏
+        menuContent3[0] = getString(R.string.setting_sensorData_baocunshuju);
+        menuContent3[1] = null; //为null时在adapter中会把对应的次级内容组件隐藏
 
-        menuContent_4[0] = getString(R.string.setting_sensorData_kaiqiguanbiganzhi);
-        menuContent_4[1] = null; //为null时在adapter中会把对应的次级内容组件隐藏
+        menuContent4[0] = getString(R.string.setting_sensorData_kaiqiguanbiganzhi);
+        menuContent4[1] = null; //为null时在adapter中会把对应的次级内容组件隐藏
 
         mList = new ArrayList<>();
-        mList.add(menuContent_1);
-        mList.add(menuContent_2);
-        mList.add(menuContent_3);
+        mList.add(menuContent1);
+        mList.add(menuContent2);
+        mList.add(menuContent3);
  /*       mList.add(menuContent_4);*/
     }
 
@@ -81,13 +82,13 @@ public class Activity_mine_minor5_sensorData extends AppCompatActivity implement
             public void onItemClick(View view, int position) {
                 //添加跳转事件
                 if(position == 0) {
-                    startActivity(new Intent(Activity_mine_minor5_sensorData.this,Activity_mine_minor5_sensorData_sensorContent.class));
+                    startActivity(new Intent(ActivityMineMinor5SensorData.this,ActivityMineMinor5SensorDataSensorContent.class));
                 }
                 else if(position == 1){
-                    startActivity(new Intent(Activity_mine_minor5_sensorData.this,Activity_mine_minor5_sensorData_Delete.class));
+                    startActivity(new Intent(ActivityMineMinor5SensorData.this,ActivityMineMinor5SensorDataDelete.class));
                 }
                 else if(position == 2){
-                    Cursor c = new SensorSQLiteOpenHelper(Activity_mine_minor5_sensorData.this).getReadableDatabase().query(StringStore.SensorDataTable_Name,
+                    Cursor c = new SensorSQLiteOpenHelper(ActivityMineMinor5SensorData.this).getReadableDatabase().query(StringStore.SensorDataTable_Name,
                             new String[]{StringStore.SensorDataTable_SenseType,
                                     StringStore.SensorDataTable_SenseTime,
                                     StringStore.SensorDataTable_SenseData_1,
@@ -95,7 +96,7 @@ public class Activity_mine_minor5_sensorData extends AppCompatActivity implement
                                     StringStore.SensorDataTable_SenseData_3},
                             null, null, null, null, null);
                     File saveFile = FileExport.ExportToCSV(c,null, null);
-                    Toast.makeText(Activity_mine_minor5_sensorData.this,"Output finishing. The file path is :" + saveFile.getAbsolutePath(),Toast.LENGTH_LONG).show();
+                    Toast.makeText(ActivityMineMinor5SensorData.this,"Output finishing. The file path is :" + saveFile.getAbsolutePath(),Toast.LENGTH_LONG).show();
                     c.close();
                 }
             }
@@ -107,8 +108,8 @@ public class Activity_mine_minor5_sensorData extends AppCompatActivity implement
     }
 
     @Override
-    public void onClick(View v) {
-        switch (v.getId()){
+    public void onClick(View view) {
+        switch (view.getId()){
             case R.id.setting_sensorData_back:
                 finish();
                 break;

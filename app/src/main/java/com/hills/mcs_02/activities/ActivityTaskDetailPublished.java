@@ -1,5 +1,16 @@
 package com.hills.mcs_02.activities;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
@@ -15,15 +26,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+
 import com.hills.mcs_02.BaseActivity;
-import com.hills.mcs_02.R;
 import com.hills.mcs_02.dataBeans.Bean_Combine_u_ut;
 import com.hills.mcs_02.dataBeans.Combine_u_ut;
 import com.hills.mcs_02.dataBeans.Task;
 import com.hills.mcs_02.downloadPack.DownloadImageUtils;
 import com.hills.mcs_02.networkClasses.interfacesPack.PostRequest_published_task_detail;
+import com.hills.mcs_02.R;
 import com.hills.mcs_02.viewsAdapters.Adapter_RecyclerView_Published_TaskDetail;
 
 import java.io.IOException;
@@ -34,29 +44,24 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
-public class Activity_Task_Detail_Published extends BaseActivity {
+
+public class ActivityTaskDetailPublished extends BaseActivity {
 
     private final String TAG = "activity_task_detail_published";
     private Task task;
-    private TextView userName_tv;
-    private TextView postTime_tv;
-    private TextView taskKind_tv;
-    private TextView taskContent_tv;
-    private TextView coinsCount_tv;
-    private TextView deadline_tv;
-    private TextView taskName_tv;
+    private TextView userNameTv;
+    private TextView postTimeTv;
+    private TextView taskKindTv;
+    private TextView taskContentTv;
+    private TextView coinsCountTv;
+    private TextView deadlineTv;
+    private TextView taskNameTv;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private RecyclerView mRecyclerView;
     private Adapter_RecyclerView_Published_TaskDetail recyclerAdapter;
     private List<Bean_Combine_u_ut> mList;
-    private Set<Integer> mHashSet_TaskID;                                             //用于获取感知任务去重
+    private Set<Integer> mHashSetTaskId;                                             //用于获取感知任务去重
 
 
     @SuppressLint("WrongConstant")
@@ -66,14 +71,14 @@ public class Activity_Task_Detail_Published extends BaseActivity {
         setContentView(R.layout.activity_task_detail_published);
 
         task = new Task();
-        userName_tv = findViewById(R.id.published_taskDetail_userName);
-        taskContent_tv = findViewById(R.id.published_taskDetail_content);
-        coinsCount_tv = findViewById(R.id.published_taskDetail_coin);
-        deadline_tv = findViewById(R.id.published_taskDetail_deadline);
-        postTime_tv = findViewById(R.id.published_taskDetail_postTime);
-        taskName_tv = findViewById(R.id.published_taskDetail_taskName);
-        taskKind_tv = findViewById(R.id.published_taskDetail_taskKind);
-        mHashSet_TaskID = new HashSet<Integer>();
+        userNameTv = findViewById(R.id.published_taskDetail_userName);
+        taskContentTv = findViewById(R.id.published_taskDetail_content);
+        coinsCountTv = findViewById(R.id.published_taskDetail_coin);
+        deadlineTv = findViewById(R.id.published_taskDetail_deadline);
+        postTimeTv = findViewById(R.id.published_taskDetail_postTime);
+        taskNameTv = findViewById(R.id.published_taskDetail_taskName);
+        taskKindTv = findViewById(R.id.published_taskDetail_taskKind);
+        mHashSetTaskId = new HashSet<Integer>();
 
         if (mList == null) {
             mList = new ArrayList<Bean_Combine_u_ut>();
@@ -95,27 +100,27 @@ public class Activity_Task_Detail_Published extends BaseActivity {
         String taskGson = getIntent().getStringExtra("taskGson");
         Gson gson = new Gson();
         task = gson.fromJson(taskGson, Task.class);
-        userName_tv.setText(task.getUserName());
-        taskContent_tv.setText(task.getDescribe_task());
-        coinsCount_tv.setText(task.getCoin().toString());
-        taskName_tv.setText(task.getTaskName());
-        deadline_tv.setText(new SimpleDateFormat("yyyy.MM.dd").format(task.getDeadLine()));
-        postTime_tv.setText(new SimpleDateFormat("yyyy.MM.dd").format(task.getPostTime()));
+        userNameTv.setText(task.getUserName());
+        taskContentTv.setText(task.getDescribe_task());
+        coinsCountTv.setText(task.getCoin().toString());
+        taskNameTv.setText(task.getTaskName());
+        deadlineTv.setText(new SimpleDateFormat("yyyy.MM.dd").format(task.getDeadLine()));
+        postTimeTv.setText(new SimpleDateFormat("yyyy.MM.dd").format(task.getPostTime()));
         switch (task.getTaskKind()) {
             case 0:
-                taskKind_tv.setText(getString(R.string.home_grid_0));
+                taskKindTv.setText(getString(R.string.home_grid_0));
                 break;
             case 1:
-                taskKind_tv.setText(getString(R.string.home_grid_1));
+                taskKindTv.setText(getString(R.string.home_grid_1));
                 break;
             case 2:
-                taskKind_tv.setText(getString(R.string.home_grid_2));
+                taskKindTv.setText(getString(R.string.home_grid_2));
                 break;
             case 3:
-                taskKind_tv.setText(getString(R.string.home_grid_3));
+                taskKindTv.setText(getString(R.string.home_grid_3));
                 break;
             case 4:
-                taskKind_tv.setText(getString(R.string.home_grid_4));
+                taskKindTv.setText(getString(R.string.home_grid_4));
                 break;
         }
         first_fresh();
@@ -191,7 +196,7 @@ public class Activity_Task_Detail_Published extends BaseActivity {
     }
 
     public void postRequest(int tag) {
-        final int temp_tag = tag;
+        final int TEMP_TAG = tag;
         //创建Retrofit对象
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(getResources().getString(R.string.base_url))
@@ -214,44 +219,44 @@ public class Activity_Task_Detail_Published extends BaseActivity {
                 if (response.code() == 200) {
                     try {
                         //取得响应返回的数据List
-                        List<Combine_u_ut> response_list = new ArrayList<Combine_u_ut>();
+                        List<Combine_u_ut> responseList = new ArrayList<Combine_u_ut>();
                         //创建符合List数据格式，在页面显示的列表
-                        List<Bean_Combine_u_ut> temp_list = new ArrayList<Bean_Combine_u_ut>();
+                        List<Bean_Combine_u_ut> tempList = new ArrayList<Bean_Combine_u_ut>();
                         Gson gson = new Gson();
                         Type type = new TypeToken<List<Combine_u_ut>>() {
                         }.getType();
                         String temp_content = response.body().string();
                         Log.i(TAG, "接受的报文内容：" + temp_content);
-                        response_list = gson.fromJson(temp_content, type);
-                        if (response_list.size() > 0) {
+                        responseList = gson.fromJson(temp_content, type);
+                        if (responseList.size() > 0) {
                             //两个List之间的转换
-                            for (Combine_u_ut u_ut : response_list) {
+                            for (Combine_u_ut u_ut : responseList) {
                                 //HashSet去重
-                                if (!mHashSet_TaskID.contains(u_ut.getUt().getUser_taskId())) {
-                                    mHashSet_TaskID.add(u_ut.getUt().getUser_taskId());
+                                if (!mHashSetTaskId.contains(u_ut.getUt().getUser_taskId())) {
+                                    mHashSetTaskId.add(u_ut.getUt().getUser_taskId());
                                     if (u_ut.getUt().getImage() != null) {
                                         //在此处增加图片下载的功能代码
                                         DownloadImageUtils utils = new DownloadImageUtils(getString(R.string.base_url));
-                                        temp_list.add(new Bean_Combine_u_ut(R.drawable.haimian_usericon, utils.downloadFile(u_ut.getUt().getImage()), u_ut));
+                                        tempList.add(new Bean_Combine_u_ut(R.drawable.haimian_usericon, utils.downloadFile(u_ut.getUt().getImage()), u_ut));
                                     } else {
-                                        temp_list.add(new Bean_Combine_u_ut(R.drawable.haimian_usericon, u_ut));
+                                        tempList.add(new Bean_Combine_u_ut(R.drawable.haimian_usericon, u_ut));
                                         Log.i(TAG, u_ut.toString());
                                     }
                                 }
                             }
                         } else {
-                            Toast.makeText(Activity_Task_Detail_Published.this, getResources().getString(R.string.FailToGetData) + response_list.size(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ActivityTaskDetailPublished.this, getResources().getString(R.string.FailToGetData) + responseList.size(), Toast.LENGTH_SHORT).show();
                         }
                         //根据tag判断是第一次刷新还是后续的上拉刷新和下拉加载
-                        if (temp_tag == 0) mList.addAll(temp_list);
-                        else if (temp_tag == 1) recyclerAdapter.AddHeaderItem(temp_list);
-                        else recyclerAdapter.AddFooterItem(temp_list);
+                        if (TEMP_TAG == 0) mList.addAll(tempList);
+                        else if (TEMP_TAG == 1) recyclerAdapter.AddHeaderItem(tempList);
+                        else recyclerAdapter.AddFooterItem(tempList);
 
                         //刷新完成
                         if (mSwipeRefreshLayout.isRefreshing())
                             mSwipeRefreshLayout.setRefreshing(false);
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                    } catch (IOException exp) {
+                        exp.printStackTrace();
                     }
                 } else {
                     if (mSwipeRefreshLayout.isRefreshing())
@@ -262,7 +267,7 @@ public class Activity_Task_Detail_Published extends BaseActivity {
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            public void onFailure(Call<ResponseBody> call, Throwable throwable) {
 
             }
         });
@@ -276,8 +281,8 @@ public class Activity_Task_Detail_Published extends BaseActivity {
 
 
     private void initBackBT() {
-        ImageView back_im = findViewById(R.id.published_taskDetail_backarrow);
-        back_im.setOnClickListener(new View.OnClickListener() {
+        ImageView backIv = findViewById(R.id.published_taskDetail_backarrow);
+        backIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();

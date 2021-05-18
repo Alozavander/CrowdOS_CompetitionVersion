@@ -29,11 +29,11 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Activity_editInfo extends BaseActivity {
+public class ActivityEditInfo extends BaseActivity {
     private ListView mListView;
     private static final String TAG = "activity_enditInfo";
-    private ImageView userIcon_iv;
-    private File userIcon_File;
+    private ImageView userIconIV;
+    private File userIconFile;
     private Adapter_ListView_mine_editInfo infoListAdapter;
 
     @Override
@@ -54,7 +54,7 @@ public class Activity_editInfo extends BaseActivity {
     private void initBackArrow() {
         findViewById(R.id.minepage_editInfo_backerrow).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 finish();
             }
         });
@@ -62,7 +62,7 @@ public class Activity_editInfo extends BaseActivity {
 
 
     private void initIconSelect() {
-        userIcon_iv = findViewById(R.id.minepage_editInfo_userIcon);
+        userIconIV = findViewById(R.id.minepage_editInfo_userIcon);
         /*userIcon_iv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -95,10 +95,10 @@ public class Activity_editInfo extends BaseActivity {
     }
 
     private void initQuitButton() {
-        Button quit_bt = findViewById(R.id.minepage_editInfo_quit_bt);
-        quit_bt.setOnClickListener(new View.OnClickListener() {
+        Button quitBtn= findViewById(R.id.minepage_editInfo_quit_bt);
+        quitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 //清除用户信息
                 SharedPreferences.Editor editor = getSharedPreferences("user",MODE_PRIVATE).edit();
                 editor.putString("userID","-1");   //userID设置为-1初始化
@@ -116,10 +116,10 @@ public class Activity_editInfo extends BaseActivity {
     }
 
     private void initCompleted() {
-        TextView completed_tv = findViewById(R.id.minepage_editInfo_completed_tv);
-        completed_tv.setOnClickListener(new View.OnClickListener() {
+        TextView completedTv = findViewById(R.id.minepage_editInfo_completed_tv);
+        completedTv.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 //编写提交信息编辑提交逻辑
 
 
@@ -161,9 +161,9 @@ public class Activity_editInfo extends BaseActivity {
         if(requestCode == PictureConfig.CHOOSE_REQUEST && resultCode == Activity.RESULT_OK){
             //返回一个文件，直接获取
             LocalMedia media = PictureSelector.obtainMultipleResult(data).get(0);
-            if(media.getPath() != null)  userIcon_File = new File(media.getPath());
+            if(media.getPath() != null)  userIconFile = new File(media.getPath());
             else Toast.makeText(this,"未找到图片",Toast.LENGTH_SHORT).show();
-            Glide.with(this).load(userIcon_File).into(userIcon_iv);
+            Glide.with(this).load(userIconFile).into(userIconIV);
         }
         if(requestCode == RequestCodes.Intent_RC_editInfo_nickName && resultCode == Activity.RESULT_OK){
             String nickName = data.getStringExtra("text");

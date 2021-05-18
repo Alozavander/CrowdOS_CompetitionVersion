@@ -6,13 +6,13 @@ import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.hills.mcs_02.BaseActivity;
-import com.hills.mcs_02.R;
 import com.hills.mcs_02.viewsAdapters.Adapter_Rb_Tv_multiLanguage;
+import com.hills.mcs_02.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Activity_mine_setting_general_multilan extends BaseActivity {
+public class ActivityMineSettingGeneralMultilan  extends BaseActivity {
     private ListView languageListView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,10 +25,10 @@ public class Activity_mine_setting_general_multilan extends BaseActivity {
     }
 
     private void initBackBT() {
-        ImageView back_im = findViewById(R.id.general_multilan_backarrow);
-        back_im.setOnClickListener(new View.OnClickListener() {
+        ImageView backIv = findViewById(R.id.general_multilan_backarrow);
+        backIv.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 finish();
             }
         });
@@ -42,7 +42,7 @@ public class Activity_mine_setting_general_multilan extends BaseActivity {
         languageList.add("English");
 
         languageListView = findViewById(R.id.general_multilan_list);
-        languageListView.setAdapter(new Adapter_Rb_Tv_multiLanguage(languageList,Activity_mine_setting_general_multilan.this));
+        languageListView.setAdapter(new Adapter_Rb_Tv_multiLanguage(languageList,ActivityMineSettingGeneralMultilan.this));
 
     }
 }

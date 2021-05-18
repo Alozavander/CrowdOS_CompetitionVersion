@@ -6,9 +6,10 @@ import android.graphics.Color;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
@@ -16,23 +17,24 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.hills.mcs_02.BaseActivity;
-import com.hills.mcs_02.R;
 import com.hills.mcs_02.func_foodShare.Func_foodShareAdapter;
 import com.hills.mcs_02.func_foodShare.beans.func_foodShare_foodShareListBean;
+import com.hills.mcs_02.R;
+
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 //该类作为二级页面启动为Fragment作基石的Activity
-public class Activity_func_FoodShare extends BaseActivity {
+public class ActivityFuncFoodShare extends BaseActivity {
     private static final String TAG = "func_foodShare";
 
-    private RecyclerView info_rv;
+    private RecyclerView infoRv;
     private SwipeRefreshLayout swipeRefreshLayout;
     private Func_foodShareAdapter recyclerAdapter;
     private List<func_foodShare_foodShareListBean> beanList;
-    private ImageView cameara_im;
+    private ImageView cameraIM;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +46,7 @@ public class Activity_func_FoodShare extends BaseActivity {
 
         Log.i(TAG, "即将初始化美食分享列表");
         //Toast.makeText(this,"即将初始化运动分享列表",Toast.LENGTH_SHORT).show();
-        initInfo_List();
+        initInfoList();
     }
 
     @Override
@@ -59,20 +61,20 @@ public class Activity_func_FoodShare extends BaseActivity {
     }
 
     public void bindCamera(){
-        cameara_im = findViewById(R.id.activity_func_foodShare_camera);
-        cameara_im.setOnClickListener(new View.OnClickListener() {
+        cameraIM = findViewById(R.id.activity_func_foodShare_camera);
+        cameraIM.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 //Intent intent = new Intent(Activity_func_FoodShare.this,Activity_func_FoodShare_publish.class);
                 //startActivity(intent);
             }
         });
     }
 
-    public void initInfo_List() {
+    public void initInfoList() {
         Log.i(TAG, "即将初始化分享列表组件");
         //Toast.makeText(this,"即将初始化分享列表组件",Toast.LENGTH_SHORT).show();
-        info_rv = findViewById(R.id.activity_func_food_rv);
+        infoRv = findViewById(R.id.activity_func_food_rv);
         swipeRefreshLayout = findViewById(R.id.activity_func_food_swiperefreshLayout);
         swipeRefreshLayout.setColorSchemeColors(Color.RED, Color.BLUE, Color.GREEN);
         Log.i(TAG, "初始化分享数据List");
@@ -81,9 +83,9 @@ public class Activity_func_FoodShare extends BaseActivity {
         recyclerAdapter = new Func_foodShareAdapter(beanList);
 
         //安装瀑布流布局
-        info_rv.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
-        info_rv.setAdapter(recyclerAdapter);
-        info_rv.addItemDecoration(new ItemDecoration(this, 5));
+        infoRv.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+        infoRv.setAdapter(recyclerAdapter);
+        infoRv.addItemDecoration(new ItemDecoration(this, 5));
         ;
 
         initRefreshListener();
@@ -138,7 +140,7 @@ public class Activity_func_FoodShare extends BaseActivity {
 
                         //刷新完成
                         swipeRefreshLayout.setRefreshing(false);
-                        Toast.makeText(Activity_func_FoodShare.this, getResources().getString(R.string.Refresh) + headDatas.size() + getResources().getString(R.string.Now) + beanList.size() + getResources().getString(R.string.TaskNum), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ActivityFuncFoodShare.this, getResources().getString(R.string.Refresh) + headDatas.size() + getResources().getString(R.string.Now) + beanList.size() + getResources().getString(R.string.TaskNum), Toast.LENGTH_SHORT).show();
                     }
 
                 }, 3000);
@@ -149,7 +151,7 @@ public class Activity_func_FoodShare extends BaseActivity {
 
     private void initLoadMoreListener() {
 
-        info_rv.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        infoRv.addOnScrollListener(new RecyclerView.OnScrollListener() {
             int lastVisibleItem;
 
             @Override
@@ -170,7 +172,7 @@ public class Activity_func_FoodShare extends BaseActivity {
                                 }
                             }
                             recyclerAdapter.AddFooterItem(footerDatas);
-                            Toast.makeText(Activity_func_FoodShare.this, getResources().getString(R.string.Refresh) + footerDatas.size() + getResources().getString(R.string.Now) + beanList.size() + getResources().getString(R.string.TaskNum), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ActivityFuncFoodShare.this, getResources().getString(R.string.Refresh) + footerDatas.size() + getResources().getString(R.string.Now) + beanList.size() + getResources().getString(R.string.TaskNum), Toast.LENGTH_SHORT).show();
                         }
                     }, 3000);
 

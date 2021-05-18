@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.hills.mcs_02.R;
 
-public class Activity_pwdFind extends AppCompatActivity implements View.OnClickListener {
+public class ActivityPwdFind extends AppCompatActivity implements View.OnClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,8 +22,8 @@ public class Activity_pwdFind extends AppCompatActivity implements View.OnClickL
     }
 
     @Override
-    public void onClick(View v) {
-        switch (v.getId()){
+    public void onClick(View view) {
+        switch (view.getId()){
             case R.id.activity_pwdFind_next_bt:
 
                 break;

@@ -9,10 +9,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.hills.mcs_02.fragmentsPack.MCS_RecyclerItemClickListener;
 import com.hills.mcs_02.R;
 import com.hills.mcs_02.SenseDataDisplay.SQLiteDataDisplay;
 import com.hills.mcs_02.StringStore;
-import com.hills.mcs_02.fragmentsPack.MCS_RecyclerItemClickListener;
 import com.hills.mcs_02.sensorFunction.SenseHelper;
 import com.hills.mcs_02.sensorFunction.SensorSQLiteOpenHelper;
 import com.hills.mcs_02.viewsAdapters.Adapter_RecyclerView_setting_sensorData;
@@ -20,7 +20,7 @@ import com.hills.mcs_02.viewsAdapters.Adapter_RecyclerView_setting_sensorData;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Activity_mine_minor5_sensorData_sensorContent extends AppCompatActivity implements View.OnClickListener {
+public class ActivityMineMinor5SensorDataSensorContent extends AppCompatActivity implements View.OnClickListener {
 
     private RecyclerView mRecyclerView;
     //private SwipeRefreshLayout mSwipeRefreshLayout;
@@ -51,8 +51,8 @@ public class Activity_mine_minor5_sensorData_sensorContent extends AppCompatActi
                             StringStore.SensorDataTable_SenseData_2,
                             StringStore.SensorDataTable_SenseData_3},
                     StringStore.SensorDataTable_SenseType + "=?", new String[]{sensorType+""}, null, null, null);
-            String lnumb =  getString(R.string.setting_sensorData_dangqianshujushuliang) + "  " + lCursor.getCount();
-            mList.add(new String[]{s,lnumb});
+            String lNum =  getString(R.string.setting_sensorData_dangqianshujushuliang) + "  " + lCursor.getCount();
+            mList.add(new String[]{s,lNum});
             lCursor.close();
         }
     }
@@ -66,7 +66,7 @@ public class Activity_mine_minor5_sensorData_sensorContent extends AppCompatActi
             @Override
             public void onItemClick(View view, int position) {
                 //添加跳转事件
-                Intent lIntent = new Intent(Activity_mine_minor5_sensorData_sensorContent.this, SQLiteDataDisplay.class);
+                Intent lIntent = new Intent(ActivityMineMinor5SensorDataSensorContent.this, SQLiteDataDisplay.class);
                 lIntent.putExtra("sensorName",mSensorS[position]);
                 startActivity(lIntent);
             }
@@ -78,8 +78,8 @@ public class Activity_mine_minor5_sensorData_sensorContent extends AppCompatActi
     }
 
     @Override
-    public void onClick(View v) {
-        switch (v.getId()){
+    public void onClick(View view) {
+        switch (view.getId()){
             case R.id.setting_sensorData_sensorContent_back:
                 finish();
                 break;

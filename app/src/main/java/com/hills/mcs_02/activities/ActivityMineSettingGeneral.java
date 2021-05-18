@@ -14,7 +14,7 @@ import com.hills.mcs_02.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Activity_mine_setting_general extends BaseActivity {
+public class ActivityMineSettingGeneral extends BaseActivity {
 
     private ListView generalListView;
 
@@ -30,10 +30,10 @@ public class Activity_mine_setting_general extends BaseActivity {
 
 
     private void initBackBT() {
-        ImageView back_im = findViewById(R.id.general_backarrow);
-        back_im.setOnClickListener(new View.OnClickListener() {
+        ImageView backIv = findViewById(R.id.general_backarrow);
+        backIv.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 finish();
             }
         });
@@ -57,7 +57,7 @@ public class Activity_mine_setting_general extends BaseActivity {
                 System.out.println("------- setting-general -------");
                 System.out.println("position = " + position);
                 if (position == 0) {
-                    Intent intent = new Intent(Activity_mine_setting_general.this,Activity_mine_setting_general_multilan.class);
+                    Intent intent = new Intent(ActivityMineSettingGeneral.this,ActivityMineSettingGeneralMultilan.class);
                     startActivity(intent);
                 }
             }
