@@ -138,6 +138,7 @@ public class SensorService extends Service implements SensorEventListener {
                 }
             }
         };
+        //per 'period' ms a collection for a sensing data
         timer.schedule(task, 1, 5000);
         Log.i(TAG, "Timer Task now starts");
 
@@ -309,9 +310,5 @@ public class SensorService extends Service implements SensorEventListener {
             Log.i("SensorService", "Remote the Sensor Service's method 'SenseTaskAccept_SensorOn' through SensorService_Interface;s method 'binder_sensorOn' with SensorService_Binder");
             SenseTaskFinish_SensorOff_pl(types);
         }
-
-
     }
-
-
 }

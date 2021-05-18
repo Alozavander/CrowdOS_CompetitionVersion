@@ -2,6 +2,8 @@ package com.hills.mcs_02;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
 import android.content.Context;
@@ -55,6 +57,7 @@ import com.hills.mcs_02.fragmentsPack.Fragment_remind;
 import com.hills.mcs_02.networkClasses.interfacesPack.PostRequest_LivenessLogin;
 import com.hills.mcs_02.networkClasses.interfacesPack.PostRequest_LivenessLogout;
 import com.hills.mcs_02.networkClasses.interfacesPack.PostRequest_mine_minor7_update;
+import com.hills.mcs_02.sensorFunction.SenseDataUploadService;
 import com.hills.mcs_02.sensorFunction.SenseHelper;
 import com.hills.mcs_02.sensorFunction.SensorService;
 import com.hills.mcs_02.sensorFunction.SensorService_Interface;
@@ -113,44 +116,14 @@ public class MainActivity extends BaseActivity implements For_test {
 
     initBNV();
 
-
-        /*//测试
-        User user = new User(123, "测试用户信息1", "测试用户信息2", "测试用户信息", 1000000000);
-        User_serialized user_serialized = new User_serialized();
-        user_serialized.setUser_serialized(user);
-        System.out.println("user: " + user_serialized);
-        String user_info = null;
-        try {
-            user_info = SerializableUtil.obj2Str(user_serialized);
-            System.out.println("user_info_seri: " + user_info);
-            SharedPreferences tem_sp = getSharedPreferences("user", MODE_PRIVATE);
-            SharedPreferences.Editor tem_editor = tem_sp.edit();
-            tem_editor.putString("user_info", user_info);
-            tem_editor.commit();
-
-            String reverseInfo = tem_sp.getString("user_info","notFind");
-            System.out.println("reverseInfo: " + reverseInfo);
-            User_serialized reverse_user_2 = (User_serialized) SerializableUtil.str2Obj(reverseInfo);
-            System.out.println("reverseUser_Info:" + reverse_user_2);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
-
-
     //涉及到Fragment返回重建问题,initFragment时初始化函数，只有在没有前置保留地InstanceState情况下才执行
     if (savedInstanceState == null) {
       initFragment();
     }
-    //Toast.makeText(this,"初始化sharePreference务",Toast.LENGTH_SHORT).show();
-
 
     initUser_Info();
     initService();
-
-
     initPermission();
-
-
     checkVersion();
   }
 
@@ -162,7 +135,6 @@ public class MainActivity extends BaseActivity implements For_test {
       Liveness lLiveness = new Liveness(null, login_userID, null, null, null, null, null, null, null, null);
       Gson lGson = new Gson();
       String content = lGson.toJson(lLiveness);
-      //创建Retrofit实例   getResources().getString(R.string.base_url)   "http://192.168.43.60:8889/"
       //测试使用url
       Retrofit retrofit = new Retrofit.Builder().baseUrl(getResources().getString(R.string.base_url)).addConverterFactory(GsonConverterFactory.create()).build();
       //创建网络接口实例
@@ -299,6 +271,15 @@ public class MainActivity extends BaseActivity implements For_test {
     }
     isBind = bindService(intent, conn, BIND_AUTO_CREATE);
     Log.i(TAG, "=============SensorService has been bound :" + isBind + "==============");
+
+    Log.i(TAG,"ForegroundService");
+
+    Intent lIntent = new Intent(MainActivity.this, SenseDataUploadService.class);
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+      startForegroundService(lIntent);
+    } else {
+      startService(lIntent);
+    }
   }
 
   @Override
