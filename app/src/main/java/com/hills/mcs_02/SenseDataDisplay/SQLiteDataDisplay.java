@@ -86,7 +86,7 @@ public class SQLiteDataDisplay extends AppCompatActivity implements View.OnClick
                         StringStore.SensorDataTable_SenseData_1,
                         StringStore.SensorDataTable_SenseData_2,
                         StringStore.SensorDataTable_SenseData_3},
-                StringStore.SensorDataTable_SenseType + "=?", new String[]{mSensorType}, null, null, null);
+                StringStore.SensorDataTable_SenseType + "=?", new String[]{mSensorType}, null, null, StringStore.SensorDataTable_SenseTime + " DESC");
         return c;
     }
 

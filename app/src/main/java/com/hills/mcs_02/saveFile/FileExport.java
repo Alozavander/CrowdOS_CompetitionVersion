@@ -47,7 +47,7 @@ public class FileExport {
                 // 写入数据
                 for (int i = 0; i < rowCount; i++) {
                     c.moveToPosition(i);
-                    Log.v("数据导出", "导出第" + (i + 1) + "条");
+                    //Log.v("数据导出", "导出第" + (i + 1) + "条");
                     for (int j = 0; j < colCount; j++) {
                         if (j != colCount - 1)
                             bfw.write(c.getString(j) + ',');
@@ -59,6 +59,7 @@ public class FileExport {
                     }
                     bfw.newLine();
                 }
+                Log.v("数据导出","文件导出结束，共导出了"+rowCount+"条数据");
             }
             bfw.flush();
             bfw.close();
@@ -70,5 +71,9 @@ public class FileExport {
             c.close();
         }
         return saveFile;
+    }
+
+    public static File ExportToTextForEachSensor(Cursor c, String fileName,String pParentFileName) {
+        return new File("");
     }
 }

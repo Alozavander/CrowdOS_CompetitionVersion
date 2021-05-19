@@ -120,29 +120,7 @@ public class Activity_Task_Submit extends BaseActivity {
         }
 
         initBackBT();
-        /*
-        findViewById(R.id.activity_taskSub_chooseData_btn).setOnClickListener(new View.OnClickListener() {
-            @Override
-            //点击在文本框中显示数据库存入的感知数据
-            public void onClick(View v) {
-                String text = "";
-                for(Sensor sensor : sensorManager.getSensorList(Sensor.TYPE_ALL)){
-                    String sensorName = sensor.getName();
-                    String data = "";
-                    String sql = "select sensorData from table_senseData where sensorName = '" + sensorName + "'ORDER BY recordTime DESC";
-                    Cursor cursor = SQLdb.rawQuery(sql,null);
-                    if(cursor.moveToFirst()){
-                        data = cursor.getString(0);
-                    }
-                    cursor.close();
-                    text += sensorName + ":  " + data + "\n";
-                }
-                sensorDataShow_tv.setText(text);
-                //请求发送暂时搁置暂时搁置
-                //postRequest_Submit();
-            }
-        });
-        */
+
         findViewById(R.id.activity_taskSub_submit_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

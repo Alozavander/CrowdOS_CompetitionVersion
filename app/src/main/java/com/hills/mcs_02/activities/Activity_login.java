@@ -3,6 +3,7 @@ package com.hills.mcs_02.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -23,6 +24,7 @@ import com.hills.mcs_02.account.Regex_Verfy;
 import com.hills.mcs_02.dataBeans.Bean_UserAccount;
 import com.hills.mcs_02.dataBeans.User;
 import com.hills.mcs_02.networkClasses.interfacesPack.PostRequest_userAuth;
+import com.hills.mcs_02.sensorFunction.SenseDataUploadService;
 
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
@@ -288,6 +290,13 @@ public class Activity_login extends BaseActivity implements View.OnClickListener
                         Log.i(TAG, user.getUserId() + "");
                         editor.putString("userName", user.getUserName());
                         editor.commit();
+                        //开启手机数据的service
+                        Intent lIntent = new Intent(Activity_login.this, SenseDataUploadService.class);
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            startForegroundService(lIntent);
+                        } else {
+                            startService(lIntent);
+                        }
                         //发送刷新Fragment_mine的广播
                         Intent intent = new Intent();
                         intent.setAction("action_Fragment_mine_userInfo_login");
