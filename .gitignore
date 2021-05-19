@@ -10,6 +10,9 @@
 # Java class files
 *.class
 
+# 不排除.gitignore
+!.gitignore
+
 # Generated files
 bin/
 gen/
