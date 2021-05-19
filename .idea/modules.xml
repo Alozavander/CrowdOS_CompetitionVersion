@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project version="4">
-  <component name="ProjectModuleManager">
-    <modules>
-      <module fileurl="file://$PROJECT_DIR$/MCS_v03.iml" filepath="$PROJECT_DIR$/MCS_v03.iml" group="MCS_v03" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="MCS_v03/app" />
-    </modules>
-  </component>
-</project>
