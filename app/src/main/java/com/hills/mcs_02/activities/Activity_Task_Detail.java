@@ -127,7 +127,7 @@ public class Activity_Task_Detail extends BaseActivity {
         //检查是否登录
         if (login_userID == -1) {
             Toast.makeText(this, getResources().getString(R.string.login_first), Toast.LENGTH_SHORT);
-            Intent intent = new Intent(Activity_Task_Detail.this, Activity_login.class);
+            Intent intent = new Intent(Activity_Task_Detail.this, ActivityLogin.class);
             startActivity(intent);
         } else {
             User_Task user_task = new User_Task(null, login_userID, task.getTaskId(), 0, null, null,0);

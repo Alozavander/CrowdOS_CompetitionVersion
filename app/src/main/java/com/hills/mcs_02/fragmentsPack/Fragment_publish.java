@@ -14,8 +14,8 @@ import androidx.fragment.app.Fragment;
 
 import com.hills.mcs_02.For_test;
 import com.hills.mcs_02.R;
-import com.hills.mcs_02.activities.Activity_publish_basictask_1;
-import com.hills.mcs_02.activities.Activity_publish_sensortask_2;
+import com.hills.mcs_02.activities.ActivityPublishBasictask;
+import com.hills.mcs_02.activities.ActivityPublishSensortask;
 import com.hills.mcs_02.dataBeans.Bean_ListView_publish;
 import com.hills.mcs_02.viewsAdapters.Adapter_ListView_publish;
 
@@ -130,11 +130,11 @@ public class Fragment_publish extends Fragment {
                     //跳转到基础发布页面
                     switch (position){
                         case 0:
-                            Intent intent = new Intent(getContext(), Activity_publish_basictask_1.class);
+                            Intent intent = new Intent(getContext(), ActivityPublishBasictask.class);
                             startActivity(intent);
                             break;
                         case 1:
-                            Intent intent1 = new Intent(getContext(), Activity_publish_sensortask_2.class);
+                            Intent intent1 = new Intent(getContext(), ActivityPublishSensortask.class);
                             startActivity(intent1);
                             break;
                     }

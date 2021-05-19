@@ -38,12 +38,12 @@ import androidx.fragment.app.FragmentTransaction;
 import com.daimajia.numberprogressbar.NumberProgressBar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.gson.Gson;
-import com.hills.mcs_02.activities.Activity_2rdPage;
+import com.hills.mcs_02.activities.ActivitySecondPage;
 import com.hills.mcs_02.activities.Activity_Task_Detail;
-import com.hills.mcs_02.activities.Activity_editInfo;
-import com.hills.mcs_02.activities.Activity_func_FoodShare;
-import com.hills.mcs_02.activities.Activity_func_sportShare;
-import com.hills.mcs_02.activities.Activity_login;
+import com.hills.mcs_02.activities.ActivityEditInfo;
+import com.hills.mcs_02.activities.ActivityFuncFoodShare;
+import com.hills.mcs_02.activities.ActivityFuncSportShare;
+import com.hills.mcs_02.activities.ActivityLogin;
 import com.hills.mcs_02.activities.SearchActivity;
 import com.hills.mcs_02.dataBeans.Bean_ListView_home;
 import com.hills.mcs_02.dataBeans.Liveness;
@@ -208,7 +208,7 @@ public class MainActivity extends BaseActivity implements For_test {
               navigationView.getMenu().getItem(JudgeFragmentMenuItemIndex(BNV_tag)).setChecked(true);
               BNVIconFresh();
               //跳转到登录页面
-              Intent intent = new Intent(MainActivity.this, Activity_login.class);
+              Intent intent = new Intent(MainActivity.this, ActivityLogin.class);
               startActivity(intent);
             } else {
               if (!BNV_tag.equals("Tag_fragment_remind")) {
@@ -433,14 +433,14 @@ public class MainActivity extends BaseActivity implements For_test {
   //二级页面跳转入口，将二级页面得Tag名称以及处于对应页面ListView的position值作为能够唯一识别的触发条件
   @Override
   public void jump_to_2rdPage(String pageTag, int position) {
-    Intent intent = new Intent(MainActivity.this, Activity_2rdPage.class);
+    Intent intent = new Intent(MainActivity.this, ActivitySecondPage.class);
     intent.putExtra("pageTag", pageTag);
     intent.putExtra("position", position);
     startActivity(intent);
   }
 
   public void jump_to_loginPage() {
-    Intent intent = new Intent(MainActivity.this, Activity_login.class);
+    Intent intent = new Intent(MainActivity.this, ActivityLogin.class);
     startActivity(intent);
   }
 
@@ -457,18 +457,18 @@ public class MainActivity extends BaseActivity implements For_test {
   }
 
   public void jump_to_func_sportActivity() {
-    Intent intent = new Intent(MainActivity.this, Activity_func_sportShare.class);
+    Intent intent = new Intent(MainActivity.this, ActivityFuncSportShare.class);
     startActivity(intent);
   }
 
   public void jump_to_func_foodActivity() {
-    Intent intent = new Intent(MainActivity.this, Activity_func_FoodShare.class);
+    Intent intent = new Intent(MainActivity.this, ActivityFuncFoodShare.class);
     startActivity(intent);
   }
 
   @Override
   public void jump_to_editInfo() {
-    Intent intent = new Intent(MainActivity.this, Activity_editInfo.class);
+    Intent intent = new Intent(MainActivity.this, ActivityEditInfo.class);
     startActivity(intent);
   }
 

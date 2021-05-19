@@ -14,7 +14,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.hills.mcs_02.BaseActivity;
 import com.hills.mcs_02.R;
-import com.hills.mcs_02.account.Regex_Verfy;
+import com.hills.mcs_02.account.RegexVerify;
 import com.hills.mcs_02.dataBeans.Bean_UserAccount;
 import com.hills.mcs_02.dataBeans.User;
 import com.hills.mcs_02.networkClasses.interfacesPack.PostRequest_userRegiste;
@@ -38,7 +38,7 @@ public class Activity_registe extends BaseActivity implements View.OnClickListen
     private Toast mToast;
     private Bean_UserAccount userAccount;
     private String TAG = "LoginPage";
-    private Regex_Verfy regex_verfy;
+    private RegexVerify regexVerify;
     private TextView username_error_tv;
     private TextView pwd_error_tv;
     private boolean[] verfy_booleans;
@@ -74,7 +74,7 @@ public class Activity_registe extends BaseActivity implements View.OnClickListen
         registe_pwd_confirm_et = findViewById(R.id.activity_registe_password_confirm);
         username_error_tv = findViewById(R.id.activity_registe_username_error_tv);
         pwd_error_tv = findViewById(R.id.activity_registe_pwd_error_tv);
-        regex_verfy = new Regex_Verfy();
+        regexVerify = new RegexVerify();
         verfy_booleans = new boolean[]{false, false, false};
 
         //监听账户是否设置为正确格式
@@ -91,7 +91,7 @@ public class Activity_registe extends BaseActivity implements View.OnClickListen
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(! regex_verfy.registe_username_verfy(s.toString())){
+                if(! regexVerify.registerUsernameVerfy(s.toString())){
                     username_error_tv.setVisibility(View.VISIBLE);
                     username_error_tv.setText(getResources().getString(R.string.format_reminder_name));
                     verfy_booleans[0] = false;
@@ -117,7 +117,7 @@ public class Activity_registe extends BaseActivity implements View.OnClickListen
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(! regex_verfy.registe_username_verfy(s.toString())){
+                if(! regexVerify.registerUsernameVerfy(s.toString())){
                     pwd_error_tv.setVisibility(View.VISIBLE);
                     pwd_error_tv.setText(getResources().getString(R.string.format_reminder_name));
                     verfy_booleans[1] = false;
@@ -180,16 +180,16 @@ public class Activity_registe extends BaseActivity implements View.OnClickListen
         switch (view.getId()){
             case R.id.activity_registe_bt:
                 //密码正则验证并注册
-                if(! regex_verfy.registe_username_verfy(registe_username_et.getText().toString()) && regex_verfy.pwd_verfy(registe_pwd_et.getText().toString())){
+                if(! regexVerify.registerUsernameVerfy(registe_username_et.getText().toString()) && regexVerify.pwdVerify(registe_pwd_et.getText().toString())){
                     username_error_tv.setVisibility(View.VISIBLE);
                     username_error_tv.setText(getResources().getString(R.string.format_reminder_name));
                     pwd_error_tv.setVisibility(View.INVISIBLE);
                 }
-                else if(! regex_verfy.pwd_verfy(registe_pwd_et.getText().toString()) && regex_verfy.registe_username_verfy(registe_username_et.getText().toString())) {
+                else if(! regexVerify.pwdVerify(registe_pwd_et.getText().toString()) && regexVerify.registerUsernameVerfy(registe_username_et.getText().toString())) {
                     pwd_error_tv.setVisibility(View.VISIBLE);
                     pwd_error_tv.setText(getResources().getString(R.string.format_reminder_pwd));
                     username_error_tv.setVisibility(View.INVISIBLE);
-                }else if(! regex_verfy.pwd_verfy(registe_pwd_et.getText().toString()) && !regex_verfy.registe_username_verfy(registe_username_et.getText().toString())) {
+                }else if(! regexVerify.pwdVerify(registe_pwd_et.getText().toString()) && !regexVerify.registerUsernameVerfy(registe_username_et.getText().toString())) {
                     pwd_error_tv.setVisibility(View.VISIBLE);
                     pwd_error_tv.setText(getResources().getString(R.string.format_reminder_pwd));
                     username_error_tv.setVisibility(View.VISIBLE);

@@ -37,9 +37,9 @@
         android:roundIcon="@drawable/appicon1"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.Activity_mine_minor5_sensorData_Delete"></activity>
+        <activity android:name=".activities.ActivityMineMinor5SensorDataDelete"></activity>
         <activity android:name=".activities.Activity_mine_minor5_sensorData_sensorContent" />
-        <activity android:name=".activities.Activity_mine_minor5_sensorData" />
+        <activity android:name=".activities.ActivityMineMinor5SensorData" />
         <activity android:name=".activities.Activity_publish_sensortask_2" />
         <activity android:name=".activities.Activity_pwdFind" />
         <activity android:name=".EmailRegiste.Activity_EmailRegister_PasswordSet" />
@@ -68,12 +68,12 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".activities.Activity_2rdPage"
+            android:name=".activities.ActivitySecondPage"
             android:label="@string/title_activity_2rd_page"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".activities.Activity_login"
+            android:name=".activities.ActivityLogin"
             android:label="@string/title_activity_login"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
@@ -83,7 +83,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".activities.Activity_func_sportShare"
+            android:name=".activities.ActivityFuncSportShare"
             android:label="Activity_func_sportShare"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
@@ -93,7 +93,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".activities.Activity_editInfo"
+            android:name=".activities.ActivityEditInfo"
             android:label="Activity_editInfo"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
@@ -103,7 +103,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".activities.Activity_mine_minor1_publish"
+            android:name=".activities.ActivityMineMinor1Publish"
             android:label="Activity_mine_minor1_publish"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
@@ -123,22 +123,22 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".activities.Activity_gridPage"
+            android:name=".activities.ActivityGridPage"
             android:label="Activity_gridPage"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".activities.Activity_mine_minor4_wallet"
+            android:name=".activities.ActivityMineMinor4Wallet"
             android:label="Activity_mine_minor4_wallet"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".activities.Activity_editInfo_detail"
+            android:name=".activities.ActivityEditInfoDetail"
             android:label="Activity_editInfo_detail"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".activities.Activity_mine_minor2_accepted"
+            android:name=".activities.ActivityMineMinor2Accepted"
             android:label="Activity_mine_minor2_accepted"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
