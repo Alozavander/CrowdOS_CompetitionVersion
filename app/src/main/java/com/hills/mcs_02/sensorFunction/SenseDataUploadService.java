@@ -147,11 +147,11 @@ public class SenseDataUploadService extends Service {
         String postTask = gson.toJson(lSensor_detail);
         RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), postTask);
         //构建MultipartBody类，完成网络上传操作后续就与普通的Retrofit操作类似
-        MultipartBody.Part body = MultipartBody.Part.createFormData("file", pSaveFile.getName(), RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), ""));
+        MultipartBody.Part body = MultipartBody.Part.createFormData("file", pSaveFile.getName(), RequestBody.create(okhttp3.MediaType.parse("file/*"), pSaveFile));
         //创建Retrofit实例
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(getResources().getString(R.string.base_url)).addConverterFactory(GsonConverterFactory.create()).build();
+        //Retrofit retrofit = new Retrofit.Builder().baseUrl(getResources().getString(R.string.base_url)).addConverterFactory(GsonConverterFactory.create()).build();
         //TestUpload
-        //Retrofit retrofit = new Retrofit.Builder().baseUrl("http://10.0.2.2:10101/").addConverterFactory(GsonConverterFactory.create()).build();
+        Retrofit retrofit = new Retrofit.Builder().baseUrl("http://10.0.2.2:10101/").addConverterFactory(GsonConverterFactory.create()).build();
         //创建网络接口实例
         PostRequest_SensorDetail_UploadService request = retrofit.create(PostRequest_SensorDetail_UploadService.class);
         Call<ResponseBody> call = request.uploadSensorMessage(requestBody, body);

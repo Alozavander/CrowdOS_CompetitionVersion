@@ -37,6 +37,7 @@ public class FileExport {
             bfw = new BufferedWriter(fw);
             if (rowCount > 0) {
                 c.moveToFirst();
+                //csv文件写入列名
                 for (int i = 0; i < colCount; i++) {
                     if (i != colCount - 1)
                         bfw.write(c.getColumnName(i) + ',');
@@ -93,13 +94,6 @@ public class FileExport {
             bfw = new BufferedWriter(fw);
             if (rowCount > 0) {
                 c.moveToFirst();
-                for (int i = 0; i < colCount; i++) {
-                    if (i != colCount - 1)
-                        bfw.write(c.getColumnName(i) + ',');
-                    else
-                        bfw.write(c.getColumnName(i));
-                }
-                bfw.newLine();
                 // 写入数据
                 for (int i = 0; i < rowCount; i++) {
                     c.moveToPosition(i);
