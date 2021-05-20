@@ -59,7 +59,6 @@ public class FileExport {
                     }
                     bfw.newLine();
                 }
-                Log.v("数据导出","文件导出结束，共导出了"+rowCount+"条数据");
             }
             bfw.flush();
             bfw.close();
@@ -74,6 +73,59 @@ public class FileExport {
     }
 
     public static File ExportToTextForEachSensor(Cursor c, String fileName,String pParentFileName) {
-        return new File("");
+        if(pParentFileName!=null) sParentFileName = pParentFileName;
+        if(fileName!=null) sFileName = fileName;
+        int rowCount = 0;
+        int colCount = 0;
+        FileWriter fw;
+        BufferedWriter bfw;
+        File sdCardDir = Environment.getExternalStorageDirectory();
+        File parentFile = new File(sdCardDir, sParentFileName);
+        if(!parentFile.exists()) parentFile.mkdirs();
+        File saveFile = new File(parentFile, sFileName);
+        if(saveFile.exists() && saveFile.isFile()) {
+            saveFile.delete();
+        }
+        try {
+            rowCount = c.getCount();
+            colCount = c.getColumnCount();
+            fw = new FileWriter(saveFile);
+            bfw = new BufferedWriter(fw);
+            if (rowCount > 0) {
+                c.moveToFirst();
+                for (int i = 0; i < colCount; i++) {
+                    if (i != colCount - 1)
+                        bfw.write(c.getColumnName(i) + ',');
+                    else
+                        bfw.write(c.getColumnName(i));
+                }
+                bfw.newLine();
+                // 写入数据
+                for (int i = 0; i < rowCount; i++) {
+                    c.moveToPosition(i);
+                    bfw.write(c.getString(1) + "/");
+                    //Log.v("数据导出", "导出第" + (i + 1) + "条");
+                    for (int j = 2; j < colCount; j++) {
+                        if (j != colCount - 1)
+                            bfw.write(c.getString(j) + '_');
+                        else {
+                            String tempS = c.getString(j);
+                            if(tempS == null) bfw.write("null");
+                            else bfw.write(tempS);
+                        }
+                    }
+                    bfw.newLine();
+                }
+            }
+            bfw.flush();
+            bfw.close();
+            Log.v("数据导出", "数据导出完成！");
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } finally {
+            c.close();
+        }
+        return saveFile;
     }
 }

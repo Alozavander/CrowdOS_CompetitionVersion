@@ -38,14 +38,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".activities.ActivityMineMinor5SensorDataDelete"></activity>
-        <activity android:name=".activities.Activity_mine_minor5_sensorData_sensorContent" />
+        <activity android:name=".activities.ActivityMineMinor5SensorDataSensorContent" />
         <activity android:name=".activities.ActivityMineMinor5SensorData" />
-        <activity android:name=".activities.Activity_publish_sensortask_2" />
-        <activity android:name=".activities.Activity_pwdFind" />
+        <activity android:name=".activities.ActivityPublishSensortask" />
+        <activity android:name=".activities.ActivityPwdFind" />
         <activity android:name=".EmailRegiste.Activity_EmailRegister_PasswordSet" />
         <activity android:name=".EmailRegiste.Activity_EmailRegister" />
         <activity
-            android:name=".activities.Activity_publish_basictask_1"
+            android:name=".activities.ActivityPublishBasictask"
             android:screenOrientation="portrait" />
         <activity android:name=".TestActivity" />
         <activity
@@ -98,7 +98,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".activities.Activity_Task_Detail_Published"
+            android:name=".activities.ActivityTaskDetailPublished"
             android:label="Activity_Task_Detail_Published"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
@@ -108,17 +108,17 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".activities.Activity_mine_setting_general"
+            android:name=".activities.ActivityMineSettingGeneral"
             android:label="Activity_mine_setting_general"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".activities.Activity_mine_setting_general_multilan"
+            android:name=".activities.ActivityMineSettingGeneralMultilan"
             android:label="Activity_mine_setting_general_multilan"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".activities.Activity_mine_minor7_setting"
+            android:name=".activities.ActivityMineMinor7Setting"
             android:label="Activity_mine_minor7_setting"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />

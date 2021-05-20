@@ -1,29 +1,13 @@
 package com.hills.mcs_02.activities;
 
-import com.google.gson.Gson;
-
-import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
-import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-
-
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-<<<<<<< HEAD:app/src/main/java/com/hills/mcs_02/activities/Activity_login.java
 import android.os.Build;
 import android.os.Bundle;
-=======
->>>>>>> 2e6c2ad0068725ce46b2949ae0acaa989950454e:app/src/main/java/com/hills/mcs_02/activities/ActivityLogin.java
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -32,19 +16,24 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.hills.mcs_02.account.RegexVerify;
+import com.google.gson.Gson;
 import com.hills.mcs_02.BaseActivity;
+import com.hills.mcs_02.EmailRegiste.Activity_EmailRegister;
+import com.hills.mcs_02.R;
+import com.hills.mcs_02.account.RegexVerify;
 import com.hills.mcs_02.dataBeans.Bean_UserAccount;
 import com.hills.mcs_02.dataBeans.User;
-import com.hills.mcs_02.EmailRegiste.Activity_EmailRegister;
 import com.hills.mcs_02.networkClasses.interfacesPack.PostRequest_userAuth;
-<<<<<<< HEAD:app/src/main/java/com/hills/mcs_02/activities/Activity_login.java
 import com.hills.mcs_02.sensorFunction.SenseDataUploadService;
-=======
-import com.hills.mcs_02.R;
 
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
->>>>>>> 2e6c2ad0068725ce46b2949ae0acaa989950454e:app/src/main/java/com/hills/mcs_02/activities/ActivityLogin.java
 
 
 public class ActivityLogin extends BaseActivity implements View.OnClickListener, View.OnFocusChangeListener,TextWatcher{
@@ -304,7 +293,7 @@ public class ActivityLogin extends BaseActivity implements View.OnClickListener,
                         editor.putString("userName", user.getUserName());
                         editor.commit();
                         //开启手机数据的service
-                        Intent lIntent = new Intent(Activity_login.this, SenseDataUploadService.class);
+                        Intent lIntent = new Intent(ActivityLogin.this, SenseDataUploadService.class);
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                             startForegroundService(lIntent);
                         } else {

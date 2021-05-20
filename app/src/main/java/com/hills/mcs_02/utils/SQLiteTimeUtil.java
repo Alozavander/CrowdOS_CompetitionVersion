@@ -1,5 +1,7 @@
 package com.hills.mcs_02.utils;
 
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 public class SQLiteTimeUtil {
@@ -46,4 +48,11 @@ public class SQLiteTimeUtil {
         }
         return new String[]{startTime,endTime};
     }
+
+    public static String getCurrentTimeNoSpaceAndMaoHao(){
+        Date date = new Date(System.currentTimeMillis());
+        SimpleDateFormat lFormat = new SimpleDateFormat("yyyy-MM-dd_hh-mm-ss");
+        return lFormat.format(date);
+    }
+
 }

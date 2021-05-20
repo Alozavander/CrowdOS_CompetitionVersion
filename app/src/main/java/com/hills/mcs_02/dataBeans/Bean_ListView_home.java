@@ -46,6 +46,9 @@ public class Bean_ListView_home {
     }
 
     public String getPostTime() {
+        if (task.getPostTime()==null){
+            return "";
+        }
         return new SimpleDateFormat("yyyy.MM.dd").format(task.getPostTime());
     }
 
@@ -70,6 +73,9 @@ public class Bean_ListView_home {
     }
 
     public String getDeadline() {
+        if (task.getPostTime()==null){
+            return "";
+        }
         return new SimpleDateFormat("yyyy.MM.dd").format(task.getDeadLine());
     }
 

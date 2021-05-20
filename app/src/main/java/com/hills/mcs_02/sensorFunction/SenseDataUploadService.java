@@ -15,7 +15,6 @@ import androidx.annotation.Nullable;
 
 import com.google.gson.Gson;
 import com.hills.mcs_02.MainActivity;
-import com.hills.mcs_02.R;
 import com.hills.mcs_02.StringStore;
 import com.hills.mcs_02.dataBeans.Sensor_Detail;
 import com.hills.mcs_02.networkClasses.interfacesPack.PostRequest_SensorDetail_UploadService;
@@ -121,8 +120,9 @@ public class SenseDataUploadService extends Service {
                 whereClaus, new String[]{i+"", pStartTime, pEndTime}, null, null, null);
             if (cursor.getCount()>0){
                 Log.i(TAG,"There has " + cursor.getCount() + " data for sensor " + i);
-                File saveFile = FileExport.ExportToCSV(cursor,null, null);
+                File saveFile = FileExport.ExportToTextForEachSensor(cursor,i+"_"+SQLiteTimeUtil.getCurrentTimeNoSpaceAndMaoHao()+".txt", null);
                 Log.i(TAG,"The sensor data file size is " + saveFile.length());
+                if(saveFile==null) continue;
                 //使用线程池中的线程执行uploadFile任务
                 ThreadPool.execute(new Runnable() {
                     @Override
@@ -146,14 +146,16 @@ public class SenseDataUploadService extends Service {
         Gson gson = new Gson();
         String postTask = gson.toJson(lSensor_detail);
         RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), postTask);
-        //通过已经复写的能够监视进度的requestBody构建MultipartBody类，完成网络上传操作后续就与普通的Retrofit操作类似
+        //构建MultipartBody类，完成网络上传操作后续就与普通的Retrofit操作类似
         MultipartBody.Part body = MultipartBody.Part.createFormData("file", pSaveFile.getName(), RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), ""));
         //创建Retrofit实例
         Retrofit retrofit = new Retrofit.Builder().baseUrl(getResources().getString(R.string.base_url)).addConverterFactory(GsonConverterFactory.create()).build();
+        //TestUpload
+        //Retrofit retrofit = new Retrofit.Builder().baseUrl("http://10.0.2.2:10101/").addConverterFactory(GsonConverterFactory.create()).build();
         //创建网络接口实例
         PostRequest_SensorDetail_UploadService request = retrofit.create(PostRequest_SensorDetail_UploadService.class);
         Call<ResponseBody> call = request.uploadSensorMessage(requestBody, body);
-        Log.i(TAG, postTask);
+        Log.i(TAG, "The Upload URL is: "+call.request().url() + "\n The content is:" + postTask);
 
         call.enqueue(new Callback<ResponseBody>() {
             @Override
