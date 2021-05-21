@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.hills.mcs_02.fragmentsPack.MCS_RecyclerItemClickListener;
+import com.hills.mcs_02.fragmentsPack.MCSRecyclerItemClickListener;
 import com.hills.mcs_02.R;
 import com.hills.mcs_02.SenseDataDisplay.SQLiteDataDisplay;
 import com.hills.mcs_02.StringStore;
@@ -62,7 +62,7 @@ public class ActivityMineMinor5SensorDataSensorContent extends AppCompatActivity
         mRecyclerView = findViewById(R.id.setting_sensorData_sensorContent_rv);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this,RecyclerView.VERTICAL,false));
         mAdapter = new Adapter_RecyclerView_setting_sensorData(this,mList);
-        mAdapter.setRecyclerItemClickListener(new MCS_RecyclerItemClickListener() {
+        mAdapter.setRecyclerItemClickListener(new MCSRecyclerItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 //添加跳转事件

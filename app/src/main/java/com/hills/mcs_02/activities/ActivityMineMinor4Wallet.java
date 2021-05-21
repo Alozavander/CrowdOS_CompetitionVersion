@@ -25,8 +25,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.hills.mcs_02.BaseActivity;
 import com.hills.mcs_02.dataBeans.Bean_RecyclerView_mine_minor4_wallet;
 import com.hills.mcs_02.dataBeans.User;
-import com.hills.mcs_02.networkClasses.interfacesPack.GetRequest_User_Coins_RankList;
-import com.hills.mcs_02.networkClasses.interfacesPack.PostRequest_User_Coins;
+import com.hills.mcs_02.networkClasses.interfacesPack.GetRequestUserCoinsRankList;
+import com.hills.mcs_02.networkClasses.interfacesPack.PostRequestUserCoins;
 import com.hills.mcs_02.R;
 import com.hills.mcs_02.viewsAdapters.Adapter_recyclerview_mine_minor4_wallet;
 
@@ -76,9 +76,9 @@ public class ActivityMineMinor4Wallet extends BaseActivity {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         //创建网络接口实例
-        PostRequest_User_Coins requestUserCoins = retrofit.create(PostRequest_User_Coins.class);
+        PostRequestUserCoins requestUserCoins = retrofit.create(PostRequestUserCoins.class);
         //包装发送请求
-        Call<ResponseBody> call = requestUserCoins.User_Coins(Integer.parseInt(userID));
+        Call<ResponseBody> call = requestUserCoins.userCoins(Integer.parseInt(userID));
 
         //异步网络请求
         call.enqueue(new Callback<ResponseBody>() {
@@ -115,7 +115,8 @@ public class ActivityMineMinor4Wallet extends BaseActivity {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         //创建网络接口实例
-        GetRequest_User_Coins_RankList requestUserCoinsRankList = retrofit.create(GetRequest_User_Coins_RankList.class);
+        GetRequestUserCoinsRankList requestUserCoinsRankList = retrofit.create(
+            GetRequestUserCoinsRankList.class);
         //包装发送请求
         Call<ResponseBody> call = requestUserCoinsRankList.getCall();
 

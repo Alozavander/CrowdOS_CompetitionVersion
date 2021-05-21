@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.hills.mcs_02.R;
 import com.hills.mcs_02.dataBeans.Bean_Combine_u_ut;
-import com.hills.mcs_02.fragmentsPack.MCS_RecyclerItemClickListener;
+import com.hills.mcs_02.fragmentsPack.MCSRecyclerItemClickListener;
 
 import java.io.File;
 import java.util.List;
@@ -26,7 +26,7 @@ public class Adapter_RecyclerView_Published_TaskDetail extends RecyclerView.Adap
     private List<Bean_Combine_u_ut> mBeanCombine_uuts;
     private LayoutInflater mInflater;
     private Context mContext;
-    private MCS_RecyclerItemClickListener mListener;
+    private MCSRecyclerItemClickListener mListener;
 
     public Adapter_RecyclerView_Published_TaskDetail() {
         super();
@@ -135,10 +135,10 @@ public class Adapter_RecyclerView_Published_TaskDetail extends RecyclerView.Adap
         private TextView taskContent_tv;
         private ImageView imageView_1;
         private TextView moreData_tv;
-        private MCS_RecyclerItemClickListener m_MCS_recyclerItemClickListener;
+        private MCSRecyclerItemClickListener m_MCS_recyclerItemClickListener;
 
 
-        public PublishedTask_Detail_ViewHolder(@NonNull View itemView, MCS_RecyclerItemClickListener listener) {
+        public PublishedTask_Detail_ViewHolder(@NonNull View itemView, MCSRecyclerItemClickListener listener) {
             super(itemView);
             //对viewHolder的属性进行赋值
             userIcon_iv = (ImageView) itemView.findViewById(R.id.published_taskDetail_tasklv_userIcon);
@@ -160,7 +160,7 @@ public class Adapter_RecyclerView_Published_TaskDetail extends RecyclerView.Adap
     }
 
     //设置接口
-    public void setRecyclerItemClickListener(MCS_RecyclerItemClickListener listener) {
+    public void setRecyclerItemClickListener(MCSRecyclerItemClickListener listener) {
         this.mListener = listener;
     }
 

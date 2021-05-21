@@ -32,7 +32,7 @@ import com.hills.mcs_02.dataBeans.Bean_Combine_u_ut;
 import com.hills.mcs_02.dataBeans.Combine_u_ut;
 import com.hills.mcs_02.dataBeans.Task;
 import com.hills.mcs_02.downloadPack.DownloadImageUtils;
-import com.hills.mcs_02.networkClasses.interfacesPack.PostRequest_published_task_detail;
+import com.hills.mcs_02.networkClasses.interfacesPack.PostRequestPublishedTaskDetail;
 import com.hills.mcs_02.R;
 import com.hills.mcs_02.viewsAdapters.Adapter_RecyclerView_Published_TaskDetail;
 
@@ -204,11 +204,11 @@ public class ActivityTaskDetailPublished extends BaseActivity {
                 .build();
 
         //创建网络接口实例
-        PostRequest_published_task_detail request = retrofit.create(PostRequest_published_task_detail.class);
+        PostRequestPublishedTaskDetail request = retrofit.create(PostRequestPublishedTaskDetail.class);
 
 
         //包装发送请求
-        Call<ResponseBody> call = request.check_Combine_u_ut(task.getTaskId());
+        Call<ResponseBody> call = request.checkUserTaskWithUsername(task.getTaskId());
 
         final Context context = this;
 

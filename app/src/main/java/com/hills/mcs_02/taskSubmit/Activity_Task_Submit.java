@@ -39,9 +39,9 @@ import com.hills.mcs_02.RequestCodes;
 import com.hills.mcs_02.StringStore;
 import com.hills.mcs_02.dataBeans.Familiar_Sensor;
 import com.hills.mcs_02.dataBeans.User_Task;
-import com.hills.mcs_02.networkClasses.interfacesPack.PostRequest_taskSubmit;
-import com.hills.mcs_02.networkClasses.interfacesPack.PostRequest_taskSubmit_FamiliarFiles;
-import com.hills.mcs_02.networkClasses.interfacesPack.PostRequest_taskSubmit_files;
+import com.hills.mcs_02.networkClasses.interfacesPack.PostRequestTaskSubmit;
+import com.hills.mcs_02.networkClasses.interfacesPack.PostRequestTaskSubmitFamiliarFiles;
+import com.hills.mcs_02.networkClasses.interfacesPack.PostRequestTaskSubmitFiles;
 import com.hills.mcs_02.sensorFunction.SenseFunction;
 import com.hills.mcs_02.taskSubmit.uploadPack.ProgressRequestBody;
 import com.hills.mcs_02.taskSubmit.uploadPack.UploadCallbacks;
@@ -340,10 +340,11 @@ public class Activity_Task_Submit extends BaseActivity {
                         //测试用url
                         //Retrofit retrofit = new Retrofit.Builder().baseUrl("http://192.168.43.60:8889/").addConverterFactory(GsonConverterFactory.create()).build();
                         //创建网络接口实例
-                        PostRequest_taskSubmit_FamiliarFiles subRequest = retrofit.create(PostRequest_taskSubmit_FamiliarFiles.class);
+                        PostRequestTaskSubmitFamiliarFiles subRequest = retrofit.create(
+                            PostRequestTaskSubmitFamiliarFiles.class);
                         //创建RequestBody
                         RequestBody contentBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), postContent);
-                        Call<ResponseBody> call = subRequest.task_submit(contentBody, body);
+                        Call<ResponseBody> call = subRequest.taskSubmit(contentBody, body);
                         Log.i(TAG, "post Content of sensor data files request body: " + postContent);
 
                         call.enqueue(new Callback<ResponseBody>() {
@@ -410,10 +411,11 @@ public class Activity_Task_Submit extends BaseActivity {
                     Retrofit retrofit = new Retrofit.Builder().baseUrl(getResources().getString(R.string.base_url)).addConverterFactory(GsonConverterFactory.create()).build();
                     //Retrofit retrofit = new Retrofit.Builder().baseUrl("http://192.168.43.60:8889/").addConverterFactory(GsonConverterFactory.create()).build();
                     //创建网络接口实例
-                    PostRequest_taskSubmit_files subRequest = retrofit.create(PostRequest_taskSubmit_files.class);
+                    PostRequestTaskSubmitFiles subRequest = retrofit.create(
+                        PostRequestTaskSubmitFiles.class);
                     //创建RequestBody
                     RequestBody contentBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), postContent);
-                    Call<ResponseBody> call = subRequest.task_submit(contentBody, body);
+                    Call<ResponseBody> call = subRequest.taskSubmit(contentBody, body);
                     Log.i(TAG, postContent);
                     call.enqueue(new Callback<ResponseBody>() {
                         @Override
@@ -477,10 +479,11 @@ public class Activity_Task_Submit extends BaseActivity {
                     Retrofit retrofit = new Retrofit.Builder().baseUrl(getResources().getString(R.string.base_url)).addConverterFactory(GsonConverterFactory.create()).build();
                     //Retrofit retrofit = new Retrofit.Builder().baseUrl("http://192.168.43.60:8889/").addConverterFactory(GsonConverterFactory.create()).build();
                     //创建网络接口实例
-                    PostRequest_taskSubmit_files subRequest = retrofit.create(PostRequest_taskSubmit_files.class);
+                    PostRequestTaskSubmitFiles subRequest = retrofit.create(
+                        PostRequestTaskSubmitFiles.class);
                     //创建RequestBody
                     RequestBody contentBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), postContent);
-                    Call<ResponseBody> call = subRequest.task_submit(contentBody, body);
+                    Call<ResponseBody> call = subRequest.taskSubmit(contentBody, body);
                     Log.i(TAG, postContent);
 
                     call.enqueue(new Callback<ResponseBody>() {
@@ -545,10 +548,11 @@ public class Activity_Task_Submit extends BaseActivity {
                     Retrofit retrofit = new Retrofit.Builder().baseUrl(getResources().getString(R.string.base_url)).addConverterFactory(GsonConverterFactory.create()).build();
                     //Retrofit retrofit = new Retrofit.Builder().baseUrl("http://192.168.43.60:8889/").addConverterFactory(GsonConverterFactory.create()).build();
                     //创建网络接口实例
-                    PostRequest_taskSubmit_files subRequest = retrofit.create(PostRequest_taskSubmit_files.class);
+                    PostRequestTaskSubmitFiles subRequest = retrofit.create(
+                        PostRequestTaskSubmitFiles.class);
                     //创建RequestBody
                     RequestBody contentBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), postContent);
-                    Call<ResponseBody> call = subRequest.task_submit(contentBody, body);
+                    Call<ResponseBody> call = subRequest.taskSubmit(contentBody, body);
                     Log.i(TAG, postContent);
 
                     call.enqueue(new Callback<ResponseBody>() {
@@ -672,10 +676,10 @@ public class Activity_Task_Submit extends BaseActivity {
             Retrofit retrofit = new Retrofit.Builder().baseUrl(getResources().getString(R.string.base_url)).addConverterFactory(GsonConverterFactory.create()).build();
             //Retrofit retrofit = new Retrofit.Builder().baseUrl("http://192.168.43.60:8889/").addConverterFactory(GsonConverterFactory.create()).build();
             //创建网络接口实例
-            PostRequest_taskSubmit subRequest = retrofit.create(PostRequest_taskSubmit.class);
+            PostRequestTaskSubmit subRequest = retrofit.create(PostRequestTaskSubmit.class);
             //创建RequestBody
             RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), postContent);
-            Call<ResponseBody> call = subRequest.task_submit(requestBody);
+            Call<ResponseBody> call = subRequest.taskSubmit(requestBody);
             Log.i(TAG, postContent);
             call.enqueue(new Callback<ResponseBody>() {
                 @Override

@@ -18,12 +18,12 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.hills.mcs_02.BaseActivity;
-import com.hills.mcs_02.EmailRegiste.Activity_EmailRegister;
+import com.hills.mcs_02.EmailRegiste.ActivityEmailRegister;
 import com.hills.mcs_02.R;
 import com.hills.mcs_02.account.RegexVerify;
 import com.hills.mcs_02.dataBeans.Bean_UserAccount;
 import com.hills.mcs_02.dataBeans.User;
-import com.hills.mcs_02.networkClasses.interfacesPack.PostRequest_userAuth;
+import com.hills.mcs_02.networkClasses.interfacesPack.PostRequestUserAuth;
 import com.hills.mcs_02.sensorFunction.SenseDataUploadService;
 
 import okhttp3.RequestBody;
@@ -149,7 +149,7 @@ public class ActivityLogin extends BaseActivity implements View.OnClickListener,
                 break;
             case R.id.bt_login_register:
                 //注册
-                startActivity(new Intent(ActivityLogin.this, Activity_EmailRegister.class));
+                startActivity(new Intent(ActivityLogin.this, ActivityEmailRegister.class));
                 break;
             case R.id.tv_login_forget_pwd:
                 //找回密码
@@ -263,7 +263,7 @@ public class ActivityLogin extends BaseActivity implements View.OnClickListener,
         //For test
         //Retrofit retrofit = new Retrofit.Builder().baseUrl("http://192.168.43.75:8889/").addConverterFactory(GsonConverterFactory.create()).build();
         RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),postContent);
-        PostRequest_userAuth login = retrofit.create(PostRequest_userAuth.class);
+        PostRequestUserAuth login = retrofit.create(PostRequestUserAuth.class);
         Call<ResponseBody> call = login.userLogin(requestBody);
 
 

@@ -9,12 +9,13 @@ import java.util.Date;
 import java.util.Properties;
 
 import javax.mail.Authenticator;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.mail.Message;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
+
 
 public class SendEmail {
     // 邮件发送协议，有"smtp"
@@ -28,9 +29,9 @@ public class SendEmail {
     // 是否启用调试模式（启用调试模式可打印客户端与服务器交互过程时一问一答的响应消息）
     private String IS_ENABLED_DEBUG_MOD = "true";
     // 发件人
-    private String email_sender;
+    private String emailSender;
     // 收件人
-    private String email_recipient;
+    private String emailRecipient;
     // 初始化连接邮件服务器的会话信息
     private Properties props;
 
@@ -42,9 +43,9 @@ public class SendEmail {
 
 
     //默认使用smtp和163邮箱格式，端口使用25，注意password不是邮箱密码而是授权码。默认发件人和用户名一样，如若需要，可调用setEmail_sender方法重置。
-    public SendEmail(String pEmail_recipient,String pUsername,String pPassword){
-        email_sender = pUsername;
-        email_recipient = pEmail_recipient;
+    public SendEmail(String pEmailRecipient,String pUsername,String pPassword){
+        emailSender = pUsername;
+        emailRecipient = pEmailRecipient;
         mUsername = pUsername;
         mPassword = pPassword;
         props = new Properties();
@@ -56,9 +57,9 @@ public class SendEmail {
     }
 
     //可自定义协议和对应服务器以及端口
-    public SendEmail(String pEmail_recipient,String pUsername,String pPassword,String pPROTOCOL,String pHOST,String pPORT){
-        email_sender = pUsername;
-        email_recipient = pEmail_recipient;
+    public SendEmail(String pEmailRecipient,String pUsername,String pPassword,String pPROTOCOL,String pHOST,String pPORT){
+        emailSender = pUsername;
+        emailRecipient = pEmailRecipient;
         mUsername = pUsername;
         mPassword = pPassword;
         PROTOCOL = pPROTOCOL;
@@ -72,8 +73,8 @@ public class SendEmail {
         props.setProperty("mail.debug", IS_ENABLED_DEBUG_MOD);
     }
 
-    public void setEmail_sender(String pEmail_sender) {
-        email_sender = pEmail_sender;
+    public void setEmailSender(String pEmailSender) {
+        emailSender = pEmailSender;
     }
 
     /*
@@ -89,11 +90,11 @@ public class SendEmail {
         // 创建MimeMessage实例对象
         MimeMessage message = new MimeMessage(session);
         // 设置发件人
-        message.setFrom(new InternetAddress(email_sender));
+        message.setFrom(new InternetAddress(emailSender));
         // 设置邮件主题
         message.setSubject(subject);
         // 设置收件人
-        message.setRecipient(Message.RecipientType.TO, new InternetAddress(email_recipient));
+        message.setRecipient(Message.RecipientType.TO, new InternetAddress(emailRecipient));
         // 设置发送时间
         message.setSentDate(new Date());
         // 设置纯文本内容为邮件正文
@@ -127,11 +128,11 @@ public class SendEmail {
         // 设置邮件主题
         message.setSubject(subject);
         // 设置发送人
-        message.setFrom(new InternetAddress(email_sender));
+        message.setFrom(new InternetAddress(emailSender));
         // 设置发送时间
         message.setSentDate(new Date());
         // 设置收件人
-        message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email_recipient));
+        message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(emailRecipient));
         // 设置html内容为邮件正文，指定MIME类型为text/html类型，并指定字符编码为gbk
         message.setContent("<span style='color:blue;'>" + content + "</span>"+"<span style='color:red;'>"+ code+"</span>",
                 "text/html;charset=gbk");

@@ -22,10 +22,9 @@ import android.widget.Toast;
 
 import com.hills.mcs_02.BaseActivity;
 import com.hills.mcs_02.R;
-import com.hills.mcs_02.func_sportsShare.beans.func_sportShare_BaseBean;
-import com.hills.mcs_02.func_sportsShare.beans.func_sportShare_stepShareListBean;
-import com.hills.mcs_02.func_sportsShare.Func_sportShare_Adapter;
-import com.hills.mcs_02.func_sportsShare.StepService;
+import com.hills.mcs_02.func_sportsShare.beans.FuncSportShareBaseBean;
+import com.hills.mcs_02.func_sportsShare.beans.FuncSportShareStepShareListBean;
+import com.hills.mcs_02.func_sportsShare.FuncSportShareAdapter;
 import com.hills.mcs_02.func_sportsShare.UpdateUiCallBack;
 
 
@@ -38,14 +37,14 @@ public class ActivityFuncSportShare extends BaseActivity {
 
     private RecyclerView infoRv;
     private SwipeRefreshLayout swipeRefreshLayout;
-    private Func_sportShare_Adapter recyclerAdapter;
-    private List<func_sportShare_BaseBean> beanList;
+    private FuncSportShareAdapter recyclerAdapter;
+    private List<FuncSportShareBaseBean> beanList;
 
 
     private TextView stepCountTv;
     private Handler handler;
     private Boolean isBind;
-    private StepService stepService;
+    private com.hills.mcs_02.func_sportsShare.stepService stepService;
     //和绷定服务数据交换的桥梁，可以通过IBinder service获取服务的实例来调用服务的方法或者数据
     private ServiceConnection serviceConnection;
 
@@ -93,7 +92,7 @@ public class ActivityFuncSportShare extends BaseActivity {
         serviceConnection = new ServiceConnection() {
             @Override
             public void onServiceConnected(ComponentName name, IBinder service) {
-                StepService.LcBinder lcBinder = (StepService.LcBinder) service;
+                com.hills.mcs_02.func_sportsShare.stepService.LcBinder lcBinder = (com.hills.mcs_02.func_sportsShare.stepService.LcBinder) service;
                 stepService = lcBinder.getService();
                 stepService.registerCallback(new UpdateUiCallBack() {
                     @Override
@@ -115,7 +114,7 @@ public class ActivityFuncSportShare extends BaseActivity {
         };
 
         Log.i(TAG,"准备开启计步服务");
-        Intent intent = new Intent(this, StepService.class);
+        Intent intent = new Intent(this, com.hills.mcs_02.func_sportsShare.stepService.class);
         Log.i(TAG,"即将绑计步服务");
         isBind =  bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
         Log.i(TAG,"当前服务绑定情况isBind参数为：" + isBind);
@@ -132,7 +131,7 @@ public class ActivityFuncSportShare extends BaseActivity {
         Log.i(TAG,"初始化分享数据List");
         //Toast.makeText(this,"初始化分享数据List",Toast.LENGTH_SHORT).show();
         initBeanList();
-        recyclerAdapter = new Func_sportShare_Adapter(beanList,this);
+        recyclerAdapter = new FuncSportShareAdapter(beanList,this);
 
         infoRv.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
         infoRv.setAdapter(recyclerAdapter);
@@ -144,14 +143,14 @@ public class ActivityFuncSportShare extends BaseActivity {
     }
 
     private void initBeanList(){
-        beanList = new ArrayList<func_sportShare_BaseBean>();
+        beanList = new ArrayList<FuncSportShareBaseBean>();
         //网络获取预留
         //networkRequestForSportShareInfo();
         //测试用数据
         if(beanList.size() <= 0){
             //beanList.add(new func_sportShare_stepCounter());
             for(int i = 0; i < 10; i++){
-                beanList.add(new func_sportShare_stepShareListBean(R.drawable.cat_usericon + "",
+                beanList.add(new FuncSportShareStepShareListBean(R.drawable.cat_usericon + "",
                     "User" + new Random().nextInt(1200),
                     "2019.1.3.15:55",
                     new Random().nextInt(30000) + ""));
@@ -159,8 +158,8 @@ public class ActivityFuncSportShare extends BaseActivity {
         }
     }
 
-    private List<func_sportShare_BaseBean> networkRequestForSportShareInfo(){
-        List<func_sportShare_BaseBean> list = new ArrayList<func_sportShare_BaseBean>();
+    private List<FuncSportShareBaseBean> networkRequestForSportShareInfo(){
+        List<FuncSportShareBaseBean> list = new ArrayList<FuncSportShareBaseBean>();
 
         /*网络请求更新运动分享数据方法，考虑为更新数组*/
         return beanList;
@@ -179,11 +178,11 @@ public class ActivityFuncSportShare extends BaseActivity {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        List<func_sportShare_BaseBean> headData = new ArrayList<func_sportShare_BaseBean>();
+                        List<FuncSportShareBaseBean> headData = new ArrayList<FuncSportShareBaseBean>();
                         for (int i = 0; i <5 ; i++) {
-                            headData.add(new func_sportShare_stepShareListBean(R.drawable.cat_usericon + "","User" + new Random().nextInt(1200),"2019.1.3.15:55",new Random().nextInt(30000) + ""));
+                            headData.add(new FuncSportShareStepShareListBean(R.drawable.cat_usericon + "","User" + new Random().nextInt(1200),"2019.1.3.15:55",new Random().nextInt(30000) + ""));
                         }
-                        recyclerAdapter.AddHeaderItem(headData);
+                        recyclerAdapter.addHeaderItem(headData);
 
                         //刷新完成
                         swipeRefreshLayout.setRefreshing(false);
@@ -209,11 +208,11 @@ public class ActivityFuncSportShare extends BaseActivity {
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            List<func_sportShare_BaseBean> footerData = new ArrayList<func_sportShare_BaseBean>();
+                            List<FuncSportShareBaseBean> footerData = new ArrayList<FuncSportShareBaseBean>();
                             for (int i = 0; i <5 ; i++) {
-                                footerData.add(new func_sportShare_stepShareListBean(R.drawable.cat_usericon + "","User" + new Random().nextInt(1200),"2019.1.3.15:55",new Random().nextInt(30000) + ""));
+                                footerData.add(new FuncSportShareStepShareListBean(R.drawable.cat_usericon + "","User" + new Random().nextInt(1200),"2019.1.3.15:55",new Random().nextInt(30000) + ""));
                             }
-                            recyclerAdapter.AddFooterItem(footerData);
+                            recyclerAdapter.addFooterItem(footerData);
                             Toast.makeText(ActivityFuncSportShare.this, "更新了 "+footerData.size()+" 条目数据,当前列表有" + beanList.size() + "条数据", Toast.LENGTH_SHORT).show();
                         }
                     }, 3000);

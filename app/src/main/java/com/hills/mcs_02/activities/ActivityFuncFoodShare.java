@@ -17,8 +17,8 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.hills.mcs_02.BaseActivity;
-import com.hills.mcs_02.func_foodShare.Func_foodShareAdapter;
-import com.hills.mcs_02.func_foodShare.beans.func_foodShare_foodShareListBean;
+import com.hills.mcs_02.func_foodShare.FuncFoodShareAdapter;
+import com.hills.mcs_02.func_foodShare.beans.FuncFoodShareFoodShareListBean;
 import com.hills.mcs_02.R;
 
 
@@ -32,8 +32,8 @@ public class ActivityFuncFoodShare extends BaseActivity {
 
     private RecyclerView infoRv;
     private SwipeRefreshLayout swipeRefreshLayout;
-    private Func_foodShareAdapter recyclerAdapter;
-    private List<func_foodShare_foodShareListBean> beanList;
+    private FuncFoodShareAdapter recyclerAdapter;
+    private List<FuncFoodShareFoodShareListBean> beanList;
     private ImageView cameraIM;
 
     @Override
@@ -80,7 +80,7 @@ public class ActivityFuncFoodShare extends BaseActivity {
         Log.i(TAG, "初始化分享数据List");
         //Toast.makeText(this,"初始化分享数据List",Toast.LENGTH_SHORT).show();
         initBeanList();
-        recyclerAdapter = new Func_foodShareAdapter(beanList);
+        recyclerAdapter = new FuncFoodShareAdapter(beanList);
 
         //安装瀑布流布局
         infoRv.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
@@ -93,23 +93,23 @@ public class ActivityFuncFoodShare extends BaseActivity {
     }
 
     private void initBeanList() {
-        beanList = new ArrayList<func_foodShare_foodShareListBean>();
+        beanList = new ArrayList<FuncFoodShareFoodShareListBean>();
         //网络获取预留
         //networkRequestForfoodShareInfo();
         //测试用数据
         if (beanList.size() <= 0) {
             for (int i = 0; i < 10; i++) {
                 if(i % 2 == 0){
-                    beanList.add(new func_foodShare_foodShareListBean(R.drawable.dog_usericon + "", "User" + new Random().nextInt(1200), "曲江这家创意菜很不错呢，晚上是酒吧，中午是饭店哦，推荐兵马俑巧克力~", R.drawable.testphoto_2 + "", "2019.1.3.15:55"));
+                    beanList.add(new FuncFoodShareFoodShareListBean(R.drawable.dog_usericon + "", "User" + new Random().nextInt(1200), "曲江这家创意菜很不错呢，晚上是酒吧，中午是饭店哦，推荐兵马俑巧克力~", R.drawable.testphoto_2 + "", "2019.1.3.15:55"));
                 }else{
-                    beanList.add(new func_foodShare_foodShareListBean(R.drawable.dog_usericon + "", "User" + new Random().nextInt(1200), "图片分享", R.drawable.testphoto_4 + "", "2019.3.3.15:55"));
+                    beanList.add(new FuncFoodShareFoodShareListBean(R.drawable.dog_usericon + "", "User" + new Random().nextInt(1200), "图片分享", R.drawable.testphoto_4 + "", "2019.3.3.15:55"));
                 }
             }
         }
     }
 
-    private List<func_foodShare_foodShareListBean> networkRequestForfoodShareInfo() {
-        List<func_foodShare_foodShareListBean> list = new ArrayList<func_foodShare_foodShareListBean>();
+    private List<FuncFoodShareFoodShareListBean> networkRequestForfoodShareInfo() {
+        List<FuncFoodShareFoodShareListBean> list = new ArrayList<FuncFoodShareFoodShareListBean>();
 
         /*网络请求更新运动分享数据方法，考虑为更新数组*/
         return beanList;
@@ -128,15 +128,15 @@ public class ActivityFuncFoodShare extends BaseActivity {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        List<func_foodShare_foodShareListBean> headDatas = new ArrayList<func_foodShare_foodShareListBean>();
+                        List<FuncFoodShareFoodShareListBean> headDatas = new ArrayList<FuncFoodShareFoodShareListBean>();
                         for (int i = 0; i < 5; i++) {
                             if(i % 2 == 0){
-                                beanList.add(new func_foodShare_foodShareListBean(R.drawable.dog_usericon + "", "User" + new Random().nextInt(1200), "曲江这家创意菜很不错呢，晚上是酒吧，中午是饭店哦，推荐兵马俑巧克力~", R.drawable.testphoto_2 + "", "2019.1.3.15:55"));
+                                beanList.add(new FuncFoodShareFoodShareListBean(R.drawable.dog_usericon + "", "User" + new Random().nextInt(1200), "曲江这家创意菜很不错呢，晚上是酒吧，中午是饭店哦，推荐兵马俑巧克力~", R.drawable.testphoto_2 + "", "2019.1.3.15:55"));
                             }else{
-                                beanList.add(new func_foodShare_foodShareListBean(R.drawable.dog_usericon + "", "User" + new Random().nextInt(1200), "图片分享", R.drawable.testphoto_4 + "", "2019.3.3.15:55"));
+                                beanList.add(new FuncFoodShareFoodShareListBean(R.drawable.dog_usericon + "", "User" + new Random().nextInt(1200), "图片分享", R.drawable.testphoto_4 + "", "2019.3.3.15:55"));
                             }
                         }
-                        recyclerAdapter.AddHeaderItem(headDatas);
+                        recyclerAdapter.addHeaderItem(headDatas);
 
                         //刷新完成
                         swipeRefreshLayout.setRefreshing(false);
@@ -163,15 +163,15 @@ public class ActivityFuncFoodShare extends BaseActivity {
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            List<func_foodShare_foodShareListBean> footerDatas = new ArrayList<func_foodShare_foodShareListBean>();
+                            List<FuncFoodShareFoodShareListBean> footerDatas = new ArrayList<FuncFoodShareFoodShareListBean>();
                             for (int i = 0; i < 5; i++) {
                                 if(i % 2 == 0){
-                                    beanList.add(new func_foodShare_foodShareListBean(R.drawable.dog_usericon + "", "User" + new Random().nextInt(1200), "曲江这家创意菜很不错呢，晚上是酒吧，中午是饭店哦，推荐兵马俑巧克力~", R.drawable.testphoto_2 + "", "2019.1.3.15:55"));
+                                    beanList.add(new FuncFoodShareFoodShareListBean(R.drawable.dog_usericon + "", "User" + new Random().nextInt(1200), "曲江这家创意菜很不错呢，晚上是酒吧，中午是饭店哦，推荐兵马俑巧克力~", R.drawable.testphoto_2 + "", "2019.1.3.15:55"));
                                 }else{
-                                    beanList.add(new func_foodShare_foodShareListBean(R.drawable.dog_usericon + "", "User" + new Random().nextInt(1200), "图片分享", R.drawable.testphoto_4 + "", "2019.3.3.15:55"));
+                                    beanList.add(new FuncFoodShareFoodShareListBean(R.drawable.dog_usericon + "", "User" + new Random().nextInt(1200), "图片分享", R.drawable.testphoto_4 + "", "2019.3.3.15:55"));
                                 }
                             }
-                            recyclerAdapter.AddFooterItem(footerDatas);
+                            recyclerAdapter.addFooterItem(footerDatas);
                             Toast.makeText(ActivityFuncFoodShare.this, getResources().getString(R.string.Refresh) + footerDatas.size() + getResources().getString(R.string.Now) + beanList.size() + getResources().getString(R.string.TaskNum), Toast.LENGTH_SHORT).show();
                         }
                     }, 3000);

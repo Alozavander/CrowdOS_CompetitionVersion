@@ -29,8 +29,8 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.hills.mcs_02.BaseActivity;
 import com.hills.mcs_02.dataBeans.Bean_ListView_remind;
 import com.hills.mcs_02.dataBeans.Task;
-import com.hills.mcs_02.fragmentsPack.MCS_RecyclerItemClickListener;
-import com.hills.mcs_02.networkClasses.interfacesPack.PostRequest_mine_minor2_accepted;
+import com.hills.mcs_02.fragmentsPack.MCSRecyclerItemClickListener;
+import com.hills.mcs_02.networkClasses.interfacesPack.PostRequestMineMinor2Accepted;
 import com.hills.mcs_02.R;
 import com.hills.mcs_02.viewsAdapters.Adapter_RecyclerView_remind;
 
@@ -77,7 +77,7 @@ public class ActivityMineMinor2Accepted extends BaseActivity {
         //进入页面初始化任务列表
         first_ListRefresh();
         recyclerAdapter = new Adapter_RecyclerView_remind(this,mBeanListViewRemind);
-        recyclerAdapter.setRecyclerItemClickListener(new MCS_RecyclerItemClickListener() {
+        recyclerAdapter.setRecyclerItemClickListener(new MCSRecyclerItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 Gson gson = new Gson();
@@ -164,11 +164,11 @@ public class ActivityMineMinor2Accepted extends BaseActivity {
                 .addConverterFactory(GsonConverterFactory.create()).build();
 
         //创建网络接口
-        PostRequest_mine_minor2_accepted postRequest = retrofit.create(PostRequest_mine_minor2_accepted.class);
+        PostRequestMineMinor2Accepted postRequest = retrofit.create(PostRequestMineMinor2Accepted.class);
         String userID = getSharedPreferences("user", Context.MODE_PRIVATE).getString("userID","");
 
         //创建call
-        Call<ResponseBody> call = postRequest.query_accepted(Integer.parseInt(userID));
+        Call<ResponseBody> call = postRequest.queryAccepted(Integer.parseInt(userID));
 
         call.enqueue(new Callback<ResponseBody>() {
             @Override

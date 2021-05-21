@@ -29,8 +29,8 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.hills.mcs_02.BaseActivity;
 import com.hills.mcs_02.dataBeans.Bean_ListView_remind;
 import com.hills.mcs_02.dataBeans.Task;
-import com.hills.mcs_02.fragmentsPack.MCS_RecyclerItemClickListener;
-import com.hills.mcs_02.networkClasses.interfacesPack.PostRequest_mine_minor1_published;
+import com.hills.mcs_02.fragmentsPack.MCSRecyclerItemClickListener;
+import com.hills.mcs_02.networkClasses.interfacesPack.PostRequestMineMinor1Published;
 import com.hills.mcs_02.R;
 import com.hills.mcs_02.viewsAdapters.Adapter_RecyclerView_remind;
 
@@ -86,7 +86,7 @@ public class ActivityMineMinor1Publish extends BaseActivity {
         //进入页面初始化任务列表
         first_ListRefresh();
         recyclerAdapter = new Adapter_RecyclerView_remind(this, mBeanListViewRemind);
-        recyclerAdapter.setRecyclerItemClickListener(new MCS_RecyclerItemClickListener() {
+        recyclerAdapter.setRecyclerItemClickListener(new MCSRecyclerItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 Gson gson = new Gson();
@@ -179,13 +179,13 @@ public class ActivityMineMinor1Publish extends BaseActivity {
         Retrofit retrofit = new Retrofit.Builder().baseUrl(getResources().getString(R.string.base_url)).addConverterFactory(GsonConverterFactory.create()).build();
 
         //创建网络接口
-        PostRequest_mine_minor1_published postRequest = retrofit.create(PostRequest_mine_minor1_published.class);
+        PostRequestMineMinor1Published postRequest = retrofit.create(PostRequestMineMinor1Published.class);
 
         String userID = getSharedPreferences("user", Context.MODE_PRIVATE).getString("userID", "");
 
 
         //创建call
-        Call<ResponseBody> call = postRequest.query_published(Integer.parseInt(userID));
+        Call<ResponseBody> call = postRequest.queryPublished(Integer.parseInt(userID));
 
         call.enqueue(new Callback<ResponseBody>() {
 

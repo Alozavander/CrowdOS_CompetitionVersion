@@ -1,10 +1,17 @@
 package com.hills.mcs_02.downloadPack;
 
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+
 import android.os.Environment;
 import android.text.TextUtils;
 import android.util.Log;
 
 import com.blankj.utilcode.util.FileUtils;
+
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -13,17 +20,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
+
+
 
 public class DownloadFileUtils {
     private static final String TAG = "DownloadUtil";
     private static final String FILE_PATH = Environment.getExternalStorageDirectory() + File.separator + "WeSense" + File.separator + "DownloadFiles";   //注意此处路径应该与xml文件中path里download_path一致
     //视频下载相关
-    protected PostRequest_getFile request;
+    protected PostRequestGetFile request;
     private Call<ResponseBody> mCall;
     private File mFile;
     private Thread mThread;
@@ -32,7 +36,7 @@ public class DownloadFileUtils {
     public DownloadFileUtils(String baseUrl) {
         if (request == null) {
             //初始化网络请求接口
-            request = new Retrofit.Builder().baseUrl(baseUrl).build().create(PostRequest_getFile.class);
+            request = new Retrofit.Builder().baseUrl(baseUrl).build().create(PostRequestGetFile.class);
         }
     }
 
@@ -82,7 +86,7 @@ public class DownloadFileUtils {
                 }
 
                 @Override
-                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                public void onFailure(Call<ResponseBody> call, Throwable throwable) {
                 }
             });
         } else {
@@ -140,7 +144,7 @@ public class DownloadFileUtils {
                 }
 
                 @Override
-                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                public void onFailure(Call<ResponseBody> call, Throwable throwable) {
                     downloadListener.onFailure(); //下载失败
                 }
             });
@@ -154,37 +158,37 @@ public class DownloadFileUtils {
     //将下载的文件写入本地存储
     private void writeFile2Disk(Response<ResponseBody> response, File file) {
         long currentLength = 0;
-        OutputStream os = null;
+        OutputStream outputS = null;
         System.out.println("response message:"+response.message());
         System.out.println("response headers:"+response.headers().toString());
-        InputStream is = response.body().byteStream(); //获取下载输入流
+        InputStream inputS = response.body().byteStream(); //获取下载输入流
         long totalLength = response.body().contentLength();
         try {
-            os = new FileOutputStream(file); //输出流
+            outputS = new FileOutputStream(file); //输出流
             int len;
             byte[] buff = new byte[1024];
-            while ((len = is.read(buff)) != -1) {
-                os.write(buff, 0, len);
+            while ((len = inputS.read(buff)) != -1) {
+                outputS.write(buff, 0, len);
                 currentLength += len;
                 Log.e(TAG, "当前进度: " + currentLength);
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (FileNotFoundException exp) {
+            exp.printStackTrace();
+        } catch (IOException exp) {
+            exp.printStackTrace();
         } finally {
-            if (os != null) {
+            if (outputS != null) {
                 try {
-                    os.close(); //关闭输出流
-                } catch (IOException e) {
-                    e.printStackTrace();
+                    outputS.close(); //关闭输出流
+                } catch (IOException exp) {
+                    exp.printStackTrace();
                 }
             }
-            if (is != null) {
+            if (inputS != null) {
                 try {
-                    is.close(); //关闭输入流
-                } catch (IOException e) {
-                    e.printStackTrace();
+                    inputS.close(); //关闭输入流
+                } catch (IOException exp) {
+                    exp.printStackTrace();
                 }
             }
         }
@@ -194,17 +198,17 @@ public class DownloadFileUtils {
     private void writeFile2Disk(Response<ResponseBody> response, File file, DownloadListener downloadListener) {
         downloadListener.onStart();
         long currentLength = 0;
-        OutputStream os = null;
+        OutputStream outputS = null;
         System.out.println("报文是否为空：" + (response.body() == null));
-        InputStream is = response.body().byteStream(); //获取下载输入流
+        InputStream inputS = response.body().byteStream(); //获取下载输入流
         long totalLength = response.body().contentLength();
         //System.out.println("totalLength:" + totalLength);
         try {
-            os = new FileOutputStream(file); //输出流
+            outputS = new FileOutputStream(file); //输出流
             int len;
             byte[] buff = new byte[1024];
-            while ((len = is.read(buff)) != -1) {
-                os.write(buff, 0, len);
+            while ((len = inputS.read(buff)) != -1) {
+                outputS.write(buff, 0, len);
                 currentLength += len;
                 //System.out.println("currentLength:" + currentLength);
                 //Log.e(TAG, "当前进度: " + currentLength);
@@ -213,24 +217,24 @@ public class DownloadFileUtils {
                 //System.out.println("percentage:" + (int) (100 * currentLength / totalLength));
             }
             downloadListener.onFinish(mFilePath); //下载完成
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (FileNotFoundException exp) {
+            exp.printStackTrace();
+        } catch (IOException exp) {
+            exp.printStackTrace();
 
         } finally {
-            if (os != null) {
+            if (outputS != null) {
                 try {
-                    os.close(); //关闭输出流
-                } catch (IOException e) {
-                    e.printStackTrace();
+                    outputS.close(); //关闭输出流
+                } catch (IOException exp) {
+                    exp.printStackTrace();
                 }
             }
-            if (is != null) {
+            if (inputS != null) {
                 try {
-                    is.close(); //关闭输入流
-                } catch (IOException e) {
-                    e.printStackTrace();
+                    inputS.close(); //关闭输入流
+                } catch (IOException exp) {
+                    exp.printStackTrace();
                 }
             }
         }

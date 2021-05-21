@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.hills.mcs_02.R;
 import com.hills.mcs_02.dataBeans.Bean_ListView_home;
-import com.hills.mcs_02.fragmentsPack.MCS_RecyclerItemClickListener;
+import com.hills.mcs_02.fragmentsPack.MCSRecyclerItemClickListener;
 
 import java.util.List;
 
@@ -22,7 +22,7 @@ public class Adapter_RecyclerView_home extends RecyclerView.Adapter<RecyclerView
     private List<Bean_ListView_home> mBean_ListView_homes;
     private Context mContext;
     private LayoutInflater mInflater;//布局装载器对象
-    private MCS_RecyclerItemClickListener mListener;
+    private MCSRecyclerItemClickListener mListener;
     //private Context mContext;
 
     public Adapter_RecyclerView_home(Context context, List<Bean_ListView_home> list) {
@@ -122,10 +122,10 @@ public class Adapter_RecyclerView_home extends RecyclerView.Adapter<RecyclerView
         private TextView taskCount_tv;
         private TextView coinsCount_tv;
         private TextView deadline_tv;
-        private MCS_RecyclerItemClickListener m_MCS_recyclerItemClickListener;
+        private MCSRecyclerItemClickListener m_MCS_recyclerItemClickListener;
 
 
-        public Home_ViewHolder(@NonNull View itemView, MCS_RecyclerItemClickListener listener) {
+        public Home_ViewHolder(@NonNull View itemView, MCSRecyclerItemClickListener listener) {
             super(itemView);
             //对viewHolder的属性进行赋值
             taskName_tv = itemView.findViewById(R.id.listview_TaskName);
@@ -153,7 +153,7 @@ public class Adapter_RecyclerView_home extends RecyclerView.Adapter<RecyclerView
     }
 
     //设置接口
-    public void setRecyclerItemClickListener(MCS_RecyclerItemClickListener listener) {
+    public void setRecyclerItemClickListener(MCSRecyclerItemClickListener listener) {
         this.mListener = listener;
     }
 

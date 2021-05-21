@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.hills.mcs_02.R;
-import com.hills.mcs_02.fragmentsPack.MCS_RecyclerItemClickListener;
+import com.hills.mcs_02.fragmentsPack.MCSRecyclerItemClickListener;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -23,7 +23,7 @@ class Adapter_RecyclerView_TaskSubmit_Image extends RecyclerView.Adapter<Recycle
     private final static String TAG = "Adapter_RecyclerView_TaskSubmit_Image";
     private List<File> mImageFile_list;
     private LayoutInflater mInflater;
-    private MCS_RecyclerItemClickListener mListener;
+    private MCSRecyclerItemClickListener mListener;
     private int maxNumber = 9;
     private Context mContext;
 
@@ -108,7 +108,7 @@ class Adapter_RecyclerView_TaskSubmit_Image extends RecyclerView.Adapter<Recycle
     }
 
     //设置接口
-    public void setRecyclerItemClickListener(MCS_RecyclerItemClickListener listener) {
+    public void setRecyclerItemClickListener(MCSRecyclerItemClickListener listener) {
         this.mListener = listener;
     }
 
@@ -117,10 +117,10 @@ class Adapter_RecyclerView_TaskSubmit_Image extends RecyclerView.Adapter<Recycle
         private ImageView delete_iv;
         private ImageView image_iv;
 
-        private MCS_RecyclerItemClickListener m_MCS_recyclerItemClickListener;
+        private MCSRecyclerItemClickListener m_MCS_recyclerItemClickListener;
 
 
-        public Image_RV_ViewHolder(@NonNull View itemView, MCS_RecyclerItemClickListener listener) {
+        public Image_RV_ViewHolder(@NonNull View itemView, MCSRecyclerItemClickListener listener) {
             super(itemView);
             //对viewHolder的属性进行赋值
             delete_iv = (ImageView) itemView.findViewById(R.id.taskSubmit_image_rvitem_delete);

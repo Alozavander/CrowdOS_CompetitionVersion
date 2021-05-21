@@ -57,7 +57,8 @@ public class ActivityMineSettingGeneral extends BaseActivity {
                 System.out.println("------- setting-general -------");
                 System.out.println("position = " + position);
                 if (position == 0) {
-                    Intent intent = new Intent(ActivityMineSettingGeneral.this,ActivityMineSettingGeneralMultilan.class);
+                    Intent intent = new Intent(ActivityMineSettingGeneral.this,
+                        ActivityMineSettingGeneralMultiLanguage.class);
                     startActivity(intent);
                 }
             }

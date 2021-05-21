@@ -11,14 +11,14 @@ import android.widget.TextView;
 import com.hills.mcs_02.R;
 import com.hills.mcs_02.dataBeans.Bean_ListView_remind;
 import com.hills.mcs_02.dataBeans.Task;
-import com.hills.mcs_02.fragmentsPack.MCS_RecyclerItemClickListener;
+import com.hills.mcs_02.fragmentsPack.MCSRecyclerItemClickListener;
 
 import java.util.List;
 
 public class Adapter_ListView_remind extends BaseAdapter {
     private List<Bean_ListView_remind> mBean_listView_remindList;
     private LayoutInflater mInflater;
-    private MCS_RecyclerItemClickListener mListener;
+    private MCSRecyclerItemClickListener mListener;
 
     public Adapter_ListView_remind() {
         super();

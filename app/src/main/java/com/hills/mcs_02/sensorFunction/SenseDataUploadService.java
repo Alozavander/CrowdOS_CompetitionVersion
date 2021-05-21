@@ -17,7 +17,7 @@ import com.google.gson.Gson;
 import com.hills.mcs_02.MainActivity;
 import com.hills.mcs_02.StringStore;
 import com.hills.mcs_02.dataBeans.Sensor_Detail;
-import com.hills.mcs_02.networkClasses.interfacesPack.PostRequest_SensorDetail_UploadService;
+import com.hills.mcs_02.networkClasses.interfacesPack.PostRequestSensorDetailUploadService;
 import com.hills.mcs_02.saveFile.FileExport;
 import com.hills.mcs_02.utils.SQLiteTimeUtil;
 
@@ -153,7 +153,8 @@ public class SenseDataUploadService extends Service {
         //TestUpload
         Retrofit retrofit = new Retrofit.Builder().baseUrl("http://10.0.2.2:10101/").addConverterFactory(GsonConverterFactory.create()).build();
         //创建网络接口实例
-        PostRequest_SensorDetail_UploadService request = retrofit.create(PostRequest_SensorDetail_UploadService.class);
+        PostRequestSensorDetailUploadService request = retrofit.create(
+            PostRequestSensorDetailUploadService.class);
         Call<ResponseBody> call = request.uploadSensorMessage(requestBody, body);
         Log.i(TAG, "The Upload URL is: "+call.request().url() + "\n The content is:" + postTask);
 
