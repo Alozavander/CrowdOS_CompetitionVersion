@@ -10,8 +10,8 @@ import android.content.SharedPreferences;
  *
  */
 
-public class SPHelper {
-    private String SP_Name;
+public class SpHelper {
+    private String SpName;
     private Context mContext;
     private SharedPreferences sp;
 
@@ -21,10 +21,10 @@ public class SPHelper {
      * @param spName SP表单名称
      * @param context 原本上下文
      */
-    private SPHelper(String spName, Context context){
-        SP_Name = spName;
+    private SpHelper(String spName, Context context){
+        SpName = spName;
         mContext = context;
-        sp = mContext.getSharedPreferences(SP_Name, Context.MODE_PRIVATE);
+        sp = mContext.getSharedPreferences(SpName, Context.MODE_PRIVATE);
     }
 
     public boolean dataStore(String key, String data){

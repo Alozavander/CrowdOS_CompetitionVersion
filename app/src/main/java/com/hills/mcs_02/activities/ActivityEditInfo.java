@@ -20,7 +20,7 @@ import com.hills.mcs_02.R;
 import com.hills.mcs_02.RequestCodes;
 import com.hills.mcs_02.dataBeans.Bean_ListView_mine_editInfo;
 import com.hills.mcs_02.taskSubmit.SelectDialog;
-import com.hills.mcs_02.viewsAdapters.Adapter_ListView_mine_editInfo;
+import com.hills.mcs_02.viewsAdapters.AdapterListViewMineEditInfo;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.entity.LocalMedia;
@@ -34,7 +34,7 @@ public class ActivityEditInfo extends BaseActivity {
     private static final String TAG = "activity_enditInfo";
     private ImageView userIconIV;
     private File userIconFile;
-    private Adapter_ListView_mine_editInfo infoListAdapter;
+    private AdapterListViewMineEditInfo infoListAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,7 +135,7 @@ public class ActivityEditInfo extends BaseActivity {
         list.add(new Bean_ListView_mine_editInfo(this.getResources().getString(R.string.mobilePhone),this.getResources().getString(R.string.notYetOpen)));
         list.add(new Bean_ListView_mine_editInfo(this.getResources().getString(R.string.introduction),this.getResources().getString(R.string.notYetOpen)));
 
-        infoListAdapter = new Adapter_ListView_mine_editInfo(list,this);
+        infoListAdapter = new AdapterListViewMineEditInfo(list,this);
 
         mListView = findViewById(R.id.minepage_editInfo_lv);
         mListView.setAdapter(infoListAdapter);
@@ -165,16 +165,16 @@ public class ActivityEditInfo extends BaseActivity {
             else Toast.makeText(this,"未找到图片",Toast.LENGTH_SHORT).show();
             Glide.with(this).load(userIconFile).into(userIconIV);
         }
-        if(requestCode == RequestCodes.Intent_RC_editInfo_nickName && resultCode == Activity.RESULT_OK){
+        if(requestCode == RequestCodes.INTENT_RC_EDITINFO_NICKNAME && resultCode == Activity.RESULT_OK){
             String nickName = data.getStringExtra("text");
             //通过adapter内置的方法改变资料列表信息
             infoListAdapter.textChange(0,nickName);
         }
-        if(requestCode == RequestCodes.Intent_RC_editInfo_phone && resultCode == Activity.RESULT_OK){
+        if(requestCode == RequestCodes.INTENT_RC_EDITINFO_PHONE && resultCode == Activity.RESULT_OK){
             String phone = data.getStringExtra("text");
             infoListAdapter.textChange(1,phone);
         }
-        if(requestCode == RequestCodes.Intent_RC_editInfo_introduction && resultCode == Activity.RESULT_OK){
+        if(requestCode == RequestCodes.INTENT_RC_EDITINFO_INTRODUCTION && resultCode == Activity.RESULT_OK){
             String introduction = data.getStringExtra("text");
             infoListAdapter.textChange(2,introduction);
         }

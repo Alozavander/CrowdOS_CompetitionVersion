@@ -34,7 +34,7 @@ import com.hills.mcs_02.fragmentsPack.MCSRecyclerItemClickListener;
 import com.hills.mcs_02.networkClasses.interfacesPack.GetNewTenRequestHomeTaskList;
 import com.hills.mcs_02.networkClasses.interfacesPack.PostRequestGridPageTaskList;
 import com.hills.mcs_02.R;
-import com.hills.mcs_02.viewsAdapters.Adapter_RecyclerView_home;
+import com.hills.mcs_02.viewsAdapters.AdapterRecyclerViewHome;
 
 
 import java.io.IOException;
@@ -53,7 +53,7 @@ public class ActivityGridPage extends BaseActivity {
     private RecyclerView mRecyclerView;                                              //为首页显示任务列表的RecyclerView
     private List<Bean_ListView_home> mBeanListViewGridPage;                           //为上述ListView准备的数据链表
     private SwipeRefreshLayout mSwipeRefreshLayout;
-    private Adapter_RecyclerView_home recyclerAdapter;
+    private AdapterRecyclerViewHome recyclerAdapter;
     private List<Task> mRequestTaskList;
     private Set<Integer> mHashSetTaskId;                                             //用于获取感知任务去重
     int[] photoPath = {R.drawable.testphoto_1, R.drawable.testphoto_2, R.drawable.testphoto_3, R.drawable.testphoto_4};
@@ -104,7 +104,7 @@ public class ActivityGridPage extends BaseActivity {
         mRecyclerView = findViewById(R.id.gridpage_RecyclerView);
         //进入页面初始化任务列表
         firstListRefresh();
-        recyclerAdapter = new Adapter_RecyclerView_home(ActivityGridPage.this, mBeanListViewGridPage);
+        recyclerAdapter = new AdapterRecyclerViewHome(ActivityGridPage.this, mBeanListViewGridPage);
         //recyclerView没有跟listView一样封装OnItemClickListener，所以只能手动实现，这里是将监听器绑定在了适配器上
         recyclerAdapter.setRecyclerItemClickListener(new MCSRecyclerItemClickListener() {
             @Override
@@ -245,8 +245,8 @@ public class ActivityGridPage extends BaseActivity {
                             Toast.makeText(ActivityGridPage.this, getResources().getString(R.string.FailToGetData) + mRequestTaskList.size(), Toast.LENGTH_SHORT).show();
                         }
                         if (tempTag == 0) mBeanListViewGridPage.addAll(tempList);
-                        else if(tempTag == 1)recyclerAdapter.AddHeaderItem(tempList);
-                        else recyclerAdapter.AddFooterItem(tempList);
+                        else if(tempTag == 1)recyclerAdapter.addHeaderItem(tempList);
+                        else recyclerAdapter.addFooterItem(tempList);
 
 
                         //刷新完成
@@ -308,7 +308,7 @@ public class ActivityGridPage extends BaseActivity {
                         } else {
                             Toast.makeText(ActivityGridPage.this, getResources().getString(R.string.taskNoNew), Toast.LENGTH_SHORT).show();
                         }
-                        recyclerAdapter.AddFooterItem(tempList);
+                        recyclerAdapter.addFooterItem(tempList);
 
 
                         //刷新完成

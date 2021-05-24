@@ -19,10 +19,10 @@ public class SearchActivity extends BaseActivity {
     protected void onStart() {
         super.onStart();
 
-        ImageView back_iv = (ImageView)findViewById(R.id.searchpage_back);
-        back_iv.setOnClickListener(new View.OnClickListener() {
+        ImageView backIv = (ImageView)findViewById(R.id.searchpage_back);
+        backIv.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 Intent intent = new Intent(SearchActivity.this,MainActivity.class);
                 startActivity(intent);
                 finish();

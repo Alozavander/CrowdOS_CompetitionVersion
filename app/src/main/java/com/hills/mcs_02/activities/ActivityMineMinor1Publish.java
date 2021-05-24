@@ -32,7 +32,7 @@ import com.hills.mcs_02.dataBeans.Task;
 import com.hills.mcs_02.fragmentsPack.MCSRecyclerItemClickListener;
 import com.hills.mcs_02.networkClasses.interfacesPack.PostRequestMineMinor1Published;
 import com.hills.mcs_02.R;
-import com.hills.mcs_02.viewsAdapters.Adapter_RecyclerView_remind;
+import com.hills.mcs_02.viewsAdapters.AdapterRecyclerViewRemind;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -47,7 +47,7 @@ public class ActivityMineMinor1Publish extends BaseActivity {
     private String TAG = "Activity_mine_minor1_published";
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private RecyclerView mRecyclerView;
-    private Adapter_RecyclerView_remind recyclerAdapter;
+    private AdapterRecyclerViewRemind recyclerAdapter;
     private List<Bean_ListView_remind> mBeanListViewRemind;                           //为上述ListView准备的数据链表
     private Set<Integer> mHashSetTaskId;                                             //用于获取发布任务去重
 
@@ -85,7 +85,7 @@ public class ActivityMineMinor1Publish extends BaseActivity {
 
         //进入页面初始化任务列表
         first_ListRefresh();
-        recyclerAdapter = new Adapter_RecyclerView_remind(this, mBeanListViewRemind);
+        recyclerAdapter = new AdapterRecyclerViewRemind(this, mBeanListViewRemind);
         recyclerAdapter.setRecyclerItemClickListener(new MCSRecyclerItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
@@ -215,8 +215,8 @@ public class ActivityMineMinor1Publish extends BaseActivity {
                             Toast.makeText(ActivityMineMinor1Publish.this, getResources().getString(R.string.FailToGetData), Toast.LENGTH_SHORT).show();
                         }
                         if (tempTag == 0) mBeanListViewRemind.addAll(tempList);
-                        else if (tempTag == 1) recyclerAdapter.AddHeaderItem(tempList);
-                        else recyclerAdapter.AddFooterItem(tempList);
+                        else if (tempTag == 1) recyclerAdapter.addHeaderItem(tempList);
+                        else recyclerAdapter.addFooterItem(tempList);
 
                         //刷新完成
                         if (mSwipeRefreshLayout.isRefreshing())

@@ -78,7 +78,7 @@ public class ActivityPublishSensorTask extends BaseActivity implements View.OnCl
         deadlineTv = findViewById(R.id.publishpage_sensortaskpublish_2_deadline_dp);
         deadlineTv.setOnClickListener(this);
 
-        mSensors =new SenseHelper(this).getSensorList_TypeInt_Strings();
+        mSensors =new SenseHelper(this).getSensorListTypeIntStrings();
         mBooleans = new boolean[mSensors.length];
 
         taskKindSpinner = findViewById(R.id.publishpage_sensortaskpublish_2_taskKind_spinner);
@@ -214,12 +214,12 @@ public class ActivityPublishSensorTask extends BaseActivity implements View.OnCl
             String userName = getSharedPreferences("user", MODE_PRIVATE).getString("userName", "");
             //String timeNow = (new SimpleDateFormat("yyyy.MM.dd  HH:mm:ss")).format(new Date(System.currentTimeMillis()));
             //获取感知任务指定的传感器类型并转换成Integer[]类型
-            int[] sensorTypes = new SenseHelper(this).sensorList_NameStrings2TypeInts(sensorTypesString.split(" "));
+            int[] sensorTypes = new SenseHelper(this).sensorListNameStrings2TypeInts(sensorTypesString.split(" "));
             Log.i(TAG,"MARRRRK: sensorTypesLength" + sensorTypes.length);
             String lSensorTypesString = "";
             for(int temp = 0; temp < sensorTypes.length; temp++) {
                 lSensorTypesString = lSensorTypesString + sensorTypes[temp];
-                if(temp != sensorTypes.length -1) lSensorTypesString = lSensorTypesString + StringStore.Divider_1;
+                if(temp != sensorTypes.length -1) lSensorTypesString = lSensorTypesString + StringStore.DIVIDER1;
             }
 
             //建立任务Bean

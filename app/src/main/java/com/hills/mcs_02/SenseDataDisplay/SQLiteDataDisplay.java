@@ -18,16 +18,16 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.hills.mcs_02.R;
 import com.hills.mcs_02.StringStore;
 import com.hills.mcs_02.sensorFunction.SenseHelper;
-import com.hills.mcs_02.sensorFunction.SensorSQLiteOpenHelper;
+import com.hills.mcs_02.sensorFunction.SensorSqliteOpenHelper;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SQLiteDataDisplay extends AppCompatActivity implements View.OnClickListener {
+public class SqliteDataDisplay extends AppCompatActivity implements View.OnClickListener {
     private RecyclerView mRecyclerView;
     private SwipeRefreshLayout mSwipeRefreshLayout;
-    private Adapter_RecyclerView_SqliteDataDisplay mDataDisplay_adapter;
-    private List<SQLiteData_bean> mList;
+    private AdapterRecyclerViewSqliteDataDisplay mDataDisplayAdapter;
+    private List<SqliteDataBean> mList;
     private String mSensorType;
     private String TAG = "SQLiteDataDisplay";
     private int mListLoadRecord;        //记录当前列表加载数量
@@ -39,7 +39,7 @@ public class SQLiteDataDisplay extends AppCompatActivity implements View.OnClick
 
         //获取Sensor的名字
         String sensorName = getIntent().getStringExtra("sensorName");
-        mSensorType = SenseHelper.sensorXmlName2Type(this, sensorName) + "";
+        mSensorType = SenseHelper.sensorType2XmlName(this, sensorName) + "";
         Log.i(TAG, "The SQLiteDataDisplay sensor type is :" + mSensorType);
 
         //修改布局的title名字
@@ -53,21 +53,21 @@ public class SQLiteDataDisplay extends AppCompatActivity implements View.OnClick
     //
     private void initDataList() {
         mList = new ArrayList<>();
-        Cursor c = getSQLiteCursor();
+        Cursor c = getSqliteCursor();
 
         int len = 20 > c.getCount() ? c.getCount() : 20;
         if (c.getCount() > 0) {
-            for (int i = 0; i < len; i++) {
-                c.moveToPosition(i);
-                SQLiteData_bean bean = new SQLiteData_bean();
-                bean.setSenseData_id(c.getInt(0));
+            for (int temp = 0; temp < len; temp++) {
+                c.moveToPosition(temp);
+                SqliteDataBean bean = new SqliteDataBean();
+                bean.setSenseDataId(c.getInt(0));
                 bean.setSensorType(c.getInt(1));
                 bean.setSenseTime(c.getString(2));
-                bean.setSenseValue_1(c.getString(3));
-                bean.setSenseValue_2(c.getString(4));
-                bean.setSenseValue_3(c.getString(5));
+                bean.setSenseValue1(c.getString(3));
+                bean.setSenseValue2(c.getString(4));
+                bean.setSenseValue3(c.getString(5));
                 mList.add(bean);
-                mListLoadRecord = i;
+                mListLoadRecord = temp;
             }
 
         } else {
@@ -77,9 +77,9 @@ public class SQLiteDataDisplay extends AppCompatActivity implements View.OnClick
         c.close();
     }
 
-    private Cursor getSQLiteCursor() {
-        SQLiteDatabase db = new SensorSQLiteOpenHelper(this).getReadableDatabase();
-        Cursor c = db.query(StringStore.SensorDataTable_Name,
+    private Cursor getSqliteCursor() {
+        SQLiteDatabase db = new SensorSqliteOpenHelper(this).getReadableDatabase();
+        Cursor cur = db.query(StringStore.SensorDataTable_Name,
                 new String[]{StringStore.SensorDataTable_id,
                         StringStore.SensorDataTable_SenseType,
                         StringStore.SensorDataTable_SenseTime,
@@ -87,7 +87,7 @@ public class SQLiteDataDisplay extends AppCompatActivity implements View.OnClick
                         StringStore.SensorDataTable_SenseData_2,
                         StringStore.SensorDataTable_SenseData_3},
                 StringStore.SensorDataTable_SenseType + "=?", new String[]{mSensorType}, null, null, StringStore.SensorDataTable_SenseTime + " DESC");
-        return c;
+        return cur;
     }
 
     private void initRefreshListener() {
@@ -120,7 +120,8 @@ public class SQLiteDataDisplay extends AppCompatActivity implements View.OnClick
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 //判断RecyclerView的状态 是空闲时，同时，是最后一个可见的ITEM时才加载
-                if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItem + 1 == mDataDisplay_adapter.getItemCount()) {
+                if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItem + 1 == mDataDisplayAdapter
+                    .getItemCount()) {
                     mSwipeRefreshLayout.setRefreshing(true);
                     new Handler().postDelayed(new Runnable() {
                         @Override
@@ -147,29 +148,29 @@ public class SQLiteDataDisplay extends AppCompatActivity implements View.OnClick
     }
 
     private void LoadMoreData() {
-        ArrayList<SQLiteData_bean> lBeans = new ArrayList<>();
-        Cursor c = getSQLiteCursor();
-        if (mListLoadRecord == c.getCount()) {
-            Toast.makeText(SQLiteDataDisplay.this, getString(R.string.no_more_sqlitedata), Toast.LENGTH_SHORT).show();
+        ArrayList<SqliteDataBean> lBeans = new ArrayList<>();
+        Cursor cur = getSqliteCursor();
+        if (mListLoadRecord == cur.getCount()) {
+            Toast.makeText(SqliteDataDisplay.this, getString(R.string.no_more_sqlitedata), Toast.LENGTH_SHORT).show();
         } else {
             int nextLen = mListLoadRecord + 20;
-            nextLen = nextLen + 1 >= c.getCount() ? c.getCount() : nextLen;
-            if (c.getCount() > 0) {
-                int tem_max = -1;
+            nextLen = nextLen + 1 >= cur.getCount() ? cur.getCount() : nextLen;
+            if (cur.getCount() > 0) {
+                int temMax = -1;
                 for (int i = mListLoadRecord; i < nextLen; i++) {
-                    c.moveToPosition(i);
-                    SQLiteData_bean bean = new SQLiteData_bean();
-                    bean.setSenseData_id(c.getInt(0));
-                    bean.setSensorType(c.getInt(1));
-                    bean.setSenseTime(c.getString(2));
-                    bean.setSenseValue_1(c.getString(3));
-                    bean.setSenseValue_2(c.getString(4));
-                    bean.setSenseValue_3(c.getString(5));
+                    cur.moveToPosition(i);
+                    SqliteDataBean bean = new SqliteDataBean();
+                    bean.setSenseDataId(cur.getInt(0));
+                    bean.setSensorType(cur.getInt(1));
+                    bean.setSenseTime(cur.getString(2));
+                    bean.setSenseValue1(cur.getString(3));
+                    bean.setSenseValue2(cur.getString(4));
+                    bean.setSenseValue3(cur.getString(5));
                     lBeans.add(bean);
-                    tem_max = i;
+                    temMax = i;
                 }
-                mListLoadRecord = tem_max;
-                mDataDisplay_adapter.AddFooterItem(lBeans);
+                mListLoadRecord = temMax;
+                mDataDisplayAdapter.addFooterItem(lBeans);
             }
         }
 
@@ -180,16 +181,16 @@ public class SQLiteDataDisplay extends AppCompatActivity implements View.OnClick
         mRecyclerView = findViewById(R.id.sqlitedata_rv);
         mSwipeRefreshLayout = findViewById(R.id.sqlitedata_swiperefreshLayout);
         mSwipeRefreshLayout.setColorSchemeColors(Color.RED, Color.BLUE, Color.GREEN);
-        mDataDisplay_adapter = new Adapter_RecyclerView_SqliteDataDisplay(mList, SQLiteDataDisplay.this);
+        mDataDisplayAdapter = new AdapterRecyclerViewSqliteDataDisplay(mList, SqliteDataDisplay.this);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
-        mRecyclerView.setAdapter(mDataDisplay_adapter);
+        mRecyclerView.setAdapter(mDataDisplayAdapter);
 
         findViewById(R.id.sqlitedata_back).setOnClickListener(this);
     }
 
     @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
+    public void onClick(View view) {
+        switch (view.getId()) {
             case R.id.sqlitedata_back:
                 finish();
         }

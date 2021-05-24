@@ -4,16 +4,16 @@ import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-public class SQLiteTimeUtil {
-    public static String[] getStartandEndTime(){
+public class SqliteTimeUtil {
+    public static String[] getStartAndEndTime(){
         //get the specific pattern current time.
-        Calendar c = Calendar.getInstance();
-        int year = c.get(Calendar.YEAR);
-        int month = c.get(Calendar.MONTH);
-        int day = c.get(Calendar.DAY_OF_MONTH);
-        int hour = c.get(Calendar.HOUR_OF_DAY);
-        int minute = c.get(Calendar.MINUTE);
-        int second = c.get(Calendar.SECOND);
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        int minute = calendar.get(Calendar.MINUTE);
+        int second = calendar.get(Calendar.SECOND);
         //补足0
         String endTime = "";
         String startTime = year + "-";
@@ -49,7 +49,7 @@ public class SQLiteTimeUtil {
         return new String[]{startTime,endTime};
     }
 
-    public static String getCurrentTimeNoSpaceAndMaoHao(){
+    public static String getCurrentTimeNoSpaceAndColon(){
         Date date = new Date(System.currentTimeMillis());
         SimpleDateFormat lFormat = new SimpleDateFormat("yyyy-MM-dd_hh-mm-ss");
         return lFormat.format(date);

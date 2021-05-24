@@ -5,23 +5,23 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class DateHelper {
-    private static final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     public static SimpleDateFormat getSimpleDateFormat(){
-        return simpleDateFormat;
+        return SIMPLE_DATE_FORMAT;
     }
 
     /*
      * s must be yyyy-MM-dd HH:mm:ss
      */
-    public static Date string2Date (String s) throws ParseException {
-        return simpleDateFormat.parse(s);
+    public static Date string2Date (String str) throws ParseException {
+        return SIMPLE_DATE_FORMAT.parse(str);
     }
 
     /*
      * s must be yyyy-MM-dd HH:mm:ss
      */
-    public static long string2TimeStamp(String s) throws ParseException {
-        return simpleDateFormat.parse(s).getTime();
+    public static long string2TimeStamp(String str) throws ParseException {
+        return SIMPLE_DATE_FORMAT.parse(str).getTime();
     }
 }

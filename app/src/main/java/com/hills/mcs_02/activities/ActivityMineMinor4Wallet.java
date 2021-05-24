@@ -28,7 +28,7 @@ import com.hills.mcs_02.dataBeans.User;
 import com.hills.mcs_02.networkClasses.interfacesPack.GetRequestUserCoinsRankList;
 import com.hills.mcs_02.networkClasses.interfacesPack.PostRequestUserCoins;
 import com.hills.mcs_02.R;
-import com.hills.mcs_02.viewsAdapters.Adapter_recyclerview_mine_minor4_wallet;
+import com.hills.mcs_02.viewsAdapters.AdapterRecyclerViewMineMinor4Wallet;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -142,7 +142,7 @@ public class ActivityMineMinor4Wallet extends BaseActivity {
                         } else {
                             Toast.makeText(mContext, getResources().getString(R.string.FailToGetData) + mRequestUserCoinsRankList.size(), Toast.LENGTH_SHORT).show();
                         }
-                        Adapter_recyclerview_mine_minor4_wallet adapter = new Adapter_recyclerview_mine_minor4_wallet(userCoinsList);
+                        AdapterRecyclerViewMineMinor4Wallet adapter = new AdapterRecyclerViewMineMinor4Wallet(userCoinsList);
                         mRecyclerView.setAdapter(adapter);
                     }catch (IOException exp){
                         exp.printStackTrace();

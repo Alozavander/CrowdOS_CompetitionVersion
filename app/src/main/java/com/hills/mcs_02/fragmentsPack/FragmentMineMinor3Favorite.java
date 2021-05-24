@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment;
 
 import com.hills.mcs_02.dataBeans.Bean_ListView_remind;
 import com.hills.mcs_02.R;
-import com.hills.mcs_02.viewsAdapters.Adapter_ListView_remind;
+import com.hills.mcs_02.viewsAdapters.AdapterListViewRemind;
 
 
 import java.util.ArrayList;
@@ -91,7 +91,7 @@ public class FragmentMineMinor3Favorite extends Fragment {
         //list.add(new Bean_ListView_remind(R.drawable.haimian_usericon, R.drawable.testphoto_4, "Xminer", "剩余1小时", "裂隙检查","该任务需要五个人完成，所需求当事人在火宅现场拍摄不同地理位置的照片", "5","10"));
 
         mListView = view.findViewById(R.id.minepage_minor3_lv);
-        mListView.setAdapter(new Adapter_ListView_remind( mContext,list));
+        mListView.setAdapter(new AdapterListViewRemind( mContext,list));
         //列表监听器暂时不管
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

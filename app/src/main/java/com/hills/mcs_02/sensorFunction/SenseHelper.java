@@ -26,32 +26,32 @@ import java.util.Set;
 public class SenseHelper {
     private final String TAG = "SenseHelper";
     private static Context mContext;
-    private List<Integer> mSensorType_List;
+    private List<Integer> mSensorTypeList;
     private String mDivider;
 
     public SenseHelper(Context context) {
         mContext = context;
-        mSensorType_List = new ArrayList<Integer>();
-        List<String> sensorName_List = new ArrayList<>();
-        mDivider = StringStore.Divider_1;
-        String tempString = getSensorList_TypeInt_String();
+        mSensorTypeList = new ArrayList<Integer>();
+        List<String> sensorNameList = new ArrayList<>();
+        mDivider = StringStore.DIVIDER1;
+        String tempString = getSensorListTypeIntString();
         Log.i(TAG, "Now SenseHelp Create, sensorTypeGet: " + tempString);
         // 如果是预设的错误默认值则重新初始化设备拥有的传感器int值表
-        if (tempString.equals(StringStore.SP_StringError)) {
+        if (tempString.equals(StringStore.SP_STRING_ERROR)) {
             Log.i(TAG, "Now SenseHelp Get The Sensor List of the Device");
             SensorManager sensorManager = (SensorManager) mContext.getSystemService(Context.SENSOR_SERVICE);
             List<Sensor> sensorList = sensorManager.getSensorList(Sensor.TYPE_ALL);
-            Integer[] type_list = new Integer[sensorList.size()];
-            for (int i = 0; i < sensorList.size(); i++) {
-                Sensor sensor = sensorList.get(i);
-                type_list[i] = sensor.getType();
-                mSensorType_List.add(type_list[i]);
-                sensorName_List.add(sensor.getName());
+            Integer[] typeList = new Integer[sensorList.size()];
+            for (int temp = 0; temp < sensorList.size(); temp++) {
+                Sensor sensor = sensorList.get(temp);
+                typeList[temp] = sensor.getType();
+                mSensorTypeList.add(typeList[temp]);
+                sensorNameList.add(sensor.getName());
             }
             //输出查看传感器名字
-            Log.i(TAG,"sensorName_List:" + sensorName_List.toString());
+            Log.i(TAG,"sensorName_List:" + sensorNameList.toString());
             //写入信息表
-            if (storeSensorTypeInfo(type_list))
+            if (storeSensorTypeInfo(typeList))
                 Log.i(TAG, "mSensorType_List has been wrote into the SQLite");
             else Log.i(TAG, "mSensorType_List has not been wrote into the SQLite");
         }
@@ -62,7 +62,7 @@ public class SenseHelper {
             for (String string : typeInt) {
                 int i = Integer.parseInt(string);
                 Log.i(TAG, "typeInt:" + string);
-                mSensorType_List.add(i);
+                mSensorTypeList.add(i);
             }
         }
     }
@@ -71,9 +71,9 @@ public class SenseHelper {
      *  传感器列表获取函数（纯字符）
      *  如果未获取则返回StringStore.SP_StringError，需要在使用此方法后进行判定
      */
-    public String getSensorList_Name() {
-        return mContext.getSharedPreferences(StringStore.SensorSP_XMLName, Context.MODE_PRIVATE).
-                getString(StringStore.SensorDataSP_List_String, StringStore.SP_StringError);
+    public String getSensorListName() {
+        return mContext.getSharedPreferences(StringStore.SENSOR_SP_XML_NAME, Context.MODE_PRIVATE).
+                getString(StringStore.SENSOR_DATA_SP_LIST_STRING, StringStore.SP_STRING_ERROR);
     }
 
     /*
@@ -81,25 +81,25 @@ public class SenseHelper {
      *  如果未获取则返回StringStore.SP_StringError，需要在使用此方法后进行判定
      *  返回的是SP记录的传感器int组成的字符串
      */
-    public String getSensorList_TypeInt_String() {
+    public String getSensorListTypeIntString() {
         //测试所用mContext.getSharedPreferences(StringStore.SensorSP_XMLName, Context.MODE_PRIVATE).edit().remove(StringStore.SensorDataSP_List_TypeInt).commit();
-        return mContext.getSharedPreferences(StringStore.SensorSP_XMLName, Context.MODE_PRIVATE).
-                getString(StringStore.SensorDataSP_List_TypeInt, StringStore.SP_StringError);
+        return mContext.getSharedPreferences(StringStore.SENSOR_SP_XML_NAME, Context.MODE_PRIVATE).
+                getString(StringStore.SENSOR_DATA_SP_LIST_TYPEINT, StringStore.SP_STRING_ERROR);
     }
 
     /*
      *  传感器Type的int值表获取函数
      *  返回的是传感器名字在String.xml文件中的前缀字符串数组，用于构建sensor的menu
      */
-    public String[] getSensorList_TypeInt_Strings() {
-        String tempString = getSensorList_TypeInt_String();
+    public String[] getSensorListTypeIntStrings() {
+        String tempString = getSensorListTypeIntString();
         String[] types = tempString.split(mDivider);
         if(types.length <= 0){
             return new String[]{"Null"};
         }else {
             String[] sensors = new String[types.length];
-            for(int i = 0; i < sensors.length; i ++){
-                sensors[i] = sensorType2XmlName(mContext, Integer.parseInt(types[i]));
+            for(int temp = 0; temp < sensors.length; temp ++){
+                sensors[temp] = sensorType2XmlName(mContext, Integer.parseInt(types[temp]));
                 /*switch (Integer.parseInt(types[i])) {
                     case Sensor.TYPE_ACCELEROMETER:
                         sensors[i] = mContext.getString(R.string.Sensor_TYPE_ACCELEROMETER);
@@ -197,18 +197,18 @@ public class SenseHelper {
      *  如果未获取则返回StringStore.SP_StringError，需要在使用此方法后进行判定
      *  返回的是SP记录的传感器int组成的字符串
      */
-    public int[] getSensorList_TypeInt_Integers() {
-        String temp = getSensorList_TypeInt_String();
-        String[] temp_strings = temp.split(mDivider);
+    public int[] getSensorListTypeIntIntegers() {
+        String temp = getSensorListTypeIntString();
+        String[] tempStrings = temp.split(mDivider);
         int[] result;
-        if (temp.equals(StringStore.SP_StringError)) {
+        if (temp.equals(StringStore.SP_STRING_ERROR)) {
             Toast.makeText(mContext, "Sensor List SP Error by SenseHelper", Toast.LENGTH_SHORT).show();
             result = new int[1];
             result[0] = -1;
         } else {
-            result = new int[temp_strings.length];
-            for (int i = 0; i < temp_strings.length; i++) {
-                result[i] = Integer.parseInt(temp_strings[i]);
+            result = new int[tempStrings.length];
+            for (int i = 0; i < tempStrings.length; i++) {
+                result[i] = Integer.parseInt(tempStrings[i]);
             }
         }
         return result;
@@ -217,15 +217,15 @@ public class SenseHelper {
     /*
      *  查询手机是否含有该传感器，单个传感器查询
      */
-    public boolean containSensor(int sensor_type) {
-        if (mSensorType_List.size() <= 0) {
-            Log.i(TAG, "mSensorType_List's size is :" + mSensorType_List.size());
+    public boolean containSensor(int sensorType) {
+        if (mSensorTypeList.size() <= 0) {
+            Log.i(TAG, "mSensorType_List's size is :" + mSensorTypeList.size());
             return false;
         } else {
-            Log.i(TAG, "mSensorType_List:" + mSensorType_List.toString());
-            if (mSensorType_List.contains(sensor_type)) return true;
+            Log.i(TAG, "mSensorType_List:" + mSensorTypeList.toString());
+            if (mSensorTypeList.contains(sensorType)) return true;
             else {
-                Log.i(TAG, "The device dont have sensor :" + sensor_type);
+                Log.i(TAG, "The device dont have sensor :" + sensorType);
                 return false;
             }
         }
@@ -235,11 +235,11 @@ public class SenseHelper {
      *  查询手机是否含有该传感器，多个传感器查询
      *  返回boolean数组，对应下标是传入的传感器列表的小标，可通过下标进行判定/UI提示
      */
-    public boolean[] containSensors(int[] sensor_type_list) {
-        boolean[] results = new boolean[sensor_type_list.length];
-        for (int i = 0; i < sensor_type_list.length; i++) {
-            if (containSensor(sensor_type_list[i])) results[i] = true;
-            else results[i] = false;
+    public boolean[] containSensors(int[] sensorTypeList) {
+        boolean[] results = new boolean[sensorTypeList.length];
+        for (int temp = 0; temp < sensorTypeList.length; temp++) {
+            if (containSensor(sensorTypeList[temp])) results[temp] = true;
+            else results[temp] = false;
         }
         return results;
     }
@@ -262,8 +262,8 @@ public class SenseHelper {
             while(lIterator.hasNext()){
                 record = record + mDivider + lIterator.next() ;
             }
-            return mContext.getSharedPreferences(StringStore.SensorSP_XMLName, Context.MODE_PRIVATE).edit()
-                    .putString(StringStore.SensorDataSP_List_TypeInt, record)
+            return mContext.getSharedPreferences(StringStore.SENSOR_SP_XML_NAME, Context.MODE_PRIVATE).edit()
+                    .putString(StringStore.SENSOR_DATA_SP_LIST_TYPEINT, record)
                     .commit();
         }
     }
@@ -273,19 +273,19 @@ public class SenseHelper {
      *
      *  根据设备具有的传感器类型，返回中文/英文...等语言的传感器名称列表，用以实现创建传感器多选提示框等。
      */
-    public String[] sensorList_TypeInts2NameStrings(int[] typeList) {
+    public String[] sensorListNameStrings1TypeInts(int[] typeList) {
         String[] lStrings = new String[typeList.length];
-        for(int i = 0; i < typeList.length; i ++){
-            lStrings[i] = sensorType2XmlName(mContext, typeList[i]);
+        for(int temp = 0; temp < typeList.length; temp ++){
+            lStrings[temp] = sensorType2XmlName(mContext, typeList[temp]);
         }
         return lStrings;
     }
 
 
-    public int[] sensorList_NameStrings2TypeInts(String[] nameList) {
+    public int[] sensorListNameStrings2TypeInts(String[] nameList) {
         int[] lInts = new int[nameList.length];
-        for(int i = 0; i < nameList.length; i ++){
-            lInts[i] = sensorXmlName2Type(mContext, nameList[i]);
+        for(int temp = 0; temp < nameList.length; temp ++){
+            lInts[temp] = sensorType2XmlName(mContext, nameList[temp]);
         }
         return lInts;
     }
@@ -295,7 +295,7 @@ public class SenseHelper {
      *  @param xmlName:String.xml字符文件存储的传感器名字
      *  @return int 返回对应传感器的Type的int值
      */
-    public static int sensorXmlName2Type(Context pContext, String xmlName) {
+    public static int sensorType2XmlName(Context pContext, String xmlName) {
         int sensorType = -2;                 //不为-1的原因是type中-1被使用表示为all
         if(xmlName.equals(pContext.getString(R.string.Sensor_TYPE_ACCELEROMETER))) sensorType = Sensor.TYPE_ACCELEROMETER;
         else if(xmlName.equals(pContext.getString(R.string.Sensor_TYPE_MAGNETIC_FIELD))) sensorType = Sensor.TYPE_MAGNETIC_FIELD;
@@ -334,7 +334,7 @@ public class SenseHelper {
      *  @return xmlName  返回String.xml字符文件存储的传感器名字
      */
     public static String sensorType2XmlName(Context pContext, Integer sensorType) {
-        String result = StringStore.SP_StringError;
+        String result = StringStore.SP_STRING_ERROR;
         switch (sensorType) {
             case Sensor.TYPE_ACCELEROMETER:
                 result = pContext.getString(R.string.Sensor_TYPE_ACCELEROMETER);

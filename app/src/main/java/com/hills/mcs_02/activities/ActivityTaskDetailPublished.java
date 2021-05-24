@@ -34,7 +34,7 @@ import com.hills.mcs_02.dataBeans.Task;
 import com.hills.mcs_02.downloadPack.DownloadImageUtils;
 import com.hills.mcs_02.networkClasses.interfacesPack.PostRequestPublishedTaskDetail;
 import com.hills.mcs_02.R;
-import com.hills.mcs_02.viewsAdapters.Adapter_RecyclerView_Published_TaskDetail;
+import com.hills.mcs_02.viewsAdapters.AdapterRecyclerViewPublishedTaskDetail;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -59,7 +59,7 @@ public class ActivityTaskDetailPublished extends BaseActivity {
     private TextView taskNameTv;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private RecyclerView mRecyclerView;
-    private Adapter_RecyclerView_Published_TaskDetail recyclerAdapter;
+    private AdapterRecyclerViewPublishedTaskDetail recyclerAdapter;
     private List<Bean_Combine_u_ut> mList;
     private Set<Integer> mHashSetTaskId;                                             //用于获取感知任务去重
 
@@ -90,7 +90,7 @@ public class ActivityTaskDetailPublished extends BaseActivity {
         mRecyclerView = findViewById(R.id.published_taskDetail_RecyclerView);
         initData();
         initBackBT();
-        recyclerAdapter = new Adapter_RecyclerView_Published_TaskDetail(this, mList);
+        recyclerAdapter = new AdapterRecyclerViewPublishedTaskDetail(this, mList);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         mRecyclerView.setAdapter(recyclerAdapter);
         initRefreshListener();
@@ -249,8 +249,8 @@ public class ActivityTaskDetailPublished extends BaseActivity {
                         }
                         //根据tag判断是第一次刷新还是后续的上拉刷新和下拉加载
                         if (TEMP_TAG == 0) mList.addAll(tempList);
-                        else if (TEMP_TAG == 1) recyclerAdapter.AddHeaderItem(tempList);
-                        else recyclerAdapter.AddFooterItem(tempList);
+                        else if (TEMP_TAG == 1) recyclerAdapter.addHeaderItem(tempList);
+                        else recyclerAdapter.addFooterItem(tempList);
 
                         //刷新完成
                         if (mSwipeRefreshLayout.isRefreshing())

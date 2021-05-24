@@ -17,6 +17,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+
 import com.hills.mcs_02.R;
 
 import java.util.List;
@@ -29,8 +30,8 @@ import java.util.List;
 public class SelectDialog extends Dialog implements OnClickListener,OnItemClickListener {
     private SelectDialogListener mListener;
     private Activity mActivity;
-    private Button mMBtn_Cancel;
-    private TextView mTv_Title;
+    private Button mBtnCancel;
+    private TextView mTvTitle;
     private List<String> mName;
     private String mTitle;
     private boolean mUseCustomColor = false;
@@ -48,7 +49,7 @@ public class SelectDialog extends Dialog implements OnClickListener,OnItemClickL
     private SelectDialogCancelListener mCancelListener;
 
     public interface SelectDialogCancelListener {
-        public void onCancelClick(View v);
+        public void onCancelClick(View view);
     }
 
     public SelectDialog(Activity activity, int theme,
@@ -139,31 +140,31 @@ public class SelectDialog extends Dialog implements OnClickListener,OnItemClickL
         ListView dialogList=(ListView) findViewById(R.id.dialog_list);
         dialogList.setOnItemClickListener(this);
         dialogList.setAdapter(dialogAdapter);
-        mMBtn_Cancel = (Button) findViewById(R.id.mBtn_Cancel);
-        mTv_Title = (TextView) findViewById(R.id.mTv_Title);
+        mBtnCancel = (Button) findViewById(R.id.mBtn_Cancel);
+        mTvTitle = (TextView) findViewById(R.id.mTv_Title);
 
 
-        mMBtn_Cancel.setOnClickListener(new View.OnClickListener() {
+        mBtnCancel.setOnClickListener(new View.OnClickListener() {
 
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 if(mCancelListener != null){
-                    mCancelListener.onCancelClick(v);
+                    mCancelListener.onCancelClick(view);
                 }
                 dismiss();
             }
         });
 
-        if(!TextUtils.isEmpty(mTitle) && mTv_Title != null){
-            mTv_Title.setVisibility(View.VISIBLE);
-            mTv_Title.setText(mTitle);
+        if(!TextUtils.isEmpty(mTitle) && mTvTitle != null){
+            mTvTitle.setVisibility(View.VISIBLE);
+            mTvTitle.setText(mTitle);
         }else{
-            mTv_Title.setVisibility(View.GONE);
+            mTvTitle.setVisibility(View.GONE);
         }
     }
 
     @Override
-    public void onClick(View v) {
+    public void onClick(View view) {
         dismiss();
 
     }
@@ -177,7 +178,7 @@ public class SelectDialog extends Dialog implements OnClickListener,OnItemClickL
     }
     private class DialogAdapter extends BaseAdapter {
         private List<String> mStrings;
-        private Viewholder viewholder;
+        private SelectDialog.viewHolder viewHolder;
         private LayoutInflater layoutInflater;
         public DialogAdapter(List<String> strings) {
             this.mStrings = strings;
@@ -202,37 +203,37 @@ public class SelectDialog extends Dialog implements OnClickListener,OnItemClickL
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             if (null == convertView) {
-                viewholder=new Viewholder();
+                viewHolder =new viewHolder();
                 convertView=layoutInflater.inflate(R.layout.view_dialog_item, null);
-                viewholder.dialogItemButton=(TextView) convertView.findViewById(R.id.dialog_item_bt);
-                convertView.setTag(viewholder);
+                viewHolder.dialogItemButton=(TextView) convertView.findViewById(R.id.dialog_item_bt);
+                convertView.setTag(viewHolder);
             }else{
-                viewholder=(Viewholder) convertView.getTag();
+                viewHolder =(SelectDialog.viewHolder) convertView.getTag();
             }
-            viewholder.dialogItemButton.setText(mStrings.get(position));
+            viewHolder.dialogItemButton.setText(mStrings.get(position));
             if (!mUseCustomColor) {
                 mFirstItemColor = mActivity.getResources().getColor(R.color.blue);
                 mOtherItemColor = mActivity.getResources().getColor(R.color.blue);
             }
             if (1 == mStrings.size()) {
-                viewholder.dialogItemButton.setTextColor(mFirstItemColor);
-                viewholder.dialogItemButton.setBackgroundResource(R.drawable.dialog_item_bg_only);
+                viewHolder.dialogItemButton.setTextColor(mFirstItemColor);
+                viewHolder.dialogItemButton.setBackgroundResource(R.drawable.dialog_item_bg_only);
             } else if (position == 0) {
-                viewholder.dialogItemButton.setTextColor(mFirstItemColor);
-                viewholder.dialogItemButton.setBackgroundResource(R.drawable.select_dialog_item_bg_top);
+                viewHolder.dialogItemButton.setTextColor(mFirstItemColor);
+                viewHolder.dialogItemButton.setBackgroundResource(R.drawable.select_dialog_item_bg_top);
             } else if (position == mStrings.size() - 1) {
-                viewholder.dialogItemButton.setTextColor(mOtherItemColor);
-                viewholder.dialogItemButton.setBackgroundResource(R.drawable.select_dialog_item_bg_buttom);
+                viewHolder.dialogItemButton.setTextColor(mOtherItemColor);
+                viewHolder.dialogItemButton.setBackgroundResource(R.drawable.select_dialog_item_bg_buttom);
             } else {
-                viewholder.dialogItemButton.setTextColor(mOtherItemColor);
-                viewholder.dialogItemButton.setBackgroundResource(R.drawable.select_dialog_item_bg_center);
+                viewHolder.dialogItemButton.setTextColor(mOtherItemColor);
+                viewHolder.dialogItemButton.setBackgroundResource(R.drawable.select_dialog_item_bg_center);
             }
             return convertView;
         }
 
     }
 
-    public static class Viewholder {
+    public static class viewHolder {
         public TextView dialogItemButton;
     }
 

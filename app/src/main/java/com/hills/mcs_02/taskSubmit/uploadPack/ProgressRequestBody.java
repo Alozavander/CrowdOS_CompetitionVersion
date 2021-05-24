@@ -1,5 +1,9 @@
 package com.hills.mcs_02.taskSubmit.uploadPack;
 
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
+import okio.BufferedSink;
+
 import android.os.Handler;
 import android.os.Looper;
 
@@ -7,9 +11,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
-import okhttp3.MediaType;
-import okhttp3.RequestBody;
-import okio.BufferedSink;
+
 
 public class ProgressRequestBody extends RequestBody {
     private File mFile;
@@ -41,13 +43,13 @@ public class ProgressRequestBody extends RequestBody {
     @Override
     public void writeTo(BufferedSink sink) throws IOException {
         byte[] buffer = new byte[mEachBufferSize];
-        FileInputStream in = new FileInputStream(mFile);
+        FileInputStream fileInput = new FileInputStream(mFile);
         long uploaded = 0;
 
         try {
             int read;
             Handler handler = new Handler(Looper.getMainLooper());
-            while ((read = in.read(buffer)) != -1) {
+            while ((read = fileInput.read(buffer)) != -1) {
                 // update progress on UI thread
                 handler.post(new ProgressUpdater(uploaded));
                 uploaded += read;
@@ -55,7 +57,7 @@ public class ProgressRequestBody extends RequestBody {
 
             }
         } finally {
-            in.close();
+            fileInput.close();
         }
     }
 

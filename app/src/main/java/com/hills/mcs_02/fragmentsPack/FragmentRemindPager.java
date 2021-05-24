@@ -38,7 +38,7 @@ import com.hills.mcs_02.networkClasses.interfacesPack.PostRequestRemindDoing;
 import com.hills.mcs_02.networkClasses.interfacesPack.PostRequestRemindDone;
 import com.hills.mcs_02.networkClasses.interfacesPack.PostRequestRemindRecommend;
 import com.hills.mcs_02.R;
-import com.hills.mcs_02.viewsAdapters.Adapter_RecyclerView_remind;
+import com.hills.mcs_02.viewsAdapters.AdapterRecyclerViewRemind;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -54,7 +54,7 @@ public class FragmentRemindPager extends Fragment {
     private Context mContext;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private RecyclerView mRecyclerView;
-    private Adapter_RecyclerView_remind mRecyclerAdapter;
+    private AdapterRecyclerViewRemind mRecyclerAdapter;
     private List<Bean_ListView_remind> mBeanListViewRemind;                           //为上述ListView准备的数据链表
     private Set<Integer> mHashSetTaskId;                                             //用于获取的发布任务去重
 
@@ -81,7 +81,7 @@ public class FragmentRemindPager extends Fragment {
         //初始化列表
         firstListRefresh();
 
-        mRecyclerAdapter = new Adapter_RecyclerView_remind(mContext, mBeanListViewRemind);
+        mRecyclerAdapter = new AdapterRecyclerViewRemind(mContext, mBeanListViewRemind);
         mRecyclerAdapter.setRecyclerItemClickListener(new MCSRecyclerItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
@@ -229,8 +229,8 @@ public class FragmentRemindPager extends Fragment {
                             Toast.makeText(mContext, getResources().getString(R.string.FailToGetData), Toast.LENGTH_SHORT).show();
                         }
                         if (tempLabel == 0) mBeanListViewRemind.addAll(tempList);
-                        else if (tempLabel == 1) mRecyclerAdapter.AddHeaderItem(tempList);
-                        else mRecyclerAdapter.AddFooterItem(tempList);
+                        else if (tempLabel == 1) mRecyclerAdapter.addHeaderItem(tempList);
+                        else mRecyclerAdapter.addFooterItem(tempList);
 
                         //刷新完成
                         if (mSwipeRefreshLayout.isRefreshing())
@@ -291,8 +291,8 @@ public class FragmentRemindPager extends Fragment {
                             Toast.makeText(mContext, getResources().getString(R.string.FailToGetData), Toast.LENGTH_SHORT).show();
                         }
                         if (tempLabel == 0) mBeanListViewRemind.addAll(tempList);
-                        else if (tempLabel == 1) mRecyclerAdapter.AddHeaderItem(tempList);
-                        else mRecyclerAdapter.AddFooterItem(tempList);
+                        else if (tempLabel == 1) mRecyclerAdapter.addHeaderItem(tempList);
+                        else mRecyclerAdapter.addFooterItem(tempList);
 
                         //刷新完成
                         if (mSwipeRefreshLayout.isRefreshing())
@@ -353,8 +353,8 @@ public class FragmentRemindPager extends Fragment {
                             Toast.makeText(mContext, getResources().getString(R.string.FailToGetData), Toast.LENGTH_SHORT).show();
                         }
                         if (tempLabel == 0) mBeanListViewRemind.addAll(tempList);
-                        else if (tempLabel == 1) mRecyclerAdapter.AddHeaderItem(tempList);
-                        else mRecyclerAdapter.AddFooterItem(tempList);
+                        else if (tempLabel == 1) mRecyclerAdapter.addHeaderItem(tempList);
+                        else mRecyclerAdapter.addFooterItem(tempList);
 
                         //刷新完成
                         if (mSwipeRefreshLayout.isRefreshing())

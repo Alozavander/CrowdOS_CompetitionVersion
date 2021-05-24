@@ -10,13 +10,14 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
+import static android.widget.Toast.LENGTH_LONG;
 
 import com.hills.mcs_02.StringStore;
 import com.hills.mcs_02.saveFile.FileExport;
 
 import java.io.File;
 
-import static android.widget.Toast.LENGTH_LONG;
+
 
 /*
  * Edit by Liao JiaHao
@@ -33,10 +34,10 @@ import static android.widget.Toast.LENGTH_LONG;
 public class SenseFunction {
     private static final String TAG = "SenseFunction";
     private Context mContext;
-    private SensorService_Interface sensorService_interface;
+    private SensorServiceInterface sensorServiceInterface;
     private boolean isBind;
     private ServiceConnection conn;
-    public SenseHelper sh;
+    public SenseHelper senseHelper;
     public SQLiteDatabase mReadableDatabase;
 
     /* 绑定/启动Service服务的Activity的Context */
@@ -46,10 +47,10 @@ public class SenseFunction {
 
     /* 开启SenseService
      */
-    public void On_SenseService() {
+    public void onSenseService() {
         Log.i(TAG, "=======Now Init the sensor Service...===========");
         //初始化传感器感知服务Service
-        sh = new SenseHelper(mContext);
+        senseHelper = new SenseHelper(mContext);
         Intent intent = new Intent(mContext, SensorService.class);
         if (conn == null) {
             Log.i(TAG, "===========connection creating...============");
@@ -57,7 +58,7 @@ public class SenseFunction {
                 @Override
                 public void onServiceConnected(ComponentName name, IBinder service) {
 
-                    sensorService_interface = (SensorService_Interface) service;
+                    sensorServiceInterface = (SensorServiceInterface) service;
                     Log.i(TAG, "sensorService_interface connection is done.");
                 }
 
@@ -77,7 +78,7 @@ public class SenseFunction {
     /* 关闭SenseService
      * 请在开启service的代码结构中的onDestroy方法加入此方法
      */
-    public void Off_SenseService() {
+    public void offSenseService() {
         if (isBind) {
             isBind = false;
             mContext.getApplicationContext().unbindService(conn);
@@ -87,10 +88,10 @@ public class SenseFunction {
     /* 开启传感器感知
      * 由sensorType_array指定开启的传感器类型
      */
-    public void on_sensor(int[] sensorType_array) {
+    public void onSensor(int[] sensorTypeArray) {
         if (isBind) {
-            if (sensorService_interface != null) {
-                sensorService_interface.binder_sensorOn(sensorType_array);
+            if (sensorServiceInterface != null) {
+                sensorServiceInterface.binderSensorOn(sensorTypeArray);
                 Log.i(TAG, "SensorService's sensorOn has been remote.");
             } else {
                 Toast.makeText(mContext, "sensorService_interface is null. Please init SenseService use On_SenseService method.", LENGTH_LONG).show();
@@ -105,10 +106,10 @@ public class SenseFunction {
     /* 关闭传感器感知
      * 由sensorType_array指定关闭的传感器类型
      */
-    public void off_sensor(int[] sensorType_array) {
+    public void offSensor(int[] sensorTypeArray) {
         if (isBind) {
-            if (sensorService_interface != null) {
-                sensorService_interface.binder_sensorOff(sensorType_array);
+            if (sensorServiceInterface != null) {
+                sensorServiceInterface.binderSensorOff(sensorTypeArray);
                 Log.i(TAG, "SensorService's sensorOff has been remote.");
             } else {
                 Toast.makeText(mContext, "sensorService_interface is null. Please init SenseService use On_SenseService method.", LENGTH_LONG).show();
@@ -124,49 +125,53 @@ public class SenseFunction {
      * 返回对应的cursor
      * cursor使用完成后应当使用close讲它关闭
      */
-    public Cursor query_senseData(int pSensorType) {
-        SQLiteDatabase db = new SensorSQLiteOpenHelper(mContext).getReadableDatabase();
-        Cursor c = db.query(StringStore.SensorDataTable_Name,
-                new String[]{StringStore.SensorDataTable_id,
-                        StringStore.SensorDataTable_SenseType,
-                        StringStore.SensorDataTable_SenseTime,
-                        StringStore.SensorDataTable_SenseData_1,
-                        StringStore.SensorDataTable_SenseData_2,
-                        StringStore.SensorDataTable_SenseData_3},
-                StringStore.SensorDataTable_SenseType + "=?", new String[]{pSensorType + ""}, null, null, null);
-        return c;
+    public Cursor querySenseData(int pSensorType) {
+        SQLiteDatabase db = new SensorSqliteOpenHelper(mContext).getReadableDatabase();
+        Cursor cur = db.query(StringStore.SENSOR_DATATABLE_NAME,
+                new String[]{StringStore.SENSOR_DATATABLE_ID,
+                        StringStore.SENSOR_DATATABLE_SENSE_TYPE,
+                        StringStore.SENSOR_DATATABLE_SENSE_TIME,
+                        StringStore.SENSOR_DATATABLE_SENSE_DATA_1,
+                        StringStore.SENSOR_DATATABLE_SENSE_DATA_2,
+                        StringStore.SENSOR_DATATABLE_SENSE_DATA_3},
+                StringStore.SENSOR_DATATABLE_SENSE_TYPE + "=?", new String[]{pSensorType + ""}, null, null, null);
+        return cur;
     }
 
     /* 删除传感器数据
      * 返回删除的数据数量，-1为出错，如果startTime和endTime为null，则该传感器类型的感知数据全部删除
      */
-    public int SQLiteDelete(int sensorType, String startTime, String endTime) {
-        SQLiteDatabase db = new SensorSQLiteOpenHelper(mContext).getReadableDatabase();
+    public int sqliteDelete(int sensorType, String startTime, String endTime) {
+        SQLiteDatabase db = new SensorSqliteOpenHelper(mContext).getReadableDatabase();
         int lI = -1;
         //四种时间不同的情况
         if (startTime == null && endTime != null) {
-            String whereClaus = StringStore.SensorDataTable_SenseType + "=?" + " AND " + StringStore.SensorDataTable_SenseTime + " < ?";
-            lI = db.delete(StringStore.SensorDataTable_Name,
+            //whereclaus
+            String whereClaus = StringStore.SENSOR_DATATABLE_SENSE_TYPE + "=?" + " AND " + StringStore.SENSOR_DATATABLE_SENSE_TIME
+                + " < ?";
+            lI = db.delete(StringStore.SENSOR_DATATABLE_NAME,
                     whereClaus, new String[]{sensorType + "", endTime});
             Log.e(TAG, "Where Claus is : " + whereClaus);
             Log.e(TAG, "EndTime is : " + endTime);
             Log.e(TAG, "Delete result : " + lI);
         } else if (startTime != null && endTime == null) {
-            String whereClaus = StringStore.SensorDataTable_SenseType + "=?" + " AND " + StringStore.SensorDataTable_SenseTime + " > ?";
-            lI = db.delete(StringStore.SensorDataTable_Name,
+            String whereClaus = StringStore.SENSOR_DATATABLE_SENSE_TYPE + "=?" + " AND " + StringStore.SENSOR_DATATABLE_SENSE_TIME
+                + " > ?";
+            lI = db.delete(StringStore.SENSOR_DATATABLE_NAME,
                     whereClaus, new String[]{sensorType + "", startTime});
             Log.e(TAG, "Where Claus is : " + whereClaus);
             Log.e(TAG, "StartTime is : " + startTime);
             Log.e(TAG, "Delete result : " + lI);
         } else if (startTime == null && endTime == null) {
-            String whereClaus = StringStore.SensorDataTable_SenseType + "=?";
-            lI = db.delete(StringStore.SensorDataTable_Name,
+            String whereClaus = StringStore.SENSOR_DATATABLE_SENSE_TYPE + "=?";
+            lI = db.delete(StringStore.SENSOR_DATATABLE_NAME,
                     whereClaus, new String[]{sensorType + ""});
             Log.e(TAG, "Where Claus is : " + whereClaus);
             Log.e(TAG, "Delete result : " + lI);
         } else {
-            String whereClaus = StringStore.SensorDataTable_SenseType + "=?" + " AND " + StringStore.SensorDataTable_SenseTime + " > ? AND " + StringStore.SensorDataTable_SenseTime + " < ?";
-            lI = db.delete(StringStore.SensorDataTable_Name,
+            String whereClaus = StringStore.SENSOR_DATATABLE_SENSE_TYPE + "=?" + " AND " + StringStore.SENSOR_DATATABLE_SENSE_TIME
+                + " > ? AND " + StringStore.SENSOR_DATATABLE_SENSE_TIME + " < ?";
+            lI = db.delete(StringStore.SENSOR_DATATABLE_NAME,
                     whereClaus, new String[]{sensorType + "", startTime, endTime});
             Log.e(TAG, "Where Claus is : " + whereClaus);
             Log.e(TAG, "StartTime is : " + startTime);
@@ -184,14 +189,14 @@ public class SenseFunction {
      */
     public File storeDataToCSV(int sensorType, String fileName, String fileParentPath) {
         File saveFile;
-        Cursor c = new SensorSQLiteOpenHelper(mContext).getReadableDatabase().query(StringStore.SensorDataTable_Name,
-                new String[]{StringStore.SensorDataTable_SenseType,
-                        StringStore.SensorDataTable_SenseTime,
-                        StringStore.SensorDataTable_SenseData_1,
-                        StringStore.SensorDataTable_SenseData_2,
-                        StringStore.SensorDataTable_SenseData_3},
-                StringStore.SensorDataTable_SenseType + "=?", new String[]{sensorType+""}, null, null, null);
-        saveFile = FileExport.ExportToCSV(c, fileName, fileParentPath);
+        Cursor cur = new SensorSqliteOpenHelper(mContext).getReadableDatabase().query(StringStore.SENSOR_DATATABLE_NAME,
+                new String[]{StringStore.SENSOR_DATATABLE_SENSE_TYPE,
+                        StringStore.SENSOR_DATATABLE_SENSE_TIME,
+                        StringStore.SENSOR_DATATABLE_SENSE_DATA_1,
+                        StringStore.SENSOR_DATATABLE_SENSE_DATA_2,
+                        StringStore.SENSOR_DATATABLE_SENSE_DATA_3},
+                StringStore.SENSOR_DATATABLE_SENSE_TYPE + "=?", new String[]{sensorType+""}, null, null, null);
+        saveFile = FileExport.exportToCSV(cur, fileName, fileParentPath);
         Toast.makeText(mContext, "Output finishing. The file path is :" + saveFile.getAbsolutePath(), Toast.LENGTH_LONG).show();
         return saveFile;
     }

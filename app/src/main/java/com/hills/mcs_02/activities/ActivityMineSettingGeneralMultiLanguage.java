@@ -6,7 +6,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.hills.mcs_02.BaseActivity;
-import com.hills.mcs_02.viewsAdapters.Adapter_Rb_Tv_multiLanguage;
+import com.hills.mcs_02.viewsAdapters.AdapterRadioBtnTvMultiLanguage;
 import com.hills.mcs_02.R;
 
 import java.util.ArrayList;
@@ -42,7 +42,7 @@ public class ActivityMineSettingGeneralMultiLanguage extends BaseActivity {
         languageList.add("English");
 
         languageListView = findViewById(R.id.general_multilan_list);
-        languageListView.setAdapter(new Adapter_Rb_Tv_multiLanguage(languageList,
+        languageListView.setAdapter(new AdapterRadioBtnTvMultiLanguage(languageList,
             ActivityMineSettingGeneralMultiLanguage.this));
 
     }

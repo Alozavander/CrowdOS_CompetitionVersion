@@ -24,10 +24,10 @@ import com.hills.mcs_02.activities.ActivityMineMinor4Wallet;
 import com.hills.mcs_02.activities.ActivityMineMinor5SensorData;
 import com.hills.mcs_02.activities.ActivityMineMinor7Setting;
 import com.hills.mcs_02.dataBeans.Bean_ListView_mine;
-import com.hills.mcs_02.For_test;
+import com.hills.mcs_02.ForTest;
 import com.hills.mcs_02.R;
 import com.hills.mcs_02.taskSubmit.SelectDialog;
-import com.hills.mcs_02.viewsAdapters.Adapter_ListeView_mine;
+import com.hills.mcs_02.viewsAdapters.AdapterListeViewMine;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,7 +51,7 @@ public class FragmentMine extends Fragment {
     private String mParam2;
     private ListView mListView;
     private Context mContext;
-    private For_test mForTest;
+    private ForTest mForTest;
     private TextView usernameTv;
     private BroadcastReceiver receiver;
     private Button loginBtn;
@@ -150,7 +150,7 @@ public class FragmentMine extends Fragment {
                 Intent intent = new Intent();
                 intent.setAction("action_Fragment_mine_userInfo_fresh");
                 getActivity().sendBroadcast(intent);*/
-                mForTest.jump_to_loginPage();
+                mForTest.jumpToLoginPage();
             }
         });
 
@@ -160,7 +160,7 @@ public class FragmentMine extends Fragment {
             @Override
             public void onClick(View view) {
                 //11为此处不会用到的参数
-                mForTest.jump_to_editInfo();
+                mForTest.jumpToEditInfo();
             }
         });
 
@@ -185,7 +185,7 @@ public class FragmentMine extends Fragment {
 
         //关联到布局文件中的listview
         mListView = (ListView) view.findViewById(R.id.minepage_login_funciton_lv);
-        mListView.setAdapter(new Adapter_ListeView_mine(listView_mine, mContext));
+        mListView.setAdapter(new AdapterListeViewMine(listView_mine, mContext));
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -282,7 +282,7 @@ public class FragmentMine extends Fragment {
 
         // 保证容器Activity实现了回调接口 否则抛出异常警告
         try {
-            mForTest = (For_test) context;
+            mForTest = (ForTest) context;
         } catch (ClassCastException exp) {
             throw new ClassCastException(context.toString() + " must implement For_TestInterface");
         }
