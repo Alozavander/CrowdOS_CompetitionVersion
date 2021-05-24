@@ -1,10 +1,18 @@
 package com.hills.mcs_02.downloadPack;
 
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+
+
 import android.os.Environment;
 import android.text.TextUtils;
 import android.util.Log;
 
 import com.blankj.utilcode.util.FileUtils;
+
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -13,11 +21,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
+
+
 
 public class DownloadImageUtils {
     private static final String TAG = "DownloadUtil";
@@ -81,7 +86,7 @@ public class DownloadImageUtils {
                 }
 
                 @Override
-                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                public void onFailure(Call<ResponseBody> call, Throwable throwable) {
                 }
             });
         } else {
@@ -133,7 +138,7 @@ public class DownloadImageUtils {
                     mThread.start();
                 }
                 @Override
-                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                public void onFailure(Call<ResponseBody> call, Throwable throwable) {
                     downloadListener.onFailure(); //下载失败
                 }
             });
@@ -146,35 +151,35 @@ public class DownloadImageUtils {
     //将下载的文件写入本地存储
     private void writeFile2Disk(Response<ResponseBody> response, File file) {
         long currentLength = 0;
-        OutputStream os = null;
-        InputStream is = response.body().byteStream(); //获取下载输入流
+        OutputStream outputS = null;
+        InputStream inputS = response.body().byteStream(); //获取下载输入流
         long totalLength = response.body().contentLength();
         try {
-            os = new FileOutputStream(file); //输出流
+            outputS = new FileOutputStream(file); //输出流
             int len;
             byte[] buff = new byte[1024];
-            while ((len = is.read(buff)) != -1) {
-                os.write(buff, 0, len);
+            while ((len = inputS.read(buff)) != -1) {
+                outputS.write(buff, 0, len);
                 currentLength += len;
                 Log.e(TAG, "当前进度: " + currentLength);
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (FileNotFoundException exp) {
+            exp.printStackTrace();
+        } catch (IOException exp) {
+            exp.printStackTrace();
         } finally {
-            if (os != null) {
+            if (outputS != null) {
                 try {
-                    os.close(); //关闭输出流
-                } catch (IOException e) {
-                    e.printStackTrace();
+                    outputS.close(); //关闭输出流
+                } catch (IOException exp) {
+                    exp.printStackTrace();
                 }
             }
-            if (is != null) {
+            if (inputS != null) {
                 try {
-                    is.close(); //关闭输入流
-                } catch (IOException e) {
-                    e.printStackTrace();
+                    inputS.close(); //关闭输入流
+                } catch (IOException exp) {
+                    exp.printStackTrace();
                 }
             }
         }
@@ -184,16 +189,16 @@ public class DownloadImageUtils {
     private void writeFile2Disk(Response<ResponseBody> response, File file, DownloadListener downloadListener) {
         downloadListener.onStart();
         long currentLength = 0;
-        OutputStream os = null;
-        InputStream is = response.body().byteStream(); //获取下载输入流
+        OutputStream outputS = null;
+        InputStream inputS = response.body().byteStream(); //获取下载输入流
         long totalLength = response.body().contentLength();
         try {
-            os = new FileOutputStream(file); //输出流
+            outputS = new FileOutputStream(file); //输出流
             int len;
             byte[] buff = new byte[1024];
-            while ((len = is.read(buff)) != -1) {
+            while ((len = inputS.read(buff)) != -1) {
 
-                os.write(buff, 0, len);
+                outputS.write(buff, 0, len);
                 currentLength += len;
                 Log.e(TAG, "当前进度: " + currentLength);
                 //计算当前下载百分比，并经由回调传出
@@ -203,24 +208,24 @@ public class DownloadImageUtils {
                     downloadListener.onFinish(mFilePath); //下载完成
                 }
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (FileNotFoundException exp) {
+            exp.printStackTrace();
+        } catch (IOException exp) {
+            exp.printStackTrace();
 
         } finally {
-            if (os != null) {
+            if (outputS != null) {
                 try {
-                    os.close(); //关闭输出流
-                } catch (IOException e) {
-                    e.printStackTrace();
+                    outputS.close(); //关闭输出流
+                } catch (IOException exp) {
+                    exp.printStackTrace();
                 }
             }
-            if (is != null) {
+            if (inputS != null) {
                 try {
-                    is.close(); //关闭输入流
-                } catch (IOException e) {
-                    e.printStackTrace();
+                    inputS.close(); //关闭输入流
+                } catch (IOException exp) {
+                    exp.printStackTrace();
                 }
             }
         }

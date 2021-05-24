@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 
-import com.hills.mcs_02.fragmentsPack.MCS_RecyclerItemClickListener;
+import com.hills.mcs_02.fragmentsPack.MCSRecyclerItemClickListener;
 import com.hills.mcs_02.R;
 import com.hills.mcs_02.StringStore;
 import com.hills.mcs_02.saveFile.FileExport;
@@ -77,7 +77,7 @@ public class ActivityMineMinor5SensorData extends AppCompatActivity implements V
         mRecyclerView = findViewById(R.id.setting_sensorData_rv);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this,RecyclerView.VERTICAL,false));
         mAdapter = new Adapter_RecyclerView_setting_sensorData(this,mList);
-        mAdapter.setRecyclerItemClickListener(new MCS_RecyclerItemClickListener() {
+        mAdapter.setRecyclerItemClickListener(new MCSRecyclerItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 //添加跳转事件

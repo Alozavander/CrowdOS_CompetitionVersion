@@ -8,10 +8,12 @@ import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.LocaleList;
-import androidx.core.os.ConfigurationCompat;
-import androidx.core.os.LocaleListCompat;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
+
+import androidx.core.os.ConfigurationCompat;
+import androidx.core.os.LocaleListCompat;
+
 
 import com.hills.mcs_02.LogUtils;
 
@@ -27,8 +29,8 @@ public class MultiLanguageUtil {
     public static void changeLanguage(Context context,String language, String area) {
         if (TextUtils.isEmpty(language) && TextUtils.isEmpty(area)) {
             //如果语言和地区都是空，那么跟随系统s
-            SPUtils.put(context, Constants.SP_LANGUAGE,"");
-            SPUtils.put(context, Constants.SP_COUNTRY,"");
+            SpUtils.put(context, Constants.SP_LANGUAGE,"");
+            SpUtils.put(context, Constants.SP_COUNTRY,"");
         } else {
             //不为空，那么修改app语言，并true是把语言信息保存到sp中，false是不保存到sp中
             Locale newLocale = new Locale(language, area);
@@ -65,8 +67,8 @@ public class MultiLanguageUtil {
      * TODO 3、 跟随系统语言
      */
     public static Context attachBaseContext(Context context) {
-        String spLanguage = (String) SPUtils.get(context, Constants.SP_LANGUAGE,"");
-        String spCountry = (String) SPUtils.get(context, Constants.SP_COUNTRY,"");
+        String spLanguage = (String) SpUtils.get(context, Constants.SP_LANGUAGE,"");
+        String spCountry = (String) SpUtils.get(context, Constants.SP_COUNTRY,"");
         if(!TextUtils.isEmpty(spLanguage)&&!TextUtils.isEmpty(spCountry)){
             Locale locale = new Locale(spLanguage, spCountry);
             //这里为8.0以后适配
@@ -82,9 +84,9 @@ public class MultiLanguageUtil {
         Locale locale = getAppLocale(context);
         String language = locale.getLanguage();
         String country = locale.getCountry();
-        String sp_language = (String) SPUtils.get(context, Constants.SP_LANGUAGE,"");
-        String sp_country = (String) SPUtils.get(context, Constants.SP_COUNTRY,"");
-        if (language.equals(sp_language) && country.equals(sp_country)) {
+        String spLanguage = (String) SpUtils.get(context, Constants.SP_LANGUAGE,"");
+        String spCountry = (String) SpUtils.get(context, Constants.SP_COUNTRY,"");
+        if (language.equals(spLanguage) && country.equals(spCountry)) {
             return true;
         } else {
             return false;
@@ -95,8 +97,8 @@ public class MultiLanguageUtil {
      * 保存多语言信息到sp中
      */
     public static void saveLanguageSetting(Context context, Locale locale) {
-        SPUtils.put(context, Constants.SP_LANGUAGE,locale.getLanguage());
-        SPUtils.put(context, Constants.SP_COUNTRY,locale.getCountry());
+        SpUtils.put(context, Constants.SP_LANGUAGE,locale.getLanguage());
+        SpUtils.put(context, Constants.SP_COUNTRY,locale.getCountry());
     }
 
     /**
@@ -126,8 +128,8 @@ public class MultiLanguageUtil {
     public static  Application.ActivityLifecycleCallbacks callbacks = new Application.ActivityLifecycleCallbacks() {
         @Override
         public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
-            String language = (String) SPUtils.get(activity, Constants.SP_LANGUAGE,"");
-            String country = (String) SPUtils.get(activity, Constants.SP_COUNTRY,"");
+            String language = (String) SpUtils.get(activity, Constants.SP_LANGUAGE,"");
+            String country = (String) SpUtils.get(activity, Constants.SP_COUNTRY,"");
             LogUtils.e(language);
             if (!TextUtils.isEmpty(language) && !TextUtils.isEmpty(country)) {
                 //强制修改应用语言

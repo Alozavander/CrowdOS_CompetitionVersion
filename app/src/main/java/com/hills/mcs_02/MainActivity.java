@@ -33,26 +33,27 @@ import androidx.fragment.app.FragmentTransaction;
 import com.daimajia.numberprogressbar.NumberProgressBar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.gson.Gson;
+import com.hills.mcs_02.activities.ActivitySecondPage;
+import com.hills.mcs_02.activities.ActivityTaskDetail;
 import com.hills.mcs_02.activities.ActivityEditInfo;
 import com.hills.mcs_02.activities.ActivityFuncFoodShare;
 import com.hills.mcs_02.activities.ActivityFuncSportShare;
 import com.hills.mcs_02.activities.ActivityLogin;
 import com.hills.mcs_02.activities.ActivitySecondPage;
-import com.hills.mcs_02.activities.Activity_Task_Detail;
 import com.hills.mcs_02.activities.SearchActivity;
 import com.hills.mcs_02.dataBeans.Bean_ListView_home;
 import com.hills.mcs_02.dataBeans.Liveness;
 import com.hills.mcs_02.downloadPack.DownloadFileUtils;
 import com.hills.mcs_02.downloadPack.DownloadListener;
-import com.hills.mcs_02.fragmentsPack.Fragment_home;
-import com.hills.mcs_02.fragmentsPack.Fragment_map;
-import com.hills.mcs_02.fragmentsPack.Fragment_mine;
-import com.hills.mcs_02.fragmentsPack.Fragment_publish;
-import com.hills.mcs_02.fragmentsPack.Fragment_remind;
 import com.hills.mcs_02.main.OpenAPK;
-import com.hills.mcs_02.main.UserLivenessFunction;
-import com.hills.mcs_02.networkClasses.interfacesPack.PostRequest_LivenessLogin;
-import com.hills.mcs_02.networkClasses.interfacesPack.PostRequest_mine_minor7_update;
+import com.hills.mcs_02.fragmentsPack.FragmentHome;
+import com.hills.mcs_02.fragmentsPack.FragmentMap;
+import com.hills.mcs_02.fragmentsPack.FragmentMine;
+import com.hills.mcs_02.fragmentsPack.FragmentPublish;
+import com.hills.mcs_02.fragmentsPack.FragmentRemind;
+import com.hills.mcs_02.networkClasses.interfacesPack.PostRequestLivenessLogin;
+import com.hills.mcs_02.networkClasses.interfacesPack.PostRequestLivenessLogout;
+import com.hills.mcs_02.networkClasses.interfacesPack.PostRequestMineMinor7Update;
 import com.hills.mcs_02.sensorFunction.SenseDataUploadService;
 import com.hills.mcs_02.sensorFunction.SenseHelper;
 import com.hills.mcs_02.sensorFunction.SensorService;
@@ -134,7 +135,7 @@ public class MainActivity extends BaseActivity implements For_test {
       //测试使用url
       Retrofit retrofit = new Retrofit.Builder().baseUrl(getResources().getString(R.string.base_url)).addConverterFactory(GsonConverterFactory.create()).build();
       //创建网络接口实例
-      PostRequest_LivenessLogin lLivenessLogin = retrofit.create(PostRequest_LivenessLogin.class);
+      PostRequestLivenessLogin lLivenessLogin = retrofit.create(PostRequestLivenessLogin.class);
       //创建RequestBody
       RequestBody contentBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), content);
       Call<ResponseBody> call = lLivenessLogin.livenessLogin(contentBody);
@@ -326,7 +327,7 @@ public class MainActivity extends BaseActivity implements For_test {
     //获取FrgamentManager,初始化添加首页Fragment
     fragmentManager = getSupportFragmentManager();
     FragmentTransaction transaction = fragmentManager.beginTransaction();
-    transaction.add(R.id.fragment_container, new Fragment_home(), "Tag_fragment_home");
+    transaction.add(R.id.fragment_container, new FragmentHome(), "Tag_fragment_home");
     transaction.addToBackStack("Tag_fragment_home");
     transaction.commit();
   }
@@ -352,27 +353,27 @@ public class MainActivity extends BaseActivity implements For_test {
     if (getSupportFragmentManager().findFragmentByTag(tag) == null) {
       switch (tag) {
         case "Tag_fragment_home": {
-          transaction.add(R.id.fragment_container, new Fragment_home(), tag);
+          transaction.add(R.id.fragment_container, new FragmentHome(), tag);
           navigation.getMenu().getItem(0).setIcon(R.drawable.navi_home_press);
           break;
         }
         case "Tag_fragment_mine": {
-          transaction.add(R.id.fragment_container, new Fragment_mine(), tag);
+          transaction.add(R.id.fragment_container, new FragmentMine(), tag);
           navigation.getMenu().getItem(4).setIcon(R.drawable.navi_mine_press);
           break;
         }
         case "Tag_fragment_map": {
-          transaction.add(R.id.fragment_container, new Fragment_map(), tag);
+          transaction.add(R.id.fragment_container, new FragmentMap(), tag);
           navigation.getMenu().getItem(1).setIcon(R.drawable.navi_map_press);
           break;
         }
         case "Tag_fragment_publish": {
-          transaction.add(R.id.fragment_container, new Fragment_publish(), tag);
+          transaction.add(R.id.fragment_container, new FragmentPublish(), tag);
           navigation.getMenu().getItem(2).setIcon(R.drawable.navi_publish_press);
           break;
         }
         case "Tag_fragment_remind": {
-          transaction.add(R.id.fragment_container, new Fragment_remind(), tag);
+          transaction.add(R.id.fragment_container, new FragmentRemind(), tag);
           navigation.getMenu().getItem(3).setIcon(R.drawable.navi_remind_press);
           break;
         }
@@ -416,7 +417,7 @@ public class MainActivity extends BaseActivity implements For_test {
 
   @Override
   public void jump_to_TaskDetailActivity(String taskGson) {
-    Intent intent = new Intent(MainActivity.this, Activity_Task_Detail.class);
+    Intent intent = new Intent(MainActivity.this, ActivityTaskDetail.class);
     intent.putExtra("taskGson", taskGson);
     startActivity(intent);
   }
@@ -455,11 +456,11 @@ public class MainActivity extends BaseActivity implements For_test {
   private void checkVersion() {
     Retrofit retrofit = new Retrofit.Builder().baseUrl(getString(R.string.base_url))
         .addConverterFactory(GsonConverterFactory.create()).build();
-    PostRequest_mine_minor7_update request = retrofit.create(PostRequest_mine_minor7_update.class);
+    PostRequestMineMinor7Update request = retrofit.create(PostRequestMineMinor7Update.class);
     int versionCode = BuildConfig.VERSION_CODE;
     Log.i(TAG, "VersionCode:" + versionCode);
     appName = null;
-    Call<ResponseBody> call = request.query_published(versionCode);
+    Call<ResponseBody> call = request.queryPublished(versionCode);
     call.enqueue(new Callback<ResponseBody>() {
       @Override
       public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -671,8 +672,7 @@ public class MainActivity extends BaseActivity implements For_test {
     String url = getResources().getString(R.string.base_url);
     //检查是否登录
     if (login_userID != -1) {
-      UserLivenessFunction ulFunction = new UserLivenessFunction(MainActivity.this);
-      ulFunction.userLogout(login_userID,url);
+
     }
   }
 }

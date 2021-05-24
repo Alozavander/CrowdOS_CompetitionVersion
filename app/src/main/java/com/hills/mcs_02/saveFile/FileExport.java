@@ -16,7 +16,7 @@ import java.io.IOException;
 public class FileExport {
     static String sParentFileName = "SensorDataStore";         //文件根目录名称，在此可替换
     static String sFileName = "senseData.csv";         //文件根目录名称，在此可替换
-    public static File ExportToCSV(Cursor c, String fileName,String pParentFileName) {
+    public static File ExportToCSV(Cursor cur, String fileName,String pParentFileName) {
         if(pParentFileName!=null) sParentFileName = pParentFileName;
         if(fileName!=null) sFileName = fileName;
         int rowCount = 0;
@@ -31,29 +31,29 @@ public class FileExport {
             saveFile.delete();
         }
         try {
-            rowCount = c.getCount();
-            colCount = c.getColumnCount();
+            rowCount = cur.getCount();
+            colCount = cur.getColumnCount();
             fw = new FileWriter(saveFile);
             bfw = new BufferedWriter(fw);
             if (rowCount > 0) {
-                c.moveToFirst();
+                cur.moveToFirst();
                 //csv文件写入列名
                 for (int i = 0; i < colCount; i++) {
                     if (i != colCount - 1)
-                        bfw.write(c.getColumnName(i) + ',');
+                        bfw.write(cur.getColumnName(i) + ',');
                     else
-                        bfw.write(c.getColumnName(i));
+                        bfw.write(cur.getColumnName(i));
                 }
                 bfw.newLine();
                 // 写入数据
                 for (int i = 0; i < rowCount; i++) {
-                    c.moveToPosition(i);
+                    cur.moveToPosition(i);
                     //Log.v("数据导出", "导出第" + (i + 1) + "条");
                     for (int j = 0; j < colCount; j++) {
                         if (j != colCount - 1)
-                            bfw.write(c.getString(j) + ',');
+                            bfw.write(cur.getString(j) + ',');
                         else {
-                            String tempS = c.getString(j);
+                            String tempS = cur.getString(j);
                             if(tempS == null) bfw.write("null");
                             else bfw.write(tempS);
                         }
@@ -68,7 +68,7 @@ public class FileExport {
             // TODO Auto-generated catch block
             e.printStackTrace();
         } finally {
-            c.close();
+            cur.close();
         }
         return saveFile;
     }

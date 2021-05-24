@@ -1,6 +1,6 @@
 package com.hills.mcs_02.func_sportsShare.beans;
 
-public class func_sportShare_stepCounter extends func_sportShare_BaseBean {
+public class func_sportShare_stepCounter extends FuncSportShareBaseBean {
     private final int STEP_COUNTER_VIEW = 1000;
     private String userIcon_mine;
     private String stepCount;

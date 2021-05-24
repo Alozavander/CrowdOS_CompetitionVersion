@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.hills.mcs_02.R;
 import com.hills.mcs_02.dataBeans.Bean_ListView_remind;
 import com.hills.mcs_02.dataBeans.Task;
-import com.hills.mcs_02.fragmentsPack.MCS_RecyclerItemClickListener;
+import com.hills.mcs_02.fragmentsPack.MCSRecyclerItemClickListener;
 
 import java.util.List;
 
@@ -22,7 +22,7 @@ public class Adapter_RecyclerView_remind extends RecyclerView.Adapter<RecyclerVi
     private final static String TAG = "Adapter_RecyclerView_remind";
     private List<Bean_ListView_remind> mBean_listView_remindList;
     private LayoutInflater mInflater;
-    private MCS_RecyclerItemClickListener mListener;
+    private MCSRecyclerItemClickListener mListener;
 
     public Adapter_RecyclerView_remind() {
         super();
@@ -110,10 +110,10 @@ public class Adapter_RecyclerView_remind extends RecyclerView.Adapter<RecyclerVi
         private TextView coinsCount_tv;
         private TextView taskCount_tv;
         private TextView taskName_tv;
-        private MCS_RecyclerItemClickListener m_MCS_recyclerItemClickListener;
+        private MCSRecyclerItemClickListener m_MCS_recyclerItemClickListener;
 
 
-        public Remind_ViewHolder(@NonNull View itemView, MCS_RecyclerItemClickListener listener) {
+        public Remind_ViewHolder(@NonNull View itemView, MCSRecyclerItemClickListener listener) {
             super(itemView);
             //对viewHolder的属性进行赋值
             userIcon_iv = (ImageView) itemView.findViewById(R.id.remindpage_tasklv_userIcon);
@@ -141,7 +141,7 @@ public class Adapter_RecyclerView_remind extends RecyclerView.Adapter<RecyclerVi
     }
 
     //设置接口
-    public void setRecyclerItemClickListener(MCS_RecyclerItemClickListener listener) {
+    public void setRecyclerItemClickListener(MCSRecyclerItemClickListener listener) {
         this.mListener = listener;
     }
 

@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.hills.mcs_02.R;
-import com.hills.mcs_02.fragmentsPack.MCS_RecyclerItemClickListener;
+import com.hills.mcs_02.fragmentsPack.MCSRecyclerItemClickListener;
 
 import java.util.List;
 
@@ -20,7 +20,7 @@ public class Adapter_RecyclerView_SqliteDataDisplay extends RecyclerView.Adapter
     private final static String TAG = "Adapter_RecyclerView_SqliteDataDisplay";
     private List<SQLiteData_bean> mList;
     private LayoutInflater mInflater;
-    private MCS_RecyclerItemClickListener mListener;
+    private MCSRecyclerItemClickListener mListener;
 
     public Adapter_RecyclerView_SqliteDataDisplay(List<SQLiteData_bean> pList, Context pContext) {
         mList = pList;

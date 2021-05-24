@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hills.mcs_02.R;
-import com.hills.mcs_02.fragmentsPack.MCS_RecyclerItemClickListener;
+import com.hills.mcs_02.fragmentsPack.MCSRecyclerItemClickListener;
 
 import java.io.File;
 import java.util.List;
@@ -20,7 +20,7 @@ public class Adapter_RecyclerView_TaskSubmit_Audio extends RecyclerView.Adapter<
     private final static String TAG = "Adapter_RecyclerView_TaskSubmit_Audio";
     private List<File> mAudioFile_list;
     private LayoutInflater mInflater;
-    private MCS_RecyclerItemClickListener mListener;
+    private MCSRecyclerItemClickListener mListener;
 
     public Adapter_RecyclerView_TaskSubmit_Audio() {
         super();
@@ -97,10 +97,10 @@ public class Adapter_RecyclerView_TaskSubmit_Audio extends RecyclerView.Adapter<
         private ImageView delete_iv;
         private TextView audioName_tv;
 
-        private MCS_RecyclerItemClickListener m_MCS_recyclerItemClickListener;
+        private MCSRecyclerItemClickListener m_MCS_recyclerItemClickListener;
 
 
-        public Audio_RV_ViewHolder(@NonNull View itemView, MCS_RecyclerItemClickListener listener) {
+        public Audio_RV_ViewHolder(@NonNull View itemView, MCSRecyclerItemClickListener listener) {
             super(itemView);
             //对viewHolder的属性进行赋值
             delete_iv = (ImageView) itemView.findViewById(R.id.taskSubmit_audio_rvitem_delete);
@@ -122,7 +122,7 @@ public class Adapter_RecyclerView_TaskSubmit_Audio extends RecyclerView.Adapter<
     }
 
     //设置接口
-    public void setRecyclerItemClickListener(MCS_RecyclerItemClickListener listener) {
+    public void setRecyclerItemClickListener(MCSRecyclerItemClickListener listener) {
         this.mListener = listener;
     }
 

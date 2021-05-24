@@ -40,16 +40,16 @@
         <activity android:name=".activities.ActivityMineMinor5SensorDataDelete"></activity>
         <activity android:name=".activities.ActivityMineMinor5SensorDataSensorContent" />
         <activity android:name=".activities.ActivityMineMinor5SensorData" />
-        <activity android:name=".activities.ActivityPublishSensortask" />
+        <activity android:name=".activities.ActivityPublishSensorTask" />
         <activity android:name=".activities.ActivityPwdFind" />
-        <activity android:name=".EmailRegiste.Activity_EmailRegister_PasswordSet" />
-        <activity android:name=".EmailRegiste.Activity_EmailRegister" />
+        <activity android:name=".EmailRegiste.ActivityEmailRegisterPasswordSet" />
+        <activity android:name=".EmailRegiste.ActivityEmailRegister" />
         <activity
-            android:name=".activities.ActivityPublishBasictask"
+            android:name=".activities.ActivityPublishBasicTask"
             android:screenOrientation="portrait" />
         <activity android:name=".TestActivity" />
         <activity
-            android:name=".activities.Activity_Task_Detail"
+            android:name=".activities.ActivityTaskDetail"
             android:screenOrientation="portrait" />
         <activity
             android:name=".MainActivity"
@@ -88,7 +88,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".activities.Activity_registe"
+            android:name=".activities.ActivityRegister"
             android:label="Activity_registe"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
@@ -113,7 +113,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".activities.ActivityMineSettingGeneralMultilan"
+            android:name=".activities.ActivityMineSettingGeneralMultiLanguage"
             android:label="Activity_mine_setting_general_multilan"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
@@ -154,7 +154,7 @@
 
         <service android:name="com.amap.api.location.APSService" />
         <service android:name=".sensorFunction.SensorService" />
-        <service android:name=".func_sportsShare.StepService" />
+        <service android:name=".func_sportsShare.stepService" />
         <service android:name=".sensorFunction.SenseDataUploadService"/>
 
         <provider

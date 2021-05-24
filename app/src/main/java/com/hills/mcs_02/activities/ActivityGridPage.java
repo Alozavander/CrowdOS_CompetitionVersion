@@ -30,9 +30,9 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.hills.mcs_02.BaseActivity;
 import com.hills.mcs_02.dataBeans.Bean_ListView_home;
 import com.hills.mcs_02.dataBeans.Task;
-import com.hills.mcs_02.fragmentsPack.MCS_RecyclerItemClickListener;
-import com.hills.mcs_02.networkClasses.interfacesPack.GetNewTen_Request_home_taskList;
-import com.hills.mcs_02.networkClasses.interfacesPack.PostRequest_gridPage_taskList;
+import com.hills.mcs_02.fragmentsPack.MCSRecyclerItemClickListener;
+import com.hills.mcs_02.networkClasses.interfacesPack.GetNewTenRequestHomeTaskList;
+import com.hills.mcs_02.networkClasses.interfacesPack.PostRequestGridPageTaskList;
 import com.hills.mcs_02.R;
 import com.hills.mcs_02.viewsAdapters.Adapter_RecyclerView_home;
 
@@ -106,7 +106,7 @@ public class ActivityGridPage extends BaseActivity {
         firstListRefresh();
         recyclerAdapter = new Adapter_RecyclerView_home(ActivityGridPage.this, mBeanListViewGridPage);
         //recyclerView没有跟listView一样封装OnItemClickListener，所以只能手动实现，这里是将监听器绑定在了适配器上
-        recyclerAdapter.setRecyclerItemClickListener(new MCS_RecyclerItemClickListener() {
+        recyclerAdapter.setRecyclerItemClickListener(new MCSRecyclerItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 int loginUserId = Integer.parseInt(ActivityGridPage.this.getSharedPreferences("user", MODE_PRIVATE).getString("userID", "-1"));
@@ -117,7 +117,7 @@ public class ActivityGridPage extends BaseActivity {
                     startActivity(intent);
                 }else{
                     Gson gson = new Gson();
-                    Intent intent = new Intent(ActivityGridPage.this, Activity_Task_Detail.class);
+                    Intent intent = new Intent(ActivityGridPage.this, ActivityTaskDetail.class);
                     intent.putExtra("taskGson",gson.toJson(mBeanListViewGridPage.get(position).getTask()));
                     startActivity(intent);
                 }
@@ -212,7 +212,8 @@ public class ActivityGridPage extends BaseActivity {
                 .build();
 
         //创建网络接口实例
-        PostRequest_gridPage_taskList requestGetTaskList = retrofit.create(PostRequest_gridPage_taskList.class);
+        PostRequestGridPageTaskList requestGetTaskList = retrofit.create(
+            PostRequestGridPageTaskList.class);
         //包装发送请求
         Call<ResponseBody> call = requestGetTaskList.getCall(pageTag);
 
@@ -274,9 +275,10 @@ public class ActivityGridPage extends BaseActivity {
                 .build();
 
         //创建网络接口实例
-        GetNewTen_Request_home_taskList requestGetTaskList = retrofit.create(GetNewTen_Request_home_taskList.class);
+        GetNewTenRequestHomeTaskList requestGetTaskList = retrofit.create(
+            GetNewTenRequestHomeTaskList.class);
         //包装发送请求
-        Call<ResponseBody> call = requestGetTaskList.query_NewTenTask(minTaskId());
+        Call<ResponseBody> call = requestGetTaskList.queryNewTenTask(minTaskId());
 
 
         //异步网络请求

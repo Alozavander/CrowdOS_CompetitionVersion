@@ -15,9 +15,9 @@ public class StepSensorDetector implements SensorEventListener {
 
     //存放三轴数据
     float[] oriValues = new float[3];
-    final int ValueNum = 4;
+    final int VALUE_NUM = 4;
     //用于存放计算阈值的波峰波谷差值
-    float[] tempValue = new float[ValueNum];
+    float[] tempValue = new float[VALUE_NUM];
     int tempCount = 0;
     //是否上升的标志位
     boolean isDirectionUp = false;
@@ -42,17 +42,17 @@ public class StepSensorDetector implements SensorEventListener {
     //上次传感器的值
     float gravityOld = 0;
     //动态阈值需要动态的数据，这个值用于这些动态数据的阈值
-    final float InitialValue = (float) 1.3;
+    final float INITIAL_VALUE = (float) 1.3;
     //初始阈值
-    float ThreadValue = (float) 2.0;
+    float threadValue = (float) 2.0;
     //波峰波谷时间差
-    int TimeInterval = 250;
+    int timeInterval = 250;
     private StepCountListener mStepListeners;
 
     @Override
     public void onSensorChanged(SensorEvent event) {//当传感器值改变回调此方法
-        for (int i = 0; i < 3; i++) {
-            oriValues[i] = event.values[i];
+        for (int temp = 0; temp < 3; temp++) {
+            oriValues[temp] = event.values[temp];
         }
         gravityNew = (float) Math.sqrt(oriValues[0] * oriValues[0]
                 + oriValues[1] * oriValues[1] + oriValues[2] * oriValues[2]);
@@ -81,8 +81,8 @@ public class StepSensorDetector implements SensorEventListener {
             if (detectorPeak(values, gravityOld)) {
                 timeOfLastPeak = timeOfThisPeak;
                 timeOfNow = System.currentTimeMillis();
-                if (timeOfNow - timeOfLastPeak >= TimeInterval
-                        && (peakOfWave - valleyOfWave >= ThreadValue)) {
+                if (timeOfNow - timeOfLastPeak >= timeInterval
+                        && (peakOfWave - valleyOfWave >= threadValue)) {
                     timeOfThisPeak = timeOfNow;
                     /*
                      * 更新界面的处理，不涉及到算法
@@ -93,10 +93,10 @@ public class StepSensorDetector implements SensorEventListener {
                      * */
                     mStepListeners.countStep();
                 }
-                if (timeOfNow - timeOfLastPeak >= TimeInterval
-                        && (peakOfWave - valleyOfWave >= InitialValue)) {
+                if (timeOfNow - timeOfLastPeak >= timeInterval
+                        && (peakOfWave - valleyOfWave >= INITIAL_VALUE)) {
                     timeOfThisPeak = timeOfNow;
-                    ThreadValue = peakValleyThread(peakOfWave - valleyOfWave);
+                    threadValue = peakValleyThread(peakOfWave - valleyOfWave);
                 }
             }
         }
@@ -144,16 +144,16 @@ public class StepSensorDetector implements SensorEventListener {
      * 3.在将数组传入函数averageValue中计算阈值
      * */
     public float peakValleyThread(float value) {
-        float tempThread = ThreadValue;
-        if (tempCount < ValueNum) {
+        float tempThread = threadValue;
+        if (tempCount < VALUE_NUM) {
             tempValue[tempCount] = value;
             tempCount++;
         } else {
-            tempThread = averageValue(tempValue, ValueNum);
-            for (int i = 1; i < ValueNum; i++) {
-                tempValue[i - 1] = tempValue[i];
+            tempThread = averageValue(tempValue, VALUE_NUM);
+            for (int temp = 1; temp < VALUE_NUM; temp++) {
+                tempValue[temp - 1] = tempValue[temp];
             }
-            tempValue[ValueNum - 1] = value;
+            tempValue[VALUE_NUM - 1] = value;
         }
         return tempThread;
 
@@ -164,12 +164,12 @@ public class StepSensorDetector implements SensorEventListener {
      * 1.计算数组的均值
      * 2.通过均值将阈值梯度化在一个范围里
      * */
-    public float averageValue(float value[], int n) {
+    public float averageValue(float value[], int num) {
         float ave = 0;
-        for (int i = 0; i < n; i++) {
-            ave += value[i];
+        for (int temp = 0; temp < num; temp++) {
+            ave += value[temp];
         }
-        ave = ave / ValueNum;
+        ave = ave / VALUE_NUM;
         if (ave >= 8)
             ave = (float) 4.3;
         else if (ave >= 7 && ave < 8)

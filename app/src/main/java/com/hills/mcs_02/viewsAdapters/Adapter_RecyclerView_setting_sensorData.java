@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.hills.mcs_02.R;
-import com.hills.mcs_02.fragmentsPack.MCS_RecyclerItemClickListener;
+import com.hills.mcs_02.fragmentsPack.MCSRecyclerItemClickListener;
 
 import java.util.List;
 
@@ -19,7 +19,7 @@ public class Adapter_RecyclerView_setting_sensorData extends RecyclerView.Adapte
     private final static String TAG = "Adapter_RecyclerView_setting_sensorData";
     private List<String[]> mList;
     private LayoutInflater mInflater;
-    private MCS_RecyclerItemClickListener mListener;
+    private MCSRecyclerItemClickListener mListener;
 
     public Adapter_RecyclerView_setting_sensorData() {
         super();
@@ -90,10 +90,10 @@ public class Adapter_RecyclerView_setting_sensorData extends RecyclerView.Adapte
     class Setting_SensorData_ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView mainName_tv;
         private TextView juniorContent_tv;
-        private MCS_RecyclerItemClickListener m_MCS_recyclerItemClickListener;
+        private MCSRecyclerItemClickListener m_MCS_recyclerItemClickListener;
 
 
-        public Setting_SensorData_ViewHolder(@NonNull View itemView, MCS_RecyclerItemClickListener listener) {
+        public Setting_SensorData_ViewHolder(@NonNull View itemView, MCSRecyclerItemClickListener listener) {
             super(itemView);
             //对viewHolder的属性进行赋值
             mainName_tv = itemView.findViewById(R.id.activity_setting_sensorData_mainName);
@@ -113,7 +113,7 @@ public class Adapter_RecyclerView_setting_sensorData extends RecyclerView.Adapte
     }
 
     //设置接口
-    public void setRecyclerItemClickListener(MCS_RecyclerItemClickListener listener) {
+    public void setRecyclerItemClickListener(MCSRecyclerItemClickListener listener) {
         this.mListener = listener;
     }
 

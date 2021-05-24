@@ -30,7 +30,7 @@ import com.hills.mcs_02.BaseActivity;
 import com.hills.mcs_02.BuildConfig;
 import com.hills.mcs_02.downloadPack.DownloadFileUtils;
 import com.hills.mcs_02.downloadPack.DownloadListener;
-import com.hills.mcs_02.networkClasses.interfacesPack.PostRequest_mine_minor7_update;
+import com.hills.mcs_02.networkClasses.interfacesPack.PostRequestMineMinor7Update;
 import com.hills.mcs_02.R;
 
 import java.io.File;
@@ -98,10 +98,10 @@ public class ActivityMineMinor7Setting extends BaseActivity {
 
     private void checkVersion() {
         Retrofit retrofit = new Retrofit.Builder().baseUrl(getString(R.string.base_url)).addConverterFactory(GsonConverterFactory.create()).build();
-        PostRequest_mine_minor7_update request = retrofit.create(PostRequest_mine_minor7_update.class);
+        PostRequestMineMinor7Update request = retrofit.create(PostRequestMineMinor7Update.class);
         int versionCode = BuildConfig.VERSION_CODE;
         appName = null;
-        Call<ResponseBody> call = request.query_published(versionCode);
+        Call<ResponseBody> call = request.queryPublished(versionCode);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
