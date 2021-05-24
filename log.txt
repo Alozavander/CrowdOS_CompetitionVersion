@@ -128,3 +128,6 @@ func_sportShare
 langugageChange
 networkClasses
 previewImage
+
+5.24
+修改了MainActivity，拆分了多余代码逻辑，去掉了menu中的map，修改了menu的跳转逻辑。

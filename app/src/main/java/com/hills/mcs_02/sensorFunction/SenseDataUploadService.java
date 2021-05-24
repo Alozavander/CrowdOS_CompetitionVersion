@@ -8,6 +8,7 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.os.Build;
 import android.os.IBinder;
 import android.util.Log;
 
@@ -53,30 +54,29 @@ public class SenseDataUploadService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        UserID = Integer.parseInt(getSharedPreferences("user", MODE_PRIVATE).getString("userID", "-1"));
-        if(UserID == -1){
-            Log.i(TAG,"SenseDataUploadService is not on because of logout.");
-        }else{
-            Log.i(TAG,"SenseDataUploadService is on.");
-            initFrontService();
-            initTimer();
-            ThreadPool = Executors.newFixedThreadPool(3);
+        Log.i(TAG, "SenseDataUploadService is on.");
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            startForeground(1, initFrontServiceNotification());
         }
+        ;
+        initTimer();
+        ThreadPool = Executors.newFixedThreadPool(3);
     }
 
-    private void initFrontService() {
+
+    private Notification initFrontServiceNotification() {
         //获取notification的manager
         NotificationManager notificationManager =
             (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         //创建channel
-        NotificationChannel lChannel = new NotificationChannel("channel_sensedataupload","sensedataupload", NotificationManager.IMPORTANCE_DEFAULT);
+        NotificationChannel lChannel = new NotificationChannel("channel_sensedataupload", "sensedataupload", NotificationManager.IMPORTANCE_DEFAULT);
         notificationManager.createNotificationChannel(lChannel);
         Intent lnotificationIntent = new Intent(this, MainActivity.class);
-        PendingIntent lPendingIntent = PendingIntent.getActivity(this,0,lnotificationIntent,0);
+        PendingIntent lPendingIntent = PendingIntent.getActivity(this, 0, lnotificationIntent, 0);
         //Use builder to build a notification
-        Notification.Builder lBuilder = new Notification.Builder(this,"channel_sensedataupload").setContentIntent(lPendingIntent).setContentTitle("SenseDataUpload").setContentText("collecting data...");
+        Notification.Builder lBuilder = new Notification.Builder(this, "channel_sensedataupload").setContentIntent(lPendingIntent).setContentTitle("SenseDataUpload").setContentText("collecting data...");
         Notification lNotification = lBuilder.build();
-        startForeground(1,lNotification);
+        return lNotification;
     }
 
     @Override
@@ -90,26 +90,26 @@ public class SenseDataUploadService extends Service {
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
-               UploadTask();
+                UploadTask();
             }
         };
         //perhour a collection for a sensing data
-        mTimer.schedule(task, 1, 60*60*1000);
+        mTimer.schedule(task, 1, 60 * 60 * 1000);
         Log.i(TAG, "Upload Timer Task now starts");
     }
 
-    public void UploadTask(){
+    public void UploadTask() {
         String[] nowTimes = SQLiteTimeUtil.getStartandEndTime();
         String startTime = nowTimes[0];
         String endTime = nowTimes[1];
         Log.i(TAG, "StartTime is : " + startTime);
         Log.i(TAG, "EndTime is : " + endTime);
-        createAllSensorDataFile(startTime,endTime);
+        createAllSensorDataFile(startTime, endTime);
     }
 
     private void createAllSensorDataFile(String pStartTime, String pEndTime) {
         int[] sensorTypeList = new SenseHelper(this).getSensorList_TypeInt_Integers();
-        for(int i : sensorTypeList){
+        for (int i : sensorTypeList) {
             String whereClaus = StringStore.SensorDataTable_SenseType + "=?" + " AND " + StringStore.SensorDataTable_SenseTime + " > ? AND " + StringStore.SensorDataTable_SenseTime + " < ?";
             Cursor cursor = new SensorSQLiteOpenHelper(this).getReadableDatabase().query(StringStore.SensorDataTable_Name,
                 new String[]{StringStore.SensorDataTable_SenseType,
@@ -117,32 +117,32 @@ public class SenseDataUploadService extends Service {
                     StringStore.SensorDataTable_SenseData_1,
                     StringStore.SensorDataTable_SenseData_2,
                     StringStore.SensorDataTable_SenseData_3},
-                whereClaus, new String[]{i+"", pStartTime, pEndTime}, null, null, null);
-            if (cursor.getCount()>0){
-                Log.i(TAG,"There has " + cursor.getCount() + " data for sensor " + i);
-                File saveFile = FileExport.ExportToTextForEachSensor(cursor,i+"_"+SQLiteTimeUtil.getCurrentTimeNoSpaceAndMaoHao()+".txt", null);
-                Log.i(TAG,"The sensor data file size is " + saveFile.length());
-                if(saveFile==null) continue;
+                whereClaus, new String[]{i + "", pStartTime, pEndTime}, null, null, null);
+            if (cursor.getCount() > 0) {
+                Log.i(TAG, "There has " + cursor.getCount() + " data for sensor " + i);
+                File saveFile = FileExport.ExportToTextForEachSensor(cursor, i + "_" + SQLiteTimeUtil.getCurrentTimeNoSpaceAndMaoHao() + ".txt", null);
+                Log.i(TAG, "The sensor data file size is " + saveFile.length());
+                if (saveFile == null) continue;
                 //使用线程池中的线程执行uploadFile任务
                 ThreadPool.execute(new Runnable() {
                     @Override
                     public void run() {
-                        Log.i(TAG,"Now the " + Thread.currentThread().getName() + " upload the sensor " + i + " data");
-                        uploadFile(saveFile,i);
-                        Log.i(TAG,"Now the " + Thread.currentThread().getName() + " upload the sensor " + i + " data task done");
+                        Log.i(TAG, "Now the " + Thread.currentThread().getName() + " upload the sensor " + i + " data");
+                        uploadFile(saveFile, i);
+                        Log.i(TAG, "Now the " + Thread.currentThread().getName() + " upload the sensor " + i + " data task done");
                     }
                 });
-            }else Log.i(TAG,"The sensor " + i + " has no new data");
+            } else Log.i(TAG, "The sensor " + i + " has no new data");
             cursor.close();
         }
     }
 
-    private void uploadFile(File pSaveFile,int sensorType) {
+    private void uploadFile(File pSaveFile, int sensorType) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");// HH:mm:ss
         // 获取当前时间
         Date date = new Date(System.currentTimeMillis());
         //构建上传的数据类
-        Sensor_Detail lSensor_detail = new Sensor_Detail(null,UserID,null,null,pSaveFile.getName(),sensorType+"",simpleDateFormat.format(date),null,null,null);
+        Sensor_Detail lSensor_detail = new Sensor_Detail(null, UserID, null, null, pSaveFile.getName(), sensorType + "", simpleDateFormat.format(date), null, null, null);
         Gson gson = new Gson();
         String postTask = gson.toJson(lSensor_detail);
         RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), postTask);
@@ -156,14 +156,14 @@ public class SenseDataUploadService extends Service {
         PostRequestSensorDetailUploadService request = retrofit.create(
             PostRequestSensorDetailUploadService.class);
         Call<ResponseBody> call = request.uploadSensorMessage(requestBody, body);
-        Log.i(TAG, "The Upload URL is: "+call.request().url() + "\n The content is:" + postTask);
+        Log.i(TAG, "The Upload URL is: " + call.request().url() + "\n The content is:" + postTask);
 
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                if(response.code() == 200){
-                    Log.i(TAG,pSaveFile.getName() + " upload done.");
-                }else{
+                if (response.code() == 200) {
+                    Log.i(TAG, pSaveFile.getName() + " upload done.");
+                } else {
                     Log.i(TAG, "The response code is not 200, upload failed.");
                 }
             }

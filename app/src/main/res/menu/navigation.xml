@@ -7,11 +7,6 @@
         android:title="@string/title_home" />
 
     <item
-        android:id="@+id/navigation_map"
-        android:icon="@drawable/navi_map"
-        android:title="@string/title_map" />
-
-    <item
         android:id="@+id/navigation_publish"
         android:icon="@drawable/navi_publish"
         android:title="@string/title_publish" />
