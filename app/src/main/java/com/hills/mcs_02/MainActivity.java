@@ -33,26 +33,25 @@ import androidx.fragment.app.FragmentTransaction;
 import com.daimajia.numberprogressbar.NumberProgressBar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.gson.Gson;
-import com.hills.mcs_02.activities.ActivitySecondPage;
-import com.hills.mcs_02.activities.ActivityTaskDetail;
 import com.hills.mcs_02.activities.ActivityEditInfo;
 import com.hills.mcs_02.activities.ActivityFuncFoodShare;
 import com.hills.mcs_02.activities.ActivityFuncSportShare;
 import com.hills.mcs_02.activities.ActivityLogin;
 import com.hills.mcs_02.activities.ActivitySecondPage;
+import com.hills.mcs_02.activities.ActivityTaskDetail;
 import com.hills.mcs_02.activities.SearchActivity;
 import com.hills.mcs_02.dataBeans.Bean_ListView_home;
 import com.hills.mcs_02.dataBeans.Liveness;
 import com.hills.mcs_02.downloadPack.DownloadFileUtils;
 import com.hills.mcs_02.downloadPack.DownloadListener;
-import com.hills.mcs_02.main.OpenAPK;
 import com.hills.mcs_02.fragmentsPack.FragmentHome;
 import com.hills.mcs_02.fragmentsPack.FragmentMap;
 import com.hills.mcs_02.fragmentsPack.FragmentMine;
 import com.hills.mcs_02.fragmentsPack.FragmentPublish;
 import com.hills.mcs_02.fragmentsPack.FragmentRemind;
+import com.hills.mcs_02.main.OpenAPK;
+import com.hills.mcs_02.main.UserLivenessFunction;
 import com.hills.mcs_02.networkClasses.interfacesPack.PostRequestLivenessLogin;
-import com.hills.mcs_02.networkClasses.interfacesPack.PostRequestLivenessLogout;
 import com.hills.mcs_02.networkClasses.interfacesPack.PostRequestMineMinor7Update;
 import com.hills.mcs_02.sensorFunction.SenseDataUploadService;
 import com.hills.mcs_02.sensorFunction.SenseHelper;
@@ -672,7 +671,8 @@ public class MainActivity extends BaseActivity implements For_test {
     String url = getResources().getString(R.string.base_url);
     //检查是否登录
     if (login_userID != -1) {
-
+      UserLivenessFunction ulFunction = new UserLivenessFunction(MainActivity.this);
+      ulFunction.userLogout(login_userID,url);
     }
   }
 }

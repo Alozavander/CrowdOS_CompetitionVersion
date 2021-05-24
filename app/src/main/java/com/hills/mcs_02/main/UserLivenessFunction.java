@@ -5,7 +5,7 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.hills.mcs_02.dataBeans.Liveness;
-import com.hills.mcs_02.networkClasses.interfacesPack.PostRequest_LivenessLogout;
+import com.hills.mcs_02.networkClasses.interfacesPack.PostRequestLivenessLogout;
 
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
@@ -31,7 +31,7 @@ public class UserLivenessFunction {
             String content = lGson.toJson(lLiveness);
             //创建Retrofit实例
             Retrofit retrofit = new Retrofit.Builder().baseUrl(url).addConverterFactory(GsonConverterFactory.create()).build();
-            PostRequest_LivenessLogout lLivenessLogout = retrofit.create(PostRequest_LivenessLogout.class);
+            PostRequestLivenessLogout lLivenessLogout = retrofit.create(PostRequestLivenessLogout.class);
             RequestBody contentBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), content);
             Call<ResponseBody> call = lLivenessLogout.livenessLogout(contentBody);
             Log.i("UserLivenessFunction", content);
