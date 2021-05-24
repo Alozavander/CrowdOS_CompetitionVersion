@@ -2,9 +2,6 @@ package com.hills.mcs_02;
 
 import android.Manifest;
 import android.app.AlertDialog;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -16,7 +13,6 @@ import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.database.sqlite.SQLiteDatabase;
 import android.location.LocationManager;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -30,7 +26,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -38,12 +33,12 @@ import androidx.fragment.app.FragmentTransaction;
 import com.daimajia.numberprogressbar.NumberProgressBar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.gson.Gson;
-import com.hills.mcs_02.activities.ActivitySecondPage;
-import com.hills.mcs_02.activities.Activity_Task_Detail;
 import com.hills.mcs_02.activities.ActivityEditInfo;
 import com.hills.mcs_02.activities.ActivityFuncFoodShare;
 import com.hills.mcs_02.activities.ActivityFuncSportShare;
 import com.hills.mcs_02.activities.ActivityLogin;
+import com.hills.mcs_02.activities.ActivitySecondPage;
+import com.hills.mcs_02.activities.Activity_Task_Detail;
 import com.hills.mcs_02.activities.SearchActivity;
 import com.hills.mcs_02.dataBeans.Bean_ListView_home;
 import com.hills.mcs_02.dataBeans.Liveness;
@@ -54,8 +49,9 @@ import com.hills.mcs_02.fragmentsPack.Fragment_map;
 import com.hills.mcs_02.fragmentsPack.Fragment_mine;
 import com.hills.mcs_02.fragmentsPack.Fragment_publish;
 import com.hills.mcs_02.fragmentsPack.Fragment_remind;
+import com.hills.mcs_02.main.OpenAPK;
+import com.hills.mcs_02.main.UserLivenessFunction;
 import com.hills.mcs_02.networkClasses.interfacesPack.PostRequest_LivenessLogin;
-import com.hills.mcs_02.networkClasses.interfacesPack.PostRequest_LivenessLogout;
 import com.hills.mcs_02.networkClasses.interfacesPack.PostRequest_mine_minor7_update;
 import com.hills.mcs_02.sensorFunction.SenseDataUploadService;
 import com.hills.mcs_02.sensorFunction.SenseHelper;
@@ -200,11 +196,8 @@ public class MainActivity extends BaseActivity implements For_test {
             int login_userID = Integer.parseInt(getSharedPreferences("user", MODE_PRIVATE).getString("userID", "-1"));
             //检查是否登录
             if (login_userID == -1) {
-              //设置底部导航栏被选中
               BottomNavigationView navigationView = (BottomNavigationView) findViewById(R.id.navigation);
-              //将remind先置false
               navigationView.getMenu().getItem(3).setChecked(false);
-              //再将之前的页面点击选中
               navigationView.getMenu().getItem(JudgeFragmentMenuItemIndex(BNV_tag)).setChecked(true);
               BNVIconFresh();
               //跳转到登录页面
@@ -242,8 +235,6 @@ public class MainActivity extends BaseActivity implements For_test {
   }
 
   private void initService() {
-    //mReadableDatabase = new SensorSQLiteOpenHelper(this).getReadableDatabase();
-    //isBind = false;
     Log.i(TAG, "=======Now Init the sensor Service...===========");
     //初始化传感器感知服务Service
     sh = new SenseHelper(this);
@@ -303,7 +294,6 @@ public class MainActivity extends BaseActivity implements For_test {
           .setMessage("前去设置")
           //  取消选项
           .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
               Log.e(TAG, "GPS开启过程关闭");
@@ -311,7 +301,6 @@ public class MainActivity extends BaseActivity implements For_test {
               dialogInterface.dismiss();
             }
           })
-          //  确认选项
           .setPositiveButton("设置", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
@@ -353,18 +342,12 @@ public class MainActivity extends BaseActivity implements For_test {
   }
 
   private void AddFragment(String tag) {
-    //修正tag
     BNV_tag = tag;
-    //获取Transaction
     FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-    //隐藏当前Fragment
     hideCurrentFragment(transaction);
-    //ICON刷新
     BNVIconFresh();
-
     //添加底部导航栏的图标
     BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
-
     //判定是否添加了Fragment,已存在就直接显示
     if (getSupportFragmentManager().findFragmentByTag(tag) == null) {
       switch (tag) {
@@ -411,19 +394,6 @@ public class MainActivity extends BaseActivity implements For_test {
     }
   }
 
-
-  //MainActivity留出的获取任务Bean的方法，目前主要目的是为了与发布页面的联动
-  //后续与服务器端对接后将要修改
-  public void setBean(Bean_ListView_home bean) {
-    this.bean = bean;
-  }
-
-  public Bean_ListView_home getBean() {
-    return bean;
-  }
-
-
-  //实现For_Test的接口中的方法，也是作为演示模拟的存在，后续更改
   @Override
   public void button_AddItem() {
     //bean =  new Bean_ListView_home(R.drawable.haimian_usericon, R.drawable.takephoto, R.drawable.star_1, R.drawable.testphoto_4, "海绵宝宝" , "20分钟前", "公共资源", "任务描述：国安大厦停车位还有吗……",  "5.0 元", "3 个", "截止时间：2018.12.12");
@@ -614,26 +584,8 @@ public class MainActivity extends BaseActivity implements For_test {
   }
 
   private void openAPK(File newApp) {
-    if (newApp.isFile()) {
-      //通过Intent跳转到下载的文件并打开
-      Intent intent1 = new Intent(Intent.ACTION_VIEW);
-      Uri uri;
-      //对不同版本特性做适配
-      uri = FileProvider.getUriForFile(MainActivity.this, getPackageName() + ".fileprovider", newApp);
-      intent1.setDataAndType(uri, "application/vnd.android.package-archive");
-      try {
-        if (getPackageManager().canRequestPackageInstalls()) {
-          System.out.println("JUMP TO APK");
-          intent1.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-          startActivity(intent1);
-        }
-      } catch (ActivityNotFoundException e) {
-        e.printStackTrace();
-      }
-      System.out.println("openAPK over");
-    } else {
-      Toast.makeText(MainActivity.this, "Download Failure.", Toast.LENGTH_SHORT).show();
-    }
+    OpenAPK lOpenAPK = new OpenAPK(MainActivity.this,newApp);
+    lOpenAPK.openApk();
   }
 
 
@@ -660,37 +612,6 @@ public class MainActivity extends BaseActivity implements For_test {
         AddFragment(prePageTag);
         Log.i(TAG, "now:" + nowPageTag + "\n" + "pre:" + prePageTag);
         Log.i(TAG, "nowPosition:" + temNowPosition + "\n" + "prePosition:" + temPrePosition);
-
-
-
-                /*
-                // 立即回退一步
-                fragmentManager.popBackStackImmediate();
-                // 获取当前退到了哪一个Fragment上,重新获取当前的Fragment回退栈中的个数
-                FragmentManager.BackStackEntry backStack = fragmentManager
-                        .getBackStackEntryAt(fragmentManager
-                                .getBackStackEntryCount() - 1);
-                // 获取当前栈顶的Fragment的标记值
-                String tag = backStack.getName();
-                BottomNavigationView navigationView = (BottomNavigationView) findViewById(R.id.navigation);
-                // 判断当前是哪一个标记
-                if ("Tag_fragment_home".equals(tag)) {
-                    // 设置首页选中
-                    navigationView.getMenu().getItem(0).setChecked(true);
-                } else if ("Tag_fragment_map".equals(tag)) {
-                    // 设置地图页选中
-                    navigationView.getMenu().getItem(1).setChecked(true);
-                } else if ("Tag_fragment_publish".equals(tag)) {
-                    // 设置发布页选中
-                    navigationView.getMenu().getItem(2).setChecked(true);
-                } else if ("Tag_fragment_remind".equals(tag)) {
-                    // 设置提醒页选中
-                    navigationView.getMenu().getItem(3).setChecked(true);
-                } else if ("Tag_fragment_mine".equals(tag)) {
-                    // 设置我的页选中
-                    navigationView.getMenu().getItem(4).setChecked(true);
-                }
-                */
       } else {
         //回退栈中只剩一个时,退出应用
         finish();
@@ -716,10 +637,6 @@ public class MainActivity extends BaseActivity implements For_test {
     }
   }
 
-  public static Context getMainContext() {
-    return sendContex;
-  }
-
   @Override
   protected void onSaveInstanceState(Bundle outState) {
     super.onSaveInstanceState(outState);
@@ -728,7 +645,6 @@ public class MainActivity extends BaseActivity implements For_test {
   @Override
   public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
     super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
     // Forward results to EasyPermissions
     EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
   }
@@ -752,35 +668,11 @@ public class MainActivity extends BaseActivity implements For_test {
   //服务器活跃度检测功能向方法
   private void userLogout() {
     int login_userID = Integer.parseInt(getSharedPreferences("user", MODE_PRIVATE).getString("userID", "-1"));
+    String url = getResources().getString(R.string.base_url);
     //检查是否登录
     if (login_userID != -1) {
-      Liveness lLiveness = new Liveness(null, login_userID, null, null, null, null, null, null, null, null);
-      Gson lGson = new Gson();
-      String content = lGson.toJson(lLiveness);
-      //创建Retrofit实例
-      Retrofit retrofit = new Retrofit.Builder().baseUrl(getResources().getString(R.string.base_url)).addConverterFactory(GsonConverterFactory.create()).build();
-      //测试使用url
-      //Retrofit retrofit = new Retrofit.Builder().baseUrl("http://192.168.43.60:8889/").addConverterFactory(GsonConverterFactory.create()).build();
-      //创建网络接口实例
-      PostRequest_LivenessLogout lLivenessLogout = retrofit.create(PostRequest_LivenessLogout.class);
-      //创建RequestBody
-      RequestBody contentBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), content);
-      Call<ResponseBody> call = lLivenessLogout.livenessLogout(contentBody);
-      Log.i(TAG, content);
-      call.enqueue(new Callback<ResponseBody>() {
-        @Override
-        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-          if (response.code() == 200) {
-            Log.i(TAG, "LivenessLogout success.");
-          }
-        }
-
-        @Override
-        public void onFailure(Call<ResponseBody> call, Throwable t) {
-
-        }
-      });
+      UserLivenessFunction ulFunction = new UserLivenessFunction(MainActivity.this);
+      ulFunction.userLogout(login_userID,url);
     }
   }
-
 }

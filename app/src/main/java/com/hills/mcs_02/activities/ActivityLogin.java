@@ -293,7 +293,7 @@ public class ActivityLogin extends BaseActivity implements View.OnClickListener,
                         editor.putString("userName", user.getUserName());
                         editor.commit();
                         //开启手机数据的service
-                        Intent lIntent = new Intent(ActivityLogin.this, SenseDataUploadService.class);
+                        Intent lIntent = new Intent(ActivityLogin .this, SenseDataUploadService.class);
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                             startForegroundService(lIntent);
                         } else {

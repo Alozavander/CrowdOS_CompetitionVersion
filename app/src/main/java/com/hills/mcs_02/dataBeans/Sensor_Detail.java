@@ -19,14 +19,12 @@ public class Sensor_Detail {
     private Integer sensor_detailId;          //主键
     private Integer userId;                    //用户ID
     private Integer taskId;                    //任务ID
-
     //JsonFormat(pattern = "yyyy.MM.dd")
     private Date onlineTime;        // 数据上传日期
     private String fileName;        //  文件名字
     private String sensorType;      //   传感器种类或者传感器名字
     private String acquisitionTime; //    数据采集时间
     private String sensorValue;     //  数据值   可能一个传感器有多个数据，上传的文件中使用“-”进行分割多个数据
-
     private String temp1;           // 测试& 预留数据
     private String temp2;           // 测试& 预留数据
 
