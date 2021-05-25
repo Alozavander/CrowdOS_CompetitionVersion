@@ -11,7 +11,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -25,21 +24,20 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-
-import com.hills.mcs_02.BaseActivity;
-import com.hills.mcs_02.dataBeans.Bean_ListView_remind;
-import com.hills.mcs_02.dataBeans.Task;
-import com.hills.mcs_02.fragmentsPack.MCSRecyclerItemClickListener;
-import com.hills.mcs_02.networkClasses.interfacesPack.PostRequestMineMinor2Accepted;
-import com.hills.mcs_02.R;
-import com.hills.mcs_02.viewsAdapters.AdapterRecyclerViewRemind;
-
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import com.hills.mcs_02.BaseActivity;
+import com.hills.mcs_02.dataBeans.BeanListViewRemind;
+import com.hills.mcs_02.dataBeans.Task;
+import com.hills.mcs_02.fragmentsPack.MCSRecyclerItemClickListener;
+import com.hills.mcs_02.networkClasses.interfacesPack.PostRequestMineMinor2Accepted;
+import com.hills.mcs_02.R;
+import com.hills.mcs_02.viewsAdapters.AdapterRecyclerViewRemind;
 
 
 
@@ -49,7 +47,7 @@ public class ActivityMineMinor2Accepted extends BaseActivity {
     private SwipeRefreshLayout mSwipRefreshLayout;
     private RecyclerView mRecyclerView;
     private AdapterRecyclerViewRemind recyclerAdapter;
-    private List<Bean_ListView_remind> mBeanListViewRemind;
+    private List<BeanListViewRemind> mBeanListViewRemind;
     private Set<Integer> mHashSetTaskId;
 
 
@@ -71,7 +69,7 @@ public class ActivityMineMinor2Accepted extends BaseActivity {
         mSwipRefreshLayout.setColorSchemeColors(Color.RED,Color.BLUE,Color.GREEN);
 
         if(mBeanListViewRemind == null){
-            mBeanListViewRemind = new ArrayList<Bean_ListView_remind>();
+            mBeanListViewRemind = new ArrayList<BeanListViewRemind>();
         }
 
         //进入页面初始化任务列表
@@ -182,7 +180,7 @@ public class ActivityMineMinor2Accepted extends BaseActivity {
                         Log.i(TAG,list_string);
                         //将Gson字符串转化成为List
                         List<Task> task_list = gson.fromJson(list_string,type);
-                        List<Bean_ListView_remind> tempList = new ArrayList<Bean_ListView_remind>();
+                        List<BeanListViewRemind> tempList = new ArrayList<BeanListViewRemind>();
                         //将List<Task>转化成为需要的List<List<Bean_ListView_remind>>
                         if(task_list.size() > 0){
                             System.out.println("收到的任务内容: " + task_list.toString());
@@ -190,7 +188,7 @@ public class ActivityMineMinor2Accepted extends BaseActivity {
                                 if (task!=null && !mHashSetTaskId.contains(task.getTaskId())) {
                                     mHashSetTaskId.add(task.getTaskId());
                                     Log.i(TAG, task.toString());
-                                    tempList.add(new Bean_ListView_remind(R.drawable.haimian_usericon, R.drawable.testphoto_4,  getResources().getString(R.string.ordinaryTask), task));
+                                    tempList.add(new BeanListViewRemind(R.drawable.haimian_usericon, R.drawable.testphoto_4,  getResources().getString(R.string.ordinaryTask), task));
                                 }
                             }
                         } else{

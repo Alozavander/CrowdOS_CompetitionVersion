@@ -8,15 +8,15 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.hills.mcs_02.dataBeans.Bean_ListView_remind;
+import java.util.List;
+
+import com.hills.mcs_02.dataBeans.BeanListViewRemind;
 import com.hills.mcs_02.dataBeans.Task;
 import com.hills.mcs_02.fragmentsPack.MCSRecyclerItemClickListener;
 import com.hills.mcs_02.R;
 
-import java.util.List;
-
 public class AdapterListViewRemind extends BaseAdapter {
-    private List<Bean_ListView_remind> mBeanListViewRemindList;
+    private List<BeanListViewRemind> mBeanListViewRemindList;
     private LayoutInflater mInflater;
     private MCSRecyclerItemClickListener mListener;
 
@@ -24,7 +24,7 @@ public class AdapterListViewRemind extends BaseAdapter {
         super();
     }
 
-    public AdapterListViewRemind( Context context,List<Bean_ListView_remind> beanListViewRemindList) {
+    public AdapterListViewRemind( Context context,List<BeanListViewRemind> beanListViewRemindList) {
         mBeanListViewRemindList = beanListViewRemindList;
         mInflater = LayoutInflater.from(context);
     }
@@ -70,16 +70,16 @@ public class AdapterListViewRemind extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        Bean_ListView_remind beanListViewRemind = (Bean_ListView_remind) mBeanListViewRemindList.get(position);
+        BeanListViewRemind beanListViewRemind = (BeanListViewRemind) mBeanListViewRemindList.get(position);
 
         viewHolder.userIconIv.setImageResource(beanListViewRemind.getUserIcon());
         viewHolder.pictureIv.setImageResource(beanListViewRemind.getPicture());
 
         Task task = beanListViewRemind.getTask();
-        viewHolder.userIdTv.setText(task.getUserName());
+        viewHolder.userIdTv.setText(task.getUsername());
         viewHolder.leftTimeTv.setText(beanListViewRemind.getDeadline());
         viewHolder.describeTv.setText(beanListViewRemind.getKind());
-        viewHolder.taskContentTv.setText(task.getDescribe_task().substring(0,19) + "...");
+        viewHolder.taskContentTv.setText(task.getDescribeTask().substring(0,19) + "...");
         viewHolder.coinsCountTv.setText(task.getCoin() + "");
         viewHolder.taskCountTv.setText(task.getTotalNum() + "");
 

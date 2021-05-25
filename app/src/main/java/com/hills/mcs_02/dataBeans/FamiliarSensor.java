@@ -1,35 +1,35 @@
 package com.hills.mcs_02.dataBeans;
 
-public class Familiar_Sensor {
-    private Integer familiar_sensorId;          //主键
+public class FamiliarSensor {
+    private Integer familiarSensorId;          //主键
     private Integer userId;                    //用户ID
     private Integer taskId;                    //任务ID
 
     private Float longitude;  //经度
-    private Float latiude;  //维度
+    private Float latitude;  //维度
     private Float speed; //速度
 
     private Float sensorType;  //类型
 
     private String sensorFile;   //位置存储
 
-    public Familiar_Sensor(Integer pFamiliar_sensorId, Integer pUserId, Integer pTaskId, Float pLongitude, Float pLatiude, Float pSpeed, Float pSensorType, String pSensorFile) {
-        familiar_sensorId = pFamiliar_sensorId;
+    public FamiliarSensor(Integer pFamiliarSensorId, Integer pUserId, Integer pTaskId, Float pLongitude, Float pLatitude, Float pSpeed, Float pSensorType, String pSensorFile) {
+        familiarSensorId = pFamiliarSensorId;
         userId = pUserId;
         taskId = pTaskId;
         longitude = pLongitude;
-        latiude = pLatiude;
+        latitude = pLatitude;
         speed = pSpeed;
         sensorType = pSensorType;
         sensorFile = pSensorFile;
     }
 
-    public Integer getFamiliar_sensorId() {
-        return familiar_sensorId;
+    public Integer getFamiliarSensorId() {
+        return familiarSensorId;
     }
 
-    public void setFamiliar_sensorId(Integer pFamiliar_sensorId) {
-        familiar_sensorId = pFamiliar_sensorId;
+    public void setFamiliarSensorId(Integer pFamiliarSensorId) {
+        familiarSensorId = pFamiliarSensorId;
     }
 
     public Integer getUserId() {
@@ -56,12 +56,12 @@ public class Familiar_Sensor {
         longitude = pLongitude;
     }
 
-    public Float getLatiude() {
-        return latiude;
+    public Float getLatitude() {
+        return latitude;
     }
 
-    public void setLatiude(Float pLatiude) {
-        latiude = pLatiude;
+    public void setLatitude(Float pLatitude) {
+        latitude = pLatitude;
     }
 
     public Float getSpeed() {
@@ -91,11 +91,11 @@ public class Familiar_Sensor {
     @Override
     public String toString() {
         return "Familiar_Sensor{" +
-                "familiar_sensorId=" + familiar_sensorId +
+                "familiar_sensorId=" + familiarSensorId +
                 ", userId=" + userId +
                 ", taskId=" + taskId +
                 ", longitude=" + longitude +
-                ", latiude=" + latiude +
+                ", latiude=" + latitude +
                 ", speed=" + speed +
                 ", sensorType=" + sensorType +
                 ", sensorFile='" + sensorFile + '\'' +

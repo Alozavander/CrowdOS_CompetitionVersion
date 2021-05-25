@@ -1,5 +1,15 @@
 package com.hills.mcs_02.activities;
 
+import com.google.gson.Gson;
+
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,23 +26,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
-import com.hills.mcs_02.BaseActivity;
-import com.hills.mcs_02.EmailRegiste.ActivityEmailRegister;
-import com.hills.mcs_02.R;
 import com.hills.mcs_02.account.RegexVerify;
-import com.hills.mcs_02.dataBeans.Bean_UserAccount;
+import com.hills.mcs_02.BaseActivity;
+import com.hills.mcs_02.dataBeans.BeanUserAccount;
 import com.hills.mcs_02.dataBeans.User;
+import com.hills.mcs_02.EmailRegiste.ActivityEmailRegister;
 import com.hills.mcs_02.networkClasses.interfacesPack.PostRequestUserAuth;
+import com.hills.mcs_02.R;
 import com.hills.mcs_02.sensorFunction.SenseDataUploadService;
 
-import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
+
 
 
 
@@ -43,7 +46,7 @@ public class ActivityLogin extends BaseActivity implements View.OnClickListener,
     private Button submitBtn;
     private Button registerBtn;
     private Toast mToast;
-    private Bean_UserAccount userAccount;
+    private BeanUserAccount userAccount;
     private String TAG = "LoginPage";
 
 
@@ -290,7 +293,7 @@ public class ActivityLogin extends BaseActivity implements View.OnClickListener,
                         SharedPreferences.Editor editor = userSP.edit();
                         editor.putString("userID", user.getUserId() + "");
                         Log.i(TAG, user.getUserId() + "");
-                        editor.putString("userName", user.getUserName());
+                        editor.putString("userName", user.getUsername());
                         editor.commit();
                         //开启手机数据的service
                         Intent lIntent = new Intent(ActivityLogin .this, SenseDataUploadService.class);

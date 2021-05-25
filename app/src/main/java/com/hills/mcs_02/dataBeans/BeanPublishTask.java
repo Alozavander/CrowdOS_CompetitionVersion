@@ -1,16 +1,16 @@
 package com.hills.mcs_02.dataBeans;
 
-class Bean_publish_Task {
+class BeanPublishTask {
     private String postTime;
-    private String deadLine;
-    private String postID;
+    private String deadline;
+    private String postId;
     private String coin;
     private String Text;
 
-    public Bean_publish_Task(String postTime, String deadLine, String postID, String coin, String text) {
+    public BeanPublishTask(String postTime, String deadline, String postId, String coin, String text) {
         this.postTime = postTime;
-        this.deadLine = deadLine;
-        this.postID = postID;
+        this.deadline = deadline;
+        this.postId = postId;
         this.coin = coin;
         Text = text;
     }
@@ -19,12 +19,12 @@ class Bean_publish_Task {
         return postTime;
     }
 
-    public String getDeadLine() {
-        return deadLine;
+    public String getDeadline() {
+        return deadline;
     }
 
-    public String getPostID() {
-        return postID;
+    public String getPostId() {
+        return postId;
     }
 
     public String getCoin() {
@@ -39,12 +39,12 @@ class Bean_publish_Task {
         this.postTime = postTime;
     }
 
-    public void setDeadLine(String deadLine) {
-        this.deadLine = deadLine;
+    public void setDeadline(String deadline) {
+        this.deadline = deadline;
     }
 
-    public void setPostID(String postID) {
-        this.postID = postID;
+    public void setPostId(String postId) {
+        this.postId = postId;
     }
 
     public void setCoin(String coin) {
@@ -59,8 +59,8 @@ class Bean_publish_Task {
     public String toString() {
         return "Bean_publish_Task{" +
                 "postTime='" + postTime + '\'' +
-                ", deadLine='" + deadLine + '\'' +
-                ", postID='" + postID + '\'' +
+                ", deadLine='" + deadline + '\'' +
+                ", postID='" + postId + '\'' +
                 ", coin='" + coin + '\'' +
                 ", Text='" + Text + '\'' +
                 '}';

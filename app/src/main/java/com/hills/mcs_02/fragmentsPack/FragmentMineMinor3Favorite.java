@@ -10,13 +10,13 @@ import android.widget.ListView;
 
 import androidx.fragment.app.Fragment;
 
-import com.hills.mcs_02.dataBeans.Bean_ListView_remind;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.hills.mcs_02.dataBeans.BeanListViewRemind;
 import com.hills.mcs_02.R;
 import com.hills.mcs_02.viewsAdapters.AdapterListViewRemind;
 
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 /**
@@ -85,7 +85,7 @@ public class FragmentMineMinor3Favorite extends Fragment {
     }
 
     private void initList(View view){
-        List<Bean_ListView_remind> list = new ArrayList<>();
+        List<BeanListViewRemind> list = new ArrayList<>();
 
         //测试所用
         //list.add(new Bean_ListView_remind(R.drawable.haimian_usericon, R.drawable.testphoto_4, "Xminer", "剩余1小时", "裂隙检查","该任务需要五个人完成，所需求当事人在火宅现场拍摄不同地理位置的照片", "5","10"));

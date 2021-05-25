@@ -11,7 +11,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -26,12 +25,11 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 
-
+import com.hills.mcs_02.dataBeans.SensorDetail;
 import com.hills.mcs_02.MainActivity;
-import com.hills.mcs_02.StringStore;
-import com.hills.mcs_02.dataBeans.Sensor_Detail;
 import com.hills.mcs_02.networkClasses.interfacesPack.PostRequestSensorDetailUploadService;
 import com.hills.mcs_02.saveFile.FileExport;
+import com.hills.mcs_02.StringStore;
 import com.hills.mcs_02.utils.SqliteTimeUtil;
 
 import java.io.File;
@@ -41,8 +39,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
-
 
 public class SenseDataUploadService extends Service {
   private static final String TAG = "SenseDataUploadService";
@@ -148,7 +144,7 @@ public class SenseDataUploadService extends Service {
     // 获取当前时间
     Date date = new Date(System.currentTimeMillis());
     //构建上传的数据类
-    Sensor_Detail lSensorDetail = new Sensor_Detail(null, UserID, null, null, pSaveFile.getName(), sensorType + "", simpleDateFormat.format(date), null, null, null);
+    SensorDetail lSensorDetail = new SensorDetail(null, UserID, null, null, pSaveFile.getName(), sensorType + "", simpleDateFormat.format(date), null, null, null);
     Gson gson = new Gson();
     String postTask = gson.toJson(lSensorDetail);
     RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), postTask);

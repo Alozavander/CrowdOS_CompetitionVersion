@@ -1,5 +1,6 @@
 package com.hills.mcs_02.sensorFunction;
 
+import static android.widget.Toast.LENGTH_LONG;
 
 import android.content.ComponentName;
 import android.content.Context;
@@ -10,14 +11,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
-import static android.widget.Toast.LENGTH_LONG;
 
 import com.hills.mcs_02.StringStore;
 import com.hills.mcs_02.saveFile.FileExport;
 
 import java.io.File;
-
-
 
 /*
  * Edit by Liao JiaHao

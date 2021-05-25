@@ -9,6 +9,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
+import java.util.List;
+
+
 import com.hills.mcs_02.fragmentsPack.MCSRecyclerItemClickListener;
 import com.hills.mcs_02.R;
 import com.hills.mcs_02.SenseDataDisplay.SqliteDataDisplay;
@@ -16,9 +20,6 @@ import com.hills.mcs_02.StringStore;
 import com.hills.mcs_02.sensorFunction.SenseHelper;
 import com.hills.mcs_02.sensorFunction.SensorSqliteOpenHelper;
 import com.hills.mcs_02.viewsAdapters.AdapterRecyclerViewSettingSensorData;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class ActivityMineMinor5SensorDataSensorContent extends AppCompatActivity implements View.OnClickListener {
 

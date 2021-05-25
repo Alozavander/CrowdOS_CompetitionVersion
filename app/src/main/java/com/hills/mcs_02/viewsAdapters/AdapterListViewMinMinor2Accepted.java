@@ -8,18 +8,17 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.hills.mcs_02.dataBeans.Bean_ListView_mine_minor2_accepted;
-import com.hills.mcs_02.R;
-
-
 import java.util.List;
 
+import com.hills.mcs_02.dataBeans.BeanListViewMineMinor2Accepted;
+import com.hills.mcs_02.R;
+
 public class AdapterListViewMinMinor2Accepted extends BaseAdapter {
-    private List<Bean_ListView_mine_minor2_accepted> mBeanListViewMineMinor2Accepted;
+    private List<BeanListViewMineMinor2Accepted> mBeanListViewMineMinor2Accepted;
     private LayoutInflater mInflater;
     
 
-    public AdapterListViewMinMinor2Accepted(Context context, List<Bean_ListView_mine_minor2_accepted> list) {
+    public AdapterListViewMinMinor2Accepted(Context context, List<BeanListViewMineMinor2Accepted> list) {
         mInflater = LayoutInflater.from(context);
         mBeanListViewMineMinor2Accepted = list;
     }
@@ -63,10 +62,10 @@ public class AdapterListViewMinMinor2Accepted extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        Bean_ListView_mine_minor2_accepted bean = mBeanListViewMineMinor2Accepted.get(position);
+        BeanListViewMineMinor2Accepted bean = mBeanListViewMineMinor2Accepted.get(position);
         viewHolder.picIv.setImageResource(bean.getPic());
-        viewHolder.taskIdTv.setText(bean.getTaskID());
-        viewHolder.taskStateTv.setText(bean.getTaksState());
+        viewHolder.taskIdTv.setText(bean.getTaskId());
+        viewHolder.taskStateTv.setText(bean.getTaskState());
         viewHolder.describeTv.setText(bean.getDescribe());
         viewHolder.taskContentTv.setText(bean.getTaskContent());
         viewHolder.coinCountTv.setText(bean.getCoinsCount());

@@ -11,7 +11,7 @@ import android.os.Build;
 import android.os.IBinder;
 import android.util.Log;
 
-public class stepService extends Service implements SensorEventListener {
+public class StepService extends Service implements SensorEventListener {
     /**
      * binder服务与activity交互桥梁
      */
@@ -53,7 +53,7 @@ public class stepService extends Service implements SensorEventListener {
     /**
      * 构造函数
      */
-    public stepService() {
+    public StepService() {
     }
 
     @Override
@@ -97,11 +97,11 @@ public class stepService extends Service implements SensorEventListener {
         Sensor detectorSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR);
         if (countSensor != null) {
             STEP_SENSOR_TYPE = Sensor.TYPE_STEP_COUNTER;
-            sensorManager.registerListener(stepService.this, countSensor, SensorManager.SENSOR_DELAY_NORMAL);
+            sensorManager.registerListener(StepService.this, countSensor, SensorManager.SENSOR_DELAY_NORMAL);
             Log.i("计步传感器类型", "Sensor.TYPE_STEP_COUNTER");
         } else if (detectorSensor != null) {
             STEP_SENSOR_TYPE = Sensor.TYPE_STEP_DETECTOR;
-            sensorManager.registerListener(stepService.this, detectorSensor, SensorManager.SENSOR_DELAY_NORMAL);
+            sensorManager.registerListener(StepService.this, detectorSensor, SensorManager.SENSOR_DELAY_NORMAL);
             Log.i("计步传感器类型", "Sensor.TYPE_STEP_DETECTOR");
         } else {
             Log.i("计步传感器类型", "使用加速度传感器计步");
@@ -192,8 +192,8 @@ public class stepService extends Service implements SensorEventListener {
      * 绑定回调接口
      */
     public class LcBinder extends Binder {
-        public stepService getService() {
-            return stepService.this;
+        public StepService getService() {
+            return StepService.this;
         }
     }
 

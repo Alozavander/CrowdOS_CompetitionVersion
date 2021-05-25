@@ -8,20 +8,20 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.hills.mcs_02.dataBeans.Bean_ListView_mine_minor6_notification;
-import com.hills.mcs_02.R;
-
 import java.util.List;
 
+import com.hills.mcs_02.dataBeans.BeanListViewMineMinor6Notification;
+import com.hills.mcs_02.R;
+
 public class AdapterListViewMineMinor6Notification extends BaseAdapter {
-    private List<Bean_ListView_mine_minor6_notification> mBeanListViewMineMinor6Notifications;
+    private List<BeanListViewMineMinor6Notification> mBeanListViewMineMinor6Notifications;
     private LayoutInflater mInflater;
 
     public AdapterListViewMineMinor6Notification() {
         super();
     }
 
-    public AdapterListViewMineMinor6Notification(List<Bean_ListView_mine_minor6_notification> list, Context context) {
+    public AdapterListViewMineMinor6Notification(List<BeanListViewMineMinor6Notification> list, Context context) {
         this.mBeanListViewMineMinor6Notifications = list;
         this.mInflater = LayoutInflater.from(context);
     }
@@ -59,9 +59,9 @@ public class AdapterListViewMineMinor6Notification extends BaseAdapter {
             viewHolder = (ViewHolder)convertView.getTag();
         }
 
-        Bean_ListView_mine_minor6_notification bean = mBeanListViewMineMinor6Notifications.get(position);
+        BeanListViewMineMinor6Notification bean = mBeanListViewMineMinor6Notifications.get(position);
         viewHolder.iconIv.setImageResource(bean.getIcon());
-        viewHolder.idTv.setText(bean.getID());
+        viewHolder.idTv.setText(bean.getId());
         viewHolder.timeTv.setText(bean.getTime());
         viewHolder.contentTv.setText(bean.getContent());
 

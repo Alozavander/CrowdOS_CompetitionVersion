@@ -1,7 +1,7 @@
 package com.hills.mcs_02.dataBeans;
 
 ////当前Bean主要直接对接应用的直接使用
-public class Bean_UserAccount {
+public class BeanUserAccount {
     private String state;                       //表示验证状态，0为不正确，1为正确
     private String id;
     private String name;
@@ -11,7 +11,7 @@ public class Bean_UserAccount {
     private String sex;
     //private String sign;                       //个人签名,暂时预留
 
-    public Bean_UserAccount(){
+    public BeanUserAccount(){
 
     }
 

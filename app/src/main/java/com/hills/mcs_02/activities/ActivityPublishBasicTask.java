@@ -3,6 +3,10 @@ package com.hills.mcs_02.activities;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationClient;
+import com.amap.api.location.AMapLocationClientOption;
+import com.amap.api.location.AMapLocationListener;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -24,24 +28,16 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.amap.api.location.AMapLocation;
-import com.amap.api.location.AMapLocationClient;
-import com.amap.api.location.AMapLocationClientOption;
-import com.amap.api.location.AMapLocationListener;
-
-import com.hills.mcs_02.BaseActivity;
-import com.hills.mcs_02.dataBeans.Task;
-import com.hills.mcs_02.networkClasses.interfacesPack.PostRequestPublishTask;
-import com.hills.mcs_02.R;
-
 import java.util.Calendar;
 import java.util.Date;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
-
-
+import com.hills.mcs_02.BaseActivity;
+import com.hills.mcs_02.dataBeans.Task;
+import com.hills.mcs_02.networkClasses.interfacesPack.PostRequestPublishTask;
+import com.hills.mcs_02.R;
 
 public class ActivityPublishBasicTask extends BaseActivity implements AMapLocationListener {
     private Task task;

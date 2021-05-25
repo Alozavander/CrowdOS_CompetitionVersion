@@ -11,23 +11,21 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
-
-
 public class ProgressRequestBody extends RequestBody {
     private File mFile;
     private String mPath;
     private String mMediaType;
-    private UploadCallbacks mListener;
+    private UploadCallback mListener;
 
     private int mEachBufferSize = 1024;
 
-    public ProgressRequestBody(final File file, String mediaType, final UploadCallbacks listener) {
+    public ProgressRequestBody(final File file, String mediaType, final UploadCallback listener) {
         mFile = file;
         mMediaType = mediaType;
         mListener = listener;
     }
 
-    public ProgressRequestBody(final File file, String mediaType, int eachBufferSize, final UploadCallbacks listener) {
+    public ProgressRequestBody(final File file, String mediaType, int eachBufferSize, final UploadCallback listener) {
         mFile = file;
         mMediaType = mediaType;
         mEachBufferSize = eachBufferSize;

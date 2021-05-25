@@ -11,13 +11,12 @@ import android.view.ViewGroup;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
-
-import com.hills.mcs_02.R;
-import com.hills.mcs_02.viewsAdapters.FragmentPagerAdapterRemindPage;
-
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.hills.mcs_02.R;
+import com.hills.mcs_02.viewsAdapters.FragmentPagerAdapterRemindPage;
 
 
 /**

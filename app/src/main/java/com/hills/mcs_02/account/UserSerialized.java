@@ -21,20 +21,20 @@ public class UserSerialized extends User implements Serializable {
         this.userId = userId;
     }
 
-    public String getUserName() {
+    public String getUsername() {
         return userName;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String username) {
+        this.userName = username;
     }
 
-    public String getPassWord() {
+    public String getPassword() {
         return passWord;
     }
 
-    public void setPassWord(String passWord) {
-        this.passWord = passWord;
+    public void setPassword(String password) {
+        this.passWord = password;
     }
 
     public String getRealName() {
@@ -45,20 +45,20 @@ public class UserSerialized extends User implements Serializable {
         this.realName = realName;
     }
 
-    public int getCoins() {
+    public int getCoin() {
         return coins;
     }
 
-    public void setCoins(int coins) {
-        this.coins = coins;
+    public void setCoin(int coin) {
+        this.coins = coin;
     }
 
     public void setUserSerialized(User user){
-        this.userName = user.getUserName();
+        this.userName = user.getUsername();
         this.userId = user.getUserId();
-        this.passWord = user.getPassWord();
+        this.passWord = user.getPassword();
         this.realName = user.getRealName();
-        this.coins = user.getCoins();
+        this.coins = user.getCoin();
     }
 
     @Override

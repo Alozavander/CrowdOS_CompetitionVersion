@@ -2,21 +2,21 @@ package com.hills.mcs_02.dataBeans;
 
 import java.io.File;
 
-public class Bean_Combine_u_ut {
+public class BeanUserTaskWithUser {
     private int userIcon;
     private File pic;
-    private Combine_u_ut mCombine_u_ut;
+    private UserTaskWithUser mUserTaskWithUser;
 
-    public Bean_Combine_u_ut(int userIcon, Combine_u_ut combine_u_ut) {
+    public BeanUserTaskWithUser(int userIcon, UserTaskWithUser userTaskWithUser) {
         this.userIcon = userIcon;
         this.pic = null;
-        mCombine_u_ut = combine_u_ut;
+        mUserTaskWithUser = userTaskWithUser;
     }
 
-    public Bean_Combine_u_ut(int userIcon, File pic, Combine_u_ut combine_u_ut) {
+    public BeanUserTaskWithUser(int userIcon, File pic, UserTaskWithUser userTaskWithUser) {
         this.userIcon = userIcon;
         this.pic = pic;
-        mCombine_u_ut = combine_u_ut;
+        mUserTaskWithUser = userTaskWithUser;
     }
 
     public int getUserIcon() {
@@ -27,20 +27,20 @@ public class Bean_Combine_u_ut {
         this.userIcon = userIcon;
     }
 
-    public Combine_u_ut getCombine_u_ut() {
-        return mCombine_u_ut;
+    public UserTaskWithUser getUserTaskWithUser() {
+        return mUserTaskWithUser;
     }
 
-    public void setCombine_u_ut(Combine_u_ut combine_u_ut) {
-        mCombine_u_ut = combine_u_ut;
+    public void setUserTaskWithUser(UserTaskWithUser userTaskWithUser) {
+        mUserTaskWithUser = userTaskWithUser;
     }
 
     public User getUser() {
-        return mCombine_u_ut.getU();
+        return mUserTaskWithUser.getUser();
     }
 
-    public User_Task getUt() {
-        return mCombine_u_ut.getUt();
+    public UserTask getUserTask() {
+        return mUserTaskWithUser.getUserTask();
     }
 
     public File getPic() {
@@ -56,7 +56,7 @@ public class Bean_Combine_u_ut {
         return "Bean_Combine_u_ut{" +
                 "userIcon=" + userIcon +
                 ", pic=" + pic +
-                ", mCombine_u_ut=" + mCombine_u_ut +
+                ", mCombine_u_ut=" + mUserTaskWithUser +
                 '}';
     }
 }

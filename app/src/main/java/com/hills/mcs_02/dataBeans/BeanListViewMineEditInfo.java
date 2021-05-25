@@ -1,10 +1,10 @@
 package com.hills.mcs_02.dataBeans;
 
-public class Bean_ListView_mine_editInfo {
+public class BeanListViewMineEditInfo {
     private String title;
     private String content;
 
-    public Bean_ListView_mine_editInfo(String title, String content) {
+    public BeanListViewMineEditInfo(String title, String content) {
         this.title = title;
         this.content = content;
     }

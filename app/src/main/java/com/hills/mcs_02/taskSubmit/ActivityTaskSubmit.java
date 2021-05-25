@@ -2,6 +2,11 @@ package com.hills.mcs_02.taskSubmit;
 
 import com.google.gson.Gson;
 
+import com.daimajia.numberprogressbar.NumberProgressBar;
+import com.luck.picture.lib.PictureSelector;
+import com.luck.picture.lib.config.PictureConfig;
+import com.luck.picture.lib.config.PictureMimeType;
+import com.luck.picture.lib.entity.LocalMedia;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
@@ -42,10 +47,13 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.hills.mcs_02.BaseActivity;
-import com.hills.mcs_02.dataBeans.Familiar_Sensor;
-import com.hills.mcs_02.dataBeans.User_Task;
-import com.daimajia.numberprogressbar.NumberProgressBar;
+import com.hills.mcs_02.dataBeans.FamiliarSensor;
+import com.hills.mcs_02.dataBeans.UserTask;
 import com.hills.mcs_02.networkClasses.interfacesPack.PostRequestTaskSubmit;
 import com.hills.mcs_02.networkClasses.interfacesPack.PostRequestTaskSubmitFamiliarFiles;
 import com.hills.mcs_02.networkClasses.interfacesPack.PostRequestTaskSubmitFiles;
@@ -54,20 +62,10 @@ import com.hills.mcs_02.RequestCodes;
 import com.hills.mcs_02.StringStore;
 import com.hills.mcs_02.sensorFunction.SenseFunction;
 import com.hills.mcs_02.taskSubmit.uploadPack.ProgressRequestBody;
-import com.hills.mcs_02.taskSubmit.uploadPack.UploadCallbacks;
+import com.hills.mcs_02.taskSubmit.uploadPack.UploadCallback;
 import com.hills.mcs_02.viewsAdapters.AdapterRecyclerViewTaskSubmitAudio;
 import com.hills.mcs_02.viewsAdapters.AdapterRecyclerViewTaskSubmitSenseData;
 import com.hills.mcs_02.viewsAdapters.AdapterRecyclerViewTaskSubmitVideo;
-import com.luck.picture.lib.PictureSelector;
-import com.luck.picture.lib.config.PictureConfig;
-import com.luck.picture.lib.config.PictureMimeType;
-import com.luck.picture.lib.entity.LocalMedia;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
-
 
 public class ActivityTaskSubmit extends BaseActivity {
     public static final int IMAGE_ITEM_ADD = -1;
@@ -307,7 +305,7 @@ public class ActivityTaskSubmit extends BaseActivity {
                 for (File file : senseDataList) {
                     uploadedNow = 0;
                     //实现上传进度监听，
-                    ProgressRequestBody requestBody = new ProgressRequestBody(file, "*/*", new UploadCallbacks() {
+                    ProgressRequestBody requestBody = new ProgressRequestBody(file, "*/*", new UploadCallback() {
                         @Override
                         public void onProgressUpdate(long uploaded) {
                             //设置进度条实时进度
@@ -337,7 +335,7 @@ public class ActivityTaskSubmit extends BaseActivity {
                     } else {
                         //todo: upload the files class type -> 'Familiar_sensor'
                         String lsType = (file.getName().split("_"))[0];
-                        Familiar_Sensor lFamiliarSensor = new Familiar_Sensor(null, Integer.parseInt(getSharedPreferences("user", MODE_PRIVATE).getString("userID", "")),
+                        FamiliarSensor lFamiliarSensor = new FamiliarSensor(null, Integer.parseInt(getSharedPreferences("user", MODE_PRIVATE).getString("userID", "")),
                             taskId, (float) -9999, (float) -9999, (float) -1, Float.parseFloat(lsType), null);
                         Gson gson = new Gson();
                         String postContent = gson.toJson(lFamiliarSensor);
@@ -381,7 +379,7 @@ public class ActivityTaskSubmit extends BaseActivity {
             for (File file : imageList) {
                 uploadedNow = 0;
                 //实现上传进度监听，
-                ProgressRequestBody requestBody = new ProgressRequestBody(file, "image/*", new UploadCallbacks() {
+                ProgressRequestBody requestBody = new ProgressRequestBody(file, "image/*", new UploadCallback() {
                     @Override
                     public void onProgressUpdate(long uploaded) {
                         //设置进度条实时进度
@@ -409,7 +407,7 @@ public class ActivityTaskSubmit extends BaseActivity {
                     Toast.makeText(this, getResources().getString(R.string.Task_Submit_input_remind), Toast.LENGTH_LONG).show();
                     mNumberProgressBar.setVisibility(View.GONE);
                 } else {
-                    User_Task userTask = new User_Task(null, Integer.parseInt
+                    UserTask userTask = new UserTask(null, Integer.parseInt
                             (getSharedPreferences("user", MODE_PRIVATE).getString("userID", "")),
                         taskId, 1, subText, null, 1);
                     Gson gson = new Gson();
@@ -451,7 +449,7 @@ public class ActivityTaskSubmit extends BaseActivity {
             for (File file : audioList) {
                 uploadedNow = 0;
                 //实现上传进度监听，
-                ProgressRequestBody requestBody = new ProgressRequestBody(file, "audio/*", new UploadCallbacks() {
+                ProgressRequestBody requestBody = new ProgressRequestBody(file, "audio/*", new UploadCallback() {
                     @Override
                     public void onProgressUpdate(long uploaded) {
                         //设置进度条实时进度
@@ -479,7 +477,7 @@ public class ActivityTaskSubmit extends BaseActivity {
                     Toast.makeText(this, getResources().getString(R.string.Task_Submit_input_remind), Toast.LENGTH_LONG).show();
                     mNumberProgressBar.setVisibility(View.GONE);
                 } else {
-                    User_Task userTask = new User_Task(null, Integer.parseInt(getSharedPreferences("user", MODE_PRIVATE).getString("userID", "")),
+                    UserTask userTask = new UserTask(null, Integer.parseInt(getSharedPreferences("user", MODE_PRIVATE).getString("userID", "")),
                         taskId, 1, subText, null, 2);
                     Gson gson = new Gson();
                     String postContent = gson.toJson(userTask);
@@ -521,7 +519,7 @@ public class ActivityTaskSubmit extends BaseActivity {
 
                 uploadedNow = 0;
                 //实现上传进度监听，
-                ProgressRequestBody requestBody = new ProgressRequestBody(file, "video/*", new UploadCallbacks() {
+                ProgressRequestBody requestBody = new ProgressRequestBody(file, "video/*", new UploadCallback() {
                     @Override
                     public void onProgressUpdate(long uploaded) {
                         //设置进度条实时进度
@@ -549,7 +547,7 @@ public class ActivityTaskSubmit extends BaseActivity {
                     Toast.makeText(this, getResources().getString(R.string.Task_Submit_input_remind), Toast.LENGTH_LONG).show();
                     mNumberProgressBar.setVisibility(View.GONE);
                 } else {
-                    User_Task userTask = new User_Task(null, Integer.parseInt(getSharedPreferences("user", MODE_PRIVATE).getString("userID", "")),
+                    UserTask userTask = new UserTask(null, Integer.parseInt(getSharedPreferences("user", MODE_PRIVATE).getString("userID", "")),
                         taskId, 1, subText, null, 3);
                     Gson gson = new Gson();
                     String postContent = gson.toJson(userTask);
@@ -678,7 +676,7 @@ public class ActivityTaskSubmit extends BaseActivity {
         if (subText.equals("") || subText == null) {
             Toast.makeText(this, getResources().getString(R.string.Task_Submit_input_remind), Toast.LENGTH_LONG).show();
         } else {
-            User_Task userTask = new User_Task(null, Integer.parseInt(getSharedPreferences("user", MODE_PRIVATE).getString("userID", "")),
+            UserTask userTask = new UserTask(null, Integer.parseInt(getSharedPreferences("user", MODE_PRIVATE).getString("userID", "")),
                 taskId, 1, subText, null, 0);
             Gson gson = new Gson();
             String postContent = gson.toJson(userTask);

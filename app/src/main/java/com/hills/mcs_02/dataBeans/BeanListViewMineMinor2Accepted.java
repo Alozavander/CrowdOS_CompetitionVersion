@@ -1,22 +1,22 @@
 package com.hills.mcs_02.dataBeans;
 
-public class Bean_ListView_mine_minor2_accepted {
+public class BeanListViewMineMinor2Accepted {
     private int pic;
     private String taskID;
-    private String taksState;
+    private String taskState;
     private String describe;
     private String taskContent;
     private String coinsCount;
     private String taskCount;
     private String taskReward;
 
-    public Bean_ListView_mine_minor2_accepted() {
+    public BeanListViewMineMinor2Accepted() {
     }
 
-    public Bean_ListView_mine_minor2_accepted(int pic, String taskID, String taksState, String describe, String taskContent, String coinsCount, String taskCount, String taskReward) {
+    public BeanListViewMineMinor2Accepted(int pic, String taskId, String taskState, String describe, String taskContent, String coinsCount, String taskCount, String taskReward) {
         this.pic = pic;
-        this.taskID = taskID;
-        this.taksState = taksState;
+        this.taskID = taskId;
+        this.taskState = taskState;
         this.describe = describe;
         this.taskContent = taskContent;
         this.coinsCount = coinsCount;
@@ -28,12 +28,12 @@ public class Bean_ListView_mine_minor2_accepted {
         return pic;
     }
 
-    public String getTaskID() {
+    public String getTaskId() {
         return taskID;
     }
 
-    public String getTaksState() {
-        return taksState;
+    public String getTaskState() {
+        return taskState;
     }
 
     public String getDescribe() {
@@ -60,12 +60,12 @@ public class Bean_ListView_mine_minor2_accepted {
         this.pic = pic;
     }
 
-    public void setTaskID(String taskID) {
+    public void setTaskId(String taskID) {
         this.taskID = taskID;
     }
 
-    public void setTaksState(String taksState) {
-        this.taksState = taksState;
+    public void setTaskState(String taskState) {
+        this.taskState = taskState;
     }
 
     public void setDescribe(String describe) {

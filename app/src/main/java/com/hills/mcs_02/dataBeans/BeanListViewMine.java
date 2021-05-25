@@ -1,11 +1,11 @@
 package com.hills.mcs_02.dataBeans;
 
 
-public class Bean_ListView_mine {
+public class BeanListViewMine {
     private int icon;
     private String title;
 
-    public Bean_ListView_mine(int icon, String title) {
+    public BeanListViewMine(int icon, String title) {
         this.icon = icon;
         this.title = title;
     }

@@ -1,8 +1,6 @@
 package com.hills.mcs_02.taskSubmit;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
+import com.bumptech.glide.Glide;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -13,11 +11,12 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.hills.mcs_02.R;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.hills.mcs_02.fragmentsPack.MCSRecyclerItemClickListener;
-
-
+import com.hills.mcs_02.R;
 
 class AdapterRecyclerViewTaskSubmitImage extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public static final int TYPE_ADD = 1;

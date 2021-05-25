@@ -7,17 +7,17 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.hills.mcs_02.dataBeans.Bean_ListView_publish;
-import com.hills.mcs_02.R;
-
 import java.util.List;
 
+import com.hills.mcs_02.dataBeans.BeanListViewPublish;
+import com.hills.mcs_02.R;
+
 public class AdapterListViewPublish extends BaseAdapter {
-    private List<Bean_ListView_publish> mBeanListViewPublish;
+    private List<BeanListViewPublish> mBeanListViewPublish;
     private LayoutInflater mInflater;//布局装载器对象
 
 
-    public AdapterListViewPublish(Context context, List<Bean_ListView_publish> beanListViewPublish) {
+    public AdapterListViewPublish(Context context, List<BeanListViewPublish> beanListViewPublish) {
         this.mBeanListViewPublish = beanListViewPublish;
         this.mInflater = LayoutInflater.from(context);
     }
@@ -58,7 +58,7 @@ public class AdapterListViewPublish extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        Bean_ListView_publish beanListViewPublish = (Bean_ListView_publish) mBeanListViewPublish.get(position);
+        BeanListViewPublish beanListViewPublish = (BeanListViewPublish) mBeanListViewPublish.get(position);
 
         viewHolder.titleTv.setText(beanListViewPublish.getTitle());
         viewHolder.sensorsTv.setText(beanListViewPublish.getSensors());

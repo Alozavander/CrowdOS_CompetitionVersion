@@ -2,17 +2,17 @@ package com.hills.mcs_02.dataBeans;
 
 import java.text.SimpleDateFormat;
 
-public class Bean_ListView_remind {
+public class BeanListViewRemind {
     private int userIcon;
     private int picture;
     private String kind;
     private Task task;
 
-    public Bean_ListView_remind() {
+    public BeanListViewRemind() {
 
     }
 
-    public Bean_ListView_remind(int userIcon, int picture, String kind, Task task) {
+    public BeanListViewRemind(int userIcon, int picture, String kind, Task task) {
         this.userIcon = userIcon;
         this.picture = picture;
         this.kind = kind;
@@ -51,12 +51,12 @@ public class Bean_ListView_remind {
         this.task = task;
     }
 
-    public String getPsotTime() {
-        return new SimpleDateFormat("yyyy.MM.dd").format(task.getDeadLine());
+    public String getPostTime() {
+        return new SimpleDateFormat("yyyy.MM.dd").format(task.getDeadline());
     }
 
     public String getDeadline() {
-        return new SimpleDateFormat("yyyy.MM.dd").format(task.getDeadLine());
+        return new SimpleDateFormat("yyyy.MM.dd").format(task.getDeadline());
     }
 
     @Override

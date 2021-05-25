@@ -11,7 +11,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,25 +20,24 @@ import android.widget.Toast;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-
-import com.hills.mcs_02.BaseActivity;
-import com.hills.mcs_02.dataBeans.Bean_RecyclerView_mine_minor4_wallet;
-import com.hills.mcs_02.dataBeans.User;
-import com.hills.mcs_02.networkClasses.interfacesPack.GetRequestUserCoinsRankList;
-import com.hills.mcs_02.networkClasses.interfacesPack.PostRequestUserCoins;
-import com.hills.mcs_02.R;
-import com.hills.mcs_02.viewsAdapters.AdapterRecyclerViewMineMinor4Wallet;
-
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hills.mcs_02.BaseActivity;
+import com.hills.mcs_02.dataBeans.BeanRecyclerViewMineMinor4Wallet;
+import com.hills.mcs_02.dataBeans.User;
+import com.hills.mcs_02.networkClasses.interfacesPack.GetRequestUserCoinsRankList;
+import com.hills.mcs_02.networkClasses.interfacesPack.PostRequestUserCoin;
+import com.hills.mcs_02.R;
+import com.hills.mcs_02.viewsAdapters.AdapterRecyclerViewMineMinor4Wallet;
+
 
 
 public class ActivityMineMinor4Wallet extends BaseActivity {
 
-    private List<Bean_RecyclerView_mine_minor4_wallet> userCoinsList = new ArrayList<>();
+    private List<BeanRecyclerViewMineMinor4Wallet> userCoinsList = new ArrayList<>();
     private Context mContext;
     private RecyclerView mRecyclerView;
     private String TAG = "myWallet";
@@ -76,7 +74,7 @@ public class ActivityMineMinor4Wallet extends BaseActivity {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         //创建网络接口实例
-        PostRequestUserCoins requestUserCoins = retrofit.create(PostRequestUserCoins.class);
+        PostRequestUserCoin requestUserCoins = retrofit.create(PostRequestUserCoin.class);
         //包装发送请求
         Call<ResponseBody> call = requestUserCoins.userCoins(Integer.parseInt(userID));
 
@@ -91,7 +89,7 @@ public class ActivityMineMinor4Wallet extends BaseActivity {
                         String temp = response.body().string();
                         Log.i(TAG, temp);
                         user = gson.fromJson(temp, User.class);
-                        coinsNum.setText(user.getCoins() + "");
+                        coinsNum.setText(user.getCoin() + "");
                         Log.i("Test","UserInfo:" + user.toString());
                         //成功获取网络请求内容后，调用内容处理方法
                     }catch (IOException exp) {
@@ -132,11 +130,11 @@ public class ActivityMineMinor4Wallet extends BaseActivity {
                         mRequestUserCoinsRankList = gson.fromJson(temp, type);
                         if (mRequestUserCoinsRankList.size() > 0) {
                             for (User user : mRequestUserCoinsRankList) {
-                                Bean_RecyclerView_mine_minor4_wallet rank_item = new Bean_RecyclerView_mine_minor4_wallet();
-                                rank_item.setUserCoins(user.getCoins());
+                                BeanRecyclerViewMineMinor4Wallet rank_item = new BeanRecyclerViewMineMinor4Wallet();
+                                rank_item.setUserCoin(user.getCoin());
                                 rank_item.setUserIcon(R.drawable.haimian_usericon);
                                 rank_item.setUserId(user.getUserId());
-                                rank_item.setUserName(user.getUserName());
+                                rank_item.setUsername(user.getUsername());
                                 userCoinsList.add(rank_item);
                             }
                         } else {

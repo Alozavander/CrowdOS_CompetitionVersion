@@ -8,11 +8,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 
-import com.hills.mcs_02.BaseActivity;
-import com.hills.mcs_02.R;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import com.hills.mcs_02.BaseActivity;
+import com.hills.mcs_02.R;
 
 public class ActivityMineSettingGeneral extends BaseActivity {
 

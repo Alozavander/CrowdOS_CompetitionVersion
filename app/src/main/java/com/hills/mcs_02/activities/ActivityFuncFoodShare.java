@@ -1,30 +1,29 @@
 package com.hills.mcs_02.activities;
 
-
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
 
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.StaggeredGridLayoutManager;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.hills.mcs_02.BaseActivity;
-import com.hills.mcs_02.func_foodShare.FuncFoodShareAdapter;
-import com.hills.mcs_02.func_foodShare.beans.FuncFoodShareFoodShareListBean;
-import com.hills.mcs_02.R;
-
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
+import com.hills.mcs_02.BaseActivity;
+import com.hills.mcs_02.func_foodShare.FuncFoodShareAdapter;
+import com.hills.mcs_02.func_foodShare.beans.FuncFoodShareFoodShareListBean;
+import com.hills.mcs_02.R;
 
 //该类作为二级页面启动为Fragment作基石的Activity
 public class ActivityFuncFoodShare extends BaseActivity {

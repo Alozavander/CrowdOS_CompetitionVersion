@@ -154,7 +154,7 @@
 
         <service android:name="com.amap.api.location.APSService" />
         <service android:name=".sensorFunction.SensorService" />
-        <service android:name=".func_sportsShare.stepService" />
+        <service android:name=".func_sportsShare.StepService" />
         <service android:name=".sensorFunction.SenseDataUploadService"/>
 
         <provider

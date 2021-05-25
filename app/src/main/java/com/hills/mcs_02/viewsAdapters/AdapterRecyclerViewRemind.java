@@ -11,16 +11,16 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.hills.mcs_02.dataBeans.Bean_ListView_remind;
+import java.util.List;
+
+import com.hills.mcs_02.dataBeans.BeanListViewRemind;
 import com.hills.mcs_02.dataBeans.Task;
 import com.hills.mcs_02.fragmentsPack.MCSRecyclerItemClickListener;
 import com.hills.mcs_02.R;
 
-import java.util.List;
-
 public class AdapterRecyclerViewRemind extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final static String TAG = "AdapterRecyclerRemind";
-    private List<Bean_ListView_remind> mBeanListViewRemindList;
+    private List<BeanListViewRemind> mBeanListViewRemindList;
     private LayoutInflater mInflater;
     private MCSRecyclerItemClickListener mListener;
 
@@ -28,7 +28,7 @@ public class AdapterRecyclerViewRemind extends RecyclerView.Adapter<RecyclerView
         super();
     }
 
-    public AdapterRecyclerViewRemind( Context context,List<Bean_ListView_remind> beanListViewRemindList) {
+    public AdapterRecyclerViewRemind( Context context,List<BeanListViewRemind> beanListViewRemindList) {
         mBeanListViewRemindList = beanListViewRemindList;
         mInflater = LayoutInflater.from(context);
     }
@@ -71,21 +71,21 @@ public class AdapterRecyclerViewRemind extends RecyclerView.Adapter<RecyclerView
 
         if(viewHolder instanceof remindViewHolder) {
             remindViewHolder holder = (remindViewHolder) viewHolder;
-            Bean_ListView_remind beanListViewRemind = (Bean_ListView_remind) mBeanListViewRemindList
+            BeanListViewRemind beanListViewRemind = (BeanListViewRemind) mBeanListViewRemindList
                 .get(position);
 
             holder.userIconIv.setImageResource(beanListViewRemind.getUserIcon());
             holder.pictureIv.setImageResource(beanListViewRemind.getPicture());
 
             Task task = beanListViewRemind.getTask();
-            holder.userIdTv.setText(task.getUserName());
+            holder.userIdTv.setText(task.getUsername());
             holder.leftTimeTv.setText(beanListViewRemind.getDeadline());
             holder.describeTv.setText(beanListViewRemind.getKind());
             holder.taskNameTv.setText(beanListViewRemind.getTask().getTaskName());
 
-            if(task.getDescribe_task().length() > 20) holder.taskContentTv
-                .setText(task.getDescribe_task().substring(0,19) + "...");
-            else holder.taskContentTv.setText(task.getDescribe_task());
+            if(task.getDescribeTask().length() > 20) holder.taskContentTv
+                .setText(task.getDescribeTask().substring(0,19) + "...");
+            else holder.taskContentTv.setText(task.getDescribeTask());
             holder.coinsCountTv.setText(task.getCoin() + "");
             holder.taskCountTv.setText(task.getTotalNum() + "");
 
@@ -147,12 +147,12 @@ public class AdapterRecyclerViewRemind extends RecyclerView.Adapter<RecyclerView
         this.mListener = listener;
     }
 
-    public void addHeaderItem(List<Bean_ListView_remind> items){
+    public void addHeaderItem(List<BeanListViewRemind> items){
         mBeanListViewRemindList.addAll(0,items);
         notifyDataSetChanged();
     }
 
-    public void addFooterItem(List<Bean_ListView_remind> items){
+    public void addFooterItem(List<BeanListViewRemind> items){
         mBeanListViewRemindList.addAll(items);
         notifyDataSetChanged();
     }

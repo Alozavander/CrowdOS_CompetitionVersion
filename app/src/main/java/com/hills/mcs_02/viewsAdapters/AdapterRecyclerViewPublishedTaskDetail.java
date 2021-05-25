@@ -1,5 +1,7 @@
 package com.hills.mcs_02.viewsAdapters;
 
+import com.bumptech.glide.Glide;
+
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -13,17 +15,16 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.hills.mcs_02.dataBeans.Bean_Combine_u_ut;
-import com.hills.mcs_02.fragmentsPack.MCSRecyclerItemClickListener;
-import com.hills.mcs_02.R;
-
 import java.io.File;
 import java.util.List;
 
+import com.hills.mcs_02.dataBeans.BeanUserTaskWithUser;
+import com.hills.mcs_02.fragmentsPack.MCSRecyclerItemClickListener;
+import com.hills.mcs_02.R;
+
 public class AdapterRecyclerViewPublishedTaskDetail extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final static String TAG = "Adapter_RecyclerView_remind";
-    private List<Bean_Combine_u_ut> mBeanUserTaskWithUser;
+    private List<BeanUserTaskWithUser> mBeanUserTaskWithUser;
     private LayoutInflater mInflater;
     private Context mContext;
     private MCSRecyclerItemClickListener mListener;
@@ -32,7 +33,7 @@ public class AdapterRecyclerViewPublishedTaskDetail extends RecyclerView.Adapter
         super();
     }
 
-    public AdapterRecyclerViewPublishedTaskDetail(Context context, List<Bean_Combine_u_ut> list) {
+    public AdapterRecyclerViewPublishedTaskDetail(Context context, List<BeanUserTaskWithUser> list) {
         mBeanUserTaskWithUser = list;
         mContext = context;
         mInflater = LayoutInflater.from(context);
@@ -76,10 +77,10 @@ public class AdapterRecyclerViewPublishedTaskDetail extends RecyclerView.Adapter
 
         if (viewHolder instanceof publishedTaskDetailViewHolder) {
             publishedTaskDetailViewHolder holder = (publishedTaskDetailViewHolder) viewHolder;
-            Bean_Combine_u_ut beanCombine_uut = (Bean_Combine_u_ut) mBeanUserTaskWithUser.get(POSITION);
+            BeanUserTaskWithUser beanCombine_uut = (BeanUserTaskWithUser) mBeanUserTaskWithUser.get(POSITION);
 
             holder.userIconIv.setImageResource(beanCombine_uut.getUserIcon());
-            holder.usernameTv.setText(beanCombine_uut.getUser().getUserName());
+            holder.usernameTv.setText(beanCombine_uut.getUser().getUsername());
 
             //图片加载
             File pic = beanCombine_uut.getPic();
@@ -111,7 +112,7 @@ public class AdapterRecyclerViewPublishedTaskDetail extends RecyclerView.Adapter
             //if(task.getDescribe_task().length() > 20) holder.taskContent_tv.setText(task.getDescribe_task().substring(0,19) + "...");
             //else
             //放置任务完成者上传的任务数据
-            String content = beanCombine_uut.getUt().getContent();
+            String content = beanCombine_uut.getUserTask().getContent();
             if (content == null) content = "该用户尚未上传数据";
             holder.taskContentTv.setText(content);
 
@@ -164,12 +165,12 @@ public class AdapterRecyclerViewPublishedTaskDetail extends RecyclerView.Adapter
         this.mListener = listener;
     }
 
-    public void addHeaderItem(List<Bean_Combine_u_ut> items) {
+    public void addHeaderItem(List<BeanUserTaskWithUser> items) {
         mBeanUserTaskWithUser.addAll(0, items);
         notifyDataSetChanged();
     }
 
-    public void addFooterItem(List<Bean_Combine_u_ut> items) {
+    public void addFooterItem(List<BeanUserTaskWithUser> items) {
         mBeanUserTaskWithUser.addAll(items);
         notifyDataSetChanged();
     }

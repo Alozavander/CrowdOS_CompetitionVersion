@@ -8,16 +8,15 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-
-import com.hills.mcs_02.dataBeans.Bean_RecyclerView_mine_minor4_wallet;
-import com.hills.mcs_02.R;
-
-import com.hills.mcs_02.viewsAdapters.AdapterRecyclerViewMineMinor4Wallet.viewHolder;
 import java.util.List;
+
+import com.hills.mcs_02.dataBeans.BeanRecyclerViewMineMinor4Wallet;
+import com.hills.mcs_02.R;
+import com.hills.mcs_02.viewsAdapters.AdapterRecyclerViewMineMinor4Wallet.viewHolder;
 
 public class AdapterRecyclerViewMineMinor4Wallet extends RecyclerView.Adapter<viewHolder> {
 
-    private List<Bean_RecyclerView_mine_minor4_wallet> mBeanRecyclerViewMineMinor4WalletList;
+    private List<BeanRecyclerViewMineMinor4Wallet> mBeanRecyclerViewMineMinor4WalletList;
 
     static class viewHolder extends RecyclerView.ViewHolder{
         ImageView userCoinImage;
@@ -32,7 +31,7 @@ public class AdapterRecyclerViewMineMinor4Wallet extends RecyclerView.Adapter<vi
         }
     }
 
-    public AdapterRecyclerViewMineMinor4Wallet(List<Bean_RecyclerView_mine_minor4_wallet> beanRecyclerViewmineminor4wallet_list){
+    public AdapterRecyclerViewMineMinor4Wallet(List<BeanRecyclerViewMineMinor4Wallet> beanRecyclerViewmineminor4wallet_list){
         mBeanRecyclerViewMineMinor4WalletList = beanRecyclerViewmineminor4wallet_list;
     }
 
@@ -47,10 +46,10 @@ public class AdapterRecyclerViewMineMinor4Wallet extends RecyclerView.Adapter<vi
 
     @Override
     public void onBindViewHolder(viewHolder holder, int position) {
-        Bean_RecyclerView_mine_minor4_wallet user_coins = mBeanRecyclerViewMineMinor4WalletList.get(position);
+        BeanRecyclerViewMineMinor4Wallet user_coins = mBeanRecyclerViewMineMinor4WalletList.get(position);
         holder.userCoinImage.setImageResource(user_coins.getUserIcon());
-        holder.username.setText(user_coins.getUserName());
-        holder.userCoin.setText(Integer.toString(user_coins.getUserCoins()));
+        holder.username.setText(user_coins.getUsername());
+        holder.userCoin.setText(Integer.toString(user_coins.getUserCoin()));
     }
 
     @Override

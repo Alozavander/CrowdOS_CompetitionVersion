@@ -9,11 +9,11 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.hills.mcs_02.BaseActivity;
-import com.hills.mcs_02.R;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import com.hills.mcs_02.BaseActivity;
+import com.hills.mcs_02.R;
 
 public class ActivityMineMinor6Notification extends BaseActivity {
     private String TAG = "Activity_mine_minor7_setting";

@@ -18,9 +18,9 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.hills.mcs_02.R;
-
 import java.util.List;
+
+import com.hills.mcs_02.R;
 
 /**
  * 选择对话框

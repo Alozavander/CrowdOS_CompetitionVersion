@@ -1,14 +1,14 @@
 package com.hills.mcs_02.dataBeans;
 
-public class Bean_ListView_mine_minor6_notification {
+public class BeanListViewMineMinor6Notification {
     private int icon;
-    private String ID;
+    private String Id;
     private String time;
     private String content;
 
-    public Bean_ListView_mine_minor6_notification(int icon, String ID, String time, String content) {
+    public BeanListViewMineMinor6Notification(int icon, String Id, String time, String content) {
         this.icon = icon;
-        this.ID = ID;
+        this.Id = Id;
         this.time = time;
         this.content = content;
     }
@@ -17,8 +17,8 @@ public class Bean_ListView_mine_minor6_notification {
         return icon;
     }
 
-    public String getID() {
-        return ID;
+    public String getId() {
+        return Id;
     }
 
     public String getTime() {
@@ -33,8 +33,8 @@ public class Bean_ListView_mine_minor6_notification {
         this.icon = icon;
     }
 
-    public void setID(String ID) {
-        this.ID = ID;
+    public void setId(String id) {
+        this.Id = id;
     }
 
     public void setTime(String time) {

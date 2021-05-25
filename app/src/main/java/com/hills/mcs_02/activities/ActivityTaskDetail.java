@@ -10,7 +10,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -24,9 +23,12 @@ import android.widget.Scroller;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.hills.mcs_02.dataBeans.Task;
-import com.hills.mcs_02.dataBeans.User_Task;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+
 import com.hills.mcs_02.BaseActivity;
+import com.hills.mcs_02.dataBeans.Task;
+import com.hills.mcs_02.dataBeans.UserTask;
 import com.hills.mcs_02.networkClasses.interfacesPack.PostRequestUserTaskAdd;
 import com.hills.mcs_02.networkClasses.interfacesPack.QueryRequestTaskDetail;
 import com.hills.mcs_02.R;
@@ -34,11 +36,6 @@ import com.hills.mcs_02.StringStore;
 import com.hills.mcs_02.sensorFunction.SenseHelper;
 import com.hills.mcs_02.sensorFunction.SensorService;
 import com.hills.mcs_02.taskSubmit.ActivityTaskSubmit;
-
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-
-
 
 public class ActivityTaskDetail extends BaseActivity {
 
@@ -108,10 +105,10 @@ public class ActivityTaskDetail extends BaseActivity {
         String taskGson = getIntent().getStringExtra("taskGson");
         Gson gson = new Gson();
         task = gson.fromJson(taskGson, Task.class);
-        userNameTv.setText(task.getUserName());
-        taskContentTv.setText(task.getDescribe_task());
+        userNameTv.setText(task.getUsername());
+        taskContentTv.setText(task.getDescribeTask());
         coinsCountTv.setText(task.getCoin().toString());
-        deadlineTv.setText(new SimpleDateFormat("yyyy.MM.dd").format(task.getDeadLine()));
+        deadlineTv.setText(new SimpleDateFormat("yyyy.MM.dd").format(task.getDeadline()));
         postTimeTv.setText(new SimpleDateFormat("yyyy.MM.dd").format(task.getPostTime()));
         taskNameTv.setText(task.getTaskName());
         if(task.getTaskKind() == null) taskKindTv.setText(R.string.ordinaryTask);
@@ -139,7 +136,7 @@ public class ActivityTaskDetail extends BaseActivity {
             Intent intent = new Intent(ActivityTaskDetail.this, ActivityLogin.class);
             startActivity(intent);
         } else {
-            User_Task userTask = new User_Task(null, loginUserId, task.getTaskId(), 0, null, null,0);
+            UserTask userTask = new UserTask(null, loginUserId, task.getTaskId(), 0, null, null,0);
             Gson gson = new Gson();
             String content = gson.toJson(userTask);
             queryRequest(content);

@@ -11,21 +11,22 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.hills.mcs_02.dataBeans.Bean_ListView_home;
+import java.util.List;
+
+import com.hills.mcs_02.dataBeans.BeanListViewHome;
 import com.hills.mcs_02.fragmentsPack.MCSRecyclerItemClickListener;
 import com.hills.mcs_02.R;
 
-import java.util.List;
 
 public class AdapterRecyclerViewHome extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final static String TAG = "Adapter_RecyclerView_home";
-    private List<Bean_ListView_home> mBeanListViewHome;
+    private List<BeanListViewHome> mBeanListViewHome;
     private Context mContext;
     private LayoutInflater mInflater;//布局装载器对象
     private MCSRecyclerItemClickListener mListener;
     //private Context mContext;
 
-    public AdapterRecyclerViewHome(Context context, List<Bean_ListView_home> list) {
+    public AdapterRecyclerViewHome(Context context, List<BeanListViewHome> list) {
         mContext = context;
         this.mInflater = LayoutInflater.from(context);
         this.mBeanListViewHome = list;
@@ -72,7 +73,7 @@ public class AdapterRecyclerViewHome extends RecyclerView.Adapter<RecyclerView.V
 
         if(viewHolder instanceof homeViewHolder){
             homeViewHolder holder = (homeViewHolder) viewHolder;
-            Bean_ListView_home bean = (Bean_ListView_home) mBeanListViewHome.get(position);
+            BeanListViewHome bean = (BeanListViewHome) mBeanListViewHome.get(position);
 
             holder.coinCountTv.setText(bean.getCoinsCount());
             holder.deadlineTv.setText(mContext.getString(R.string.Task_Detail_deadline) + "  " + bean.getDeadline());
@@ -92,7 +93,7 @@ public class AdapterRecyclerViewHome extends RecyclerView.Adapter<RecyclerView.V
             holder.photoIv.setImageResource(bean.getPhoto());
             //测试使用，实际应使用网络加载路径
             holder.userIconIv.setImageResource(bean.getUserIcon());
-            holder.userIdTv.setText(bean.getUserID());
+            holder.userIdTv.setText(bean.getUserId());
             holder.taskCountTv.setText(bean.getTaskCount() + "");
         }else{
             Log.i(TAG,"instance 错误");
@@ -157,12 +158,12 @@ public class AdapterRecyclerViewHome extends RecyclerView.Adapter<RecyclerView.V
         this.mListener = listener;
     }
 
-    public void addHeaderItem(List<Bean_ListView_home> items){
+    public void addHeaderItem(List<BeanListViewHome> items){
         mBeanListViewHome.addAll(0,items);
         notifyDataSetChanged();
     }
 
-    public void addFooterItem(List<Bean_ListView_home> items){
+    public void addFooterItem(List<BeanListViewHome> items){
         mBeanListViewHome.addAll(items);
         notifyDataSetChanged();
     }

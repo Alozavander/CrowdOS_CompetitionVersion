@@ -17,20 +17,21 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.hills.mcs_02.activities.ActivityLogin;
 import com.hills.mcs_02.activities.ActivityMineMinor1Publish;
 import com.hills.mcs_02.activities.ActivityMineMinor2Accepted;
 import com.hills.mcs_02.activities.ActivityMineMinor4Wallet;
 import com.hills.mcs_02.activities.ActivityMineMinor5SensorData;
 import com.hills.mcs_02.activities.ActivityMineMinor7Setting;
-import com.hills.mcs_02.dataBeans.Bean_ListView_mine;
+import com.hills.mcs_02.dataBeans.BeanListViewMine;
 import com.hills.mcs_02.ForTest;
 import com.hills.mcs_02.R;
 import com.hills.mcs_02.taskSubmit.SelectDialog;
-import com.hills.mcs_02.viewsAdapters.AdapterListeViewMine;
+import com.hills.mcs_02.viewsAdapters.AdapterListViewMine;
 
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -172,20 +173,20 @@ public class FragmentMine extends Fragment {
 
 
     private void initBeanLvMine(View view) {
-        List<Bean_ListView_mine> listView_mine = new ArrayList<>();
+        List<BeanListViewMine> listView_mine = new ArrayList<>();
 
         //填充数据,有几行填充几行
-        listView_mine.add(new Bean_ListView_mine(R.drawable.icon_yifabu, getResources().getString(R.string.fragment_mine_funclist_published)));
-        listView_mine.add(new Bean_ListView_mine(R.drawable.icon_yijieshou, getResources().getString(R.string.fragment_mine_funclist_received)));
-        listView_mine.add(new Bean_ListView_mine(R.drawable.icon_star, getResources().getString(R.string.fragment_mine_funclist_favorite)));
-        listView_mine.add(new Bean_ListView_mine(R.drawable.icon_wallet, getResources().getString(R.string.fragment_mine_funclist_wallet)));
-        listView_mine.add(new Bean_ListView_mine(R.drawable.icon_promotion, getResources().getString(R.string.setting_sensorfunction)));
-        listView_mine.add(new Bean_ListView_mine(R.drawable.icon_message, getResources().getString(R.string.fragment_mine_funclist_notificaiton)));
-        listView_mine.add(new Bean_ListView_mine(R.drawable.icon_setting, getResources().getString(R.string.fragment_mine_funclist_setting)));
+        listView_mine.add(new BeanListViewMine(R.drawable.icon_yifabu, getResources().getString(R.string.fragment_mine_funclist_published)));
+        listView_mine.add(new BeanListViewMine(R.drawable.icon_yijieshou, getResources().getString(R.string.fragment_mine_funclist_received)));
+        listView_mine.add(new BeanListViewMine(R.drawable.icon_star, getResources().getString(R.string.fragment_mine_funclist_favorite)));
+        listView_mine.add(new BeanListViewMine(R.drawable.icon_wallet, getResources().getString(R.string.fragment_mine_funclist_wallet)));
+        listView_mine.add(new BeanListViewMine(R.drawable.icon_promotion, getResources().getString(R.string.setting_sensorfunction)));
+        listView_mine.add(new BeanListViewMine(R.drawable.icon_message, getResources().getString(R.string.fragment_mine_funclist_notificaiton)));
+        listView_mine.add(new BeanListViewMine(R.drawable.icon_setting, getResources().getString(R.string.fragment_mine_funclist_setting)));
 
         //关联到布局文件中的listview
         mListView = (ListView) view.findViewById(R.id.minepage_login_funciton_lv);
-        mListView.setAdapter(new AdapterListeViewMine(listView_mine, mContext));
+        mListView.setAdapter(new AdapterListViewMine(listView_mine, mContext));
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

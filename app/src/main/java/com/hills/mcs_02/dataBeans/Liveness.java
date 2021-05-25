@@ -8,8 +8,6 @@ import java.util.Date;
  * @Time: 14:42
  */
 
-
-
 public class Liveness {
     private Integer livenessId;                //唯一识别码
 

@@ -15,8 +15,8 @@ import java.util.Date;
 //      20200625   增加数据存储方式
 //     类似与之前的文件存储，具体的需要进一步与前端协商。切记
 
-public class Sensor_Detail {
-    private Integer sensor_detailId;          //主键
+public class SensorDetail {
+    private Integer sensorDetailId;          //主键
     private Integer userId;                    //用户ID
     private Integer taskId;                    //任务ID
     //JsonFormat(pattern = "yyyy.MM.dd")
@@ -29,12 +29,12 @@ public class Sensor_Detail {
     private String temp2;           // 测试& 预留数据
 
 
-    public Sensor_Detail(){
+    public SensorDetail(){
         super();
     }
 
-    public Sensor_Detail(Integer sensor_detailId, Integer userId, Integer taskId, Date onlineTime, String fileName, String sensorType, String acquisitionTime, String sensorValue, String temp1, String temp2) {
-        this.sensor_detailId = sensor_detailId;
+    public SensorDetail(Integer sensorDetailId, Integer userId, Integer taskId, Date onlineTime, String fileName, String sensorType, String acquisitionTime, String sensorValue, String temp1, String temp2) {
+        this.sensorDetailId = sensorDetailId;
         this.userId = userId;
         this.taskId = taskId;
         this.onlineTime = onlineTime;
@@ -46,12 +46,12 @@ public class Sensor_Detail {
         this.temp2 = temp2;
     }
 
-    public Integer getSensor_detailId() {
-        return sensor_detailId;
+    public Integer getSensorDetailId() {
+        return sensorDetailId;
     }
 
-    public void setSensor_detailId(Integer sensor_detailId) {
-        this.sensor_detailId = sensor_detailId;
+    public void setSensorDetailId(Integer sensorDetailId) {
+        this.sensorDetailId = sensorDetailId;
     }
 
     public Integer getUserId() {
@@ -129,7 +129,7 @@ public class Sensor_Detail {
     @Override
     public String toString() {
         return "Sensor_Detail{" +
-                "sensor_detailId=" + sensor_detailId +
+                "sensor_detailId=" + sensorDetailId +
                 ", userId=" + userId +
                 ", taskId=" + taskId +
                 ", onlineTime=" + onlineTime +

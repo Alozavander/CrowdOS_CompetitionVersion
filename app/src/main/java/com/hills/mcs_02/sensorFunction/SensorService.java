@@ -14,9 +14,6 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
 
-import com.hills.mcs_02.DateHelper;
-import com.hills.mcs_02.StringStore;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -24,6 +21,9 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import com.hills.mcs_02.DateHelper;
+import com.hills.mcs_02.StringStore;
 
 /*
  * Edit by Zeron

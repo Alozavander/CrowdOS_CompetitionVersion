@@ -3,6 +3,7 @@ package com.hills.mcs_02;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import com.daimajia.numberprogressbar.NumberProgressBar;
 import okhttp3.ResponseBody;
 import pub.devrel.easypermissions.EasyPermissions;
 import retrofit2.Call;
@@ -36,7 +37,11 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.daimajia.numberprogressbar.NumberProgressBar;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.hills.mcs_02.activities.ActivityEditInfo;
 import com.hills.mcs_02.activities.ActivityFuncFoodShare;
 import com.hills.mcs_02.activities.ActivityFuncSportShare;
@@ -52,19 +57,12 @@ import com.hills.mcs_02.fragmentsPack.FragmentPublish;
 import com.hills.mcs_02.fragmentsPack.FragmentRemind;
 import com.hills.mcs_02.main.MainAlertDilalogGenerator;
 import com.hills.mcs_02.main.MainRetrofitCallGenerator;
-import com.hills.mcs_02.main.OpenAPK;
+import com.hills.mcs_02.main.OpenApk;
 import com.hills.mcs_02.main.UserLivenessFunction;
 import com.hills.mcs_02.sensorFunction.SenseDataUploadService;
 import com.hills.mcs_02.sensorFunction.SenseHelper;
 import com.hills.mcs_02.sensorFunction.SensorService;
 import com.hills.mcs_02.sensorFunction.SensorServiceInterface;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-
 
 public class MainActivity extends BaseActivity implements ForTest {
     public static final String TAG = "MainActivity";
@@ -461,8 +459,8 @@ public class MainActivity extends BaseActivity implements ForTest {
     }
 
     private void openAPK(File newApp) {
-        OpenAPK lOpenAPK = new OpenAPK(MainActivity.this, newApp);
-        lOpenAPK.openApk();
+        OpenApk lOpenApk = new OpenApk(MainActivity.this, newApp);
+        lOpenApk.openApk();
     }
 
 

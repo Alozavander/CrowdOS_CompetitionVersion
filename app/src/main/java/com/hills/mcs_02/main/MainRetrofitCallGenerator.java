@@ -1,19 +1,21 @@
 package com.hills.mcs_02.main;
 
-import android.content.Context;
-import android.util.Log;
-
 import com.google.gson.Gson;
-import com.hills.mcs_02.BuildConfig;
-import com.hills.mcs_02.dataBeans.Liveness;
-import com.hills.mcs_02.networkClasses.interfacesPack.PostRequestLivenessLogin;
-import com.hills.mcs_02.networkClasses.interfacesPack.PostRequestMineMinor7Update;
 
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+
+import android.content.Context;
+import android.util.Log;
+
+import com.hills.mcs_02.BuildConfig;
+import com.hills.mcs_02.dataBeans.Liveness;
+import com.hills.mcs_02.networkClasses.interfacesPack.PostRequestLivenessLogin;
+import com.hills.mcs_02.networkClasses.interfacesPack.PostRequestMineMinor7Update;
+
 
 public class MainRetrofitCallGenerator {
     public static Call<ResponseBody> getLivenessCall(Context pContext,int userId,String url){

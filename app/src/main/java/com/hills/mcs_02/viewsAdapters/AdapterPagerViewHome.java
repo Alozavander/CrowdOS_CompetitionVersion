@@ -1,10 +1,11 @@
 package com.hills.mcs_02.viewsAdapters;
 
 import android.content.Context;
-import androidx.viewpager.widget.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+
+import androidx.viewpager.widget.PagerAdapter;
 
 import java.util.List;
 

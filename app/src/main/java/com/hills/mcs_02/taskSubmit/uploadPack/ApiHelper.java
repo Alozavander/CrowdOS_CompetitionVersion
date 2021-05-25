@@ -8,8 +8,6 @@ import retrofit2.Retrofit;
 
 import java.util.concurrent.TimeUnit;
 
-
-
 public class ApiHelper {
     private static final String TAG = "ApiHelper";
 

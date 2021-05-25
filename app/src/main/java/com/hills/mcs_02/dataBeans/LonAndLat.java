@@ -1,12 +1,12 @@
 package com.hills.mcs_02.dataBeans;
 
-public class Lon_Lat {
+public class LonAndLat {
 
     private Integer taskId;  //任务ID
     private double Lon;  //经度
     private double Lat;  //纬度
 
-    public Lon_Lat(Integer taskId, double Lon, double Lat){
+    public LonAndLat(Integer taskId, double Lon, double Lat){
         this.taskId = taskId;
         this.Lon = Lon;
         this.Lat = Lat;

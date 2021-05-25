@@ -10,11 +10,11 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.List;
+
 import com.hills.mcs_02.MainActivity;
 import com.hills.mcs_02.languageChange.MultiLanguageUtil;
 import com.hills.mcs_02.R;
-
-import java.util.List;
 
 public class AdapterRadioBtnTvMultiLanguage extends BaseAdapter{
     public List<String> textList;

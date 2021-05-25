@@ -8,17 +8,17 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.hills.mcs_02.dataBeans.Bean_ListView_mine;
+import java.util.List;
+
+import com.hills.mcs_02.dataBeans.BeanListViewMine;
 import com.hills.mcs_02.R;
 
 
-import java.util.List;
-
-public class AdapterListeViewMine extends BaseAdapter {
-    private List<Bean_ListView_mine> mBeanListView;
+public class AdapterListViewMine extends BaseAdapter {
+    private List<BeanListViewMine> mBeanListView;
     private LayoutInflater mInflater;//布局装载器对象
 
-    public AdapterListeViewMine(List<Bean_ListView_mine> beanListView, Context context) {
+    public AdapterListViewMine(List<BeanListViewMine> beanListView, Context context) {
         mBeanListView = beanListView;
         mInflater = LayoutInflater.from(context);
     }
@@ -56,10 +56,10 @@ public class AdapterListeViewMine extends BaseAdapter {
             //通过setTag将convertView与viewHolder关联
             convertView.setTag(viewHolder);
         }else{
-            viewHolder = (AdapterListeViewMine.viewHolder) convertView.getTag();
+            viewHolder = (AdapterListViewMine.viewHolder) convertView.getTag();
         }
 
-        Bean_ListView_mine beanListView = (Bean_ListView_mine) mBeanListView.get(position);
+        BeanListViewMine beanListView = (BeanListViewMine) mBeanListView.get(position);
 
         viewHolder.iconIv.setImageResource(beanListView.getIcon());
         viewHolder.titleTv.setText(beanListView.getTitle());

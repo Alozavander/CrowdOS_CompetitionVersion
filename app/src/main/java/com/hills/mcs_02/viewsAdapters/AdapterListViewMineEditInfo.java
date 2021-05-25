@@ -7,20 +7,20 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.hills.mcs_02.R;
-import com.hills.mcs_02.dataBeans.Bean_ListView_mine_editInfo;
-
 import java.util.List;
 
+import com.hills.mcs_02.dataBeans.BeanListViewMineEditInfo;
+import com.hills.mcs_02.R;
+
 public class AdapterListViewMineEditInfo extends BaseAdapter {
-    private List<Bean_ListView_mine_editInfo> mBeanListViewMineEditInfos;
+    private List<BeanListViewMineEditInfo> mBeanListViewMineEditInfos;
     private LayoutInflater mInflater;
 
     public AdapterListViewMineEditInfo() {
         super();
     }
 
-    public AdapterListViewMineEditInfo(List<Bean_ListView_mine_editInfo> beanListViewMineEditInfos, Context context) {
+    public AdapterListViewMineEditInfo(List<BeanListViewMineEditInfo> beanListViewMineEditInfos, Context context) {
         mBeanListViewMineEditInfos = beanListViewMineEditInfos;
         mInflater = LayoutInflater.from(context);
     }
@@ -55,7 +55,7 @@ public class AdapterListViewMineEditInfo extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        Bean_ListView_mine_editInfo bean = mBeanListViewMineEditInfos.get(position);
+        BeanListViewMineEditInfo bean = mBeanListViewMineEditInfos.get(position);
         viewHolder.contentTv.setText(bean.getContent());
         viewHolder.titleTv.setText(bean.getTitle());
 

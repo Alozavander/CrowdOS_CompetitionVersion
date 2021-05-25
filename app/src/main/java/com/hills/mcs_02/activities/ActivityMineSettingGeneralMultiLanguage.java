@@ -5,12 +5,13 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.hills.mcs_02.BaseActivity;
 import com.hills.mcs_02.viewsAdapters.AdapterRadioBtnTvMultiLanguage;
 import com.hills.mcs_02.R;
 
-import java.util.ArrayList;
-import java.util.List;
 
 public class ActivityMineSettingGeneralMultiLanguage extends BaseActivity {
     private ListView languageListView;

@@ -1,5 +1,7 @@
 package com.hills.mcs_02.activities;
 
+import com.bumptech.glide.Glide;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -14,20 +16,21 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
-import com.bumptech.glide.Glide;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.hills.mcs_02.BaseActivity;
+import com.hills.mcs_02.dataBeans.BeanListViewMineEditInfo;
 import com.hills.mcs_02.R;
 import com.hills.mcs_02.RequestCodes;
-import com.hills.mcs_02.dataBeans.Bean_ListView_mine_editInfo;
 import com.hills.mcs_02.taskSubmit.SelectDialog;
 import com.hills.mcs_02.viewsAdapters.AdapterListViewMineEditInfo;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.entity.LocalMedia;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
+
 
 public class ActivityEditInfo extends BaseActivity {
     private ListView mListView;
@@ -128,12 +131,12 @@ public class ActivityEditInfo extends BaseActivity {
     }
 
     private void initList(){
-         List<Bean_ListView_mine_editInfo>list = new ArrayList<>();
+         List<BeanListViewMineEditInfo>list = new ArrayList<>();
 
         //测试所用
-        list.add(new Bean_ListView_mine_editInfo(this.getResources().getString(R.string.nickname),this.getResources().getString(R.string.notYetOpen)));
-        list.add(new Bean_ListView_mine_editInfo(this.getResources().getString(R.string.mobilePhone),this.getResources().getString(R.string.notYetOpen)));
-        list.add(new Bean_ListView_mine_editInfo(this.getResources().getString(R.string.introduction),this.getResources().getString(R.string.notYetOpen)));
+        list.add(new BeanListViewMineEditInfo(this.getResources().getString(R.string.nickname),this.getResources().getString(R.string.notYetOpen)));
+        list.add(new BeanListViewMineEditInfo(this.getResources().getString(R.string.mobilePhone),this.getResources().getString(R.string.notYetOpen)));
+        list.add(new BeanListViewMineEditInfo(this.getResources().getString(R.string.introduction),this.getResources().getString(R.string.notYetOpen)));
 
         infoListAdapter = new AdapterListViewMineEditInfo(list,this);
 
@@ -165,16 +168,16 @@ public class ActivityEditInfo extends BaseActivity {
             else Toast.makeText(this,"未找到图片",Toast.LENGTH_SHORT).show();
             Glide.with(this).load(userIconFile).into(userIconIV);
         }
-        if(requestCode == RequestCodes.INTENT_RC_EDITINFO_NICKNAME && resultCode == Activity.RESULT_OK){
+        if(requestCode == RequestCodes.INTENT_RC_EDIT_INFO_NICKNAME && resultCode == Activity.RESULT_OK){
             String nickName = data.getStringExtra("text");
             //通过adapter内置的方法改变资料列表信息
             infoListAdapter.textChange(0,nickName);
         }
-        if(requestCode == RequestCodes.INTENT_RC_EDITINFO_PHONE && resultCode == Activity.RESULT_OK){
+        if(requestCode == RequestCodes.INTENT_RC_EDIT_INFO_PHONE && resultCode == Activity.RESULT_OK){
             String phone = data.getStringExtra("text");
             infoListAdapter.textChange(1,phone);
         }
-        if(requestCode == RequestCodes.INTENT_RC_EDITINFO_INTRODUCTION && resultCode == Activity.RESULT_OK){
+        if(requestCode == RequestCodes.INTENT_RC_EDIT_INFO_INTRODUCTION && resultCode == Activity.RESULT_OK){
             String introduction = data.getStringExtra("text");
             infoListAdapter.textChange(2,introduction);
         }

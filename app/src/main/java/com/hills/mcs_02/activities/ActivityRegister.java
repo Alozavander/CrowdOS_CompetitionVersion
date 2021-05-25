@@ -10,7 +10,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -22,17 +21,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.IOException;
+
 import com.hills.mcs_02.account.RegexVerify;
 import com.hills.mcs_02.BaseActivity;
-import com.hills.mcs_02.dataBeans.Bean_UserAccount;
+import com.hills.mcs_02.dataBeans.BeanUserAccount;
 import com.hills.mcs_02.dataBeans.User;
 import com.hills.mcs_02.networkClasses.interfacesPack.PostRequestUserRegister;
 import com.hills.mcs_02.R;
-
-
-import java.io.IOException;
-
-
 
 public class ActivityRegister extends BaseActivity implements View.OnClickListener{
     private EditText registerUsernameEt;
@@ -41,7 +37,7 @@ public class ActivityRegister extends BaseActivity implements View.OnClickListen
     private ImageView backIv;
     private Button registerBtn;
     private Toast mToast;
-    private Bean_UserAccount userAccount;
+    private BeanUserAccount userAccount;
     private String TAG = "LoginPage";
     private RegexVerify regexVerify;
     private TextView usernameErrorTv;

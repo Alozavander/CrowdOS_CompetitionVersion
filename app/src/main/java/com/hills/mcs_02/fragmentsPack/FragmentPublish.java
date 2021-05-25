@@ -12,16 +12,15 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
-import com.hills.mcs_02.activities.ActivityPublishBasicTask;
-import com.hills.mcs_02.activities.ActivityPublishSensorTask;
-import com.hills.mcs_02.dataBeans.Bean_ListView_publish;
-import com.hills.mcs_02.ForTest;
-import com.hills.mcs_02.R;
-import com.hills.mcs_02.viewsAdapters.AdapterListViewPublish;
-
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hills.mcs_02.activities.ActivityPublishBasicTask;
+import com.hills.mcs_02.activities.ActivityPublishSensorTask;
+import com.hills.mcs_02.dataBeans.BeanListViewPublish;
+import com.hills.mcs_02.ForTest;
+import com.hills.mcs_02.R;
+import com.hills.mcs_02.viewsAdapters.AdapterListViewPublish;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -92,11 +91,11 @@ public class FragmentPublish extends Fragment {
     }
 
     private void initTaskList(View view) {
-        List<Bean_ListView_publish> beanList = new ArrayList<>();
+        List<BeanListViewPublish> beanList = new ArrayList<>();
 
         //for setting
-        beanList.add(new Bean_ListView_publish(getResources().getString(R.string.fragment_publish_template1), getResources().getString(R.string.fragment_publish_template1)));
-        beanList.add(new Bean_ListView_publish(getResources().getString(R.string.fragment_publish_template2), getResources().getString(R.string.fragment_publish_template2_minor)));
+        beanList.add(new BeanListViewPublish(getResources().getString(R.string.fragment_publish_template1), getResources().getString(R.string.fragment_publish_template1)));
+        beanList.add(new BeanListViewPublish(getResources().getString(R.string.fragment_publish_template2), getResources().getString(R.string.fragment_publish_template2_minor)));
         //beanList.add(new Bean_ListView_publish("自定义任务发布模板", "选择需要的传感器"));
 
         mListView = (ListView) view.findViewById(R.id.publishpage_modelList);

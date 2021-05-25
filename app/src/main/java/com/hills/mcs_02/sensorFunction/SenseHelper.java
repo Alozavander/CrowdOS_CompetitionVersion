@@ -6,9 +6,6 @@ import android.hardware.SensorManager;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.hills.mcs_02.R;
-import com.hills.mcs_02.StringStore;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -16,6 +13,9 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+
+import com.hills.mcs_02.R;
+import com.hills.mcs_02.StringStore;
 
 /*
  * Edit by Liao JiaHao

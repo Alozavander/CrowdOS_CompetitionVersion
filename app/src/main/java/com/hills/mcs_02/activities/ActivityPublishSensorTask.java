@@ -3,6 +3,10 @@ package com.hills.mcs_02.activities;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationClient;
+import com.amap.api.location.AMapLocationClientOption;
+import com.amap.api.location.AMapLocationListener;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -10,7 +14,6 @@ import retrofit2.Callback;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -28,10 +31,11 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.amap.api.location.AMapLocation;
-import com.amap.api.location.AMapLocationClient;
-import com.amap.api.location.AMapLocationClientOption;
-import com.amap.api.location.AMapLocationListener;
+import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 import com.hills.mcs_02.BaseActivity;
 import com.hills.mcs_02.dataBeans.Task;
@@ -39,14 +43,6 @@ import com.hills.mcs_02.networkClasses.interfacesPack.PostRequestPublishTask;
 import com.hills.mcs_02.R;
 import com.hills.mcs_02.sensorFunction.SenseHelper;
 import com.hills.mcs_02.StringStore;
-
-import java.text.DecimalFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-
-
 
 public class ActivityPublishSensorTask extends BaseActivity implements View.OnClickListener, AMapLocationListener {
     private static final String TAG = "publish_sensortask";

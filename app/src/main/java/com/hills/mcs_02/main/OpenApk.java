@@ -1,5 +1,7 @@
 package com.hills.mcs_02.main;
 
+import static com.blankj.utilcode.util.ActivityUtils.startActivity;
+
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
@@ -10,13 +12,11 @@ import androidx.core.content.FileProvider;
 
 import java.io.File;
 
-import static com.blankj.utilcode.util.ActivityUtils.startActivity;
-
-public class OpenAPK {
+public class OpenApk {
     private Context mContext;
     private File mFile;
 
-    public OpenAPK(Context pContext, File pFile) {
+    public OpenApk(Context pContext, File pFile) {
         mContext = pContext;
         mFile = pFile;
     }

@@ -16,13 +16,13 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import com.hills.mcs_02.R;
 import com.hills.mcs_02.StringStore;
 import com.hills.mcs_02.sensorFunction.SenseHelper;
 import com.hills.mcs_02.sensorFunction.SensorSqliteOpenHelper;
-
-import java.util.Calendar;
-import java.util.Date;
 
 public class ActivityMineMinor5SensorDataDelete extends AppCompatActivity implements View.OnClickListener, TextWatcher {
     private static final String TAG = "SensorDataDelete";

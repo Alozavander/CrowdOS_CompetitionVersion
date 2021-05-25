@@ -1,12 +1,12 @@
 package com.hills.mcs_02.dataBeans;
 
-public class Bean_ListView_mine_minor4_wallet {
+public class BeanListViewMineMinor4Wallet {
     private int userIcon;
     private String title;
     private String mount;
     private String time;
 
-    public Bean_ListView_mine_minor4_wallet(int userIcon, String title, String mount, String time) {
+    public BeanListViewMineMinor4Wallet(int userIcon, String title, String mount, String time) {
         this.userIcon = userIcon;
         this.title = title;
         this.mount = mount;

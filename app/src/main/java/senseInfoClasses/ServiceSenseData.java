@@ -9,12 +9,12 @@ import android.util.Log;
 
 import java.io.File;
 
-public class Service_senseData extends Service {
+public class ServiceSenseData extends Service {
     public static final String TAG = "Service_senseData" ;
-    public static final String Path_root = Environment.getExternalStorageDirectory() + "/MCS/";
+    public static final String PATH_ROOT = Environment.getExternalStorageDirectory() + "/MCS/";
 
     //测试用的数据库操作类
-    private SQLiteDatabase mcsDB;
+    private SQLiteDatabase mcsDb;
     //自己封装的传感器获取信息类
     private SenseInfo mSenseInfo;
 
@@ -23,17 +23,17 @@ public class Service_senseData extends Service {
     @Override
     public void onCreate() {
         String dbPath = getCacheDir().toString() + "sensorDataBaseData" + File.separator + "sensorData.db";
-        String logFilePath = Path_root + "SensorData.log";
+        String logFilePath = PATH_ROOT + "SensorData.log";
         //创建数据库文件存储地址,在cache中查找
         File dbFile = new File(dbPath);
         if(!dbFile.exists()){
             dbFile.mkdirs();
         }
         //初始化或者打开数据库
-        mcsDB = SQLiteDatabase.openOrCreateDatabase(dbPath, null);
+        mcsDb = SQLiteDatabase.openOrCreateDatabase(dbPath, null);
         Log.e(TAG,"打开了sensorData.db数据库");
         //初始化封装的传感器信息获取类
-        mSenseInfo = new SenseInfo(this,mcsDB,logFilePath);
+        mSenseInfo = new SenseInfo(this, mcsDb,logFilePath);
         Log.e(TAG,"已开启传感器感知服务");
         super.onCreate();
     }
@@ -50,7 +50,7 @@ public class Service_senseData extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mcsDB.close();
+        mcsDb.close();
     }
 
 

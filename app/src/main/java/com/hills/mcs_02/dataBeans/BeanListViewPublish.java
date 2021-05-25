@@ -2,11 +2,11 @@ package com.hills.mcs_02.dataBeans;
 
 
 //发布页任务模板单项类
-public class Bean_ListView_publish {
+public class BeanListViewPublish {
     private String title;
     private String sensors;
 
-    public Bean_ListView_publish(String title, String sensors) {
+    public BeanListViewPublish(String title, String sensors) {
         this.title = title;
         this.sensors = sensors;
     }

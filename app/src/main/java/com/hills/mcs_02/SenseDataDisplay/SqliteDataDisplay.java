@@ -15,13 +15,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.hills.mcs_02.R;
 import com.hills.mcs_02.StringStore;
 import com.hills.mcs_02.sensorFunction.SenseHelper;
 import com.hills.mcs_02.sensorFunction.SensorSqliteOpenHelper;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class SqliteDataDisplay extends AppCompatActivity implements View.OnClickListener {
     private RecyclerView mRecyclerView;

@@ -1,6 +1,5 @@
 package com.hills.mcs_02.dataBeans;
 
-
 import java.util.Date;
 
 //当前Bean主要直接对接应用的直接使用
@@ -10,9 +9,9 @@ public class Task {
     private Date postTime;                //发布日期
     private Date deadLine;                //截止日期
     private Integer userId;               //任务发布者ID
-    private String userName;              //任务发布者的名字
+    private String username;              //任务发布者的名字
     private Float coin;                   //激励金
-    private String describe_task;         //任务描述
+    private String describeTask;         //任务描述
     private Integer totalNum;             //该任务的执行总人数
     private Integer taskStatus;           //该任务的执行状态
     private Integer taskKind;             //任务的类型，通过整数型和对应的约定映射表来规定任务类型,0-公共安全，1-环境调研，2-民生日常，3-商业应用，4-其他
@@ -25,15 +24,15 @@ public class Task {
         super();
     }
 
-    public Task(Integer taskId, String taskName, Date postTime, Date deadLine, Integer userId, String userName, Float coin, String describe_task, Integer totalNum, Integer taskStatus, Integer taskKind) {
+    public Task(Integer taskId, String taskName, Date postTime, Date deadLine, Integer userId, String username, Float coin, String describeTask, Integer totalNum, Integer taskStatus, Integer taskKind) {
         this.taskId = taskId;
         this.taskName = taskName;
         this.postTime = postTime;
         this.deadLine = deadLine;
         this.userId = userId;
-        this.userName = userName;
+        this.username = username;
         this.coin = coin;
-        this.describe_task = describe_task;
+        this.describeTask = describeTask;
         this.totalNum = totalNum;
         this.taskStatus = taskStatus;
         this.taskKind = taskKind;
@@ -42,15 +41,15 @@ public class Task {
         longitude = -9999;
     }
 
-    public Task(Integer taskId, String taskName, Date postTime, Date deadLine, Integer userId, String userName, Float coin, String describe_task, Integer totalNum, Integer taskStatus, Integer taskKind,String sensorTypes) {
+    public Task(Integer taskId, String taskName, Date postTime, Date deadLine, Integer userId, String username, Float coin, String describeTask, Integer totalNum, Integer taskStatus, Integer taskKind,String sensorTypes) {
         this.taskId = taskId;
         this.taskName = taskName;
         this.postTime = postTime;
         this.deadLine = deadLine;
         this.userId = userId;
-        this.userName = userName;
+        this.username = username;
         this.coin = coin;
-        this.describe_task = describe_task;
+        this.describeTask = describeTask;
         this.totalNum = totalNum;
         this.taskStatus = taskStatus;
         this.taskKind = taskKind;
@@ -59,15 +58,15 @@ public class Task {
         longitude = -9999;
     }
 
-    public Task(Integer pTaskId, String pTaskName, Date pPostTime, Date pDeadLine, Integer pUserId, String pUserName, Float pCoin, String pDescribe_task, Integer pTotalNum, Integer pTaskStatus, Integer pTaskKind, String pSensorTypes, float pLatitude, float pLongitude) {
+    public Task(Integer pTaskId, String pTaskName, Date pPostTime, Date pDeadLine, Integer pUserId, String pUsername, Float pCoin, String pDescribeTask, Integer pTotalNum, Integer pTaskStatus, Integer pTaskKind, String pSensorTypes, float pLatitude, float pLongitude) {
         taskId = pTaskId;
         taskName = pTaskName;
         postTime = pPostTime;
         deadLine = pDeadLine;
         userId = pUserId;
-        userName = pUserName;
+        username = pUsername;
         coin = pCoin;
-        describe_task = pDescribe_task;
+        describeTask = pDescribeTask;
         totalNum = pTotalNum;
         taskStatus = pTaskStatus;
         taskKind = pTaskKind;
@@ -88,7 +87,7 @@ public class Task {
         return postTime;
     }
 
-    public Date getDeadLine() {
+    public Date getDeadline() {
         return deadLine;
     }
 
@@ -96,16 +95,16 @@ public class Task {
         return userId;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
     public Float getCoin() {
         return coin;
     }
 
-    public String getDescribe_task() {
-        return describe_task;
+    public String getDescribeTask() {
+        return describeTask;
     }
 
     public Integer getTotalNum() {
@@ -132,24 +131,24 @@ public class Task {
         this.postTime = postTime;
     }
 
-    public void setDeadLine(Date deadLine) {
-        this.deadLine = deadLine;
+    public void setDeadline(Date deadline) {
+        this.deadLine = deadline;
     }
 
     public void setUserId(Integer userId) {
         this.userId = userId;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public void setCoin(Float coin) {
         this.coin = coin;
     }
 
-    public void setDescribe_task(String describe_task) {
-        this.describe_task = describe_task;
+    public void setDescribeTask(String describeTask) {
+        this.describeTask = describeTask;
     }
 
     public void setTotalNum(Integer totalNum) {
@@ -196,9 +195,9 @@ public class Task {
                 ", postTime=" + postTime +
                 ", deadLine=" + deadLine +
                 ", userId=" + userId +
-                ", userName='" + userName + '\'' +
+                ", userName='" + username + '\'' +
                 ", coin=" + coin +
-                ", describe_task='" + describe_task + '\'' +
+                ", describe_task='" + describeTask + '\'' +
                 ", totalNum=" + totalNum +
                 ", taskStatus=" + taskStatus +
                 ", taskKind=" + taskKind +

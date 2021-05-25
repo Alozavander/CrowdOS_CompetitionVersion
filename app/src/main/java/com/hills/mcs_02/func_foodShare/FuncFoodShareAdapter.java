@@ -1,6 +1,5 @@
 package com.hills.mcs_02.func_foodShare;
 
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,11 +11,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.List;
 
 import com.hills.mcs_02.func_foodShare.beans.FuncFoodShareFoodShareListBean;
 import com.hills.mcs_02.R;
-
-import java.util.List;
 
 public class FuncFoodShareAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 

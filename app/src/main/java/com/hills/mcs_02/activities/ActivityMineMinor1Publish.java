@@ -25,21 +25,20 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-
-import com.hills.mcs_02.BaseActivity;
-import com.hills.mcs_02.dataBeans.Bean_ListView_remind;
-import com.hills.mcs_02.dataBeans.Task;
-import com.hills.mcs_02.fragmentsPack.MCSRecyclerItemClickListener;
-import com.hills.mcs_02.networkClasses.interfacesPack.PostRequestMineMinor1Published;
-import com.hills.mcs_02.R;
-import com.hills.mcs_02.viewsAdapters.AdapterRecyclerViewRemind;
-
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import com.hills.mcs_02.BaseActivity;
+import com.hills.mcs_02.dataBeans.BeanListViewRemind;
+import com.hills.mcs_02.dataBeans.Task;
+import com.hills.mcs_02.fragmentsPack.MCSRecyclerItemClickListener;
+import com.hills.mcs_02.networkClasses.interfacesPack.PostRequestMineMinor1Published;
+import com.hills.mcs_02.R;
+import com.hills.mcs_02.viewsAdapters.AdapterRecyclerViewRemind;
 
 
 
@@ -48,7 +47,7 @@ public class ActivityMineMinor1Publish extends BaseActivity {
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private RecyclerView mRecyclerView;
     private AdapterRecyclerViewRemind recyclerAdapter;
-    private List<Bean_ListView_remind> mBeanListViewRemind;                           //为上述ListView准备的数据链表
+    private List<BeanListViewRemind> mBeanListViewRemind;                           //为上述ListView准备的数据链表
     private Set<Integer> mHashSetTaskId;                                             //用于获取发布任务去重
 
 
@@ -80,7 +79,7 @@ public class ActivityMineMinor1Publish extends BaseActivity {
         mSwipeRefreshLayout.setColorSchemeColors(Color.RED, Color.BLUE, Color.GREEN);
 
         if (mBeanListViewRemind == null) {
-            mBeanListViewRemind = new ArrayList<Bean_ListView_remind>();
+            mBeanListViewRemind = new ArrayList<BeanListViewRemind>();
         }
 
         //进入页面初始化任务列表
@@ -201,14 +200,14 @@ public class ActivityMineMinor1Publish extends BaseActivity {
                         Log.i(TAG, list_string);
                         //将Gson字符串转换成为List
                         List<Task> task_list = gson.fromJson(list_string, type);
-                        List<Bean_ListView_remind> tempList = new ArrayList<Bean_ListView_remind>();
+                        List<BeanListViewRemind> tempList = new ArrayList<BeanListViewRemind>();
                         //将List<Task>转化成为需要的List<List<Bean_ListView_remind>>
                         if (task_list.size() > 0) {
                             for (Task task : task_list) {
                                 if (task!=null && !mHashSetTaskId.contains(task.getTaskId())) {
                                     mHashSetTaskId.add(task.getTaskId());
                                     Log.i(TAG, task.toString());
-                                    tempList.add(new Bean_ListView_remind(R.drawable.haimian_usericon, R.drawable.testphoto_4,  getResources().getString(R.string.ordinaryTask), task));
+                                    tempList.add(new BeanListViewRemind(R.drawable.haimian_usericon, R.drawable.testphoto_4,  getResources().getString(R.string.ordinaryTask), task));
                                 }
                             }
                         } else {

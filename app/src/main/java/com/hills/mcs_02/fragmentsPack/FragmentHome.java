@@ -1,8 +1,17 @@
 package com.hills.mcs_02.fragmentsPack;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -27,20 +36,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager.widget.ViewPager;
 
-
-
-
-import com.hills.mcs_02.activities.ActivityGridPage;
-import com.hills.mcs_02.activities.ActivityLogin;
-import com.hills.mcs_02.dataBeans.Bean_ListView_home;
-import com.hills.mcs_02.dataBeans.Task;
-import com.hills.mcs_02.ForTest;
-import com.hills.mcs_02.networkClasses.interfacesPack.GetNewTenRequestHomeTaskList;
-import com.hills.mcs_02.networkClasses.interfacesPack.GetRequestHomeTaskList;
-import com.hills.mcs_02.R;
-import com.hills.mcs_02.viewsAdapters.AdapterPagerViewHome;
-import com.hills.mcs_02.viewsAdapters.AdapterRecyclerViewHome;
-
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -52,15 +47,16 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
-
-import static android.content.Context.MODE_PRIVATE;
-
+import com.hills.mcs_02.activities.ActivityGridPage;
+import com.hills.mcs_02.activities.ActivityLogin;
+import com.hills.mcs_02.dataBeans.BeanListViewHome;
+import com.hills.mcs_02.dataBeans.Task;
+import com.hills.mcs_02.ForTest;
+import com.hills.mcs_02.networkClasses.interfacesPack.GetNewTenRequestHomeTaskList;
+import com.hills.mcs_02.networkClasses.interfacesPack.GetRequestHomeTaskList;
+import com.hills.mcs_02.R;
+import com.hills.mcs_02.viewsAdapters.AdapterPagerViewHome;
+import com.hills.mcs_02.viewsAdapters.AdapterRecyclerViewHome;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -89,7 +85,7 @@ public class FragmentHome extends Fragment {
     private List<Map<String, Object>> gridItemList;                                //为上述GridView准备的数据链表
     private SimpleAdapter gridAdapter;                                              //为GridView准备的数据适配器
     private RecyclerView mRecyclerView;                                              //为首页显示任务列表的RecyclerView
-    private List<Bean_ListView_home> mBeanListViewHomes;                           //为上述ListView准备的数据链表
+    private List<BeanListViewHome> mBeanListViewHomes;                           //为上述ListView准备的数据链表
     private SearchView mSearchView;                                                  //搜索框的绑定
     private ForTest mForTest;                                                      //暂时的接口设置
     private SwipeRefreshLayout mSwipeRefreshLayout;
@@ -193,13 +189,13 @@ public class FragmentHome extends Fragment {
                         //成功获取网络请求内容后，调用内容处理方法
                         //Toast.makeText(mContext,temp,Toast.LENGTH_SHORT).show();
                         Log.i(TAG, mRequestTaskList.size() + "");
-                        List<Bean_ListView_home> tempList = new ArrayList<Bean_ListView_home>();
+                        List<BeanListViewHome> tempList = new ArrayList<BeanListViewHome>();
                         if (mRequestTaskList.size() > 0) {
                             for (Task task : mRequestTaskList) {
                                 Log.i(TAG,task.toString());
                                 if (!mHashSetTaskID.contains(task.getTaskId())) {
                                     mHashSetTaskID.add(task.getTaskId());
-                                    tempList.add(new Bean_ListView_home(R.drawable.cat_usericon, task.getUserName(), photoPath[new Random().nextInt(3)], "普通任务", task));
+                                    tempList.add(new BeanListViewHome(R.drawable.cat_usericon, task.getUsername(), photoPath[new Random().nextInt(3)], "普通任务", task));
                                 }
                             }
                         } else {
@@ -329,7 +325,7 @@ public class FragmentHome extends Fragment {
 
         //第一次初始化任务
         if (mBeanListViewHomes == null) {
-            mBeanListViewHomes = new ArrayList<Bean_ListView_home>();
+            mBeanListViewHomes = new ArrayList<BeanListViewHome>();
 
             /*/测试使用
             for(int i = 0; i < 10; i++){
@@ -477,13 +473,13 @@ public class FragmentHome extends Fragment {
                         //成功获取网络请求内容后，调用内容处理方法
                         //Toast.makeText(mContext,temp,Toast.LENGTH_SHORT).show();
                         Log.i(TAG, mRequestTaskList.size() + "");
-                        List<Bean_ListView_home> tempList = new ArrayList<Bean_ListView_home>();
+                        List<BeanListViewHome> tempList = new ArrayList<BeanListViewHome>();
                         if (mRequestTaskList.size() > 0) {
                             for (Task task : mRequestTaskList) {
                                 Log.i(TAG,task.toString());
                                 if (!mHashSetTaskID.contains(task.getTaskId())) {
                                     mHashSetTaskID.add(task.getTaskId());
-                                    tempList.add(new Bean_ListView_home(R.drawable.cat_usericon, task.getUserName(), photoPath[new Random().nextInt(3)], getResources().getString(R.string.ordinaryTask), task));
+                                    tempList.add(new BeanListViewHome(R.drawable.cat_usericon, task.getUsername(), photoPath[new Random().nextInt(3)], getResources().getString(R.string.ordinaryTask), task));
                                 }
                             }
                         } else {
