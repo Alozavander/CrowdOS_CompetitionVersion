@@ -518,5 +518,3 @@ public class MainActivity extends BaseActivity implements For_test {
         }
     }
 }
-
-
