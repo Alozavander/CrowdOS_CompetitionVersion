@@ -14,10 +14,9 @@ import android.util.DisplayMetrics;
 import androidx.core.os.ConfigurationCompat;
 import androidx.core.os.LocaleListCompat;
 
+import java.util.Locale;
 
 import com.hills.mcs_02.LogUtils;
-
-import java.util.Locale;
 
 public class MultiLanguageUtil {
     private static final String TAG = "MultiLanguageUtil_reference";

@@ -2,21 +2,21 @@ package com.hills.mcs_02.dataBeans;
 
 public class User {
     private Integer userId;
-    private String userName;
-    private String passWord;
+    private String username;
+    private String password;
     private String realName;
-    private int coins;
+    private int coin;
 
     public User() {
         super();
     }
 
-    public User(Integer userId, String userName, String passWord, String realName, int coins) {
+    public User(Integer userId, String username, String password, String realName, int coins) {
         this.userId = userId;
-        this.userName = userName;
-        this.passWord = passWord;
+        this.username = username;
+        this.password = password;
         this.realName = realName;
-        this.coins = coins;
+        this.coin = coins;
     }
 
     public Integer getUserId() {
@@ -27,20 +27,20 @@ public class User {
         this.userId = userId;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public String getPassWord() {
-        return passWord;
+    public String getPassword() {
+        return password;
     }
 
-    public void setPassWord(String passWord) {
-        this.passWord = passWord;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getRealName() {
@@ -51,22 +51,22 @@ public class User {
         this.realName = realName;
     }
 
-    public int getCoins() {
-        return coins;
+    public int getCoin() {
+        return coin;
     }
 
-    public void setCoins(int coins) {
-        this.coins = coins;
+    public void setCoin(int coin) {
+        this.coin = coin;
     }
 
     @Override
     public String toString() {
         return "User{" +
                 "userId=" + userId +
-                ", userName='" + userName + '\'' +
-                ", passWord='" + passWord + '\'' +
+                ", userName='" + username + '\'' +
+                ", passWord='" + password + '\'' +
                 ", realName='" + realName + '\'' +
-                ", coins=" + coins +
+                ", coins=" + coin +
                 '}';
     }
 }

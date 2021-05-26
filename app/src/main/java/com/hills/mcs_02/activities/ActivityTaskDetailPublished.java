@@ -10,7 +10,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
@@ -26,16 +25,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-
-import com.hills.mcs_02.BaseActivity;
-import com.hills.mcs_02.dataBeans.Bean_Combine_u_ut;
-import com.hills.mcs_02.dataBeans.Combine_u_ut;
-import com.hills.mcs_02.dataBeans.Task;
-import com.hills.mcs_02.downloadPack.DownloadImageUtils;
-import com.hills.mcs_02.networkClasses.interfacesPack.PostRequestPublishedTaskDetail;
-import com.hills.mcs_02.R;
-import com.hills.mcs_02.viewsAdapters.Adapter_RecyclerView_Published_TaskDetail;
-
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
@@ -44,7 +33,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-
+import com.hills.mcs_02.BaseActivity;
+import com.hills.mcs_02.dataBeans.BeanUserTaskWithUser;
+import com.hills.mcs_02.dataBeans.UserTaskWithUser;
+import com.hills.mcs_02.dataBeans.Task;
+import com.hills.mcs_02.downloadPack.DownloadImageUtils;
+import com.hills.mcs_02.networkClasses.interfacesPack.PostRequestPublishedTaskDetail;
+import com.hills.mcs_02.R;
+import com.hills.mcs_02.viewsAdapters.AdapterRecyclerViewPublishedTaskDetail;
 
 public class ActivityTaskDetailPublished extends BaseActivity {
 
@@ -59,8 +55,8 @@ public class ActivityTaskDetailPublished extends BaseActivity {
     private TextView taskNameTv;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private RecyclerView mRecyclerView;
-    private Adapter_RecyclerView_Published_TaskDetail recyclerAdapter;
-    private List<Bean_Combine_u_ut> mList;
+    private AdapterRecyclerViewPublishedTaskDetail recyclerAdapter;
+    private List<BeanUserTaskWithUser> mList;
     private Set<Integer> mHashSetTaskId;                                             //用于获取感知任务去重
 
 
@@ -81,7 +77,7 @@ public class ActivityTaskDetailPublished extends BaseActivity {
         mHashSetTaskId = new HashSet<Integer>();
 
         if (mList == null) {
-            mList = new ArrayList<Bean_Combine_u_ut>();
+            mList = new ArrayList<BeanUserTaskWithUser>();
         }
 
         //初始化滑动布局与recyclerview
@@ -90,7 +86,7 @@ public class ActivityTaskDetailPublished extends BaseActivity {
         mRecyclerView = findViewById(R.id.published_taskDetail_RecyclerView);
         initData();
         initBackBT();
-        recyclerAdapter = new Adapter_RecyclerView_Published_TaskDetail(this, mList);
+        recyclerAdapter = new AdapterRecyclerViewPublishedTaskDetail(this, mList);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         mRecyclerView.setAdapter(recyclerAdapter);
         initRefreshListener();
@@ -100,11 +96,11 @@ public class ActivityTaskDetailPublished extends BaseActivity {
         String taskGson = getIntent().getStringExtra("taskGson");
         Gson gson = new Gson();
         task = gson.fromJson(taskGson, Task.class);
-        userNameTv.setText(task.getUserName());
-        taskContentTv.setText(task.getDescribe_task());
+        userNameTv.setText(task.getUsername());
+        taskContentTv.setText(task.getDescribeTask());
         coinsCountTv.setText(task.getCoin().toString());
         taskNameTv.setText(task.getTaskName());
-        deadlineTv.setText(new SimpleDateFormat("yyyy.MM.dd").format(task.getDeadLine()));
+        deadlineTv.setText(new SimpleDateFormat("yyyy.MM.dd").format(task.getDeadline()));
         postTimeTv.setText(new SimpleDateFormat("yyyy.MM.dd").format(task.getPostTime()));
         switch (task.getTaskKind()) {
             case 0:
@@ -219,27 +215,27 @@ public class ActivityTaskDetailPublished extends BaseActivity {
                 if (response.code() == 200) {
                     try {
                         //取得响应返回的数据List
-                        List<Combine_u_ut> responseList = new ArrayList<Combine_u_ut>();
+                        List<UserTaskWithUser> responseList = new ArrayList<UserTaskWithUser>();
                         //创建符合List数据格式，在页面显示的列表
-                        List<Bean_Combine_u_ut> tempList = new ArrayList<Bean_Combine_u_ut>();
+                        List<BeanUserTaskWithUser> tempList = new ArrayList<BeanUserTaskWithUser>();
                         Gson gson = new Gson();
-                        Type type = new TypeToken<List<Combine_u_ut>>() {
+                        Type type = new TypeToken<List<UserTaskWithUser>>() {
                         }.getType();
                         String temp_content = response.body().string();
                         Log.i(TAG, "接受的报文内容：" + temp_content);
                         responseList = gson.fromJson(temp_content, type);
                         if (responseList.size() > 0) {
                             //两个List之间的转换
-                            for (Combine_u_ut u_ut : responseList) {
+                            for (UserTaskWithUser u_ut : responseList) {
                                 //HashSet去重
-                                if (!mHashSetTaskId.contains(u_ut.getUt().getUser_taskId())) {
-                                    mHashSetTaskId.add(u_ut.getUt().getUser_taskId());
-                                    if (u_ut.getUt().getImage() != null) {
+                                if (!mHashSetTaskId.contains(u_ut.getUserTask().getUserTaskId())) {
+                                    mHashSetTaskId.add(u_ut.getUserTask().getUserTaskId());
+                                    if (u_ut.getUserTask().getImage() != null) {
                                         //在此处增加图片下载的功能代码
                                         DownloadImageUtils utils = new DownloadImageUtils(getString(R.string.base_url));
-                                        tempList.add(new Bean_Combine_u_ut(R.drawable.haimian_usericon, utils.downloadFile(u_ut.getUt().getImage()), u_ut));
+                                        tempList.add(new BeanUserTaskWithUser(R.drawable.haimian_usericon, utils.downloadFile(u_ut.getUserTask().getImage()), u_ut));
                                     } else {
-                                        tempList.add(new Bean_Combine_u_ut(R.drawable.haimian_usericon, u_ut));
+                                        tempList.add(new BeanUserTaskWithUser(R.drawable.haimian_usericon, u_ut));
                                         Log.i(TAG, u_ut.toString());
                                     }
                                 }
@@ -249,8 +245,8 @@ public class ActivityTaskDetailPublished extends BaseActivity {
                         }
                         //根据tag判断是第一次刷新还是后续的上拉刷新和下拉加载
                         if (TEMP_TAG == 0) mList.addAll(tempList);
-                        else if (TEMP_TAG == 1) recyclerAdapter.AddHeaderItem(tempList);
-                        else recyclerAdapter.AddFooterItem(tempList);
+                        else if (TEMP_TAG == 1) recyclerAdapter.addHeaderItem(tempList);
+                        else recyclerAdapter.addFooterItem(tempList);
 
                         //刷新完成
                         if (mSwipeRefreshLayout.isRefreshing())

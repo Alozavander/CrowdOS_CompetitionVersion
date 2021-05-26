@@ -9,11 +9,11 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.hills.mcs_02.BaseActivity;
-import com.hills.mcs_02.Interface_published_taskDetail;
+import com.hills.mcs_02.InterfacePublishedTaskDetail;
 import com.hills.mcs_02.R;
 
 //该类作为二级页面启动为Fragment作基石的Activity
-public class ActivitySecondPage extends BaseActivity implements Interface_published_taskDetail {
+public class ActivitySecondPage extends BaseActivity implements InterfacePublishedTaskDetail {
 
     private FragmentManager mFragmentManager;
 

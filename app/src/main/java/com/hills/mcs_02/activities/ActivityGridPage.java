@@ -26,17 +26,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-
-import com.hills.mcs_02.BaseActivity;
-import com.hills.mcs_02.dataBeans.Bean_ListView_home;
-import com.hills.mcs_02.dataBeans.Task;
-import com.hills.mcs_02.fragmentsPack.MCSRecyclerItemClickListener;
-import com.hills.mcs_02.networkClasses.interfacesPack.GetNewTenRequestHomeTaskList;
-import com.hills.mcs_02.networkClasses.interfacesPack.PostRequestGridPageTaskList;
-import com.hills.mcs_02.R;
-import com.hills.mcs_02.viewsAdapters.Adapter_RecyclerView_home;
-
-
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -45,15 +34,27 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
+import com.hills.mcs_02.BaseActivity;
+import com.hills.mcs_02.dataBeans.BeanListViewHome;
+import com.hills.mcs_02.dataBeans.Task;
+import com.hills.mcs_02.fragmentsPack.MCSRecyclerItemClickListener;
+import com.hills.mcs_02.networkClasses.interfacesPack.GetNewTenRequestHomeTaskList;
+import com.hills.mcs_02.networkClasses.interfacesPack.PostRequestGridPageTaskList;
+import com.hills.mcs_02.R;
+import com.hills.mcs_02.viewsAdapters.AdapterRecyclerViewHome;
+
+
+
+
 
 
 public class ActivityGridPage extends BaseActivity {
     private String TAG = "Activity_gridPage";
     private int pageTag = -1;
     private RecyclerView mRecyclerView;                                              //为首页显示任务列表的RecyclerView
-    private List<Bean_ListView_home> mBeanListViewGridPage;                           //为上述ListView准备的数据链表
+    private List<BeanListViewHome> mBeanListViewGridPage;                           //为上述ListView准备的数据链表
     private SwipeRefreshLayout mSwipeRefreshLayout;
-    private Adapter_RecyclerView_home recyclerAdapter;
+    private AdapterRecyclerViewHome recyclerAdapter;
     private List<Task> mRequestTaskList;
     private Set<Integer> mHashSetTaskId;                                             //用于获取感知任务去重
     int[] photoPath = {R.drawable.testphoto_1, R.drawable.testphoto_2, R.drawable.testphoto_3, R.drawable.testphoto_4};
@@ -89,7 +90,7 @@ public class ActivityGridPage extends BaseActivity {
     private void initRecyclerView() {
         //第一次初始化任务
         if (mBeanListViewGridPage == null) {
-            mBeanListViewGridPage = new ArrayList<Bean_ListView_home>();
+            mBeanListViewGridPage = new ArrayList<BeanListViewHome>();
 
             /*/测试使用
             for(int i = 0; i < 10; i++){
@@ -104,7 +105,7 @@ public class ActivityGridPage extends BaseActivity {
         mRecyclerView = findViewById(R.id.gridpage_RecyclerView);
         //进入页面初始化任务列表
         firstListRefresh();
-        recyclerAdapter = new Adapter_RecyclerView_home(ActivityGridPage.this, mBeanListViewGridPage);
+        recyclerAdapter = new AdapterRecyclerViewHome(ActivityGridPage.this, mBeanListViewGridPage);
         //recyclerView没有跟listView一样封装OnItemClickListener，所以只能手动实现，这里是将监听器绑定在了适配器上
         recyclerAdapter.setRecyclerItemClickListener(new MCSRecyclerItemClickListener() {
             @Override
@@ -232,21 +233,21 @@ public class ActivityGridPage extends BaseActivity {
                         //成功获取网络请求内容后，调用内容处理方法
                         //Toast.makeText(Activity_gridPage.this,temp,Toast.LENGTH_SHORT).show();
                         Log.i(TAG, mRequestTaskList.size() + "");
-                        List<Bean_ListView_home> tempList = new ArrayList<Bean_ListView_home>();
+                        List<BeanListViewHome> tempList = new ArrayList<BeanListViewHome>();
                         if (mRequestTaskList.size() > 0) {
                             for (Task task : mRequestTaskList) {
                                 Log.i(TAG,task.toString());
                                 if (!mHashSetTaskId.contains(task.getTaskId())) {
                                     mHashSetTaskId.add(task.getTaskId());
-                                    tempList.add(new Bean_ListView_home(R.drawable.cat_usericon, task.getUserName(), photoPath[new Random().nextInt(3)], "普通任务", task));
+                                    tempList.add(new BeanListViewHome(R.drawable.cat_usericon, task.getUsername(), photoPath[new Random().nextInt(3)], "普通任务", task));
                                 }
                             }
                         } else {
                             Toast.makeText(ActivityGridPage.this, getResources().getString(R.string.FailToGetData) + mRequestTaskList.size(), Toast.LENGTH_SHORT).show();
                         }
                         if (tempTag == 0) mBeanListViewGridPage.addAll(tempList);
-                        else if(tempTag == 1)recyclerAdapter.AddHeaderItem(tempList);
-                        else recyclerAdapter.AddFooterItem(tempList);
+                        else if(tempTag == 1)recyclerAdapter.addHeaderItem(tempList);
+                        else recyclerAdapter.addFooterItem(tempList);
 
 
                         //刷新完成
@@ -296,19 +297,19 @@ public class ActivityGridPage extends BaseActivity {
                         //成功获取网络请求内容后，调用内容处理方法
                         //Toast.makeText(Activity_gridPage.this,temp,Toast.LENGTH_SHORT).show();
                         Log.i(TAG, mRequestTaskList.size() + "");
-                        List<Bean_ListView_home> tempList = new ArrayList<Bean_ListView_home>();
+                        List<BeanListViewHome> tempList = new ArrayList<BeanListViewHome>();
                         if (mRequestTaskList.size() > 0) {
                             for (Task task : mRequestTaskList) {
                                 Log.i(TAG,task.toString());
                                 if (!mHashSetTaskId.contains(task.getTaskId())) {
                                     mHashSetTaskId.add(task.getTaskId());
-                                    tempList.add(new Bean_ListView_home(R.drawable.cat_usericon, task.getUserName(), photoPath[new Random().nextInt(3)], getResources().getString(R.string.ordinaryTask), task));
+                                    tempList.add(new BeanListViewHome(R.drawable.cat_usericon, task.getUsername(), photoPath[new Random().nextInt(3)], getResources().getString(R.string.ordinaryTask), task));
                                 }
                             }
                         } else {
                             Toast.makeText(ActivityGridPage.this, getResources().getString(R.string.taskNoNew), Toast.LENGTH_SHORT).show();
                         }
-                        recyclerAdapter.AddFooterItem(tempList);
+                        recyclerAdapter.addFooterItem(tempList);
 
 
                         //刷新完成

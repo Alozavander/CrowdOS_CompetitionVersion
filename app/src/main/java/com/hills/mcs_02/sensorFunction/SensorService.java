@@ -14,9 +14,6 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
 
-import com.hills.mcs_02.DateHelper;
-import com.hills.mcs_02.StringStore;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -24,6 +21,9 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import com.hills.mcs_02.DateHelper;
+import com.hills.mcs_02.StringStore;
 
 /*
  * Edit by Zeron
@@ -41,8 +41,8 @@ public class SensorService extends Service implements SensorEventListener {
     private SensorManager mSensorManager;
     private HashMap<String, Integer> mSensorWorkMap;
     private HashMap<Integer, ContentValues> mSensorWorkDataMap;
-    private HashMap<Integer, Boolean> mSensorDataChangeYNMap;                               //记录数据是否已被写入，是否是新数据或者旧数据，筛选使用
-    private SQLiteDatabase mSensorWritableDB;
+    private HashMap<Integer, Boolean> isSensorDataChangeMap;                               //记录数据是否已被写入，是否是新数据或者旧数据，筛选使用
+    private SQLiteDatabase mSensorWritableDb;
     private ContentValues contentValues;
     private Timer timer;
 
@@ -53,18 +53,18 @@ public class SensorService extends Service implements SensorEventListener {
     public IBinder onBind(Intent intent) {
         bindInit();
         // TODO: Return the communication channel to the service.
-        return new SensorService_Binder();
+        return new sensorServiceBinder();
     }
 
     private void bindInit() {
-        Log.i("SensorService", "SensorService is on! " + mSenseHelper.getSensorList_TypeInt_String());
+        Log.i("SensorService", "SensorService is on! " + mSenseHelper.getSensorListTypeIntString());
         //Log.i("SensorService", "typesStrings_raw: " + mSenseHelper.getSensorList_TypeInt_String());
-        String[] typesStrings = mSenseHelper.getSensorList_TypeInt_String().split(StringStore.Divider_1);
+        String[] typesStrings = mSenseHelper.getSensorListTypeIntString().split(StringStore.DIVIDER1);
         //Log.i("SensorService", "typesStrings: " + typesStrings.);
         int[] types = new int[typesStrings.length];
-        for (int i = 0; i < typesStrings.length; i++) {
-            types[i] = Integer.parseInt(typesStrings[i]);
-            Log.i("SensorService", "type_" + i + ":  " + types[i]);
+        for (int temp = 0; temp < typesStrings.length; temp++) {
+            types[temp] = Integer.parseInt(typesStrings[temp]);
+            Log.i("SensorService", "type_" + temp + ":  " + types[temp]);
         }
         //SenseTaskAccept_SensorOn(types);
         //创建SQLite写入的定时器
@@ -77,10 +77,10 @@ public class SensorService extends Service implements SensorEventListener {
         mSenseHelper = new SenseHelper(this);                                              //传感器感知辅助类
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         mSensorWorkMap = new HashMap<>();                                                           //使用hashMap记录传感器被要求使用的状态，每一个感知任务要求使用的传感器，都会为对应的传感器Key的值+1，反之，任务完成则减1，如果值<=0，则解绑对应传感器的监听器，释放资源
-        mSensorWritableDB = new SensorSQLiteOpenHelper(this).getWritableDatabase();   //SQLite数据库的初始化，使用创建的数据库辅助类构建
+        mSensorWritableDb = new SensorSqliteOpenHelper(this).getWritableDatabase();   //SQLite数据库的初始化，使用创建的数据库辅助类构建
         contentValues = new ContentValues();                                                        //数据存储用到的格式类
         mSensorWorkDataMap = new HashMap<>();
-        mSensorDataChangeYNMap = new HashMap<>();
+        isSensorDataChangeMap = new HashMap<>();
 
 
     }
@@ -94,12 +94,12 @@ public class SensorService extends Service implements SensorEventListener {
     public int onStartCommand(Intent intent, int flags, int startId) {
         String record = intent.getStringExtra("task_sensor_need");
         if(record != null) {
-            String[] types_String = record.split(StringStore.Divider_1);
-            int[] types_Int = new int[types_String.length];
-            if (types_String.length > 0) {
-                for (int i = 0; i < types_String.length; i++)
-                    types_Int[i] = Integer.parseInt(types_String[i]);
-                SenseTaskAccept_SensorOn(types_Int);
+            String[] typesString = record.split(StringStore.DIVIDER1);
+            int[] typesInt = new int[typesString.length];
+            if (typesString.length > 0) {
+                for (int temp = 0; temp < typesString.length; temp++)
+                    typesInt[temp] = Integer.parseInt(typesString[temp]);
+                senseTaskAcceptSensorOn(typesInt);
             }
         }
         return super.onStartCommand(intent, flags, startId);
@@ -113,8 +113,8 @@ public class SensorService extends Service implements SensorEventListener {
             public void run() {
                 //work布尔量记录是否还有传感器要求工作
                 boolean work = false;
-                for (int i : mSensorWorkMap.values()) {
-                    if (i >= 1) work = true;
+                for (int temp : mSensorWorkMap.values()) {
+                    if (temp >= 1) work = true;
                 }
                 Log.i(TAG, "boolean work :" + work);
                 //如果还需工作，则便利hashmap拿到type和contentValues通过SQLite写入
@@ -125,9 +125,10 @@ public class SensorService extends Service implements SensorEventListener {
                         Log.i(TAG, "Now SensorData Store, type:" + entry.getKey());
                         ContentValues temp = entry.getValue();
                         //判定数据变化map中为true才进行下一步，如果成功插入数据就将datamap中数据变化map中的value置为false，避免下次迭代重复记录数据，插入失败返回的是-1
-                        if (mSensorDataChangeYNMap.get(entry.getKey())) {
-                            if (mSensorWritableDB.insert(StringStore.SensorDataTable_Name, null, temp) > 0) {
-                                mSensorDataChangeYNMap.put(entry.getKey(), false);
+                        if (isSensorDataChangeMap.get(entry.getKey())) {
+                            if (mSensorWritableDb
+                                .insert(StringStore.SENSOR_DATATABLE_NAME, null, temp) > 0) {
+                                isSensorDataChangeMap.put(entry.getKey(), false);
                                 Log.i(TAG, "SQLite DB insert Error! Sensor:" + entry.getKey() + " data record!");
                             } else {
                                 Log.i(TAG, "SQLite DB insert Error! Sensor:" + entry.getKey() + " data didn't record!");
@@ -149,9 +150,9 @@ public class SensorService extends Service implements SensorEventListener {
     public void onDestroy() {
         super.onDestroy();
         timer.cancel();
-        mSensorWritableDB.close();
+        mSensorWritableDb.close();
         mSensorManager.unregisterListener(this);
-        Log.i("SensorService", "SensorService si off! " + mSenseHelper.getSensorList_TypeInt_String());
+        Log.i("SensorService", "SensorService si off! " + mSenseHelper.getSensorListTypeIntString());
     }
 
     //Service运行检测
@@ -166,7 +167,7 @@ public class SensorService extends Service implements SensorEventListener {
     }
 
     //根据传感器Type的Int开启感知
-    private void SenseTaskAccept_SensorOn(int[] types) {
+    private void senseTaskAcceptSensorOn(int[] types) {
         Log.i(TAG, "SenseTaskAccept_SensorOn is called.");
         if (sensorCheck(types)) {
             for (int type : types) {
@@ -192,7 +193,7 @@ public class SensorService extends Service implements SensorEventListener {
     //根据传感器Type的Int开启感知，自定义采样周期，单位微秒
     //无效
     /** @deprecated */
-    private void SenseTaskAccept_SensorOn(int[] types, int period) {
+    private void senseTaskAcceptSensorOn(int[] types, int period) {
         if (sensorCheck(types)) {
             for (int type : types) {
                 //如果传感器已开启列表中不包含该传感器，则将之开启,并创建对应的MapNode
@@ -211,21 +212,21 @@ public class SensorService extends Service implements SensorEventListener {
     }
 
     //根据传感器Type的Int减少tasksMount值，如果值小于0则关闭感知
-    private void SenseTaskFinish_SensorOff(int[] types) {
+    private void senseTaskFinishSensorOff(int[] types) {
         if (sensorCheck(types)) {
             for (int type : types) {
                 //如果传感器已开启列表中包含该传感器，则将任务数量制-1
                 if (mSensorWorkMap.containsValue(type + "")) {
-                    int tasksMount = mSensorWorkMap.get(type + "") - 1;
+                    int tasksCount = mSensorWorkMap.get(type + "") - 1;
                     //如果任务数量任务数量=0,则解绑对应的传感器，并且将对应的键值对移除
-                    if (tasksMount <= 0) {
+                    if (tasksCount <= 0) {
                         mSensorManager.unregisterListener(this, mSensorManager.getDefaultSensor(type));
                         mSensorWorkMap.remove(type + "");
                     }
                     //否则，则将其参与任务的数值-1并重新写入
                     else {
                         mSensorWorkMap.remove(type + "");
-                        mSensorWorkMap.put(type + "", tasksMount);
+                        mSensorWorkMap.put(type + "", tasksCount);
                     }
                 }
             }
@@ -233,7 +234,7 @@ public class SensorService extends Service implements SensorEventListener {
     }
 
     //根据传感器Type的Int强制关闭感知，忽略tasksMount
-    private void SenseTaskFinish_SensorOff_pl(int[] pTypes) {
+    private void enseTaskFinishSensorOff(int[] pTypes) {
         for (int type : pTypes) {
             mSensorManager.unregisterListener(this, mSensorManager.getDefaultSensor(type));
             mSensorWorkMap.remove(type + "");
@@ -246,12 +247,12 @@ public class SensorService extends Service implements SensorEventListener {
      */
     private boolean sensorCheck(int[] types) {
         boolean[] contain = mSenseHelper.containSensors(types);
-        boolean hasYN = true;
+        boolean isHave = true;
         for (boolean yn : contain) {
-            if (yn == false) hasYN = false;
+            if (yn == false) isHave = false;
         }
         //TODO:弹出提示框提醒哪些传感器没有
-        return hasYN;
+        return isHave;
     }
 
     /*
@@ -271,21 +272,21 @@ public class SensorService extends Service implements SensorEventListener {
     //针对已绑定的监听器的Sensor，其产生数据变动时便会触发此方法，使用SQLiteDatabase进行存储
     @Override
     public void onSensorChanged(SensorEvent event) {
-        ContentValues temp_contentValues = new ContentValues();
+        ContentValues tempContentValues = new ContentValues();
         //使用contentValues构建键值对，以便db使用insert插入
         //存储当前时间，使用日期辅助类帮助转换当前时间为String
-        temp_contentValues.put(StringStore.SensorDataTable_SenseType, event.sensor.getType());
-        temp_contentValues.put(StringStore.SensorDataTable_SenseTime, DateHelper.getSimpleDateFormat().format(new Date(System.currentTimeMillis())));
-        temp_contentValues.put(StringStore.SensorDataTable_SenseData_1, event.values[0]);
+        tempContentValues.put(StringStore.SENSOR_DATATABLE_SENSE_TYPE, event.sensor.getType());
+        tempContentValues.put(StringStore.SENSOR_DATATABLE_SENSE_TIME, DateHelper.getSimpleDateFormat().format(new Date(System.currentTimeMillis())));
+        tempContentValues.put(StringStore.SENSOR_DATATABLE_SENSE_DATA_1, event.values[0]);
         if (event.values.length > 1) {
-            temp_contentValues.put(StringStore.SensorDataTable_SenseData_2, event.values[1]);
+            tempContentValues.put(StringStore.SENSOR_DATATABLE_SENSE_DATA_2, event.values[1]);
             if (event.values.length > 2) {
-                temp_contentValues.put(StringStore.SensorDataTable_SenseData_3, event.values[2]);
+                tempContentValues.put(StringStore.SENSOR_DATATABLE_SENSE_DATA_3, event.values[2]);
             }
         }
         //将记录临时存储到HashMap之中
-        mSensorWorkDataMap.put(event.sensor.getType(), temp_contentValues);
-        mSensorDataChangeYNMap.put(event.sensor.getType(), true);
+        mSensorWorkDataMap.put(event.sensor.getType(), tempContentValues);
+        isSensorDataChangeMap.put(event.sensor.getType(), true);
         //temp_contentValues.clear(); //测试使用
     }
 
@@ -295,20 +296,20 @@ public class SensorService extends Service implements SensorEventListener {
     }
 
 
-    class SensorService_Binder extends Binder implements SensorService_Interface {
+    class sensorServiceBinder extends Binder implements SensorServiceInterface {
         @Override
-        public void binder_sensorOn(int[] types) {
+        public void binderSensorOn(int[] types) {
             //接口方法的调用，使得activity和此Service能够通信
             Log.i("SensorService", "Remote the Sensor Service's method 'SenseTaskAccept_SensorOn' through SensorService_Interface;s method 'binder_sensorOn' with SensorService_Binder");
-            SenseTaskAccept_SensorOn(types);
+            senseTaskAcceptSensorOn(types);
             //Log.i(TAG,"Now these sensors are called:" + types.toString());
         }
 
         @Override
-        public void binder_sensorOff(int[] types) {
+        public void binderSensorOff(int[] types) {
             //接口方法的调用,关闭传感器感知
             Log.i("SensorService", "Remote the Sensor Service's method 'SenseTaskAccept_SensorOn' through SensorService_Interface;s method 'binder_sensorOn' with SensorService_Binder");
-            SenseTaskFinish_SensorOff_pl(types);
+            enseTaskFinishSensorOff(types);
         }
     }
 }

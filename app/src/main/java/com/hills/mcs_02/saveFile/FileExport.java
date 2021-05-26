@@ -16,7 +16,7 @@ import java.io.IOException;
 public class FileExport {
     static String sParentFileName = "SensorDataStore";         //文件根目录名称，在此可替换
     static String sFileName = "senseData.csv";         //文件根目录名称，在此可替换
-    public static File ExportToCSV(Cursor cur, String fileName,String pParentFileName) {
+    public static File exportToCSV(Cursor cur, String fileName,String pParentFileName) {
         if(pParentFileName!=null) sParentFileName = pParentFileName;
         if(fileName!=null) sFileName = fileName;
         int rowCount = 0;
@@ -38,11 +38,11 @@ public class FileExport {
             if (rowCount > 0) {
                 cur.moveToFirst();
                 //csv文件写入列名
-                for (int i = 0; i < colCount; i++) {
-                    if (i != colCount - 1)
-                        bfw.write(cur.getColumnName(i) + ',');
+                for (int temp = 0; temp < colCount; temp++) {
+                    if (temp != colCount - 1)
+                        bfw.write(cur.getColumnName(temp) + ',');
                     else
-                        bfw.write(cur.getColumnName(i));
+                        bfw.write(cur.getColumnName(temp));
                 }
                 bfw.newLine();
                 // 写入数据
@@ -64,16 +64,16 @@ public class FileExport {
             bfw.flush();
             bfw.close();
             Log.v("数据导出", "数据导出完成！");
-        } catch (IOException e) {
+        } catch (IOException exp) {
             // TODO Auto-generated catch block
-            e.printStackTrace();
+            exp.printStackTrace();
         } finally {
             cur.close();
         }
         return saveFile;
     }
 
-    public static File ExportToTextForEachSensor(Cursor c, String fileName,String pParentFileName) {
+    public static File exportToTextForEachSensor(Cursor cur, String fileName,String pParentFileName) {
         if(pParentFileName!=null) sParentFileName = pParentFileName;
         if(fileName!=null) sFileName = fileName;
         int rowCount = 0;
@@ -88,22 +88,22 @@ public class FileExport {
             saveFile.delete();
         }
         try {
-            rowCount = c.getCount();
-            colCount = c.getColumnCount();
+            rowCount = cur.getCount();
+            colCount = cur.getColumnCount();
             fw = new FileWriter(saveFile);
             bfw = new BufferedWriter(fw);
             if (rowCount > 0) {
-                c.moveToFirst();
+                cur.moveToFirst();
                 // 写入数据
                 for (int i = 0; i < rowCount; i++) {
-                    c.moveToPosition(i);
-                    bfw.write(c.getString(1) + "/");
+                    cur.moveToPosition(i);
+                    bfw.write(cur.getString(1) + "/");
                     //Log.v("数据导出", "导出第" + (i + 1) + "条");
                     for (int j = 2; j < colCount; j++) {
                         if (j != colCount - 1)
-                            bfw.write(c.getString(j) + '_');
+                            bfw.write(cur.getString(j) + '_');
                         else {
-                            String tempS = c.getString(j);
+                            String tempS = cur.getString(j);
                             if(tempS == null) bfw.write("null");
                             else bfw.write(tempS);
                         }
@@ -114,11 +114,11 @@ public class FileExport {
             bfw.flush();
             bfw.close();
             Log.v("数据导出", "数据导出完成！");
-        } catch (IOException e) {
+        } catch (IOException exp) {
             // TODO Auto-generated catch block
-            e.printStackTrace();
+            exp.printStackTrace();
         } finally {
-            c.close();
+            cur.close();
         }
         return saveFile;
     }

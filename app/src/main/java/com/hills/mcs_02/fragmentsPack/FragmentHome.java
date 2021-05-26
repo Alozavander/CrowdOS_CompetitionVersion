@@ -1,8 +1,17 @@
 package com.hills.mcs_02.fragmentsPack;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -27,20 +36,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager.widget.ViewPager;
 
-
-
-
-import com.hills.mcs_02.activities.ActivityGridPage;
-import com.hills.mcs_02.activities.ActivityLogin;
-import com.hills.mcs_02.dataBeans.Bean_ListView_home;
-import com.hills.mcs_02.dataBeans.Task;
-import com.hills.mcs_02.For_test;
-import com.hills.mcs_02.networkClasses.interfacesPack.GetNewTenRequestHomeTaskList;
-import com.hills.mcs_02.networkClasses.interfacesPack.GetRequestHomeTaskList;
-import com.hills.mcs_02.R;
-import com.hills.mcs_02.viewsAdapters.Adapter_PagerView_home;
-import com.hills.mcs_02.viewsAdapters.Adapter_RecyclerView_home;
-
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -52,15 +47,16 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
-
-import static android.content.Context.MODE_PRIVATE;
-
+import com.hills.mcs_02.activities.ActivityGridPage;
+import com.hills.mcs_02.activities.ActivityLogin;
+import com.hills.mcs_02.dataBeans.BeanListViewHome;
+import com.hills.mcs_02.dataBeans.Task;
+import com.hills.mcs_02.ForTest;
+import com.hills.mcs_02.networkClasses.interfacesPack.GetNewTenRequestHomeTaskList;
+import com.hills.mcs_02.networkClasses.interfacesPack.GetRequestHomeTaskList;
+import com.hills.mcs_02.R;
+import com.hills.mcs_02.viewsAdapters.AdapterPagerViewHome;
+import com.hills.mcs_02.viewsAdapters.AdapterRecyclerViewHome;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -83,17 +79,17 @@ public class FragmentHome extends Fragment {
     private Context mContext;
     private ViewPager mViewPager;
     private List<ImageView> viewList;                                                //图片轮转用到的List
-    private Adapter_PagerView_home mAdapterPagerViewHomeList;
+    private AdapterPagerViewHome mAdapterPagerViewHomeList;
     private GridView mGridView;
     //显示“全部、市政民生、校园生活、商业活动、更多”五个入口的View
     private List<Map<String, Object>> gridItemList;                                //为上述GridView准备的数据链表
     private SimpleAdapter gridAdapter;                                              //为GridView准备的数据适配器
     private RecyclerView mRecyclerView;                                              //为首页显示任务列表的RecyclerView
-    private List<Bean_ListView_home> mBeanListViewHomes;                           //为上述ListView准备的数据链表
+    private List<BeanListViewHome> mBeanListViewHomes;                           //为上述ListView准备的数据链表
     private SearchView mSearchView;                                                  //搜索框的绑定
-    private For_test mForTest;                                                      //暂时的接口设置
+    private ForTest mForTest;                                                      //暂时的接口设置
     private SwipeRefreshLayout mSwipeRefreshLayout;
-    private Adapter_RecyclerView_home recyclerAdapter;
+    private AdapterRecyclerViewHome recyclerAdapter;
     private List<Task> mRequestTaskList;
     private Set<Integer> mHashSetTaskID;                                             //用于获取感知任务去重
     private String TAG = "fragment_home";
@@ -193,13 +189,13 @@ public class FragmentHome extends Fragment {
                         //成功获取网络请求内容后，调用内容处理方法
                         //Toast.makeText(mContext,temp,Toast.LENGTH_SHORT).show();
                         Log.i(TAG, mRequestTaskList.size() + "");
-                        List<Bean_ListView_home> tempList = new ArrayList<Bean_ListView_home>();
+                        List<BeanListViewHome> tempList = new ArrayList<BeanListViewHome>();
                         if (mRequestTaskList.size() > 0) {
                             for (Task task : mRequestTaskList) {
                                 Log.i(TAG,task.toString());
                                 if (!mHashSetTaskID.contains(task.getTaskId())) {
                                     mHashSetTaskID.add(task.getTaskId());
-                                    tempList.add(new Bean_ListView_home(R.drawable.cat_usericon, task.getUserName(), photoPath[new Random().nextInt(3)], "普通任务", task));
+                                    tempList.add(new BeanListViewHome(R.drawable.cat_usericon, task.getUsername(), photoPath[new Random().nextInt(3)], "普通任务", task));
                                 }
                             }
                         } else {
@@ -207,8 +203,8 @@ public class FragmentHome extends Fragment {
                                 .size(), Toast.LENGTH_SHORT).show();
                         }
                         if (tempTag == 0) mBeanListViewHomes.addAll(tempList);
-                        else if(tempTag == 1)recyclerAdapter.AddHeaderItem(tempList);
-                        else recyclerAdapter.AddFooterItem(tempList);
+                        else if(tempTag == 1)recyclerAdapter.addHeaderItem(tempList);
+                        else recyclerAdapter.addFooterItem(tempList);
 
 
                         //刷新完成
@@ -249,7 +245,7 @@ public class FragmentHome extends Fragment {
         viewList.add(imageView3);
 
 
-        mAdapterPagerViewHomeList = new Adapter_PagerView_home(viewList, mContext);
+        mAdapterPagerViewHomeList = new AdapterPagerViewHome(viewList, mContext);
         mViewPager.setAdapter(mAdapterPagerViewHomeList);
         mViewPager.setCurrentItem(0);
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -329,7 +325,7 @@ public class FragmentHome extends Fragment {
 
         //第一次初始化任务
         if (mBeanListViewHomes == null) {
-            mBeanListViewHomes = new ArrayList<Bean_ListView_home>();
+            mBeanListViewHomes = new ArrayList<BeanListViewHome>();
 
             /*/测试使用
             for(int i = 0; i < 10; i++){
@@ -344,7 +340,7 @@ public class FragmentHome extends Fragment {
         mRecyclerView = (RecyclerView) view.findViewById(R.id.homepage_RecyclerView);
         //进入页面初始化任务列表
         firstListRefresh();
-        recyclerAdapter = new Adapter_RecyclerView_home(mContext, mBeanListViewHomes);
+        recyclerAdapter = new AdapterRecyclerViewHome(mContext, mBeanListViewHomes);
         //recyclerView没有跟listView一样封装OnItemClickListener，所以只能手动实现，这里是将监听器绑定在了适配器上
         recyclerAdapter.setRecyclerItemClickListener(new MCSRecyclerItemClickListener() {
             @Override
@@ -357,7 +353,7 @@ public class FragmentHome extends Fragment {
                     startActivity(intent);
                 }else{
                     Gson gson = new Gson();
-                    mForTest.jump_to_TaskDetailActivity(gson.toJson(
+                    mForTest.jumpToTaskDetailActivity(gson.toJson(
                         mBeanListViewHomes.get(position).getTask()));
                 }
             }
@@ -477,19 +473,19 @@ public class FragmentHome extends Fragment {
                         //成功获取网络请求内容后，调用内容处理方法
                         //Toast.makeText(mContext,temp,Toast.LENGTH_SHORT).show();
                         Log.i(TAG, mRequestTaskList.size() + "");
-                        List<Bean_ListView_home> tempList = new ArrayList<Bean_ListView_home>();
+                        List<BeanListViewHome> tempList = new ArrayList<BeanListViewHome>();
                         if (mRequestTaskList.size() > 0) {
                             for (Task task : mRequestTaskList) {
                                 Log.i(TAG,task.toString());
                                 if (!mHashSetTaskID.contains(task.getTaskId())) {
                                     mHashSetTaskID.add(task.getTaskId());
-                                    tempList.add(new Bean_ListView_home(R.drawable.cat_usericon, task.getUserName(), photoPath[new Random().nextInt(3)], getResources().getString(R.string.ordinaryTask), task));
+                                    tempList.add(new BeanListViewHome(R.drawable.cat_usericon, task.getUsername(), photoPath[new Random().nextInt(3)], getResources().getString(R.string.ordinaryTask), task));
                                 }
                             }
                         } else {
                             Toast.makeText(mContext, getResources().getString(R.string.taskNoNew), Toast.LENGTH_SHORT).show();
                         }
-                        recyclerAdapter.AddFooterItem(tempList);
+                        recyclerAdapter.addFooterItem(tempList);
 
 
                         //刷新完成
@@ -524,7 +520,7 @@ public class FragmentHome extends Fragment {
         mSearchView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mForTest.jump_to_SearchActivity();
+                mForTest.jumpToSearchActivity();
             }
         });
     }
@@ -537,7 +533,7 @@ public class FragmentHome extends Fragment {
         mContext = context;
         // 保证容器Activity实现了回调接口 否则抛出异常警告
         try {
-            mForTest = (For_test) context;
+            mForTest = (ForTest) context;
         } catch (ClassCastException exp) {
             throw new ClassCastException(context.toString() + " must implement For_TestInterface");
         }

@@ -1,18 +1,15 @@
 package com.hills.mcs_02.downloadPack;
 
+import com.blankj.utilcode.util.FileUtils;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-
 import android.os.Environment;
 import android.text.TextUtils;
 import android.util.Log;
-
-import com.blankj.utilcode.util.FileUtils;
-
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -20,9 +17,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-
-
-
 
 public class DownloadImageUtils {
     private static final String TAG = "DownloadUtil";

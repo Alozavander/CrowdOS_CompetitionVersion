@@ -1,10 +1,8 @@
 package com.hills.mcs_02.fragmentsPack;
 
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -12,7 +10,6 @@ import retrofit2.Callback;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-
 
 import android.content.Context;
 import android.graphics.Color;
@@ -31,15 +28,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-
-import com.hills.mcs_02.dataBeans.Bean_ListView_remind;
-import com.hills.mcs_02.dataBeans.Task;
-import com.hills.mcs_02.networkClasses.interfacesPack.PostRequestRemindDoing;
-import com.hills.mcs_02.networkClasses.interfacesPack.PostRequestRemindDone;
-import com.hills.mcs_02.networkClasses.interfacesPack.PostRequestRemindRecommend;
-import com.hills.mcs_02.R;
-import com.hills.mcs_02.viewsAdapters.Adapter_RecyclerView_remind;
-
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -47,6 +35,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.hills.mcs_02.dataBeans.BeanListViewRemind;
+import com.hills.mcs_02.dataBeans.Task;
+import com.hills.mcs_02.networkClasses.interfacesPack.PostRequestRemindDoing;
+import com.hills.mcs_02.networkClasses.interfacesPack.PostRequestRemindDone;
+import com.hills.mcs_02.networkClasses.interfacesPack.PostRequestRemindRecommend;
+import com.hills.mcs_02.R;
+import com.hills.mcs_02.viewsAdapters.AdapterRecyclerViewRemind;
 
 public class FragmentRemindPager extends Fragment {
     private String page_TAG = "Fragment_remind_pager";
@@ -54,8 +49,8 @@ public class FragmentRemindPager extends Fragment {
     private Context mContext;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private RecyclerView mRecyclerView;
-    private Adapter_RecyclerView_remind mRecyclerAdapter;
-    private List<Bean_ListView_remind> mBeanListViewRemind;                           //为上述ListView准备的数据链表
+    private AdapterRecyclerViewRemind mRecyclerAdapter;
+    private List<BeanListViewRemind> mBeanListViewRemind;                           //为上述ListView准备的数据链表
     private Set<Integer> mHashSetTaskId;                                             //用于获取的发布任务去重
 
     public FragmentRemindPager() {
@@ -76,12 +71,12 @@ public class FragmentRemindPager extends Fragment {
         mRecyclerView = view.findViewById(R.id.remindpage_pager_RecyclerView);
         mSwipeRefreshLayout.setColorSchemeColors(Color.RED, Color.BLUE, Color.GREEN);
         mHashSetTaskId = new HashSet<Integer>();
-        if(mBeanListViewRemind == null) mBeanListViewRemind = new ArrayList<Bean_ListView_remind>();
+        if(mBeanListViewRemind == null) mBeanListViewRemind = new ArrayList<BeanListViewRemind>();
 
         //初始化列表
         firstListRefresh();
 
-        mRecyclerAdapter = new Adapter_RecyclerView_remind(mContext, mBeanListViewRemind);
+        mRecyclerAdapter = new AdapterRecyclerViewRemind(mContext, mBeanListViewRemind);
         mRecyclerAdapter.setRecyclerItemClickListener(new MCSRecyclerItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
@@ -214,7 +209,7 @@ public class FragmentRemindPager extends Fragment {
                         Log.i(page_TAG, listString);
                         //将Gson字符串转换成为List
                         List<Task> taskList = gson.fromJson(listString, type);
-                        List<Bean_ListView_remind> tempList = new ArrayList<Bean_ListView_remind>();
+                        List<BeanListViewRemind> tempList = new ArrayList<BeanListViewRemind>();
                         //将List<Task>转化成为需要的List<List<Bean_ListView_remind>>
                         if (taskList.size() > 0) {
                             System.out.println("收到的任务内容: " + taskList.toString());
@@ -222,15 +217,15 @@ public class FragmentRemindPager extends Fragment {
                                 if (task!=null && !mHashSetTaskId.contains(task.getTaskId())) {
                                     mHashSetTaskId.add(task.getTaskId());
                                     Log.i(page_TAG, task.toString());
-                                    tempList.add(new Bean_ListView_remind(R.drawable.haimian_usericon, R.drawable.testphoto_4,  getResources().getString(R.string.ordinaryTask), task));
+                                    tempList.add(new BeanListViewRemind(R.drawable.haimian_usericon, R.drawable.testphoto_4,  getResources().getString(R.string.ordinaryTask), task));
                                 }
                             }
                         } else {
                             Toast.makeText(mContext, getResources().getString(R.string.FailToGetData), Toast.LENGTH_SHORT).show();
                         }
                         if (tempLabel == 0) mBeanListViewRemind.addAll(tempList);
-                        else if (tempLabel == 1) mRecyclerAdapter.AddHeaderItem(tempList);
-                        else mRecyclerAdapter.AddFooterItem(tempList);
+                        else if (tempLabel == 1) mRecyclerAdapter.addHeaderItem(tempList);
+                        else mRecyclerAdapter.addFooterItem(tempList);
 
                         //刷新完成
                         if (mSwipeRefreshLayout.isRefreshing())
@@ -276,7 +271,7 @@ public class FragmentRemindPager extends Fragment {
                         Log.i(page_TAG, listString);
                         //将Gson字符串转换成为List
                         List<Task> taskList = gson.fromJson(listString, type);
-                        List<Bean_ListView_remind> tempList = new ArrayList<Bean_ListView_remind>();
+                        List<BeanListViewRemind> tempList = new ArrayList<BeanListViewRemind>();
                         //将List<Task>转化成为需要的List<List<Bean_ListView_remind>>
                         if (taskList.size() > 0) {
                             System.out.println(taskList);
@@ -284,15 +279,15 @@ public class FragmentRemindPager extends Fragment {
                                 if (task!=null && !mHashSetTaskId.contains(task.getTaskId())) {
                                     mHashSetTaskId.add(task.getTaskId());
                                     Log.i(page_TAG, task.toString());
-                                    tempList.add(new Bean_ListView_remind(R.drawable.haimian_usericon, R.drawable.testphoto_4,  getResources().getString(R.string.ordinaryTask), task));
+                                    tempList.add(new BeanListViewRemind(R.drawable.haimian_usericon, R.drawable.testphoto_4,  getResources().getString(R.string.ordinaryTask), task));
                                 }
                             }
                         } else {
                             Toast.makeText(mContext, getResources().getString(R.string.FailToGetData), Toast.LENGTH_SHORT).show();
                         }
                         if (tempLabel == 0) mBeanListViewRemind.addAll(tempList);
-                        else if (tempLabel == 1) mRecyclerAdapter.AddHeaderItem(tempList);
-                        else mRecyclerAdapter.AddFooterItem(tempList);
+                        else if (tempLabel == 1) mRecyclerAdapter.addHeaderItem(tempList);
+                        else mRecyclerAdapter.addFooterItem(tempList);
 
                         //刷新完成
                         if (mSwipeRefreshLayout.isRefreshing())
@@ -338,7 +333,7 @@ public class FragmentRemindPager extends Fragment {
                         Log.i(page_TAG, list_string);
                         //将Gson字符串转换成为List
                         List<Task> taskList = gson.fromJson(list_string, type);
-                        List<Bean_ListView_remind> tempList = new ArrayList<Bean_ListView_remind>();
+                        List<BeanListViewRemind> tempList = new ArrayList<BeanListViewRemind>();
                         //将List<Task>转化成为需要的List<List<Bean_ListView_remind>>
                         if (taskList.size() > 0) {
                             for (Task task : taskList) {
@@ -346,15 +341,15 @@ public class FragmentRemindPager extends Fragment {
                                 if (task!=null && !mHashSetTaskId.contains(task.getTaskId())) {
                                     mHashSetTaskId.add(task.getTaskId());
                                     Log.i(page_TAG, task.toString());
-                                    tempList.add(new Bean_ListView_remind(R.drawable.haimian_usericon, R.drawable.testphoto_4,  getResources().getString(R.string.ordinaryTask), task));
+                                    tempList.add(new BeanListViewRemind(R.drawable.haimian_usericon, R.drawable.testphoto_4,  getResources().getString(R.string.ordinaryTask), task));
                                 }
                             }
                         } else {
                             Toast.makeText(mContext, getResources().getString(R.string.FailToGetData), Toast.LENGTH_SHORT).show();
                         }
                         if (tempLabel == 0) mBeanListViewRemind.addAll(tempList);
-                        else if (tempLabel == 1) mRecyclerAdapter.AddHeaderItem(tempList);
-                        else mRecyclerAdapter.AddFooterItem(tempList);
+                        else if (tempLabel == 1) mRecyclerAdapter.addHeaderItem(tempList);
+                        else mRecyclerAdapter.addFooterItem(tempList);
 
                         //刷新完成
                         if (mSwipeRefreshLayout.isRefreshing())

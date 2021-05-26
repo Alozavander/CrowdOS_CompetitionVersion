@@ -12,16 +12,15 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
-import com.hills.mcs_02.activities.ActivityPublishBasicTask;
-import com.hills.mcs_02.activities.ActivityPublishSensorTask;
-import com.hills.mcs_02.dataBeans.Bean_ListView_publish;
-import com.hills.mcs_02.For_test;
-import com.hills.mcs_02.R;
-import com.hills.mcs_02.viewsAdapters.Adapter_ListView_publish;
-
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hills.mcs_02.activities.ActivityPublishBasicTask;
+import com.hills.mcs_02.activities.ActivityPublishSensorTask;
+import com.hills.mcs_02.dataBeans.BeanListViewPublish;
+import com.hills.mcs_02.ForTest;
+import com.hills.mcs_02.R;
+import com.hills.mcs_02.viewsAdapters.AdapterListViewPublish;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -43,8 +42,8 @@ public class FragmentPublish extends Fragment {
     private String mParam2;
     private Context mContext;                                                                       //当前上下文全局变量，方便Fragment获取布局文件中各个组件及其他活动
     private ListView mListView;                                                                     //
-    private Adapter_ListView_publish mAdapterListViewPublish;                                     //呈现任务模板的ListView
-    private For_test mForTest;
+    private AdapterListViewPublish mAdapterListViewPublish;                                     //呈现任务模板的ListView
+    private ForTest mForTest;
     private String username;
 
 
@@ -92,15 +91,15 @@ public class FragmentPublish extends Fragment {
     }
 
     private void initTaskList(View view) {
-        List<Bean_ListView_publish> beanList = new ArrayList<>();
+        List<BeanListViewPublish> beanList = new ArrayList<>();
 
         //for setting
-        beanList.add(new Bean_ListView_publish(getResources().getString(R.string.fragment_publish_template1), getResources().getString(R.string.fragment_publish_template1)));
-        beanList.add(new Bean_ListView_publish(getResources().getString(R.string.fragment_publish_template2), getResources().getString(R.string.fragment_publish_template2_minor)));
+        beanList.add(new BeanListViewPublish(getResources().getString(R.string.fragment_publish_template1), getResources().getString(R.string.fragment_publish_template1)));
+        beanList.add(new BeanListViewPublish(getResources().getString(R.string.fragment_publish_template2), getResources().getString(R.string.fragment_publish_template2_minor)));
         //beanList.add(new Bean_ListView_publish("自定义任务发布模板", "选择需要的传感器"));
 
         mListView = (ListView) view.findViewById(R.id.publishpage_modelList);
-        mListView.setAdapter(new Adapter_ListView_publish(mContext, beanList));
+        mListView.setAdapter(new AdapterListViewPublish(mContext, beanList));
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -125,7 +124,7 @@ public class FragmentPublish extends Fragment {
                             dialog.dismiss();
                         }
                     });*/
-                    mForTest.jump_to_loginPage();
+                    mForTest.jumpToLoginPage();
                 } else {
                     //跳转到基础发布页面
                     switch (position){
@@ -151,7 +150,7 @@ public class FragmentPublish extends Fragment {
         mContext = context;
         // 保证容器Activity实现了回调接口 否则抛出异常警告
         try {
-            mForTest = (For_test) context;
+            mForTest = (ForTest) context;
         } catch (ClassCastException exp) {
             throw new ClassCastException(context.toString() + " must implement For_TestInterface");
         }

@@ -1,13 +1,13 @@
 package com.hills.mcs_02.main;
 
+import static com.blankj.utilcode.util.StringUtils.getString;
+
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.util.Log;
 
 import com.hills.mcs_02.R;
-
-import static com.blankj.utilcode.util.StringUtils.getString;
 
 public class MainAlertDilalogGenerator {
 

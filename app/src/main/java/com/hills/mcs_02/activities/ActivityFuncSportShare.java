@@ -10,27 +10,28 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
-
-import androidx.annotation.NonNull;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.hills.mcs_02.func_sportsShare.StepService;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 import com.hills.mcs_02.BaseActivity;
-import com.hills.mcs_02.R;
 import com.hills.mcs_02.func_sportsShare.beans.FuncSportShareBaseBean;
 import com.hills.mcs_02.func_sportsShare.beans.FuncSportShareStepShareListBean;
 import com.hills.mcs_02.func_sportsShare.FuncSportShareAdapter;
 import com.hills.mcs_02.func_sportsShare.UpdateUiCallBack;
+import com.hills.mcs_02.R;
 
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 //该类作为二级页面启动为Fragment作基石的Activity
 public class ActivityFuncSportShare extends BaseActivity {
     private static final String TAG = "func_sportShare";
@@ -44,7 +45,7 @@ public class ActivityFuncSportShare extends BaseActivity {
     private TextView stepCountTv;
     private Handler handler;
     private Boolean isBind;
-    private com.hills.mcs_02.func_sportsShare.stepService stepService;
+    private StepService stepService;
     //和绷定服务数据交换的桥梁，可以通过IBinder service获取服务的实例来调用服务的方法或者数据
     private ServiceConnection serviceConnection;
 
@@ -92,7 +93,7 @@ public class ActivityFuncSportShare extends BaseActivity {
         serviceConnection = new ServiceConnection() {
             @Override
             public void onServiceConnected(ComponentName name, IBinder service) {
-                com.hills.mcs_02.func_sportsShare.stepService.LcBinder lcBinder = (com.hills.mcs_02.func_sportsShare.stepService.LcBinder) service;
+                StepService.LcBinder lcBinder = (StepService.LcBinder) service;
                 stepService = lcBinder.getService();
                 stepService.registerCallback(new UpdateUiCallBack() {
                     @Override
@@ -114,7 +115,7 @@ public class ActivityFuncSportShare extends BaseActivity {
         };
 
         Log.i(TAG,"准备开启计步服务");
-        Intent intent = new Intent(this, com.hills.mcs_02.func_sportsShare.stepService.class);
+        Intent intent = new Intent(this, StepService.class);
         Log.i(TAG,"即将绑计步服务");
         isBind =  bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
         Log.i(TAG,"当前服务绑定情况isBind参数为：" + isBind);

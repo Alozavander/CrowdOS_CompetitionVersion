@@ -12,11 +12,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.List;
+
 import com.hills.mcs_02.func_sportsShare.beans.FuncSportShareBaseBean;
 import com.hills.mcs_02.func_sportsShare.beans.FuncSportShareStepShareListBean;
 import com.hills.mcs_02.R;
-
-import java.util.List;
 
 public class FuncSportShareAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final String TAG = "func_sportShare";

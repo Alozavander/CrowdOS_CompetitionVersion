@@ -10,7 +10,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -29,12 +28,10 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.hills.mcs_02.account.RegexVerify;
-import com.hills.mcs_02.dataBeans.Bean_UserAccount;
+import com.hills.mcs_02.dataBeans.BeanUserAccount;
 import com.hills.mcs_02.dataBeans.User;
 import com.hills.mcs_02.networkClasses.interfacesPack.PostRequestUserRegister;
 import com.hills.mcs_02.R;
-
-
 
 public class ActivityEmailRegisterPasswordSet extends AppCompatActivity implements View.OnClickListener {
     private String TAG = "Activity_EmailRegister_PasswordSet";
@@ -43,7 +40,7 @@ public class ActivityEmailRegisterPasswordSet extends AppCompatActivity implemen
     private EditText mPwdSetConfirmEt;
     private ImageView mBackIv;
     private Button mConfirmBtn;
-    private Bean_UserAccount userAccount;
+    private BeanUserAccount userAccount;
     private RegexVerify regexVerify;
     private TextView mPwdInputErrorTv;
     private TextView mPwInputErrorConfirmTv;
@@ -230,7 +227,7 @@ public class ActivityEmailRegisterPasswordSet extends AppCompatActivity implemen
         SharedPreferences.Editor editor = sp.edit();
         editor.putString("userID", mUser.getUserId() + "");
         Log.i(TAG, mUser.getUserId() + "");
-        editor.putString("userName", mUser.getUserName());
+        editor.putString("userName", mUser.getUsername());
         editor.commit();
         //发送刷新Fragment_mine的广播
         Intent intent = new Intent();

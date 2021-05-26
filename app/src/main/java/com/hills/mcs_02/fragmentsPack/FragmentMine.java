@@ -17,20 +17,21 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.hills.mcs_02.activities.ActivityLogin;
 import com.hills.mcs_02.activities.ActivityMineMinor1Publish;
 import com.hills.mcs_02.activities.ActivityMineMinor2Accepted;
 import com.hills.mcs_02.activities.ActivityMineMinor4Wallet;
 import com.hills.mcs_02.activities.ActivityMineMinor5SensorData;
 import com.hills.mcs_02.activities.ActivityMineMinor7Setting;
-import com.hills.mcs_02.dataBeans.Bean_ListView_mine;
-import com.hills.mcs_02.For_test;
+import com.hills.mcs_02.dataBeans.BeanListViewMine;
+import com.hills.mcs_02.ForTest;
 import com.hills.mcs_02.R;
 import com.hills.mcs_02.taskSubmit.SelectDialog;
-import com.hills.mcs_02.viewsAdapters.Adapter_ListeView_mine;
+import com.hills.mcs_02.viewsAdapters.AdapterListViewMine;
 
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -51,7 +52,7 @@ public class FragmentMine extends Fragment {
     private String mParam2;
     private ListView mListView;
     private Context mContext;
-    private For_test mForTest;
+    private ForTest mForTest;
     private TextView usernameTv;
     private BroadcastReceiver receiver;
     private Button loginBtn;
@@ -150,7 +151,7 @@ public class FragmentMine extends Fragment {
                 Intent intent = new Intent();
                 intent.setAction("action_Fragment_mine_userInfo_fresh");
                 getActivity().sendBroadcast(intent);*/
-                mForTest.jump_to_loginPage();
+                mForTest.jumpToLoginPage();
             }
         });
 
@@ -160,7 +161,7 @@ public class FragmentMine extends Fragment {
             @Override
             public void onClick(View view) {
                 //11为此处不会用到的参数
-                mForTest.jump_to_editInfo();
+                mForTest.jumpToEditInfo();
             }
         });
 
@@ -172,20 +173,20 @@ public class FragmentMine extends Fragment {
 
 
     private void initBeanLvMine(View view) {
-        List<Bean_ListView_mine> listView_mine = new ArrayList<>();
+        List<BeanListViewMine> listView_mine = new ArrayList<>();
 
         //填充数据,有几行填充几行
-        listView_mine.add(new Bean_ListView_mine(R.drawable.icon_yifabu, getResources().getString(R.string.fragment_mine_funclist_published)));
-        listView_mine.add(new Bean_ListView_mine(R.drawable.icon_yijieshou, getResources().getString(R.string.fragment_mine_funclist_received)));
-        listView_mine.add(new Bean_ListView_mine(R.drawable.icon_star, getResources().getString(R.string.fragment_mine_funclist_favorite)));
-        listView_mine.add(new Bean_ListView_mine(R.drawable.icon_wallet, getResources().getString(R.string.fragment_mine_funclist_wallet)));
-        listView_mine.add(new Bean_ListView_mine(R.drawable.icon_promotion, getResources().getString(R.string.setting_sensorfunction)));
-        listView_mine.add(new Bean_ListView_mine(R.drawable.icon_message, getResources().getString(R.string.fragment_mine_funclist_notificaiton)));
-        listView_mine.add(new Bean_ListView_mine(R.drawable.icon_setting, getResources().getString(R.string.fragment_mine_funclist_setting)));
+        listView_mine.add(new BeanListViewMine(R.drawable.icon_yifabu, getResources().getString(R.string.fragment_mine_funclist_published)));
+        listView_mine.add(new BeanListViewMine(R.drawable.icon_yijieshou, getResources().getString(R.string.fragment_mine_funclist_received)));
+        listView_mine.add(new BeanListViewMine(R.drawable.icon_star, getResources().getString(R.string.fragment_mine_funclist_favorite)));
+        listView_mine.add(new BeanListViewMine(R.drawable.icon_wallet, getResources().getString(R.string.fragment_mine_funclist_wallet)));
+        listView_mine.add(new BeanListViewMine(R.drawable.icon_promotion, getResources().getString(R.string.setting_sensorfunction)));
+        listView_mine.add(new BeanListViewMine(R.drawable.icon_message, getResources().getString(R.string.fragment_mine_funclist_notificaiton)));
+        listView_mine.add(new BeanListViewMine(R.drawable.icon_setting, getResources().getString(R.string.fragment_mine_funclist_setting)));
 
         //关联到布局文件中的listview
         mListView = (ListView) view.findViewById(R.id.minepage_login_funciton_lv);
-        mListView.setAdapter(new Adapter_ListeView_mine(listView_mine, mContext));
+        mListView.setAdapter(new AdapterListViewMine(listView_mine, mContext));
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -282,7 +283,7 @@ public class FragmentMine extends Fragment {
 
         // 保证容器Activity实现了回调接口 否则抛出异常警告
         try {
-            mForTest = (For_test) context;
+            mForTest = (ForTest) context;
         } catch (ClassCastException exp) {
             throw new ClassCastException(context.toString() + " must implement For_TestInterface");
         }

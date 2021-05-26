@@ -2,11 +2,11 @@ package com.hills.mcs_02.taskSubmit.uploadPack;
 
 import com.google.gson.Gson;
 
-import java.util.concurrent.TimeUnit;
-
 import okhttp3.OkHttpClient;
-import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.Retrofit;
+
+import java.util.concurrent.TimeUnit;
 
 public class ApiHelper {
     private static final String TAG = "ApiHelper";

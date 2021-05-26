@@ -10,7 +10,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -24,21 +23,19 @@ import android.widget.Scroller;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.hills.mcs_02.dataBeans.Task;
-import com.hills.mcs_02.dataBeans.User_Task;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+
 import com.hills.mcs_02.BaseActivity;
+import com.hills.mcs_02.dataBeans.Task;
+import com.hills.mcs_02.dataBeans.UserTask;
 import com.hills.mcs_02.networkClasses.interfacesPack.PostRequestUserTaskAdd;
 import com.hills.mcs_02.networkClasses.interfacesPack.QueryRequestTaskDetail;
 import com.hills.mcs_02.R;
 import com.hills.mcs_02.StringStore;
 import com.hills.mcs_02.sensorFunction.SenseHelper;
 import com.hills.mcs_02.sensorFunction.SensorService;
-import com.hills.mcs_02.taskSubmit.Activity_Task_Submit;
-
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-
-
+import com.hills.mcs_02.taskSubmit.ActivityTaskSubmit;
 
 public class ActivityTaskDetail extends BaseActivity {
 
@@ -108,10 +105,10 @@ public class ActivityTaskDetail extends BaseActivity {
         String taskGson = getIntent().getStringExtra("taskGson");
         Gson gson = new Gson();
         task = gson.fromJson(taskGson, Task.class);
-        userNameTv.setText(task.getUserName());
-        taskContentTv.setText(task.getDescribe_task());
+        userNameTv.setText(task.getUsername());
+        taskContentTv.setText(task.getDescribeTask());
         coinsCountTv.setText(task.getCoin().toString());
-        deadlineTv.setText(new SimpleDateFormat("yyyy.MM.dd").format(task.getDeadLine()));
+        deadlineTv.setText(new SimpleDateFormat("yyyy.MM.dd").format(task.getDeadline()));
         postTimeTv.setText(new SimpleDateFormat("yyyy.MM.dd").format(task.getPostTime()));
         taskNameTv.setText(task.getTaskName());
         if(task.getTaskKind() == null) taskKindTv.setText(R.string.ordinaryTask);
@@ -139,7 +136,7 @@ public class ActivityTaskDetail extends BaseActivity {
             Intent intent = new Intent(ActivityTaskDetail.this, ActivityLogin.class);
             startActivity(intent);
         } else {
-            User_Task userTask = new User_Task(null, loginUserId, task.getTaskId(), 0, null, null,0);
+            UserTask userTask = new UserTask(null, loginUserId, task.getTaskId(), 0, null, null,0);
             Gson gson = new Gson();
             String content = gson.toJson(userTask);
             queryRequest(content);
@@ -193,7 +190,7 @@ public class ActivityTaskDetail extends BaseActivity {
                                     String sensorTypesString = task.getSensorTypes();
                                     boolean canAccept = true;
                                     if(sensorTypesString != null){
-                                        String[] tempStrings = sensorTypesString.split(StringStore.Divider_1);
+                                        String[] tempStrings = sensorTypesString.split(StringStore.DIVIDER1);
                                         int[] types = new int[tempStrings.length];
                                         for(int temp = 0; temp < tempStrings.length; temp++) types[temp] = Integer.parseInt(
                                             tempStrings[temp]);
@@ -241,16 +238,16 @@ public class ActivityTaskDetail extends BaseActivity {
                                 submitBtn.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
-                                        Intent intent = new Intent(ActivityTaskDetail.this, Activity_Task_Submit.class);
+                                        Intent intent = new Intent(ActivityTaskDetail.this, ActivityTaskSubmit.class);
                                         //将Task需求的传感器类型转换成字符传递给Task_Submit
-                                        if(task.getSensorTypes() == null)   intent.putExtra(getResources().getString(R.string.intent_taskSensorTypes_name), StringStore.SP_StringError); //添加空提示
+                                        if(task.getSensorTypes() == null)   intent.putExtra(getResources().getString(R.string.intent_taskSensorTypes_name), StringStore.SP_STRING_ERROR); //添加空提示
                                         else {
                                             String sensorTypes = task.getSensorTypes();
                                             if (sensorTypes != null) {
                                                 intent.putExtra(getResources().getString(R.string.intent_taskSensorTypes_name), sensorTypes);
                                             } else {
                                                 //添加错误提示字符串
-                                                intent.putExtra(getResources().getString(R.string.intent_taskSensorTypes_name), StringStore.SP_StringError);
+                                                intent.putExtra(getResources().getString(R.string.intent_taskSensorTypes_name), StringStore.SP_STRING_ERROR);
                                             }
                                         }
                                         intent.putExtra(getResources().getString(R.string.intent_taskID_name), task.getTaskId());
@@ -312,7 +309,7 @@ public class ActivityTaskDetail extends BaseActivity {
                     submitBtn.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            Intent intent = new Intent(ActivityTaskDetail.this, Activity_Task_Submit.class);
+                            Intent intent = new Intent(ActivityTaskDetail.this, ActivityTaskSubmit.class);
                             intent.putExtra(getResources().getString(R.string.intent_taskID_name), task.getTaskId());
                             String sensorType = task.getSensorTypes();
                             //有效化判定

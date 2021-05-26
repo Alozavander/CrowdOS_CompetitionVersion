@@ -1,6 +1,5 @@
 package senseInfoClasses;
 
-import android.Manifest;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -13,9 +12,11 @@ import android.hardware.SensorManager;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
-import androidx.core.app.ActivityCompat;
+import android.Manifest;
 import android.util.Log;
 import android.widget.Toast;
+
+import androidx.core.app.ActivityCompat;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -36,27 +37,27 @@ public class SenseInfo {
     private SQLiteDatabase db;
     //sense data
     private SensorManager sensorManager;
-    private DBsensorListener dBsensorListener;
+    private dbSensorListener dBSensorListener;
     //GPS
     private LocationManager locationManager;
     private int GPS_REQUEST_CODE = 1;
-    static final String[] LOCATIONGPS = new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,
+    static final String[] LOCATION_GPS = new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.READ_PHONE_STATE};
     private static final int READ_PHONE_STATE = 100;//定位权限请求
-    private String logFile_path;
+    private String logFilePath;
 
 
     /*
      * @Param:db 封装的直接输入数据的数据库对象，并直接存储感知信息
      */
     public SenseInfo(Context context, SQLiteDatabase db,String path) {
-        dBsensorListener = new DBsensorListener();
+        dBSensorListener = new dbSensorListener();
         this.db = db;
-        this.logFile_path = path;
+        this.logFilePath = path;
         init(context);
-        initDB();
-        registAllwithDB();
+        initDb();
+        registerAllWithDb();
     }
 
     //初始化SensorManager及其他信息,如：当前设备支持的传感器
@@ -83,7 +84,7 @@ public class SenseInfo {
     }
 
 
-    public String getSensorsListContent() {
+    public String getSensorListContent() {
         String sensorS = "本机支持的传感器有：\n" + "GPS\n";
         for (Sensor sensor : sensorList) {
             String name = sensor.getName();
@@ -151,7 +152,7 @@ public class SenseInfo {
     }
 
     //所有在Service中进行数据存储的内容都在这里进行
-    private final class DBsensorListener implements SensorEventListener {
+    private final class dbSensorListener implements SensorEventListener {
         @Override
         public void onSensorChanged(SensorEvent event) {
             String data = Arrays.toString(event.values);
@@ -178,12 +179,12 @@ public class SenseInfo {
 
     //为保证传感器使用问题，设立撤销方法
     public void clean() {
-        sensorManager.unregisterListener(dBsensorListener);
+        sensorManager.unregisterListener(dBSensorListener);
     }
 
 
 
-    private void initDB() {
+    private void initDb() {
         //创建数据表并且添加是否存在表格的判定
         //,deadLine varchar(64),postName varchar(64),coin integer,taskText text
         boolean exit = false;
@@ -211,9 +212,9 @@ public class SenseInfo {
 
 
 
-    private void registAllwithDB() {
+    private void registerAllWithDb() {
         for (Sensor sensor : sensorList) {
-            sensorManager.registerListener(dBsensorListener, sensorManager.getDefaultSensor(sensor.getType()), SensorManager.SENSOR_DELAY_NORMAL);
+            sensorManager.registerListener(dBSensorListener, sensorManager.getDefaultSensor(sensor.getType()), SensorManager.SENSOR_DELAY_NORMAL);
             //sensorManager.registerListener(dBsensorListener, sensorManager.getDefaultSensor(sensor.getType()), senseCD);
             Log.e(TAG, "已注册" + sensor.getName() + "传感器");
         }
@@ -221,15 +222,15 @@ public class SenseInfo {
 
 
     public void writeLog(String text){
-        File logFile = new File(logFile_path);
+        File logFile = new File(logFilePath);
         BufferedWriter buff;
         try{
             buff = new BufferedWriter(new FileWriter(logFile,true));
             buff.append(text);
             buff.newLine();
             buff.close();
-        }catch (IOException e){
-            e.printStackTrace();
+        }catch (IOException exp){
+            exp.printStackTrace();
         }
     }
    /*  public double[] getGPSInfo() {

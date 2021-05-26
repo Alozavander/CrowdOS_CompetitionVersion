@@ -11,7 +11,7 @@ public class LogUtils {
      * 判断是否可以调试
      * @return
      */
-    public static boolean isDebuggable() {
+    public static boolean IS_DEBUGGABLE() {
         return BuildConfig.DEBUG;
     }
 
@@ -27,44 +27,44 @@ public class LogUtils {
      * 获取文件名、方法名、所在行数
      * @param sElements
      */
-    private static void getMethodNames(StackTraceElement[] sElements){
+    private static void GET_METHOD_NAME(StackTraceElement[] sElements){
         className = sElements[1].getFileName();
         methodName = sElements[1].getMethodName();
         lineNumber = sElements[1].getLineNumber();
     }
 
     public static void e(String message){
-        if (!isDebuggable())
+        if (!IS_DEBUGGABLE())
             return;
-        getMethodNames(new Throwable().getStackTrace());
+        GET_METHOD_NAME(new Throwable().getStackTrace());
         Log.e(className, createLog(message));
     }
 
     public static void i(String message){
-        if (!isDebuggable())
+        if (!IS_DEBUGGABLE())
             return;
-        getMethodNames(new Throwable().getStackTrace());
+        GET_METHOD_NAME(new Throwable().getStackTrace());
         Log.i(className, createLog(message));
     }
 
     public static void d(String message){
-        if (!isDebuggable())
+        if (!IS_DEBUGGABLE())
             return;
-        getMethodNames(new Throwable().getStackTrace());
+        GET_METHOD_NAME(new Throwable().getStackTrace());
         Log.d(className, createLog(message));
     }
 
     public static void v(String message){
-        if (!isDebuggable())
+        if (!IS_DEBUGGABLE())
             return;
-        getMethodNames(new Throwable().getStackTrace());
+        GET_METHOD_NAME(new Throwable().getStackTrace());
         Log.v(className, createLog(message));
     }
 
     public static void w(String message){
-        if (!isDebuggable())
+        if (!IS_DEBUGGABLE())
             return;
-        getMethodNames(new Throwable().getStackTrace());
+        GET_METHOD_NAME(new Throwable().getStackTrace());
         Log.w(className, createLog(message));
     }
 }

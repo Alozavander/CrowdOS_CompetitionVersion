@@ -10,7 +10,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -26,14 +25,9 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-
-
 import com.hills.mcs_02.dataBeans.User;
 import com.hills.mcs_02.networkClasses.interfacesPack.PostRequestEmailRegisterAddressCheck;
 import com.hills.mcs_02.R;
-
-
-
 
 public class ActivityEmailRegister extends AppCompatActivity implements View.OnClickListener {
     private CountDownTimer mCountDownTimer;
@@ -139,7 +133,7 @@ public class ActivityEmailRegister extends AppCompatActivity implements View.OnC
         //构建User
         String usernameMail = ((EditText)findViewById(R.id.activity_emaile_registe_email_input_et)).getText().toString();
         User lUser = new User();
-        lUser.setUserName(usernameMail);
+        lUser.setUsername(usernameMail);
         Gson lGson = new Gson();
         String requestContent = lGson.toJson(lUser);
         RequestBody lRequestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),requestContent);

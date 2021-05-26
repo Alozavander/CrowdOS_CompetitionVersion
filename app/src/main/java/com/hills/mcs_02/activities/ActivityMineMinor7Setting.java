@@ -1,11 +1,12 @@
 package com.hills.mcs_02.activities;
 
+import com.daimajia.numberprogressbar.NumberProgressBar;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
+import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
@@ -25,20 +26,17 @@ import android.widget.Toast;
 
 import androidx.core.content.FileProvider;
 
-import com.daimajia.numberprogressbar.NumberProgressBar;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.hills.mcs_02.BaseActivity;
 import com.hills.mcs_02.BuildConfig;
 import com.hills.mcs_02.downloadPack.DownloadFileUtils;
 import com.hills.mcs_02.downloadPack.DownloadListener;
 import com.hills.mcs_02.networkClasses.interfacesPack.PostRequestMineMinor7Update;
 import com.hills.mcs_02.R;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-
 
 public class ActivityMineMinor7Setting extends BaseActivity {
     private String TAG = "Activity_mine_minor7_setting";

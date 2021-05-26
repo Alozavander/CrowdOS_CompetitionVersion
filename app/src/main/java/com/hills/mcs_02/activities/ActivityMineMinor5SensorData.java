@@ -12,22 +12,21 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.hills.mcs_02.fragmentsPack.MCSRecyclerItemClickListener;
 import com.hills.mcs_02.R;
 import com.hills.mcs_02.StringStore;
 import com.hills.mcs_02.saveFile.FileExport;
-import com.hills.mcs_02.sensorFunction.SensorSQLiteOpenHelper;
-import com.hills.mcs_02.viewsAdapters.Adapter_RecyclerView_setting_sensorData;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
+import com.hills.mcs_02.sensorFunction.SensorSqliteOpenHelper;
+import com.hills.mcs_02.viewsAdapters.AdapterRecyclerViewSettingSensorData;
 
 public class ActivityMineMinor5SensorData extends AppCompatActivity implements View.OnClickListener {
     private RecyclerView mRecyclerView;
     private SwipeRefreshLayout mSwipeRefreshLayout;
-    private Adapter_RecyclerView_setting_sensorData mAdapter;
+    private AdapterRecyclerViewSettingSensorData mAdapter;
     private List<String[]> mList;
 
 
@@ -47,12 +46,12 @@ public class ActivityMineMinor5SensorData extends AppCompatActivity implements V
         String[] menuContent3 = new String[2];
         String[] menuContent4 = new String[2];
         menuContent1[0] = getString(R.string.setting_sensorData_chuanganqishuju);
-        Cursor c = new SensorSQLiteOpenHelper(this).getReadableDatabase().query(StringStore.SensorDataTable_Name,
-                new String[]{StringStore.SensorDataTable_SenseType,
-                        StringStore.SensorDataTable_SenseTime,
-                        StringStore.SensorDataTable_SenseData_1,
-                        StringStore.SensorDataTable_SenseData_2,
-                        StringStore.SensorDataTable_SenseData_3},
+        Cursor c = new SensorSqliteOpenHelper(this).getReadableDatabase().query(StringStore.SENSOR_DATATABLE_NAME,
+                new String[]{StringStore.SENSOR_DATATABLE_SENSE_TYPE,
+                        StringStore.SENSOR_DATATABLE_SENSE_TIME,
+                        StringStore.SENSOR_DATATABLE_SENSE_DATA_1,
+                        StringStore.SENSOR_DATATABLE_SENSE_DATA_2,
+                        StringStore.SENSOR_DATATABLE_SENSE_DATA_3},
                 null, null, null, null, null);
         menuContent1[1] = getString(R.string.setting_sensorData_dangqianshujushuliang) + "  " + c.getCount();
         c.close();
@@ -76,7 +75,7 @@ public class ActivityMineMinor5SensorData extends AppCompatActivity implements V
         findViewById(R.id.setting_sensorData_back).setOnClickListener(this);
         mRecyclerView = findViewById(R.id.setting_sensorData_rv);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this,RecyclerView.VERTICAL,false));
-        mAdapter = new Adapter_RecyclerView_setting_sensorData(this,mList);
+        mAdapter = new AdapterRecyclerViewSettingSensorData(this,mList);
         mAdapter.setRecyclerItemClickListener(new MCSRecyclerItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
@@ -88,14 +87,14 @@ public class ActivityMineMinor5SensorData extends AppCompatActivity implements V
                     startActivity(new Intent(ActivityMineMinor5SensorData.this,ActivityMineMinor5SensorDataDelete.class));
                 }
                 else if(position == 2){
-                    Cursor c = new SensorSQLiteOpenHelper(ActivityMineMinor5SensorData.this).getReadableDatabase().query(StringStore.SensorDataTable_Name,
-                            new String[]{StringStore.SensorDataTable_SenseType,
-                                    StringStore.SensorDataTable_SenseTime,
-                                    StringStore.SensorDataTable_SenseData_1,
-                                    StringStore.SensorDataTable_SenseData_2,
-                                    StringStore.SensorDataTable_SenseData_3},
+                    Cursor c = new SensorSqliteOpenHelper(ActivityMineMinor5SensorData.this).getReadableDatabase().query(StringStore.SENSOR_DATATABLE_NAME,
+                            new String[]{StringStore.SENSOR_DATATABLE_SENSE_TYPE,
+                                    StringStore.SENSOR_DATATABLE_SENSE_TIME,
+                                    StringStore.SENSOR_DATATABLE_SENSE_DATA_1,
+                                    StringStore.SENSOR_DATATABLE_SENSE_DATA_2,
+                                    StringStore.SENSOR_DATATABLE_SENSE_DATA_3},
                             null, null, null, null, null);
-                    File saveFile = FileExport.ExportToCSV(c,null, null);
+                    File saveFile = FileExport.exportToCSV(c,null, null);
                     Toast.makeText(ActivityMineMinor5SensorData.this,"Output finishing. The file path is :" + saveFile.getAbsolutePath(),Toast.LENGTH_LONG).show();
                     c.close();
                 }

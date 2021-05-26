@@ -16,13 +16,13 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import com.hills.mcs_02.R;
 import com.hills.mcs_02.StringStore;
 import com.hills.mcs_02.sensorFunction.SenseHelper;
-import com.hills.mcs_02.sensorFunction.SensorSQLiteOpenHelper;
-
-import java.util.Calendar;
-import java.util.Date;
+import com.hills.mcs_02.sensorFunction.SensorSqliteOpenHelper;
 
 public class ActivityMineMinor5SensorDataDelete extends AppCompatActivity implements View.OnClickListener, TextWatcher {
     private static final String TAG = "SensorDataDelete";
@@ -44,7 +44,7 @@ public class ActivityMineMinor5SensorDataDelete extends AppCompatActivity implem
     }
 
     private void initView() {
-        String[] tempSensors = new SenseHelper(this).getSensorList_TypeInt_Strings();
+        String[] tempSensors = new SenseHelper(this).getSensorListTypeIntStrings();
         mSensors = new String[tempSensors.length + 1];          //多出全部这一选择项
         mSensors[0] = getString(R.string.all);
         for (int temp = 0; temp < tempSensors.length; temp++) mSensors[temp + 1] = tempSensors[temp];
@@ -193,12 +193,12 @@ public class ActivityMineMinor5SensorDataDelete extends AppCompatActivity implem
         //先获取传感器对应的int值
         SenseHelper temSenseHelper = new SenseHelper(this);
         if (mBooleans[0] == true)
-            mSensorTypeList = temSenseHelper.getSensorList_TypeInt_Integers();    //如果选择的是全部，则直接通过内置方法获取所有传感器的type值
+            mSensorTypeList = temSenseHelper.getSensorListTypeIntIntegers();    //如果选择的是全部，则直接通过内置方法获取所有传感器的type值
         else {
             //对选择的传感器文本框获取文本内容并进行分割得到字符串数组，并根据内容
             String[] tempString = ((TextView) findViewById(R.id.setting_sensorData_delete_sensor_choose)).getText().toString().split(" ");
             Log.e(TAG,"now sensorType chosen is : " + LogStrings(tempString));
-            mSensorTypeList = temSenseHelper.sensorList_NameStrings2TypeInts(tempString);
+            mSensorTypeList = temSenseHelper.sensorListNameStrings2TypeInts(tempString);
         }
 
         String startTime = mTextViewStartTime.getText().toString();
@@ -220,9 +220,10 @@ public class ActivityMineMinor5SensorDataDelete extends AppCompatActivity implem
     }
 
     private int SQLiteDelete(String sensorType, String startTime, String endTime) {
-        SQLiteDatabase db = new SensorSQLiteOpenHelper(this).getReadableDatabase();
-        String whereClaus = StringStore.SensorDataTable_SenseType + "=?" + " AND " + StringStore.SensorDataTable_SenseTime + " > ? AND " + StringStore.SensorDataTable_SenseTime + " < ?";
-        int lI = db.delete(StringStore.SensorDataTable_Name,
+        SQLiteDatabase db = new SensorSqliteOpenHelper(this).getReadableDatabase();
+        String whereClaus = StringStore.SENSOR_DATATABLE_SENSE_TYPE + "=?" + " AND " + StringStore.SENSOR_DATATABLE_SENSE_TIME
+            + " > ? AND " + StringStore.SENSOR_DATATABLE_SENSE_TIME + " < ?";
+        int lI = db.delete(StringStore.SENSOR_DATATABLE_NAME,
                whereClaus , new String[]{sensorType, startTime, endTime});
         Log.e(TAG,"Where Claus is : " + whereClaus);
         Log.e(TAG, "StartTime is : " + startTime);

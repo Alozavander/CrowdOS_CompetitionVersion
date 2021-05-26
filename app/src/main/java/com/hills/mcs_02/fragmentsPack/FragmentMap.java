@@ -4,29 +4,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-
-
-import android.content.Context;
-import android.graphics.BitmapFactory;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.RotateAnimation;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.Toast;
-
-import androidx.fragment.app.Fragment;
-
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
@@ -44,10 +21,27 @@ import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.maps.model.MyLocationStyle;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
-import com.hills.mcs_02.dataBeans.Lon_Lat;
-import com.hills.mcs_02.networkClasses.interfacesPack.GetRequestMapTaskLoc;
-import com.hills.mcs_02.R;
+import android.content.Context;
+import android.graphics.BitmapFactory;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -56,8 +50,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-
-
+import com.hills.mcs_02.dataBeans.LonAndLat;
+import com.hills.mcs_02.networkClasses.interfacesPack.GetRequestMapTaskLoc;
+import com.hills.mcs_02.R;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -101,8 +96,8 @@ public class FragmentMap extends Fragment implements LocationSource, AMapLocatio
     private Button nightBtn;
     private BitmapDescriptor bitmap;
     private BitmapDescriptor bitmap2;
-    private List<Lon_Lat> mRequestTaskLocList;
-    private List<Lon_Lat> locList = new ArrayList<>();
+    private List<LonAndLat> mRequestTaskLocList;
+    private List<LonAndLat> locList = new ArrayList<>();
     private float lastBearing = 0;
     private RotateAnimation rotateAnimation;
 
@@ -157,7 +152,7 @@ public class FragmentMap extends Fragment implements LocationSource, AMapLocatio
         iconCompass = (ImageView) view.findViewById(R.id.icon_compass);
         bitmap = BitmapDescriptorFactory.fromBitmap(BitmapFactory.decodeResource(getResources(),R.mipmap.icon_marka));
         bitmap2 = BitmapDescriptorFactory.fromBitmap(BitmapFactory.decodeResource(getResources(),R.mipmap.icon_markb));
-        mRequestTaskLocList = new ArrayList<Lon_Lat>();
+        mRequestTaskLocList = new ArrayList<LonAndLat>();
 
         //地图生命周期管理
         mapView.onCreate(savedInstanceState);
@@ -209,37 +204,37 @@ public class FragmentMap extends Fragment implements LocationSource, AMapLocatio
 
         locList.clear();
         //西安
-        locList.add(new Lon_Lat(0,108.765882,34.030701));
-        locList.add(new Lon_Lat(1,108.771032,34.034507));
-        locList.add(new Lon_Lat(15,108.761707,34.036803));
-        locList.add(new Lon_Lat(16,108.769196,34.0325));
-        locList.add(new Lon_Lat(17,108.768831,34.035381));
-        locList.add(new Lon_Lat(18,108.762608,34.030331));
-        locList.add(new Lon_Lat(19,108.772865,34.032038));
-        locList.add(new Lon_Lat(20,108.925139,34.245004));
-        locList.add(new Lon_Lat(21,108.963419,34.24997));
-        locList.add(new Lon_Lat(22,108.939902,34.282741));
-        locList.add(new Lon_Lat(23,108.947798,34.251247));
+        locList.add(new LonAndLat(0,108.765882,34.030701));
+        locList.add(new LonAndLat(1,108.771032,34.034507));
+        locList.add(new LonAndLat(15,108.761707,34.036803));
+        locList.add(new LonAndLat(16,108.769196,34.0325));
+        locList.add(new LonAndLat(17,108.768831,34.035381));
+        locList.add(new LonAndLat(18,108.762608,34.030331));
+        locList.add(new LonAndLat(19,108.772865,34.032038));
+        locList.add(new LonAndLat(20,108.925139,34.245004));
+        locList.add(new LonAndLat(21,108.963419,34.24997));
+        locList.add(new LonAndLat(22,108.939902,34.282741));
+        locList.add(new LonAndLat(23,108.947798,34.251247));
         //天津
-        locList.add(new Lon_Lat(2,117.200912,39.109817));
+        locList.add(new LonAndLat(2,117.200912,39.109817));
         //北京（小）
-        locList.add(new Lon_Lat(3,116.446893,39.857722));
-        locList.add(new Lon_Lat(4,116.393334,39.873664));
-        locList.add(new Lon_Lat(5,116.42698,39.905144));
-        locList.add(new Lon_Lat(6,116.379172,39.907975));
-        locList.add(new Lon_Lat(7,116.351535,39.890723));
-        locList.add(new Lon_Lat(8,116.370761,39.951612));
-        locList.add(new Lon_Lat(9,116.449038,39.919496));
-        locList.add(new Lon_Lat(10,116.403076,39.937168));
+        locList.add(new LonAndLat(3,116.446893,39.857722));
+        locList.add(new LonAndLat(4,116.393334,39.873664));
+        locList.add(new LonAndLat(5,116.42698,39.905144));
+        locList.add(new LonAndLat(6,116.379172,39.907975));
+        locList.add(new LonAndLat(7,116.351535,39.890723));
+        locList.add(new LonAndLat(8,116.370761,39.951612));
+        locList.add(new LonAndLat(9,116.449038,39.919496));
+        locList.add(new LonAndLat(10,116.403076,39.937168));
         //北京（大）
-        locList.add(new Lon_Lat(11,116.399027,39.845868));
-        locList.add(new Lon_Lat(12,116.433187,39.941617));
-        locList.add(new Lon_Lat(13,116.6728,40.130981));
-        locList.add(new Lon_Lat(14,116.098764,39.614545));
+        locList.add(new LonAndLat(11,116.399027,39.845868));
+        locList.add(new LonAndLat(12,116.433187,39.941617));
+        locList.add(new LonAndLat(13,116.6728,40.130981));
+        locList.add(new LonAndLat(14,116.098764,39.614545));
 
         for(int i = 0; i< locList.size()-4; i++){
             MarkerOptions markerOption = new MarkerOptions();
-            Lon_Lat b = locList.get(i);
+            LonAndLat b = locList.get(i);
             LatLng point = new LatLng(b.getLat(), b.getLon());
             markerOption.position(point);
             //markerOption.title("任务：" + b.getTaskId().toString()).snippet(b.toString());
@@ -253,7 +248,7 @@ public class FragmentMap extends Fragment implements LocationSource, AMapLocatio
         //无用代码，只是为了截图，2019.8.24
         for (int temp = locList.size()-4; temp<locList.size(); temp++){
             MarkerOptions markerOption = new MarkerOptions();
-            Lon_Lat b = locList.get(temp);
+            LonAndLat b = locList.get(temp);
             LatLng point = new LatLng(b.getLat(), b.getLon());
             markerOption.position(point);
             //markerOption.title("任务：" + b.getTaskId().toString()).snippet(b.toString());
@@ -272,7 +267,7 @@ public class FragmentMap extends Fragment implements LocationSource, AMapLocatio
                 if(fl == true){
                     aMap.clear(true);
                     for(int temp = 0; temp< locList.size()-4; temp++){
-                        Lon_Lat loc = locList.get(temp);
+                        LonAndLat loc = locList.get(temp);
                         LatLng point = new LatLng(loc.getLat(), loc.getLon());
                         MarkerOptions markerOption = new MarkerOptions();
                         markerOption.position(point);
@@ -286,7 +281,7 @@ public class FragmentMap extends Fragment implements LocationSource, AMapLocatio
 
                     //无用代码，只是为了截图，2019.8.24
                     for (int temp = locList.size()-4; temp<locList.size(); temp++){
-                        Lon_Lat loc = locList.get(temp);
+                        LonAndLat loc = locList.get(temp);
                         LatLng point = new LatLng(loc.getLat(), loc.getLon());
                         MarkerOptions markerOption = new MarkerOptions();
                         markerOption.position(point);
@@ -304,7 +299,7 @@ public class FragmentMap extends Fragment implements LocationSource, AMapLocatio
                     int area = 100;
                     int area1 = 10000;
                     for(int temp = 0; temp < locList.size()-4; temp++){
-                        Lon_Lat loc = locList.get(temp);
+                        LonAndLat loc = locList.get(temp);
                         LatLng point = new LatLng(loc.getLat(),loc.getLon());
                         CircleOptions ooCircle = new CircleOptions().fillColor(0x384d73b3)
                                 .center(point).strokeColor(0x384d73b3).radius(area);
@@ -322,7 +317,7 @@ public class FragmentMap extends Fragment implements LocationSource, AMapLocatio
 
                     //无用代码，只是为了截图，2019.8.24
                     for (int temp = locList.size()-4; temp<locList.size(); temp++){
-                        Lon_Lat loc = locList.get(temp);
+                        LonAndLat loc = locList.get(temp);
                         LatLng point = new LatLng(loc.getLat(),loc.getLon());
                         CircleOptions ooCircle = new CircleOptions().fillColor(0x38FF8C00)
                                 .center(point).strokeColor(0x38FF8C00).radius(area1);
@@ -343,7 +338,7 @@ public class FragmentMap extends Fragment implements LocationSource, AMapLocatio
         });
     }
 
-    public List<Lon_Lat> getRequest(){
+    public List<LonAndLat> getRequest(){
         //创建Retrofit对象
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(this.getString(R.string.base_url))
@@ -361,7 +356,7 @@ public class FragmentMap extends Fragment implements LocationSource, AMapLocatio
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if(response.code() == 200){
                     Gson gson = new GsonBuilder().setDateFormat("yyyy.MM.dd").create();
-                    Type type = new TypeToken<List<Lon_Lat>>() {}.getType();
+                    Type type = new TypeToken<List<LonAndLat>>() {}.getType();
                     try{
                         //在此附近应该加入内容判定，优化响应逻辑
                         String temp = response.body().string();

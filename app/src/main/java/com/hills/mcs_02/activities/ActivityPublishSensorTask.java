@@ -3,6 +3,10 @@ package com.hills.mcs_02.activities;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationClient;
+import com.amap.api.location.AMapLocationClientOption;
+import com.amap.api.location.AMapLocationListener;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -10,7 +14,6 @@ import retrofit2.Callback;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -28,10 +31,11 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.amap.api.location.AMapLocation;
-import com.amap.api.location.AMapLocationClient;
-import com.amap.api.location.AMapLocationClientOption;
-import com.amap.api.location.AMapLocationListener;
+import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 import com.hills.mcs_02.BaseActivity;
 import com.hills.mcs_02.dataBeans.Task;
@@ -39,14 +43,6 @@ import com.hills.mcs_02.networkClasses.interfacesPack.PostRequestPublishTask;
 import com.hills.mcs_02.R;
 import com.hills.mcs_02.sensorFunction.SenseHelper;
 import com.hills.mcs_02.StringStore;
-
-import java.text.DecimalFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-
-
 
 public class ActivityPublishSensorTask extends BaseActivity implements View.OnClickListener, AMapLocationListener {
     private static final String TAG = "publish_sensortask";
@@ -78,7 +74,7 @@ public class ActivityPublishSensorTask extends BaseActivity implements View.OnCl
         deadlineTv = findViewById(R.id.publishpage_sensortaskpublish_2_deadline_dp);
         deadlineTv.setOnClickListener(this);
 
-        mSensors =new SenseHelper(this).getSensorList_TypeInt_Strings();
+        mSensors =new SenseHelper(this).getSensorListTypeIntStrings();
         mBooleans = new boolean[mSensors.length];
 
         taskKindSpinner = findViewById(R.id.publishpage_sensortaskpublish_2_taskKind_spinner);
@@ -214,12 +210,12 @@ public class ActivityPublishSensorTask extends BaseActivity implements View.OnCl
             String userName = getSharedPreferences("user", MODE_PRIVATE).getString("userName", "");
             //String timeNow = (new SimpleDateFormat("yyyy.MM.dd  HH:mm:ss")).format(new Date(System.currentTimeMillis()));
             //获取感知任务指定的传感器类型并转换成Integer[]类型
-            int[] sensorTypes = new SenseHelper(this).sensorList_NameStrings2TypeInts(sensorTypesString.split(" "));
+            int[] sensorTypes = new SenseHelper(this).sensorListNameStrings2TypeInts(sensorTypesString.split(" "));
             Log.i(TAG,"MARRRRK: sensorTypesLength" + sensorTypes.length);
             String lSensorTypesString = "";
             for(int temp = 0; temp < sensorTypes.length; temp++) {
                 lSensorTypesString = lSensorTypesString + sensorTypes[temp];
-                if(temp != sensorTypes.length -1) lSensorTypesString = lSensorTypesString + StringStore.Divider_1;
+                if(temp != sensorTypes.length -1) lSensorTypesString = lSensorTypesString + StringStore.DIVIDER1;
             }
 
             //建立任务Bean

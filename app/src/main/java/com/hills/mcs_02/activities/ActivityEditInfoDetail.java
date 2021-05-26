@@ -10,10 +10,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
+
 import com.hills.mcs_02.BaseActivity;
 import com.hills.mcs_02.R;
 
-import java.io.File;
 
 //昵称、电话、简介的编辑页面，需要在页面finish时返回带结果数据的intent
 public class ActivityEditInfoDetail extends BaseActivity {

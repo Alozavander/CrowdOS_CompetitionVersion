@@ -11,13 +11,12 @@ import android.view.ViewGroup;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
-
-import com.hills.mcs_02.R;
-import com.hills.mcs_02.viewsAdapters.FragmentPagerAdapter_remindPage;
-
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.hills.mcs_02.R;
+import com.hills.mcs_02.viewsAdapters.FragmentPagerAdapterRemindPage;
 
 
 /**
@@ -41,7 +40,7 @@ public class FragmentRemind extends Fragment {
     private TabLayout mTabLayout;
     private List<Fragment> mFragments;
     private ViewPager mViewPager;
-    private FragmentPagerAdapter_remindPage mFragmentPagerAdapterRemindPage;
+    private FragmentPagerAdapterRemindPage mFragmentPagerAdapterRemindPage;
 
     public FragmentRemind() {
         // Required empty public constructor
@@ -95,7 +94,7 @@ public class FragmentRemind extends Fragment {
         mFragments.add(new FragmentRemindPager("doing"));
         mFragments.add(new FragmentRemindPager("done"));
         mFragments.add(new FragmentRemindPager("recommend"));
-        mFragmentPagerAdapterRemindPage = new FragmentPagerAdapter_remindPage(getChildFragmentManager(),mContext,mFragments);
+        mFragmentPagerAdapterRemindPage = new FragmentPagerAdapterRemindPage(getChildFragmentManager(),mContext,mFragments);
         mViewPager.setAdapter(mFragmentPagerAdapterRemindPage);
         //tablayout 与 viewpager的联动,在之后需要重新添加tab
         mTabLayout.setupWithViewPager(mViewPager);

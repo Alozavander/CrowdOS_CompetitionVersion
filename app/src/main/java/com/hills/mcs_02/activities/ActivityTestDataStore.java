@@ -126,7 +126,7 @@ public class ActivityTestDataStore extends BaseActivity {
     }
 
     private void getSensorList() {
-        mTv1.setText(mSenseInfo.getSensorsListContent());
+        mTv1.setText(mSenseInfo.getSensorListContent());
     }
 
     @Override
