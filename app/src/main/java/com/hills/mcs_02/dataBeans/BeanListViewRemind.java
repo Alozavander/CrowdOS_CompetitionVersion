@@ -35,10 +35,6 @@ public class BeanListViewRemind {
         return task;
     }
 
-    public void setUserIcon(int userIcon) {
-        this.userIcon = userIcon;
-    }
-
     public void setPicture(int picture) {
         this.picture = picture;
     }

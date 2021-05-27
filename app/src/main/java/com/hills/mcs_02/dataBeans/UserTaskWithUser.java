@@ -21,10 +21,6 @@ public class UserTaskWithUser {
         this.user = user;
     }
 
-    public void setUserTask(UserTask userTask) {
-        this.userTask = userTask;
-    }
-
     @Override
     public String toString() {
         return "Combine_u_ut{" +

@@ -46,18 +46,18 @@ public class ActivityTaskDetailPublished extends BaseActivity {
 
     private final String TAG = "activity_task_detail_published";
     private Task task;
-    private TextView userNameTv;
+    private TextView usernameTv;
     private TextView postTimeTv;
     private TextView taskKindTv;
     private TextView taskContentTv;
-    private TextView coinsCountTv;
+    private TextView coinCountTv;
     private TextView deadlineTv;
     private TextView taskNameTv;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private RecyclerView mRecyclerView;
     private AdapterRecyclerViewPublishedTaskDetail recyclerAdapter;
     private List<BeanUserTaskWithUser> mList;
-    private Set<Integer> mHashSetTaskId;                                             //用于获取感知任务去重
+    private Set<Integer> mHashSetTaskId;
 
 
     @SuppressLint("WrongConstant")
@@ -67,9 +67,9 @@ public class ActivityTaskDetailPublished extends BaseActivity {
         setContentView(R.layout.activity_task_detail_published);
 
         task = new Task();
-        userNameTv = findViewById(R.id.published_taskDetail_userName);
+        usernameTv = findViewById(R.id.published_taskDetail_userName);
         taskContentTv = findViewById(R.id.published_taskDetail_content);
-        coinsCountTv = findViewById(R.id.published_taskDetail_coin);
+        coinCountTv = findViewById(R.id.published_taskDetail_coin);
         deadlineTv = findViewById(R.id.published_taskDetail_deadline);
         postTimeTv = findViewById(R.id.published_taskDetail_postTime);
         taskNameTv = findViewById(R.id.published_taskDetail_taskName);
@@ -80,12 +80,12 @@ public class ActivityTaskDetailPublished extends BaseActivity {
             mList = new ArrayList<BeanUserTaskWithUser>();
         }
 
-        //初始化滑动布局与recyclerview
+        /**  Initialize Slide Layout and RecyclerView */
         mSwipeRefreshLayout = findViewById(R.id.published_taskDetail_swiperefreshLayout);
         mSwipeRefreshLayout.setColorSchemeColors(Color.RED, Color.BLUE, Color.GREEN);
         mRecyclerView = findViewById(R.id.published_taskDetail_RecyclerView);
         initData();
-        initBackBT();
+        initBackBtn();
         recyclerAdapter = new AdapterRecyclerViewPublishedTaskDetail(this, mList);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         mRecyclerView.setAdapter(recyclerAdapter);
@@ -96,9 +96,9 @@ public class ActivityTaskDetailPublished extends BaseActivity {
         String taskGson = getIntent().getStringExtra("taskGson");
         Gson gson = new Gson();
         task = gson.fromJson(taskGson, Task.class);
-        userNameTv.setText(task.getUsername());
+        usernameTv.setText(task.getUsername());
         taskContentTv.setText(task.getDescribeTask());
-        coinsCountTv.setText(task.getCoin().toString());
+        coinCountTv.setText(task.getCoin().toString());
         taskNameTv.setText(task.getTaskName());
         deadlineTv.setText(new SimpleDateFormat("yyyy.MM.dd").format(task.getDeadline()));
         postTimeTv.setText(new SimpleDateFormat("yyyy.MM.dd").format(task.getPostTime()));
@@ -119,10 +119,10 @@ public class ActivityTaskDetailPublished extends BaseActivity {
                 taskKindTv.setText(getString(R.string.home_grid_4));
                 break;
         }
-        first_fresh();
+        firstFresh();
     }
 
-    private void first_fresh() {
+    private void firstFresh() {
         mSwipeRefreshLayout.setRefreshing(true);
         new Handler().postDelayed(new Runnable() {
                                       @Override
@@ -136,8 +136,7 @@ public class ActivityTaskDetailPublished extends BaseActivity {
 
 
     private void initRefreshListener() {
-        initPullRefresh();  //上拉刷新
-        //initLoadMoreListener();  //下拉加载更多
+        initPullRefresh();  /** Pull up to refresh */
     }
 
     private void initPullRefresh() {
@@ -157,98 +156,60 @@ public class ActivityTaskDetailPublished extends BaseActivity {
     }
 
 
-    private void initLoadMoreListener() {
-
-        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            int lastVisibleItem;
-
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-
-                //判断RecyclerView的状态 是空闲时，同时，是最后一个可见的ITEM时才加载
-                if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItem + 1 == recyclerAdapter.getItemCount()) {
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            postRequest(2);
-                        }
-                    }, 3000);
-
-                }
-
-            }
-
-            //更新lastvisibleItem数值
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-
-                LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
-                //最后一个可见的ITEM
-                lastVisibleItem = layoutManager.findLastVisibleItemPosition();
-            }
-        });
-    }
-
     public void postRequest(int tag) {
         final int TEMP_TAG = tag;
-        //创建Retrofit对象
+        /** Create a Retrofit object */
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(getResources().getString(R.string.base_url))
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        //创建网络接口实例
+        /** Instantiate the network interface */
         PostRequestPublishedTaskDetail request = retrofit.create(PostRequestPublishedTaskDetail.class);
 
-
-        //包装发送请求
+        /** Initialize the RequestBody */
         Call<ResponseBody> call = request.checkUserTaskWithUsername(task.getTaskId());
 
-        final Context context = this;
+        final Context CONTEXT = this;
 
-        //异步网络请求
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.code() == 200) {
                     try {
-                        //取得响应返回的数据List
+                        /** Get the List of data returned by the response  */
                         List<UserTaskWithUser> responseList = new ArrayList<UserTaskWithUser>();
-                        //创建符合List数据格式，在页面显示的列表
+                       /** Create a List that conforms to the List data format and displays on the page */
                         List<BeanUserTaskWithUser> tempList = new ArrayList<BeanUserTaskWithUser>();
                         Gson gson = new Gson();
                         Type type = new TypeToken<List<UserTaskWithUser>>() {
                         }.getType();
-                        String temp_content = response.body().string();
-                        Log.i(TAG, "接受的报文内容：" + temp_content);
-                        responseList = gson.fromJson(temp_content, type);
+                        String tempContent = response.body().string();
+                        Log.i(TAG, "接受的报文内容：" + tempContent);
+                        responseList = gson.fromJson(tempContent, type);
                         if (responseList.size() > 0) {
-                            //两个List之间的转换
-                            for (UserTaskWithUser u_ut : responseList) {
-                                //HashSet去重
-                                if (!mHashSetTaskId.contains(u_ut.getUserTask().getUserTaskId())) {
-                                    mHashSetTaskId.add(u_ut.getUserTask().getUserTaskId());
-                                    if (u_ut.getUserTask().getImage() != null) {
-                                        //在此处增加图片下载的功能代码
+                            /** Convert between two lists */
+                            for (UserTaskWithUser userTaskWihUser : responseList) {
+                                if (!mHashSetTaskId.contains(userTaskWihUser.getUserTask().getUserTaskId())) {
+                                    mHashSetTaskId.add(userTaskWihUser.getUserTask().getUserTaskId());
+                                    if (userTaskWihUser.getUserTask().getImage() != null) {
                                         DownloadImageUtils utils = new DownloadImageUtils(getString(R.string.base_url));
-                                        tempList.add(new BeanUserTaskWithUser(R.drawable.haimian_usericon, utils.downloadFile(u_ut.getUserTask().getImage()), u_ut));
+                                        tempList.add(new BeanUserTaskWithUser(R.drawable.haimian_usericon, utils.downloadFile(userTaskWihUser.getUserTask().getImage()), userTaskWihUser));
                                     } else {
-                                        tempList.add(new BeanUserTaskWithUser(R.drawable.haimian_usericon, u_ut));
-                                        Log.i(TAG, u_ut.toString());
+                                        tempList.add(new BeanUserTaskWithUser(R.drawable.haimian_usericon, userTaskWihUser));
+                                        Log.i(TAG, userTaskWihUser.toString());
                                     }
                                 }
                             }
                         } else {
                             Toast.makeText(ActivityTaskDetailPublished.this, getResources().getString(R.string.FailToGetData) + responseList.size(), Toast.LENGTH_SHORT).show();
                         }
-                        //根据tag判断是第一次刷新还是后续的上拉刷新和下拉加载
+                        /** The first refresh or subsequent pull-up refresh and pull-down load is determined by the tag */
                         if (TEMP_TAG == 0) mList.addAll(tempList);
                         else if (TEMP_TAG == 1) recyclerAdapter.addHeaderItem(tempList);
                         else recyclerAdapter.addFooterItem(tempList);
 
-                        //刷新完成
+
                         if (mSwipeRefreshLayout.isRefreshing())
                             mSwipeRefreshLayout.setRefreshing(false);
                     } catch (IOException exp) {
@@ -258,7 +219,7 @@ public class ActivityTaskDetailPublished extends BaseActivity {
                     if (mSwipeRefreshLayout.isRefreshing())
                         mSwipeRefreshLayout.setRefreshing(false);
                     Log.e(TAG, "查询任务完成结果失败");
-                    Toast.makeText(context, getResources().getString(R.string.NoneQueryResult), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CONTEXT, getResources().getString(R.string.NoneQueryResult), Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -276,11 +237,11 @@ public class ActivityTaskDetailPublished extends BaseActivity {
     }
 
 
-    private void initBackBT() {
+    private void initBackBtn() {
         ImageView backIv = findViewById(R.id.published_taskDetail_backarrow);
         backIv.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 finish();
             }
         });

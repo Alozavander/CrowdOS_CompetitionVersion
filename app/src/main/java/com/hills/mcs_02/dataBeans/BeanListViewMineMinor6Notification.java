@@ -29,10 +29,6 @@ public class BeanListViewMineMinor6Notification {
         return content;
     }
 
-    public void setIcon(int icon) {
-        this.icon = icon;
-    }
-
     public void setId(String id) {
         this.Id = id;
     }

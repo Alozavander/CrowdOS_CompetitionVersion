@@ -1,17 +1,17 @@
 package com.hills.mcs_02.dataBeans;
 
 public class FamiliarSensor {
-    private Integer familiarSensorId;          //主键
-    private Integer userId;                    //用户ID
-    private Integer taskId;                    //任务ID
+    private Integer familiarSensorId;          /** the primary key */
+    private Integer userId;                    /** user ID */
+    private Integer taskId;                    /* task ID */
 
-    private Float longitude;  //经度
-    private Float latitude;  //维度
-    private Float speed; //速度
+    private Float longitude;
+    private Float latitude;
+    private Float speed;
 
-    private Float sensorType;  //类型
+    private Float sensorType;
 
-    private String sensorFile;   //位置存储
+    private String sensorFile;   /** Sensor data file */
 
     public FamiliarSensor(Integer pFamiliarSensorId, Integer pUserId, Integer pTaskId, Float pLongitude, Float pLatitude, Float pSpeed, Float pSensorType, String pSensorFile) {
         familiarSensorId = pFamiliarSensorId;
@@ -22,10 +22,6 @@ public class FamiliarSensor {
         speed = pSpeed;
         sensorType = pSensorType;
         sensorFile = pSensorFile;
-    }
-
-    public Integer getFamiliarSensorId() {
-        return familiarSensorId;
     }
 
     public void setFamiliarSensorId(Integer pFamiliarSensorId) {

@@ -2,9 +2,9 @@ package com.hills.mcs_02.dataBeans;
 
 public class LonAndLat {
 
-    private Integer taskId;  //任务ID
-    private double Lon;  //经度
-    private double Lat;  //纬度
+    private Integer taskId;
+    private double Lon;  /** longitude */
+    private double Lat;  /**  latitude */
 
     public LonAndLat(Integer taskId, double Lon, double Lat){
         this.taskId = taskId;
@@ -26,10 +26,6 @@ public class LonAndLat {
 
     public void setTaskId(Integer taskId){
         this.taskId = taskId;
-    }
-
-    public void setLon(double Lon){
-        this.Lon = Lon;
     }
 
     public void setLat(double Lat){

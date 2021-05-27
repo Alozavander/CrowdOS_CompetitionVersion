@@ -1,7 +1,7 @@
 package com.hills.mcs_02.dataBeans;
 
 
-//发布页任务模板单项类
+/** Publish the task class of the interfaces */
 public class BeanListViewPublish {
     private String title;
     private String sensors;

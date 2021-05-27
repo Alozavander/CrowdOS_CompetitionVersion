@@ -33,7 +33,7 @@ import com.hills.mcs_02.R;
 public class ActivityRegister extends BaseActivity implements View.OnClickListener{
     private EditText registerUsernameEt;
     private EditText registerPwdEt;
-    private EditText registePwdConfirmEt;
+    private EditText registerPwdConfirmEt;
     private ImageView backIv;
     private Button registerBtn;
     private Toast mToast;
@@ -51,16 +51,11 @@ public class ActivityRegister extends BaseActivity implements View.OnClickListen
 
         initAll();
 
-       //
-
-        //Toast.makeText(Activity_2rdPage.this,"pageTag: " + pageTag + ", position: " + position , Toast.LENGTH_SHORT).show();
-
-
     }
 
     private void initAll(){
 
-        //初始化当前页面的回退按钮，这里用了两种不同的方法绑定点击事件
+        /** Initializes the back button for the current page. There are two different ways to bind the click event */
         backIv = (ImageView)findViewById(R.id.activity_registe_back);
         backIv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,17 +63,16 @@ public class ActivityRegister extends BaseActivity implements View.OnClickListen
                 finish();
             }
         });
-
-        //初始化登陆界面的用户名和密码的EditText
+        /**  Initialize the editText for the login interface's username and password */
         registerUsernameEt = (EditText)findViewById(R.id.activity_registe_username);
         registerPwdEt = (EditText)findViewById(R.id.activity_registe_password);
-        registePwdConfirmEt = findViewById(R.id.activity_registe_password_confirm);
+        registerPwdConfirmEt = findViewById(R.id.activity_registe_password_confirm);
         usernameErrorTv = findViewById(R.id.activity_registe_username_error_tv);
         pwdErrorTv = findViewById(R.id.activity_registe_pwd_error_tv);
         regexVerify = new RegexVerify();
         verifyBooleans = new boolean[]{false, false, false};
 
-        //监听账户是否设置为正确格式
+        /** Listens to see if the account is formatted correctly */
         registerUsernameEt.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence seq, int start, int count, int after) {
@@ -100,11 +94,11 @@ public class ActivityRegister extends BaseActivity implements View.OnClickListen
                     usernameErrorTv.setVisibility(View.INVISIBLE);
                     verifyBooleans[0] = true;
                 }
-                checkEnbleRegister();
+                checkEnableRegister();
             }
         });
 
-        //监听密码是否设置为正确格式
+       /** Listens to see if the password is formatted correctly */
         registerPwdEt.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence seq, int start, int count, int after) {
@@ -126,12 +120,12 @@ public class ActivityRegister extends BaseActivity implements View.OnClickListen
                     pwdErrorTv.setVisibility(View.INVISIBLE);
                     verifyBooleans[1] = true;
                 }
-                checkEnbleRegister();
+                checkEnableRegister();
             }
         });
 
-        //监听是否两次输入的密码相等
-        registePwdConfirmEt.addTextChangedListener(new TextWatcher() {
+        /**  Check if two passwords entered are the same */
+        registerPwdConfirmEt.addTextChangedListener(new TextWatcher() {
             String firstPwd;
             @Override
             public void beforeTextChanged(CharSequence seq, int start, int count, int after) {
@@ -144,10 +138,10 @@ public class ActivityRegister extends BaseActivity implements View.OnClickListen
             }
 
             @Override
-            public void afterTextChanged(Editable s) {
+            public void afterTextChanged(Editable edit) {
                 firstPwd = registerPwdEt.getText().toString();
                 TextView errorTv = findViewById(R.id.activity_registe_password_confirm_error_tv);
-                if(! s.toString().equals(firstPwd)) {
+                if(! edit.toString().equals(firstPwd)) {
                     errorTv.setText(getResources().getString(R.string.differentPassword));
                     errorTv.setVisibility(View.VISIBLE);
                     verifyBooleans[2] = false;
@@ -155,22 +149,22 @@ public class ActivityRegister extends BaseActivity implements View.OnClickListen
                     errorTv.setVisibility(View.INVISIBLE);
                     verifyBooleans[2] = true;
                 }
-                checkEnbleRegister();
+                checkEnableRegister();
             }
         });
 
-        //初始化注册按钮
+        /** Initialize the registration button */
         registerBtn = (Button)findViewById(R.id.activity_registe_bt);
 
-        //点击事件绑定
+        /** Click on the event binding */
         registerPwdEt.setOnClickListener(this);
         registerUsernameEt.setOnClickListener(this);
         registerBtn.setOnClickListener(this);
         registerBtn.setEnabled(false);
     }
 
-    //检测是否能够注册
-    public void checkEnbleRegister(){
+   /** Check if you can register */
+    public void checkEnableRegister(){
         if(verifyBooleans[0] && verifyBooleans[1] && verifyBooleans[2]){
             registerBtn.setEnabled(true);
         }else registerBtn.setEnabled(false);
@@ -180,7 +174,7 @@ public class ActivityRegister extends BaseActivity implements View.OnClickListen
     public void onClick(View view){
         switch (view.getId()){
             case R.id.activity_registe_bt:
-                //密码正则验证并注册
+                /**  Password validation and registration */
                 if(! regexVerify.registerUsernameVerfy(registerUsernameEt.getText().toString()) && regexVerify.pwdVerify(
                     registerPwdEt.getText().toString())){
                     usernameErrorTv.setVisibility(View.VISIBLE);
@@ -207,33 +201,14 @@ public class ActivityRegister extends BaseActivity implements View.OnClickListen
         }
     }
 
-
-    //登录
     private void RegisterRequest() {
         User user = new User(null, registerUsernameEt.getText() + "", registerPwdEt.getText() + "","null",1000);
         Log.i(TAG,"Registe UserInfo:" + user.toString());
-        /**String userInfo = registe_username_et.getText() + ":" + registe_pwd_et.getText();
-        final String auth_info = "Basic " + Base64.encodeToString(userInfo.getBytes(), Base64.NO_WRAP);
-
-        //创建Retrofit对象
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl((BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        //创建网络接口实例
-        PostRequest_userAuth postRequest_userAuth = retrofit.create(PostRequest_userAuth.class);
-
-        //包装发送请求
-        Call<Bean_UserAccount> call = postRequest_userAuth.getU(auth_info);*/
 
         final Gson gson = new Gson();
         String postContent = gson.toJson(user);
         Log.i(TAG,"Registe PostContent:" + postContent);
 
-
-
-        //发送POST请求
         Retrofit retrofit = new Retrofit.Builder().baseUrl(this.getResources().getString(R.string.base_url)).addConverterFactory(GsonConverterFactory.create()).build();
         RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),postContent);
         PostRequestUserRegister login = retrofit.create(PostRequestUserRegister.class);
@@ -244,10 +219,8 @@ public class ActivityRegister extends BaseActivity implements View.OnClickListen
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if(response.code() == 200) {
-                    //注册成功后应该自动跳转到登录界面
+                    /** If you register successfully, you will be automatically redirected to the login screen */
                     try {
-                        //Log.i(TAG,"body: " + response.body());
-                        //Log.i(TAG,"string: " + response.body().string() + "");
                         User user = new Gson().fromJson(response.body().string() + "",User.class);
                         Log.i(TAG,"UserInfo: " + user);
                     } catch (IOException exp) {
@@ -256,7 +229,7 @@ public class ActivityRegister extends BaseActivity implements View.OnClickListen
                     Toast.makeText(ActivityRegister.this, getResources().getString(R.string.registeSucceed), Toast.LENGTH_SHORT).show();
                     finish();
                 }else{
-                    //在此处应该根据不同失败情况添加不同的情况判定
+
                     Log.i(TAG,"Response Code:" + response.code() + response.message());
                     Toast.makeText(ActivityRegister.this, getResources().getString(R.string.registeFailed), Toast.LENGTH_SHORT).show();
                 }

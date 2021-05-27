@@ -11,12 +11,12 @@ public class User {
         super();
     }
 
-    public User(Integer userId, String username, String password, String realName, int coins) {
+    public User(Integer userId, String username, String password, String realName, int coin) {
         this.userId = userId;
         this.username = username;
         this.password = password;
         this.realName = realName;
-        this.coin = coins;
+        this.coin = coin;
     }
 
     public Integer getUserId() {
@@ -53,10 +53,6 @@ public class User {
 
     public int getCoin() {
         return coin;
-    }
-
-    public void setCoin(int coin) {
-        this.coin = coin;
     }
 
     @Override

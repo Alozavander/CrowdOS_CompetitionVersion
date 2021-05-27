@@ -1,10 +1,5 @@
 package com.hills.mcs_02.EmailRegiste;
 
-/*
- * Created by LJH on 2020/3/17
- * 邮件发送类
- */
-
 import java.util.Date;
 import java.util.Properties;
 
@@ -16,33 +11,29 @@ import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
 
-
 public class SendEmail {
-    // 邮件发送协议，有"smtp"
+    /** Mail delivery protocol */
     private String PROTOCOL = "smtp";
-    // SMTP邮件服务器，对应协议，比如"smtp.163.com"
+    /** SMTP mail server */
     private String HOST = "smtp.163.com";
-    // SMTP邮件服务器默认端口为"25"
+    /** SMTP mail server default port ：25 */
     private String PORT = "25";
-    // 是否要求身份认证 "true"
+    /** Whether authentication is required */
     private String IS_AUTH = "true" ;
-    // 是否启用调试模式（启用调试模式可打印客户端与服务器交互过程时一问一答的响应消息）
+    /** Whether to enable debug mode */
     private String IS_ENABLED_DEBUG_MOD = "true";
-    // 发件人
     private String emailSender;
-    // 收件人
     private String emailRecipient;
-    // 初始化连接邮件服务器的会话信息
+    /** Initialize the session information connected to the mail server */
     private Properties props;
-
-    //"zeronandroidtest@163.com" 测试用
     private String mUsername;
-
-    //"UGQEGXIPKFFLNHEQ" 测试用
     private String mPassword;
 
-
-    //默认使用smtp和163邮箱格式，端口使用25，注意password不是邮箱密码而是授权码。默认发件人和用户名一样，如若需要，可调用setEmail_sender方法重置。
+    /**
+     * SMTP and 163 mailbox format are used by default, and port 25 is used.
+     * Note that password is not an email password but an authorization code.
+     * The default sender is the same as the user name, which can be reset if needed by calling the setEmail_sender method.
+     * */
     public SendEmail(String pEmailRecipient,String pUsername,String pPassword){
         emailSender = pUsername;
         emailRecipient = pEmailRecipient;
@@ -56,114 +47,30 @@ public class SendEmail {
         props.setProperty("mail.debug", IS_ENABLED_DEBUG_MOD);
     }
 
-    //可自定义协议和对应服务器以及端口
-    public SendEmail(String pEmailRecipient,String pUsername,String pPassword,String pPROTOCOL,String pHOST,String pPORT){
-        emailSender = pUsername;
-        emailRecipient = pEmailRecipient;
-        mUsername = pUsername;
-        mPassword = pPassword;
-        PROTOCOL = pPROTOCOL;
-        HOST = pHOST;
-        PORT = pPORT;
-        props = new Properties();
-        props.setProperty("mail.transport.protocol", PROTOCOL);
-        props.setProperty("mail.smtp.host", HOST);
-        props.setProperty("mail.smtp.port", PORT);
-        props.setProperty("mail.smtp.auth", IS_AUTH);
-        props.setProperty("mail.debug", IS_ENABLED_DEBUG_MOD);
-    }
-
-    public void setEmailSender(String pEmailSender) {
-        emailSender = pEmailSender;
-    }
-
-    /*
-     * 发送简单的文本验证码邮件，Code为验证码
-     * @param subject 邮件主题
-     * @param content 内容
-     * @throws Exception
-     */
     public void sendTextEmail(String subject,String content) throws Exception {
-        // 创建Session实例对象
         Session session = Session.getDefaultInstance(props);
 
-        // 创建MimeMessage实例对象
         MimeMessage message = new MimeMessage(session);
-        // 设置发件人
+       /** Set the sender */
         message.setFrom(new InternetAddress(emailSender));
-        // 设置邮件主题
+        /** Set the subject of the message */
         message.setSubject(subject);
-        // 设置收件人
+        /** Set the recipient */
         message.setRecipient(Message.RecipientType.TO, new InternetAddress(emailRecipient));
-        // 设置发送时间
+        /** Set the time to send */
         message.setSentDate(new Date());
-        // 设置纯文本内容为邮件正文
+        /** Set the plain text content to the message body */
         message.setText(content);
-        // 保存并生成最终的邮件内容
+       /** Save and generate the final message content */
         message.saveChanges();
 
-        // 获得Transport实例对象
         Transport transport = session.getTransport();
-        // 打开连接
+        /**  Open the connection */
         transport.connect(mUsername, mPassword);
-        // 将message对象传递给transport对象，将邮件发送出去
+        /**  The Message object is passed to the Transport object to send the message */
         transport.sendMessage(message, message.getAllRecipients());
-        // 关闭连接
+        /** Close the connection */
         transport.close();
-    }
-
-    /*
-     * 发送简单的html验证码邮件，Code为验证码
-     * @param subject 邮件主题
-     * @param content 内容
-     * @param Code
-     * @throws Exception
-     */
-    public void sendHtmlEmail(String subject,String content,long code) throws Exception {
-        // 创建Session实例对象
-        Session session = Session.getInstance(props, new MyAuthenticator(mUsername,mPassword));
-
-        // 创建MimeMessage实例对象
-        MimeMessage message = new MimeMessage(session);
-        // 设置邮件主题
-        message.setSubject(subject);
-        // 设置发送人
-        message.setFrom(new InternetAddress(emailSender));
-        // 设置发送时间
-        message.setSentDate(new Date());
-        // 设置收件人
-        message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(emailRecipient));
-        // 设置html内容为邮件正文，指定MIME类型为text/html类型，并指定字符编码为gbk
-        message.setContent("<span style='color:blue;'>" + content + "</span>"+"<span style='color:red;'>"+ code+"</span>",
-                "text/html;charset=gbk");
-        // 保存并生成最终的邮件内容
-        message.saveChanges();
-        // 发送邮件
-        Transport.send(message);
-    }
-
-
-    /**
-     * 向邮件服务器提交认证信息
-     */
-    static class MyAuthenticator extends Authenticator {
-
-        private String username = "";
-
-        private String password = "";
-
-
-        public MyAuthenticator(String username, String password) {
-            super();
-            this.username = username;
-            this.password = password;
-        }
-
-        @Override
-        protected PasswordAuthentication getPasswordAuthentication() {
-
-            return new PasswordAuthentication(username, password);
-        }
     }
 
 }

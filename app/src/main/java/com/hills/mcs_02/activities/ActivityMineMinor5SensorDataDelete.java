@@ -45,13 +45,11 @@ public class ActivityMineMinor5SensorDataDelete extends AppCompatActivity implem
 
     private void initView() {
         String[] tempSensors = new SenseHelper(this).getSensorListTypeIntStrings();
-        mSensors = new String[tempSensors.length + 1];          //多出全部这一选择项
+        mSensors = new String[tempSensors.length + 1];       /** All options are available */
         mSensors[0] = getString(R.string.all);
         for (int temp = 0; temp < tempSensors.length; temp++) mSensors[temp + 1] = tempSensors[temp];
         mBooleans = new boolean[mSensors.length];
-
-
-        //给时间选择栏添加绑定
+        /**  Add a binding to the time selection bar*/
         initTimeTV();
         TextView sensorChooseTv = findViewById(R.id.setting_sensorData_delete_sensor_choose);
         sensorChooseTv.setOnClickListener(this);
@@ -62,40 +60,37 @@ public class ActivityMineMinor5SensorDataDelete extends AppCompatActivity implem
         else mConfirmBtn.setEnabled(true);
     }
 
-    //TODO:时间Date与long、与时间戳的转换
     private void initTimeTV() {
-        //给开始时间选择栏添加绑定
+        /**  Add a binding to the start time selection bar */
         mTextViewStartTime = findViewById(R.id.setting_sensorData_delete_startTime_choose);
         mTextViewStartTime.addTextChangedListener(this);
         mTextViewStartTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //获取当前日期
+                /**  Get the current date */
                 Calendar cal = Calendar.getInstance();
                 mYear = cal.get(Calendar.YEAR);
                 mMonth = cal.get(Calendar.MONTH);
                 mDay = cal.get(Calendar.DAY_OF_MONTH);
-
-
-                //创建日期选择的对话框，并绑定日期选择的Listener（都是Android内部封装的组件和方法）
+                /** Create a dialog box for date selection and bind the Listener for date selection */
                 DatePickerDialog dialog = new DatePickerDialog(ActivityMineMinor5SensorDataDelete.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                         mYear = year;
                         mMonth = month + 1;
                         String strMonth = "";
-                        if (mMonth > 0 && mMonth < 10) strMonth = "0" + mMonth;    //补足0
+                        if (mMonth > 0 && mMonth < 10) strMonth = "0" + mMonth;
                         else strMonth = mMonth + "";
                         mDay = dayOfMonth;
                         String strDay = "";
-                        if (mDay > 0 && mDay < 10) strDay = "0" + mDay;    //补足0
+                        if (mDay > 0 && mDay < 10) strDay = "0" + mDay;
                         else strDay = mDay + "";
                         dateString = mYear + "-" + strMonth + "-" + strDay + " 00:00:00";
                         mTextViewStartTime.setText(dateString);
                     }
 
                 }, mYear, mMonth, mDay);
-                //设置最小时限
+                /**  Set the minimum time limit */
                 DatePicker datePicker = dialog.getDatePicker();
                 datePicker.setMaxDate(new Date().getTime());
 
@@ -103,48 +98,44 @@ public class ActivityMineMinor5SensorDataDelete extends AppCompatActivity implem
             }
         });
 
-        //给结束时间选择栏添加绑定
+        /**  Add a binding to the end time selection bar */
         mTextViewEndTime = findViewById(R.id.setting_sensorData_delete_endTime_choose);
         mTextViewEndTime.addTextChangedListener(this);
         mTextViewEndTime.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                //获取当前日期
+            public void onClick(View view) {
+                /** Get the current date */
                 Calendar cal = Calendar.getInstance();
                 mYear = cal.get(Calendar.YEAR);
                 mMonth = cal.get(Calendar.MONTH);
                 mDay = cal.get(Calendar.DAY_OF_MONTH);
 
-
-                //创建日期选择的对话框，并绑定日期选择的Listener（都是Android内部封装的组件和方法）
+                /** Create a dialog box for date selection and bind the Listener for date selection */
                 DatePickerDialog dialog = new DatePickerDialog(ActivityMineMinor5SensorDataDelete.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                         mYear = year;
                         mMonth = month + 1;
                         String strMonth = "";
-                        if (mMonth > 0 && mMonth < 10) strMonth = "0" + mMonth;    //补足0
+                        if (mMonth > 0 && mMonth < 10) strMonth = "0" + mMonth;
                         else strMonth = mMonth + "";
                         mDay = dayOfMonth;
                         String strDay = "";
-                        if (mDay > 0 && mDay < 10) strDay = "0" + mDay;    //补足0
+                        if (mDay > 0 && mDay < 10) strDay = "0" + mDay;
                         else strDay = mDay + "";
                         dateString = mYear + "-" + strMonth + "-" + strDay + " 23:59:59";
                         mTextViewEndTime.setText(dateString);
                     }
 
                 }, mYear, mMonth, mDay);
-                //设置最小时限
+                /**  Set the minimum time limit */
                 DatePicker datePicker = dialog.getDatePicker();
                 datePicker.setMaxDate(new Date().getTime());
-
                 dialog.show();
             }
         });
     }
 
-
-    //创建传感器选择菜单，TODO：全部按钮的添加，其余索引+1
     private void multiChooseDialogCreate() {
 
         mSensorMultiAlertDialog = new AlertDialog.Builder(this).setMultiChoiceItems(mSensors, mBooleans, new DialogInterface.OnMultiChoiceClickListener() {
@@ -166,7 +157,7 @@ public class ActivityMineMinor5SensorDataDelete extends AppCompatActivity implem
     private void setSensorTvText() {
         TextView tempTv = findViewById(R.id.setting_sensorData_delete_sensor_choose);
         String chooseSensor = "";
-        //遍历取得选择的传感器
+        /**  iterate through the selected sensor */
         if (mBooleans[0] == true) tempTv.setText(getString(R.string.all));
         else {
             for (int temp = 0; temp < mBooleans.length; temp++) {
@@ -188,14 +179,12 @@ public class ActivityMineMinor5SensorDataDelete extends AppCompatActivity implem
         }
     }
 
-    //TODO:开启进度条以及子进程
     private void btnConfirm() {
-        //先获取传感器对应的int值
+        /** Get the int value of the sensor first */
         SenseHelper temSenseHelper = new SenseHelper(this);
         if (mBooleans[0] == true)
-            mSensorTypeList = temSenseHelper.getSensorListTypeIntIntegers();    //如果选择的是全部，则直接通过内置方法获取所有传感器的type值
+            mSensorTypeList = temSenseHelper.getSensorListTypeIntIntegers();    /** If all is selected, the type values of all sensors are obtained directly from the built-in method*/
         else {
-            //对选择的传感器文本框获取文本内容并进行分割得到字符串数组，并根据内容
             String[] tempString = ((TextView) findViewById(R.id.setting_sensorData_delete_sensor_choose)).getText().toString().split(" ");
             Log.e(TAG,"now sensorType chosen is : " + LogStrings(tempString));
             mSensorTypeList = temSenseHelper.sensorListNameStrings2TypeInts(tempString);
@@ -204,22 +193,22 @@ public class ActivityMineMinor5SensorDataDelete extends AppCompatActivity implem
         String startTime = mTextViewStartTime.getText().toString();
         String endTime = mTextViewEndTime.getText().toString();
 
-        //对选择的每一个传感器都进行删除操作
+        /**  Delete each sensor selected */
         int delAllNumb = 0;
         for (int i : mSensorTypeList) {
             Log.e(TAG,"now delete the sensor : " + i);
-            // -2是在SenseHelper类中sensorXmlName2Type方法里定义的错误传感器识别码，在这里如果识别错误后应该跳出循环并给予提示
+            /** -2 is the error sensor identifier defined in the SensorXMLName2Type method in the SenseHelper class */
             if(i == -3) {
                 Toast.makeText(ActivityMineMinor5SensorDataDelete.this,getString(R.string.sensorIdentifyError),Toast.LENGTH_SHORT).show();
                 continue;
             }else{
-                delAllNumb = delAllNumb + SQLiteDelete(i + "", startTime, endTime);
+                delAllNumb = delAllNumb + SqliteDelete(i + "", startTime, endTime);
             }
         }
         Toast.makeText(ActivityMineMinor5SensorDataDelete.this, getString(R.string.delSensorDataRemind) + ": " + delAllNumb, Toast.LENGTH_SHORT).show();
     }
 
-    private int SQLiteDelete(String sensorType, String startTime, String endTime) {
+    private int SqliteDelete(String sensorType, String startTime, String endTime) {
         SQLiteDatabase db = new SensorSqliteOpenHelper(this).getReadableDatabase();
         String whereClaus = StringStore.SENSOR_DATATABLE_SENSE_TYPE + "=?" + " AND " + StringStore.SENSOR_DATATABLE_SENSE_TIME
             + " > ? AND " + StringStore.SENSOR_DATATABLE_SENSE_TIME + " < ?";
@@ -229,13 +218,9 @@ public class ActivityMineMinor5SensorDataDelete extends AppCompatActivity implem
         Log.e(TAG, "StartTime is : " + startTime);
         Log.e(TAG, "EndTime is : " + endTime);
         Log.e(TAG, "Delete result : " + lI);
-        //StringStore.SensorDataTable_SenseType + "=?" , new String[]{"2"});
-        //db.execSQL("delete from " + StringStore.SensorDataTable_Name + " where " + StringStore.SensorDataTable_SenseType + " = " + sensorType);
         return lI;
     }
-
-
-    //监控传感器、删除时间段时间文本框，监听时间并改变confirm按钮状态
+    /**  Monitor the sensor, delete the time time text box, monitor the time and change the confirm button status*/
     @Override
     public void beforeTextChanged(CharSequence seq, int start, int count, int after) {
         if (checkThreeTextNull()) mConfirmBtn.setEnabled(false);
@@ -263,7 +248,7 @@ public class ActivityMineMinor5SensorDataDelete extends AppCompatActivity implem
                         || tempSensorTv.getText().toString().equals(getString(R.string.chooseSensors))
                         || mTextViewStartTime.getText().toString().equals(getString(R.string.chooseTime))
                         || mTextViewEndTime.getText().toString().equals(getString(R.string.chooseTime))
-        ) return true; //如果有一个为空则返回真
+        ) return true;
         else return false;
     }
 

@@ -65,11 +65,11 @@ public class ActivityEmailRegister extends AppCompatActivity implements View.OnC
             }
 
             @Override
-            public void afterTextChanged(Editable seq) {
-                //对输入的邮箱地址作正则检查
-                if (seq.toString().matches("^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$")) {
+            public void afterTextChanged(Editable edit) {
+                /** Check the input email address */
+                if (edit.toString().matches("^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$")) {
                     mSendVerifyCodeBtn.setEnabled(true);
-                    mEmailRecipient = seq.toString();
+                    mEmailRecipient = edit.toString();
                 } else {
                     mSendVerifyCodeBtn.setEnabled(false);
                     Toast.makeText(ActivityEmailRegister.this, "请输入正确格式的邮箱地址", Toast.LENGTH_LONG).show();
@@ -130,7 +130,6 @@ public class ActivityEmailRegister extends AppCompatActivity implements View.OnC
     }
 
     private void emailRegisterRequest() {
-        //构建User
         String usernameMail = ((EditText)findViewById(R.id.activity_emaile_registe_email_input_et)).getText().toString();
         User lUser = new User();
         lUser.setUsername(usernameMail);
@@ -139,8 +138,6 @@ public class ActivityEmailRegister extends AppCompatActivity implements View.OnC
         RequestBody lRequestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),requestContent);
 
         Retrofit lRetrofit = new Retrofit.Builder().baseUrl(getString(R.string.base_url)).addConverterFactory(GsonConverterFactory.create()).build();
-        //For Test
-        //Retrofit lRetrofit = new Retrofit.Builder().baseUrl("http://192.168.43.75:8889/").addConverterFactory(GsonConverterFactory.create()).build();
 
         PostRequestEmailRegisterAddressCheck lPostRequestEmailRegisterAddressCheck = lRetrofit.create(
             PostRequestEmailRegisterAddressCheck.class);
@@ -150,24 +147,23 @@ public class ActivityEmailRegister extends AppCompatActivity implements View.OnC
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 switch (response.code()) {
-                    case 400: //bad request，数据类型不正确错误
+                    case 400:
                         showRegisterErrorDialog("数据类型不正确");
                         break;
-                    case 404: //bad request，数据类型不正确错误
+                    case 404:
                         showEmailExistDialog();
                         break;
-                    case 406: //bad request，数据类型不正确错误
+                    case 406:
                         showRegisterErrorDialog("邮箱不正确");
                         break;
                     case 200:
-                        //跳转页面
                         Intent lIntent = new Intent(ActivityEmailRegister.this, ActivityEmailRegisterPasswordSet.class);
                         lIntent.putExtra("email_address", mEmailRecipient);
                         startActivity(lIntent);
                         finish();
                         break;
                     default:
-                        System.out.println("Error registe request code: " + response.code());
+                        System.out.println("Error register request code: " + response.code());
                         showRegisterErrorDialog();
                         break;
                 }

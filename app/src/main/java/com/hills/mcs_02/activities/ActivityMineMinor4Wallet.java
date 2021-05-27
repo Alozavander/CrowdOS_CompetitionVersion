@@ -33,8 +33,6 @@ import com.hills.mcs_02.networkClasses.interfacesPack.PostRequestUserCoin;
 import com.hills.mcs_02.R;
 import com.hills.mcs_02.viewsAdapters.AdapterRecyclerViewMineMinor4Wallet;
 
-
-
 public class ActivityMineMinor4Wallet extends BaseActivity {
 
     private List<BeanRecyclerViewMineMinor4Wallet> userCoinsList = new ArrayList<>();
@@ -66,32 +64,29 @@ public class ActivityMineMinor4Wallet extends BaseActivity {
 
     public void getMyCoinsRequest() {
 
-        String userID = getSharedPreferences("user", Context.MODE_PRIVATE).getString("userID", "");
+        String userId = getSharedPreferences("user", Context.MODE_PRIVATE).getString("userID", "");
 
-        //创建Retrofit对象
+        /** Create a Retrofit object */
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(this.getString(R.string.base_url))
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-        //创建网络接口实例
+        /** Create a network interface instance  */
         PostRequestUserCoin requestUserCoins = retrofit.create(PostRequestUserCoin.class);
-        //包装发送请求
-        Call<ResponseBody> call = requestUserCoins.userCoins(Integer.parseInt(userID));
-
-        //异步网络请求
+        /** Wrap the send request */
+        Call<ResponseBody> call = requestUserCoins.userCoins(Integer.parseInt(userId));
+        /** Asynchronous network requests*/
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if(response.code() == 200){
                     Gson gson = new GsonBuilder().setDateFormat("yyyy.MM.dd").create();
                     try{
-                        //在此附近应该加入内容判定，优化响应逻辑
                         String temp = response.body().string();
                         Log.i(TAG, temp);
                         user = gson.fromJson(temp, User.class);
                         coinsNum.setText(user.getCoin() + "");
                         Log.i("Test","UserInfo:" + user.toString());
-                        //成功获取网络请求内容后，调用内容处理方法
                     }catch (IOException exp) {
                         exp.printStackTrace();
                     }
@@ -105,20 +100,20 @@ public class ActivityMineMinor4Wallet extends BaseActivity {
         });
     }
 
-    //获取积分排名列表
+    /** Get a ranking list of points */
     private void getUserCoinsRankRequest(){
-        //创建Retrofit对象
+        /** Create a Retrofit object */
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(this.getString(R.string.base_url))
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-        //创建网络接口实例
+        /** Create a network interface instance  */
         GetRequestUserCoinsRankList requestUserCoinsRankList = retrofit.create(
             GetRequestUserCoinsRankList.class);
-        //包装发送请求
+        /** Wrap the send request */
         Call<ResponseBody> call = requestUserCoinsRankList.getCall();
 
-        //异步网络请求
+        /** Asynchronous network requests*/
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -130,12 +125,12 @@ public class ActivityMineMinor4Wallet extends BaseActivity {
                         mRequestUserCoinsRankList = gson.fromJson(temp, type);
                         if (mRequestUserCoinsRankList.size() > 0) {
                             for (User user : mRequestUserCoinsRankList) {
-                                BeanRecyclerViewMineMinor4Wallet rank_item = new BeanRecyclerViewMineMinor4Wallet();
-                                rank_item.setUserCoin(user.getCoin());
-                                rank_item.setUserIcon(R.drawable.haimian_usericon);
-                                rank_item.setUserId(user.getUserId());
-                                rank_item.setUsername(user.getUsername());
-                                userCoinsList.add(rank_item);
+                                BeanRecyclerViewMineMinor4Wallet rankItem = new BeanRecyclerViewMineMinor4Wallet();
+                                rankItem.setUserCoin(user.getCoin());
+                                rankItem.setUserIcon(R.drawable.haimian_usericon);
+                                rankItem.setUserId(user.getUserId());
+                                rankItem.setUsername(user.getUsername());
+                                userCoinsList.add(rankItem);
                             }
                         } else {
                             Toast.makeText(mContext, getResources().getString(R.string.FailToGetData) + mRequestUserCoinsRankList.size(), Toast.LENGTH_SHORT).show();

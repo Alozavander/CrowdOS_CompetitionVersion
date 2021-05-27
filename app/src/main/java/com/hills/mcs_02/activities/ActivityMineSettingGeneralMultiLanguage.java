@@ -12,7 +12,6 @@ import com.hills.mcs_02.BaseActivity;
 import com.hills.mcs_02.viewsAdapters.AdapterRadioBtnTvMultiLanguage;
 import com.hills.mcs_02.R;
 
-
 public class ActivityMineSettingGeneralMultiLanguage extends BaseActivity {
     private ListView languageListView;
     @Override
@@ -22,10 +21,10 @@ public class ActivityMineSettingGeneralMultiLanguage extends BaseActivity {
 
         //初始化列表
         initList();
-        initBackBT();
+        initBackBtn();
     }
 
-    private void initBackBT() {
+    private void initBackBtn() {
         ImageView backIv = findViewById(R.id.general_multilan_backarrow);
         backIv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -34,11 +33,9 @@ public class ActivityMineSettingGeneralMultiLanguage extends BaseActivity {
             }
         });
     }
-
-    //语言选择列表 简体中文 - > *
+   /** Language selection list Simplified Chinese*/
     private void initList() {
         List<String> languageList = new ArrayList<>();
-
         languageList.add("简体中文");
         languageList.add("English");
 

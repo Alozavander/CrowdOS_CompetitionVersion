@@ -2,34 +2,20 @@ package com.hills.mcs_02.dataBeans;
 
 public class BeanListViewMineMinor2Accepted {
     private int pic;
-    private String taskID;
+    private String taskId;
     private String taskState;
     private String describe;
     private String taskContent;
-    private String coinsCount;
+    private String coinCount;
     private String taskCount;
     private String taskReward;
-
-    public BeanListViewMineMinor2Accepted() {
-    }
-
-    public BeanListViewMineMinor2Accepted(int pic, String taskId, String taskState, String describe, String taskContent, String coinsCount, String taskCount, String taskReward) {
-        this.pic = pic;
-        this.taskID = taskId;
-        this.taskState = taskState;
-        this.describe = describe;
-        this.taskContent = taskContent;
-        this.coinsCount = coinsCount;
-        this.taskCount = taskCount;
-        this.taskReward = taskReward;
-    }
 
     public int getPic() {
         return pic;
     }
 
     public String getTaskId() {
-        return taskID;
+        return taskId;
     }
 
     public String getTaskState() {
@@ -44,8 +30,8 @@ public class BeanListViewMineMinor2Accepted {
         return taskContent;
     }
 
-    public String getCoinsCount() {
-        return coinsCount;
+    public String getCoinCount() {
+        return coinCount;
     }
 
     public String getTaskCount() {
@@ -60,8 +46,8 @@ public class BeanListViewMineMinor2Accepted {
         this.pic = pic;
     }
 
-    public void setTaskId(String taskID) {
-        this.taskID = taskID;
+    public void setTaskId(String taskId) {
+        this.taskId = taskId;
     }
 
     public void setTaskState(String taskState) {
@@ -72,12 +58,8 @@ public class BeanListViewMineMinor2Accepted {
         this.describe = describe;
     }
 
-    public void setTaskContent(String taskContent) {
-        this.taskContent = taskContent;
-    }
-
-    public void setCoinsCount(String coinsCount) {
-        this.coinsCount = coinsCount;
+    public void setCoinCount(String coinCount) {
+        this.coinCount = coinCount;
     }
 
     public void setTaskCount(String taskCount) {

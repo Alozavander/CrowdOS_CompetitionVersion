@@ -58,64 +58,33 @@ import com.hills.mcs_02.R;
 import com.hills.mcs_02.viewsAdapters.AdapterPagerViewHome;
 import com.hills.mcs_02.viewsAdapters.AdapterRecyclerViewHome;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * to handle interaction events.
- * Use the {@link FragmentHome#newInstance} factory method to
- * create an instance of this fragment.
- */
-//首页Fragment类
 public class FragmentHome extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private static final String FRAGMENT_HOME_FUNC = "Fragment_home_func";
-
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
     private Context mContext;
     private ViewPager mViewPager;
-    private List<ImageView> viewList;                                                //图片轮转用到的List
-    private AdapterPagerViewHome mAdapterPagerViewHomeList;
+    private List<ImageView> viewList;
+    private AdapterPagerViewHome mAdapterPagerViewHomeList;             /** Rotate the List of images */
     private GridView mGridView;
-    //显示“全部、市政民生、校园生活、商业活动、更多”五个入口的View
-    private List<Map<String, Object>> gridItemList;                                //为上述GridView准备的数据链表
-    private SimpleAdapter gridAdapter;                                              //为GridView准备的数据适配器
-    private RecyclerView mRecyclerView;                                              //为首页显示任务列表的RecyclerView
-    private List<BeanListViewHome> mBeanListViewHomes;                           //为上述ListView准备的数据链表
-    private SearchView mSearchView;                                                  //搜索框的绑定
-    private ForTest mForTest;                                                      //暂时的接口设置
+    private List<Map<String, Object>> gridItemList;
+    private SimpleAdapter gridAdapter;
+    private RecyclerView mRecyclerView;
+    private List<BeanListViewHome> mBeanListViewHomes;
+    private SearchView mSearchView;                                           /** Search box binding */
+    private ForTest mForTest;                                                 /** Temporal interface setup */
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private AdapterRecyclerViewHome recyclerAdapter;
     private List<Task> mRequestTaskList;
-    private Set<Integer> mHashSetTaskID;                                             //用于获取感知任务去重
+    private Set<Integer> mHashSetTaskId;
     private String TAG = "fragment_home";
 
     int[] photoPath = {R.drawable.testphoto_1, R.drawable.testphoto_2, R.drawable.testphoto_3, R.drawable.testphoto_4};
 
     public FragmentHome() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment Fragment_home.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static FragmentHome newInstance(String param1, String param2) {
-        FragmentHome fragment = new FragmentHome();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
     }
 
     @Override
@@ -127,18 +96,16 @@ public class FragmentHome extends Fragment {
         }
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         mViewPager = (ViewPager) view.findViewById(R.id.homepage_viewPager_pageRolling);
         mGridView = (GridView) view.findViewById(R.id.homepage_GridView);
         mSearchView = (SearchView) view.findViewById(R.id.Search_home);
         viewList = new ArrayList<>();
         gridItemList = new ArrayList<Map<String, Object>>();
-        mHashSetTaskID = new HashSet<Integer>();
+        mHashSetTaskId = new HashSet<Integer>();
         mRequestTaskList = new ArrayList<Task>();
 
         flash(view);
@@ -149,32 +116,20 @@ public class FragmentHome extends Fragment {
         return view;
     }
 
-    //刷新页面
+    /** Refresh the page*/
     public void flash(View view) {
-        //自定义方法，为初始化首页上的各类组件
         initPageRolling();
         initRecyclerView(view);
     }
 
     public void getRequest(int tag) {
-        //根据tag标记不同判定添加到列表开头（1）还是列表尾部（2）,0为初始刷新使用
-        final int tempTag = tag;
-        //创建Retrofit对象
+        final int TEMP_TAG = tag;
         Retrofit retrofit = new Retrofit.Builder().baseUrl(this.getString(R.string.base_url)).addConverterFactory(GsonConverterFactory.create()).build();
-        //测试用url
-        //Retrofit retrofit = new Retrofit.Builder().baseUrl("http://192.168.43.213:8889/").addConverterFactory(GsonConverterFactory.create()).build();
-
-        //创建网络接口实例
         GetRequestHomeTaskList requestGetTaskList = retrofit.create(GetRequestHomeTaskList.class);
-        //包装发送请求
         Call<ResponseBody> call = requestGetTaskList.getCall();
-
         Log.i("TIMMMMMMMME!","NowTime:" + System.currentTimeMillis());
-        //异步网络请求
-
         Date d =new Date();
-
-        Log.i(TAG,"The getTen request time: " +         d.getTime());
+        Log.i(TAG,"The getTen request time: " + d.getTime());
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -182,19 +137,17 @@ public class FragmentHome extends Fragment {
                     Gson gson = new GsonBuilder().setDateFormat("yyyy.MM.dd").create();
                     Type type = new TypeToken<List<Task>>() {}.getType();
                     try {
-                        //在此附近应该加入内容判定，优化响应逻辑
                         String temp = response.body().string();
                         Log.i(TAG, temp);
                         mRequestTaskList = gson.fromJson(temp, type);
-                        //成功获取网络请求内容后，调用内容处理方法
-                        //Toast.makeText(mContext,temp,Toast.LENGTH_SHORT).show();
+
                         Log.i(TAG, mRequestTaskList.size() + "");
                         List<BeanListViewHome> tempList = new ArrayList<BeanListViewHome>();
                         if (mRequestTaskList.size() > 0) {
                             for (Task task : mRequestTaskList) {
                                 Log.i(TAG,task.toString());
-                                if (!mHashSetTaskID.contains(task.getTaskId())) {
-                                    mHashSetTaskID.add(task.getTaskId());
+                                if (!mHashSetTaskId.contains(task.getTaskId())) {
+                                    mHashSetTaskId.add(task.getTaskId());
                                     tempList.add(new BeanListViewHome(R.drawable.cat_usericon, task.getUsername(), photoPath[new Random().nextInt(3)], "普通任务", task));
                                 }
                             }
@@ -202,12 +155,9 @@ public class FragmentHome extends Fragment {
                             Toast.makeText(mContext, getResources().getString(R.string.FailToGetData) + mRequestTaskList
                                 .size(), Toast.LENGTH_SHORT).show();
                         }
-                        if (tempTag == 0) mBeanListViewHomes.addAll(tempList);
-                        else if(tempTag == 1)recyclerAdapter.addHeaderItem(tempList);
+                        if (TEMP_TAG == 0) mBeanListViewHomes.addAll(tempList);
+                        else if(TEMP_TAG == 1)recyclerAdapter.addHeaderItem(tempList);
                         else recyclerAdapter.addFooterItem(tempList);
-
-
-                        //刷新完成
                         if (mSwipeRefreshLayout.isRefreshing())
                             mSwipeRefreshLayout.setRefreshing(false);
                         Log.i("TIMMMMMMMME!","NowTime:" + System.currentTimeMillis());
@@ -228,17 +178,17 @@ public class FragmentHome extends Fragment {
 
 
     private void initPageRolling() {
-        //Test，当前模拟填充的数据
+
         ImageView imageView1 = new ImageView(mContext);
         imageView1.setImageResource(R.drawable.rollingimgae_1);
         imageView1.setScaleType(ImageView.ScaleType.CENTER_CROP);
         viewList.add(imageView1);
-        //Test
+
         ImageView imageView2 = new ImageView(mContext);
         imageView2.setScaleType(ImageView.ScaleType.CENTER_CROP);
         imageView2.setImageResource(R.drawable.rollingimgae_2);
         viewList.add(imageView2);
-        //Test
+
         ImageView imageView3 = new ImageView(mContext);
         imageView3.setScaleType(ImageView.ScaleType.CENTER_CROP);
         imageView3.setImageResource(R.drawable.rollingimgae_3);
@@ -251,13 +201,11 @@ public class FragmentHome extends Fragment {
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int i, float v, int i1) {
-
-
+                
             }
 
             @Override
             public void onPageSelected(int i) {
-
 
             }
 
@@ -284,7 +232,7 @@ public class FragmentHome extends Fragment {
 
         gridAdapter = new SimpleAdapter(getActivity(), gridItemList, R.layout.gridview_item_home, from, to);
         mGridView.setAdapter(gridAdapter);
-        //gridItem点击相应事件待写
+        /**  gridItem clicks on the corresponding event to write */
         mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -295,14 +243,14 @@ public class FragmentHome extends Fragment {
                         startActivity(intentSecurity);
                         break;
                     case 1:
-                        Intent intentEnviroment = new Intent(getActivity(), ActivityGridPage.class);
-                        intentEnviroment.putExtra("pageName","Environment");
-                        startActivity(intentEnviroment);
+                        Intent intentEnvironment = new Intent(getActivity(), ActivityGridPage.class);
+                        intentEnvironment.putExtra("pageName","Environment");
+                        startActivity(intentEnvironment);
                         break;
                     case 2:
-                        Intent intentDailylife = new Intent(getActivity(), ActivityGridPage.class);
-                        intentDailylife.putExtra("pageName","Daily Life");
-                        startActivity(intentDailylife);
+                        Intent intentDailyLife = new Intent(getActivity(), ActivityGridPage.class);
+                        intentDailyLife.putExtra("pageName","Daily Life");
+                        startActivity(intentDailyLife);
                         break;
                     case 3:
                         Intent intentBusiness = new Intent(getActivity(), ActivityGridPage.class);
@@ -323,30 +271,23 @@ public class FragmentHome extends Fragment {
     @SuppressLint("WrongConstant")
     private void initRecyclerView(View view) {
 
-        //第一次初始化任务
+        /** Initialize the task for the first time */
         if (mBeanListViewHomes == null) {
             mBeanListViewHomes = new ArrayList<BeanListViewHome>();
-
-            /*/测试使用
-            for(int i = 0; i < 10; i++){
-                Bean_ListView_home bean_1 = new Bean_ListView_home(R.drawable.cat_usericon, R.drawable.takephoto, R.drawable.star_1, R.drawable.testphoto_1, "猫某", "1小时前", "裂缝识别", "任务描述：该任务是为拍照裂缝……", new Random().nextInt(100) + "元", new Random().nextInt(10) + " 个", "截止时间：2018.12.25");
-                mBean_ListView_homes.add(bean_1);
-            }*/
         }
-
-        //初始化SwipeRefreshLayout
+       /** Initialize SwipeRefreshLayout */
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.homepage_swiperefreshLayout);
         mSwipeRefreshLayout.setColorSchemeColors(Color.RED, Color.BLUE, Color.GREEN);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.homepage_RecyclerView);
-        //进入页面初始化任务列表
+        /**  Go to the page to initialize the task list */
         firstListRefresh();
         recyclerAdapter = new AdapterRecyclerViewHome(mContext, mBeanListViewHomes);
-        //recyclerView没有跟listView一样封装OnItemClickListener，所以只能手动实现，这里是将监听器绑定在了适配器上
+        /** Listeners are bound to adapters */
         recyclerAdapter.setRecyclerItemClickListener(new MCSRecyclerItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 int loginUserId = Integer.parseInt(mContext.getSharedPreferences("user", MODE_PRIVATE).getString("userID", "-1"));
-                //检查是否登录
+                /** Check if you are logged in */
                 if (loginUserId == -1) {
                     Toast.makeText(mContext, getResources().getString(R.string.login_first), Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(mContext, ActivityLogin.class);
@@ -367,7 +308,7 @@ public class FragmentHome extends Fragment {
 
     }
 
-    //第一次刷新列表
+     /** Refresh the list for the first time */
     private void firstListRefresh() {
         mSwipeRefreshLayout.setRefreshing(true);
         new Handler().postDelayed(new Runnable() {
@@ -380,10 +321,10 @@ public class FragmentHome extends Fragment {
         );
     }
 
-    //初始化刷新监听，包含再请求网络数据传输
+    /** Initialize refresh listening, including rerequest for network data transfer */
     private void initRefreshListener() {
-        initPullRefresh();  //上拉刷新
-        initLoadMoreListener();  //下拉加载更多
+        initPullRefresh();
+        initLoadMoreListener();
     }
 
     private void initPullRefresh() {
@@ -413,7 +354,6 @@ public class FragmentHome extends Fragment {
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
 
-                //判断RecyclerView的状态 是空闲时，同时，是最后一个可见的ITEM时才加载
                 if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItem + 1 == recyclerAdapter.getItemCount()) {
                     new Handler().postDelayed(new Runnable() {
                         @Override
@@ -425,14 +365,11 @@ public class FragmentHome extends Fragment {
                 }
 
             }
-
-            //更新lastvisibleItem数值
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
 
                 LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
-                //最后一个可见的ITEM
                 lastVisibleItem = layoutManager.findLastVisibleItemPosition();
             }
         });
@@ -443,21 +380,18 @@ public class FragmentHome extends Fragment {
 
     public void getNewTenTaskRequest() {
 
-        //创建Retrofit对象
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(this.getString(R.string.base_url))
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        //创建网络接口实例
         GetNewTenRequestHomeTaskList requestGetTaskList = retrofit.create(
             GetNewTenRequestHomeTaskList.class);
-        //包装发送请求
+
         Call<ResponseBody> call = requestGetTaskList.queryNewTenTask(minTaskId());
 
-
         Log.i(TAG,"The request info time start: " + System.currentTimeMillis());
-        //异步网络请求
+
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -466,19 +400,17 @@ public class FragmentHome extends Fragment {
                     Gson gson = new GsonBuilder().setDateFormat("yyyy.MM.dd").create();
                     Type type = new TypeToken<List<Task>>() {}.getType();
                     try {
-                        //在此附近应该加入内容判定，优化响应逻辑
+
                         String temp = response.body().string();
                         Log.i(TAG, temp);
                         mRequestTaskList = gson.fromJson(temp, type);
-                        //成功获取网络请求内容后，调用内容处理方法
-                        //Toast.makeText(mContext,temp,Toast.LENGTH_SHORT).show();
                         Log.i(TAG, mRequestTaskList.size() + "");
                         List<BeanListViewHome> tempList = new ArrayList<BeanListViewHome>();
                         if (mRequestTaskList.size() > 0) {
                             for (Task task : mRequestTaskList) {
                                 Log.i(TAG,task.toString());
-                                if (!mHashSetTaskID.contains(task.getTaskId())) {
-                                    mHashSetTaskID.add(task.getTaskId());
+                                if (!mHashSetTaskId.contains(task.getTaskId())) {
+                                    mHashSetTaskId.add(task.getTaskId());
                                     tempList.add(new BeanListViewHome(R.drawable.cat_usericon, task.getUsername(), photoPath[new Random().nextInt(3)], getResources().getString(R.string.ordinaryTask), task));
                                 }
                             }
@@ -488,7 +420,6 @@ public class FragmentHome extends Fragment {
                         recyclerAdapter.addFooterItem(tempList);
 
 
-                        //刷新完成
                         if (mSwipeRefreshLayout.isRefreshing())
                             mSwipeRefreshLayout.setRefreshing(false);
                         Toast.makeText(mContext, getResources().getString(R.string.Refresh) + " " + tempList.size() + " " + getResources().getString(R.string.Now)  + " " + mBeanListViewHomes
@@ -510,8 +441,8 @@ public class FragmentHome extends Fragment {
 
     private int minTaskId(){
         int min = Integer.MAX_VALUE;
-        for(int i : mHashSetTaskID){
-            if(i < min) min = i;
+        for(int temp : mHashSetTaskId){
+            if(temp < min) min = temp;
         }
         return min;
     }
@@ -524,14 +455,12 @@ public class FragmentHome extends Fragment {
             }
         });
     }
-
-
-    //为Fragment之间通信设置的回调Activity的方法
+    
+    /** Set the callback Activity method for Fragments */
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         mContext = context;
-        // 保证容器Activity实现了回调接口 否则抛出异常警告
         try {
             mForTest = (ForTest) context;
         } catch (ClassCastException exp) {

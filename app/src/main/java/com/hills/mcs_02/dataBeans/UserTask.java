@@ -1,17 +1,14 @@
 package com.hills.mcs_02.dataBeans;
 
 public class UserTask {
-    private Integer userTaskId;                //用户-任务ID
-    private Integer userId;                      //用户ID
-    private Integer taskId;                      //任务ID
-    private Integer userTaskStatus;             //用户-任务执行状态  0&1
-    private String content;                     //内容
-    private String image;                       //图片信息   （暂时并不需要使用）
-    private Integer type;                        //上传的类型信息；0为纯文字；1为图片；2为音频；3为视频
+    private Integer userTaskId;
+    private Integer userId;                    /** User-task ID */
+    private Integer taskId;
+    private Integer userTaskStatus;             /** User-task execution status */
+    private String content;                    /** Task Completed Content */
+    private String image;                       /** Mission completed picture information */
+    private Integer type;                        /** Upload type information; 0 is plain text; 1 is the picture; 2 is audio; 3 for the video */
 
-    public UserTask() {
-        super();
-    }
 
     public UserTask(Integer userTaskId, Integer userId, Integer taskId,
                      int userTaskStatus, String content, String image, Integer type) {
@@ -36,10 +33,6 @@ public class UserTask {
         return taskId;
     }
 
-    public int getUserTaskStatus() {
-        return userTaskStatus;
-    }
-
     public String getContent() {
         return content;
     }
@@ -58,10 +51,6 @@ public class UserTask {
 
     public void setTaskId(Integer taskId) {
         this.taskId = taskId;
-    }
-
-    public void setUserTaskStatus(Integer userTaskStatus) {
-        this.userTaskStatus = userTaskStatus;
     }
 
     public void setContent(String content) {

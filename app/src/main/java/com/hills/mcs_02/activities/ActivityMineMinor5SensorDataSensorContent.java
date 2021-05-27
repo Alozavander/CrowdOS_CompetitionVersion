@@ -40,7 +40,7 @@ public class ActivityMineMinor5SensorDataSensorContent extends AppCompatActivity
     }
 
     private void initData() {
-        //使用senseHelper获取传感器列表
+        /** Get the list of sensors using SenseHelper */
         mSensorS = new SenseHelper(this).getSensorListTypeIntStrings();
         mList = new ArrayList<>();
         for(String s : mSensorS) {
@@ -66,16 +66,13 @@ public class ActivityMineMinor5SensorDataSensorContent extends AppCompatActivity
         mAdapter.setRecyclerItemClickListener(new MCSRecyclerItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                //添加跳转事件
+                /** Add a jump event*/
                 Intent lIntent = new Intent(ActivityMineMinor5SensorDataSensorContent.this, SqliteDataDisplay.class);
                 lIntent.putExtra("sensorName",mSensorS[position]);
                 startActivity(lIntent);
             }
         });
         mRecyclerView.setAdapter(mAdapter);
-        //mSwipeRefreshLayout = findViewById(R.id.setting_sensorData_sensorContent_swiperefreshLayout);
-        //mSwipeRefreshLayout.setColorSchemeColors(Color.RED,Color.BLUE, Color.GREEN);
-        //绑定列表事件点击
     }
 
     @Override

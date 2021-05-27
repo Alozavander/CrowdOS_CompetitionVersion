@@ -12,7 +12,7 @@ import com.hills.mcs_02.BaseActivity;
 import com.hills.mcs_02.InterfacePublishedTaskDetail;
 import com.hills.mcs_02.R;
 
-//该类作为二级页面启动为Fragment作基石的Activity
+/** This class acts as a secondary page to start the Activity that serves as the cornerstone for the Fragment */
 public class ActivitySecondPage extends BaseActivity implements InterfacePublishedTaskDetail {
 
     private FragmentManager mFragmentManager;
@@ -22,7 +22,7 @@ public class ActivitySecondPage extends BaseActivity implements InterfacePublish
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_2rd_page);
 
-        //初始化当前页面的回退按钮
+        /** Initializes the backout button for the current page */
         ImageView backImage = (ImageView) findViewById(R.id.activity_2rd_backarrow);
         backImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -31,14 +31,11 @@ public class ActivitySecondPage extends BaseActivity implements InterfacePublish
             }
         });
 
-        //从MainActivity传来的Intent
         Intent intent = getIntent();
-        //获取其附带的信息
         String pageTag = intent.getStringExtra("pageTag");
         int position = intent.getIntExtra("position", -1);
         mFragmentManager = getSupportFragmentManager();
 
-        //加载对应页面
         initFragment(pageTag, position);
     }
 
@@ -70,10 +67,8 @@ public class ActivitySecondPage extends BaseActivity implements InterfacePublish
 
     }
 
-
-
     @Override
-    public void jump_to_TaskDetail_Published_Activity(String toJson) {
+    public void jumpToTaskDetailPublishedActivity(String toJson) {
         Intent intent = new Intent(ActivitySecondPage.this, ActivityTaskDetailPublished.class);
         intent.putExtra("taskGson",toJson);
         startActivity(intent);

@@ -32,7 +32,7 @@ import com.hills.mcs_02.func_sportsShare.FuncSportShareAdapter;
 import com.hills.mcs_02.func_sportsShare.UpdateUiCallBack;
 import com.hills.mcs_02.R;
 
-//该类作为二级页面启动为Fragment作基石的Activity
+/** This class acts as a secondary page to start the Activity that serves as the cornerstone for the Fragment. */
 public class ActivityFuncSportShare extends BaseActivity {
     private static final String TAG = "func_sportShare";
 
@@ -46,7 +46,7 @@ public class ActivityFuncSportShare extends BaseActivity {
     private Handler handler;
     private Boolean isBind;
     private StepService stepService;
-    //和绷定服务数据交换的桥梁，可以通过IBinder service获取服务的实例来调用服务的方法或者数据
+    /** The IBinder Service can get instances of the service to call methods or data of the service. */
     private ServiceConnection serviceConnection;
 
 
@@ -62,7 +62,7 @@ public class ActivityFuncSportShare extends BaseActivity {
         //Toast.makeText(this,"计步服务已开启",Toast.LENGTH_SHORT).show();
         Log.i(TAG,"即将初始化运动分享列表");
         //Toast.makeText(this,"即将初始化运动分享列表",Toast.LENGTH_SHORT).show();
-        initInfo_List();
+        initInfoList();
     }
 
     @Override
@@ -98,7 +98,7 @@ public class ActivityFuncSportShare extends BaseActivity {
                 stepService.registerCallback(new UpdateUiCallBack() {
                     @Override
                     public void updateUi(int stepCount) {
-                        //当前接收到stepCount数据，就是最新的步数
+                        /** The stepCount data is currently received, which is the latest step number. */
                         Message message = Message.obtain();
                         message.what = 1;
                         message.arg1 = stepCount;
@@ -119,18 +119,16 @@ public class ActivityFuncSportShare extends BaseActivity {
         Log.i(TAG,"即将绑计步服务");
         isBind =  bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
         Log.i(TAG,"当前服务绑定情况isBind参数为：" + isBind);
-        startService(intent); //绷定并且开启一个服务
+        startService(intent); /** Bind and start a service */
 
     }
 
-    public void initInfo_List(){
+    public void initInfoList(){
         Log.i(TAG,"即将初始化分享列表组件");
-        //Toast.makeText(this,"即将初始化分享列表组件",Toast.LENGTH_SHORT).show();
         infoRv = findViewById(R.id.activity_func_sport_rv);
         swipeRefreshLayout = findViewById(R.id.activity_func_sport_swiperefreshLayout);
         swipeRefreshLayout.setColorSchemeColors(Color.RED,Color.BLUE,Color.GREEN);
         Log.i(TAG,"初始化分享数据List");
-        //Toast.makeText(this,"初始化分享数据List",Toast.LENGTH_SHORT).show();
         initBeanList();
         recyclerAdapter = new FuncSportShareAdapter(beanList,this);
 
@@ -145,12 +143,8 @@ public class ActivityFuncSportShare extends BaseActivity {
 
     private void initBeanList(){
         beanList = new ArrayList<FuncSportShareBaseBean>();
-        //网络获取预留
-        //networkRequestForSportShareInfo();
-        //测试用数据
         if(beanList.size() <= 0){
-            //beanList.add(new func_sportShare_stepCounter());
-            for(int i = 0; i < 10; i++){
+            for(int temp = 0; temp < 10; temp++){
                 beanList.add(new FuncSportShareStepShareListBean(R.drawable.cat_usericon + "",
                     "User" + new Random().nextInt(1200),
                     "2019.1.3.15:55",
@@ -159,17 +153,11 @@ public class ActivityFuncSportShare extends BaseActivity {
         }
     }
 
-    private List<FuncSportShareBaseBean> networkRequestForSportShareInfo(){
-        List<FuncSportShareBaseBean> list = new ArrayList<FuncSportShareBaseBean>();
 
-        /*网络请求更新运动分享数据方法，考虑为更新数组*/
-        return beanList;
-    }
-
-    //初始化刷新监听，包含再请求网络数据传输
+    /** Initialize refresh listener, including request for network data transfer. */
     private void initRefreshListener(){
-        initPullRefresh();  //上拉刷新
-        initLoadMoreListener();  //下拉加载更多
+        initPullRefresh();  /** The pull to refresh. */
+        initLoadMoreListener(); /** Drop down to load more. */
     }
 
     private void initPullRefresh() {
@@ -180,12 +168,12 @@ public class ActivityFuncSportShare extends BaseActivity {
                     @Override
                     public void run() {
                         List<FuncSportShareBaseBean> headData = new ArrayList<FuncSportShareBaseBean>();
-                        for (int i = 0; i <5 ; i++) {
+                        for (int temp = 0; temp <5 ; temp++) {
                             headData.add(new FuncSportShareStepShareListBean(R.drawable.cat_usericon + "","User" + new Random().nextInt(1200),"2019.1.3.15:55",new Random().nextInt(30000) + ""));
                         }
                         recyclerAdapter.addHeaderItem(headData);
 
-                        //刷新完成
+                        /** Refresh to complete. */
                         swipeRefreshLayout.setRefreshing(false);
                         Toast.makeText(ActivityFuncSportShare.this, "更新了 "+headData.size()+" 条目数据,当前列表有" + beanList.size() + "条数据", Toast.LENGTH_SHORT).show();
                     }
@@ -204,13 +192,13 @@ public class ActivityFuncSportShare extends BaseActivity {
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
 
-                //判断RecyclerView的状态 是空闲时，同时，是最后一个可见的ITEM时才加载
+                /** Determine the state of the RecyclerView when it is idle and when it is the last visible item before loading. */
                 if(newState == RecyclerView.SCROLL_STATE_IDLE &&  lastVisibleItem + 1== recyclerAdapter.getItemCount()){
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             List<FuncSportShareBaseBean> footerData = new ArrayList<FuncSportShareBaseBean>();
-                            for (int i = 0; i <5 ; i++) {
+                            for (int temp = 0; temp <5 ; temp++) {
                                 footerData.add(new FuncSportShareStepShareListBean(R.drawable.cat_usericon + "","User" + new Random().nextInt(1200),"2019.1.3.15:55",new Random().nextInt(30000) + ""));
                             }
                             recyclerAdapter.addFooterItem(footerData);
@@ -222,19 +210,19 @@ public class ActivityFuncSportShare extends BaseActivity {
 
             }
 
-            //更新lastvisibleItem数值
+            /** Update the LastVisibleItem value. */
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
 
                 LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
-                //最后一个可见的ITEM
+                /** The last item visible */
                 lastVisibleItem=layoutManager.findLastVisibleItemPosition();
             }
         });
     }
 
-    //给RecyclerView设置间距的类
+    /** Class that sets the spacing of the RecyclerView. */
     class ItemDecoration extends RecyclerView.ItemDecoration{
         private int leftAndRightMargin;
         private int btmMargin;
@@ -246,7 +234,7 @@ public class ActivityFuncSportShare extends BaseActivity {
             outRect.right = leftAndRightMargin;
             outRect.bottom = btmMargin;
 
-            //如果是列表中的第一个，也设置边缘
+            /** If it is the first in the list, it also set the edge. */
             if (parent.getChildAdapterPosition(view) == 0) {
                 outRect.top = btmMargin;
             }

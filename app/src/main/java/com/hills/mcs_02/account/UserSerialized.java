@@ -53,14 +53,6 @@ public class UserSerialized extends User implements Serializable {
         this.coins = coin;
     }
 
-    public void setUserSerialized(User user){
-        this.userName = user.getUsername();
-        this.userId = user.getUserId();
-        this.passWord = user.getPassword();
-        this.realName = user.getRealName();
-        this.coins = user.getCoin();
-    }
-
     @Override
     public String toString() {
         return "User_serialized{" +

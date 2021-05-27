@@ -31,10 +31,6 @@ public class FuncSportShareStepShareListBean extends FuncSportShareBaseBean {
         return stepAmount;
     }
 
-    public void setUserIconPath(String userIconPath) {
-        this.userIconPath = userIconPath;
-    }
-
     public void setUsername(String username) {
         this.username = username;
     }

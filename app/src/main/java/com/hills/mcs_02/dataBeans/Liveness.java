@@ -2,30 +2,20 @@ package com.hills.mcs_02.dataBeans;
 
 import java.util.Date;
 
-/**
- * @Author:DarenSu
- * @Date: 2020/04/28 修改
- * @Time: 14:42
- */
-
 public class Liveness {
-    private Integer livenessId;                //唯一识别码
+    private Integer livenessId;
 
-    private Integer userId;                    //用户ID
-    private Integer taskId;                    //任务ID
-    private Date onlineTime;                  //上线日期
-    private Date deadlineTime;                 //下线日期
+    private Integer userId;
+    private Integer taskId;
+    private Date onlineTime;                 /**  Date of launch */
+    private Date deadlineTime;               /** Date of logging */
 
-    private Integer temp;                       //0-1变量，记录是否上限
+    private Integer temp;                       /** Variable from 0 to 1 */
 
-    private Integer totalWeek;                 //记录一周的上线数目
-    private Integer totalMouth;                //记录一月的上线数目
-    private Integer totalYear;                 //记录一年的上线数目
-    private Integer total;                      //记录上线的总数
-
-    public Liveness() {
-        super();
-    }
+    private Integer totalWeek;
+    private Integer totalMouth;              /** Record the number of online entries per week */
+    private Integer totalYear;               /** Record the number of online entries for a year */
+    private Integer total;                    /** Record the total number of lines */
 
     public Liveness(Integer livenessId, Integer userId, Integer taskId, Date onlineTime, Date deadlineTime, Integer temp, Integer totalWeek, Integer totalMouth, Integer totalYear, Integer total) {
         this.livenessId = livenessId;
@@ -38,10 +28,6 @@ public class Liveness {
         this.totalMouth = totalMouth;
         this.totalYear = totalYear;
         this.total = total;
-    }
-
-    public Integer getLivenessId() {
-        return livenessId;
     }
 
     public void setLivenessId(Integer livenessId) {
@@ -76,10 +62,6 @@ public class Liveness {
         return deadlineTime;
     }
 
-    public void setDeadlineTime(Date deadlineTime) {
-        this.deadlineTime = deadlineTime;
-    }
-
     public Integer getTemp() {
         return temp;
     }
@@ -88,36 +70,12 @@ public class Liveness {
         this.temp = temp;
     }
 
-    public Integer getTotalWeek() {
-        return totalWeek;
-    }
-
-    public void setTotalWeek(Integer totalWeek) {
-        this.totalWeek = totalWeek;
-    }
-
-    public Integer getTotalMouth() {
-        return totalMouth;
-    }
-
-    public void setTotalMouth(Integer totalMouth) {
-        this.totalMouth = totalMouth;
-    }
-
     public Integer getTotalYear() {
         return totalYear;
     }
 
     public void setTotalYear(Integer totalYear) {
         this.totalYear = totalYear;
-    }
-
-    public Integer getTotal() {
-        return total;
-    }
-
-    public void setTotal(Integer total) {
-        this.total = total;
     }
 
     @Override

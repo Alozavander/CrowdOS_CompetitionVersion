@@ -39,9 +39,8 @@ public class FuncFoodShareAdapter extends RecyclerView.Adapter<RecyclerView.View
             holder.foodDescriptionTv.setText(bean.getFoodDescription());
             holder.publishTimeTv.setText(bean.getPublishTime());
             holder.usernameTv.setText(bean.getUsername());
-            //测试使用，实际应使用网络加载路径
-            holder.userIconIm.setImageResource(Integer.parseInt(bean.getUserIconPath()));
-            holder.foodIm.setImageResource(Integer.parseInt(bean.getFoodImagePath()));
+            holder.userIconIv.setImageResource(Integer.parseInt(bean.getUserIconPath()));
+            holder.foodIv.setImageResource(Integer.parseInt(bean.getFoodImagePath()));
         }else {
             Log.i(TAG,"instance 错误");
         }
@@ -65,7 +64,6 @@ public class FuncFoodShareAdapter extends RecyclerView.Adapter<RecyclerView.View
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
         View view;
-        //Toast.makeText(mConetxt,"开始初始化Item布局",Toast.LENGTH_SHORT).show();
         if(viewType == FOOD_SHARE_VIEW){
             view =  LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.recyclerview_item_func_foodshare_foodsharelist,viewGroup,false);
             return new FoodShareListViewHolder(view);
@@ -74,32 +72,29 @@ public class FuncFoodShareAdapter extends RecyclerView.Adapter<RecyclerView.View
         }
     }
 
-
-
     @Override
     public int getItemCount() {
         return beanList.size();
     }
 
     class FoodShareListViewHolder extends RecyclerView.ViewHolder{
-        ImageView userIconIm;
+        ImageView userIconIv;
         TextView usernameTv;
         TextView foodDescriptionTv;
-        ImageView foodIm;
+        ImageView foodIv;
         TextView publishTimeTv;
 
         public FoodShareListViewHolder(@NonNull View itemView) {
             super(itemView);
-            this.userIconIm = itemView.findViewById(R.id.activity_func_foodShare_foodsl_userIcon);
+            this.userIconIv = itemView.findViewById(R.id.activity_func_foodShare_foodsl_userIcon);
             this.usernameTv = itemView.findViewById(R.id.activity_func_foodShare_foodsl_userName);
             this.foodDescriptionTv = itemView.findViewById(R.id.activity_func_foodShare_foodsl_foodDescription);
-            this.foodIm =itemView.findViewById(R.id.activity_func_foodShare_foodsl_food);
+            this.foodIv =itemView.findViewById(R.id.activity_func_foodShare_foodsl_food);
             this.publishTimeTv = itemView.findViewById(R.id.activity_func_foodShare_foodsl_publishTime);
         }
     }
 
     public void addHeaderItem(List<FuncFoodShareFoodShareListBean> items){
-        //for test
         beanList.addAll(0,items);
         notifyItemRangeChanged(0,beanList.size());
     }

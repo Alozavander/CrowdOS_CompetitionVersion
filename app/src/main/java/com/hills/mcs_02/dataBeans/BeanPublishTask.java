@@ -47,10 +47,6 @@ class BeanPublishTask {
         this.postId = postId;
     }
 
-    public void setCoin(String coin) {
-        this.coin = coin;
-    }
-
     public void setText(String text) {
         Text = text;
     }

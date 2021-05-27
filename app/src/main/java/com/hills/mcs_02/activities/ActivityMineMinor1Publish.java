@@ -40,15 +40,13 @@ import com.hills.mcs_02.networkClasses.interfacesPack.PostRequestMineMinor1Publi
 import com.hills.mcs_02.R;
 import com.hills.mcs_02.viewsAdapters.AdapterRecyclerViewRemind;
 
-
-
 public class ActivityMineMinor1Publish extends BaseActivity {
     private String TAG = "Activity_mine_minor1_published";
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private RecyclerView mRecyclerView;
     private AdapterRecyclerViewRemind recyclerAdapter;
-    private List<BeanListViewRemind> mBeanListViewRemind;                           //为上述ListView准备的数据链表
-    private Set<Integer> mHashSetTaskId;                                             //用于获取发布任务去重
+    private List<BeanListViewRemind> mBeanListViewRemind;                           /** A data linked list of task lists. */
+    private Set<Integer> mHashSetTaskId;                                             /** Avoid perceived task duplication */
 
 
     @Override
@@ -57,8 +55,7 @@ public class ActivityMineMinor1Publish extends BaseActivity {
         setContentView(R.layout.activity_mine_minor1_published);
 
         mHashSetTaskId= new HashSet<Integer>();
-
-        //初始化列表
+        /** Initialize the list */
         initList();
         initBackBT();
     }
@@ -82,8 +79,8 @@ public class ActivityMineMinor1Publish extends BaseActivity {
             mBeanListViewRemind = new ArrayList<BeanListViewRemind>();
         }
 
-        //进入页面初始化任务列表
-        first_ListRefresh();
+        /** Go to the page to initialize the task list */
+        firstListRefresh();
         recyclerAdapter = new AdapterRecyclerViewRemind(this, mBeanListViewRemind);
         recyclerAdapter.setRecyclerItemClickListener(new MCSRecyclerItemClickListener() {
             @Override
@@ -103,12 +100,10 @@ public class ActivityMineMinor1Publish extends BaseActivity {
     }
 
     private void initRefreshListener() {
-        initPullRefresh();  //上拉刷新
-        //initLoadMoreListener();  //下拉加载更多
+        initPullRefresh();  /** Pull up to refresh */
     }
-
-    //第一次刷新列表
-    private void first_ListRefresh() {
+    /** Refresh the list for the first time*/
+    private void firstListRefresh() {
         mSwipeRefreshLayout.setRefreshing(true);
         new Handler().postDelayed(new Runnable() {
                                       @Override
@@ -137,55 +132,15 @@ public class ActivityMineMinor1Publish extends BaseActivity {
         });
     }
 
-    private void initLoadMoreListener() {
-        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            int lastVisibleItem;
-
-            @Override
-
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-
-                //判断RecyclerView的状态 是空闲时，同时，是最后一个可见的ITEM时才加载
-                if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItem + 1 == recyclerAdapter.getItemCount()) {
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            postRequest(2);
-                        }
-                    }, 3000);
-
-                }
-
-            }
-
-            //更新lastvisibleItem数值
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-
-                LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
-                //最后一个可见的ITEM
-                lastVisibleItem = layoutManager.findLastVisibleItemPosition();
-            }
-        });
-    }
-
     private void postRequest(int tag) {
-        //根据tag标记不同判定添加到列表开头（1）还是列表尾部（2）,0为初始刷新使用
+        /** Add the tag to the top of the list (1) or the end of the list (2). 0 is used for initial refresh */
         final int tempTag = tag;
-        //创建Retrofit
+        /** Create a Retrofit object */
         Retrofit retrofit = new Retrofit.Builder().baseUrl(getResources().getString(R.string.base_url)).addConverterFactory(GsonConverterFactory.create()).build();
-
-        //创建网络接口
+        /**  Create a network interface instance */
         PostRequestMineMinor1Published postRequest = retrofit.create(PostRequestMineMinor1Published.class);
-
-        String userID = getSharedPreferences("user", Context.MODE_PRIVATE).getString("userID", "");
-
-
-        //创建call
-        Call<ResponseBody> call = postRequest.queryPublished(Integer.parseInt(userID));
-
+        String userId = getSharedPreferences("user", Context.MODE_PRIVATE).getString("userID", "");
+        Call<ResponseBody> call = postRequest.queryPublished(Integer.parseInt(userId));
         call.enqueue(new Callback<ResponseBody>() {
 
 
@@ -196,14 +151,13 @@ public class ActivityMineMinor1Publish extends BaseActivity {
                     Type type = new TypeToken<List<Task>>() {
                     }.getType();
                     try {
-                        String list_string = response.body().string();
-                        Log.i(TAG, list_string);
-                        //将Gson字符串转换成为List
-                        List<Task> task_list = gson.fromJson(list_string, type);
+                        String listString = response.body().string();
+                        Log.i(TAG, listString);
+                        /** Convert the Gson string to a List */
+                        List<Task> taskList = gson.fromJson(listString, type);
                         List<BeanListViewRemind> tempList = new ArrayList<BeanListViewRemind>();
-                        //将List<Task>转化成为需要的List<List<Bean_ListView_remind>>
-                        if (task_list.size() > 0) {
-                            for (Task task : task_list) {
+                        if (taskList.size() > 0) {
+                            for (Task task : taskList) {
                                 if (task!=null && !mHashSetTaskId.contains(task.getTaskId())) {
                                     mHashSetTaskId.add(task.getTaskId());
                                     Log.i(TAG, task.toString());
@@ -217,7 +171,6 @@ public class ActivityMineMinor1Publish extends BaseActivity {
                         else if (tempTag == 1) recyclerAdapter.addHeaderItem(tempList);
                         else recyclerAdapter.addFooterItem(tempList);
 
-                        //刷新完成
                         if (mSwipeRefreshLayout.isRefreshing())
                             mSwipeRefreshLayout.setRefreshing(false);
                         Toast.makeText(ActivityMineMinor1Publish.this, getResources().getString(R.string.Refresh) + tempList.size() + getResources().getString(R.string.Now) + mBeanListViewRemind.size() + getResources().getString(R.string.TaskNum), Toast.LENGTH_SHORT).show();

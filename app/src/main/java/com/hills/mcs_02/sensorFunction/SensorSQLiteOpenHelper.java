@@ -25,19 +25,19 @@ public class SensorSqliteOpenHelper extends SQLiteOpenHelper {
 
 
     public SensorSqliteOpenHelper(Context context) {
-        super(context, StringStore.SensorDatabase_Name, null, 1);
+        super(context, StringStore.SENSOR_DATABASE_NAME, null, 1);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("create table if not exists "
-                + StringStore.SensorDataTable_Name + "("
-                + StringStore.SensorDataTable_id + " integer primary key autoincrement,"
-                + StringStore.SensorDataTable_SenseType + " integer,"
-                + StringStore.SensorDataTable_SenseTime + " text,"
-                + StringStore.SensorDataTable_SenseData_1 + " text,"
-                + StringStore.SensorDataTable_SenseData_2 + " text,"
-                + StringStore.SensorDataTable_SenseData_3 + " text)");
+                + StringStore.SENSOR_DATATABLE_NAME + "("
+                + StringStore.SENSOR_DATATABLE_ID + " integer primary key autoincrement,"
+                + StringStore.SENSOR_DATATABLE_SENSE_TYPE + " integer,"
+                + StringStore.SENSOR_DATATABLE_SENSE_TIME + " text,"
+                + StringStore.SENSOR_DATATABLE_SENSE_DATA_1 + " text,"
+                + StringStore.SENSOR_DATATABLE_SENSE_DATA_2 + " text,"
+                + StringStore.SENSOR_DATATABLE_SENSE_DATA_3 + " text)");
     }
 
     @Override

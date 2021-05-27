@@ -18,10 +18,6 @@ public class BeanListViewMine {
         return title;
     }
 
-    public void setIcon(int icon) {
-        this.icon = icon;
-    }
-
     public void setTitle(String title) {
         this.title = title;
     }

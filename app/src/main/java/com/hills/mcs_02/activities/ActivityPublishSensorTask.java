@@ -47,15 +47,14 @@ import com.hills.mcs_02.StringStore;
 public class ActivityPublishSensorTask extends BaseActivity implements View.OnClickListener, AMapLocationListener {
     private static final String TAG = "publish_sensortask";
     private Task task;
-    //为日期选择设立的全局变量
-    int mYear, mMonth, mDay;
+    int mYear, mMonth, mDay;   /** Set the global variable for the date selection */
     String dateString;
     Spinner taskKindSpinner;
     int taskKind = -1;
     private TextView longitudeTv;
     private TextView latitudeTv;
     private TextView deadlineTv;
-    private boolean isloaction = true; //位置获取是否成功标识
+    private boolean isloaction = true;  /** The location is determined to be successful */
     private AMapLocationClient mapLocationClient;
     private AlertDialog mSensorMultiAlertDialog;
     private boolean[] mBooleans;
@@ -122,7 +121,7 @@ public class ActivityPublishSensorTask extends BaseActivity implements View.OnCl
 
     private String getSensorTvText() {
         String chooseSensor = "";
-        //遍历取得选择的传感器
+       /** iterate through the selected sensor*/
         for (int temp = 0; temp < mBooleans.length; temp++) {
             if (mBooleans[temp] == true) chooseSensor = chooseSensor + mSensors[temp];
             if (temp != mBooleans.length - 1) chooseSensor = chooseSensor + " ";
@@ -131,19 +130,15 @@ public class ActivityPublishSensorTask extends BaseActivity implements View.OnCl
     }
 
     private void locationInit() {
-        //初始化经纬度数据
-        //longitude_tv = findViewById(R.id.publishpage_basictaskpublish_1_longitude_tv_content);
-        //latitude_tv = findViewById(R.id.publishpage_basictaskpublish_1_latitude_tv_content);
-
-        //初始化定位类,这里绑定的定位只是单单此Activity，注意如果调整成全应用内通过，需要编程getApplicationContext
+        /**  Initialize the positioning class*/
         mapLocationClient = new AMapLocationClient(this);
         mapLocationClient.setLocationListener(this);
-        //为mapClient配置参数
+
         AMapLocationClientOption mLocationOption = new AMapLocationClientOption();
         mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
         mLocationOption.setOnceLocationLatest(true);
         mapLocationClient.setLocationOption(mLocationOption);
-        mapLocationClient.startLocation();//开始定位
+        mapLocationClient.startLocation(); /** Start positioning */
     }
 
     @Override
@@ -162,13 +157,13 @@ public class ActivityPublishSensorTask extends BaseActivity implements View.OnCl
     }
 
     private void calenderDialogCreate() {
-        //获取当前日期
+        /** Get the current date */
         Calendar cal = Calendar.getInstance();
         mYear = cal.get(Calendar.YEAR);
         mMonth = cal.get(Calendar.MONTH);
         mDay = cal.get(Calendar.DAY_OF_MONTH);
 
-        //创建日期选择的对话框，并绑定日期选择的Listener（都是Android内部封装的组件和方法）
+        /**  Create a dialog box for date selection and bind the Listener for date selection */
         DatePickerDialog dialog = new DatePickerDialog(ActivityPublishSensorTask.this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
@@ -181,7 +176,7 @@ public class ActivityPublishSensorTask extends BaseActivity implements View.OnCl
             }
 
         }, mYear, mMonth, mDay);
-        //设置最小时限
+        /** Set the minimum time limit */
         DatePicker datePicker = dialog.getDatePicker();
         datePicker.setMinDate(new Date().getTime());
 
@@ -190,14 +185,14 @@ public class ActivityPublishSensorTask extends BaseActivity implements View.OnCl
 
     @SuppressLint("LongLogTag")
     private void postNetworkRequest() {
-        final Context context = this;
-        //收集当前页输入的信息
+        final Context CONTEXT = this;
+       /** Collect information entered on the current page*/
         String coinsStr = ((EditText) findViewById(R.id.publishpage_sensortaskpublish_2_Coins_ev)).getText().toString();
         String taskName = ((EditText) findViewById(R.id.publishpage_sensortaskpublish_2_taskName_ev)).getText().toString();
         String taskCountStr = ((EditText) findViewById(R.id.publishpage_sensortaskpublish_2_taskMount_ev)).getText().toString();
         String deadline = ((TextView) findViewById(R.id.publishpage_sensortaskpublish_2_deadline_dp)).getText().toString();
         String describe = ((EditText) findViewById(R.id.publishpage_sensortaskpublish_2_describe_ev)).getText().toString();
-        //添加了传感器输入信息
+        /** Added sensor input information */
         String sensorTypesString = getSensorTvText();
 
         if (coinsStr == "" || taskName == "" || taskCountStr == "" || deadline == "" || describe == "" || sensorTypesString == "")
@@ -208,8 +203,8 @@ public class ActivityPublishSensorTask extends BaseActivity implements View.OnCl
 
             int userId = Integer.parseInt(getSharedPreferences("user", MODE_PRIVATE).getString("userID", ""));
             String userName = getSharedPreferences("user", MODE_PRIVATE).getString("userName", "");
-            //String timeNow = (new SimpleDateFormat("yyyy.MM.dd  HH:mm:ss")).format(new Date(System.currentTimeMillis()));
-            //获取感知任务指定的传感器类型并转换成Integer[]类型
+
+            /** Gets the sensor type specified by the sensing task and converts it to an Integer[] type */
             int[] sensorTypes = new SenseHelper(this).sensorListNameStrings2TypeInts(sensorTypesString.split(" "));
             Log.i(TAG,"MARRRRK: sensorTypesLength" + sensorTypes.length);
             String lSensorTypesString = "";
@@ -218,7 +213,6 @@ public class ActivityPublishSensorTask extends BaseActivity implements View.OnCl
                 if(temp != sensorTypes.length -1) lSensorTypesString = lSensorTypesString + StringStore.DIVIDER1;
             }
 
-            //建立任务Bean
             try {
                 task = new Task(null, taskName, new Date(), new SimpleDateFormat("yyyy.MM.dd").parse(deadline), userId, userName, coins, describe, taskMount, 0, taskKind,lSensorTypesString);
             } catch (ParseException exp) {
@@ -228,11 +222,8 @@ public class ActivityPublishSensorTask extends BaseActivity implements View.OnCl
             Gson gson = new GsonBuilder().setDateFormat("yyyy.MM.dd").create();
             String postTask = gson.toJson(task);
 
-
-            //发送POST请求
+            /** Send a POST request */
             Retrofit retrofit = new Retrofit.Builder().baseUrl(this.getResources().getString(R.string.base_url)).addConverterFactory(GsonConverterFactory.create()).build();
-            //测试使用url
-            //Retrofit retrofit = new Retrofit.Builder().baseUrl("http://192.168.43.60:8889/").addConverterFactory(GsonConverterFactory.create()).build();
             RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), postTask);
             PostRequestPublishTask publish = retrofit.create(PostRequestPublishTask.class);
             Call<ResponseBody> call = publish.publishTask(requestBody);
@@ -240,10 +231,10 @@ public class ActivityPublishSensorTask extends BaseActivity implements View.OnCl
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                     if (response.code() == 200) {
-                        Toast.makeText(context, getResources().getString(R.string.publishSuccess), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(CONTEXT, getResources().getString(R.string.publishSuccess), Toast.LENGTH_SHORT).show();
                         finish();
                     } else {
-                        Toast.makeText(context, getResources().getString(R.string.publishFail), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(CONTEXT, getResources().getString(R.string.publishFail), Toast.LENGTH_SHORT).show();
                         Log.i(TAG,"getResources().getString(R.string.publishFail)" + "\n sensorTask publishing response code :" + response.code());
                     }
                 }
@@ -262,15 +253,11 @@ public class ActivityPublishSensorTask extends BaseActivity implements View.OnCl
             isloaction = false;
             System.out.println("Alert！aMapLocation is null");
         } else {
-            //ErrorCode等于0为无错误
             if (pAMapLocation.getErrorCode() == 0) {
                 double longitude = pAMapLocation.getLongitude();
                 double latitude = pAMapLocation.getLatitude();
-                //System.out.println("latitude: " + latitude +" longitude: " + longitude);
-                //做小数位数限制 目前为五位数
+                /**  The decimal limit is currently five digits */
                 DecimalFormat df = new DecimalFormat("#.00000");
-                //longitude_tv.setText(df.format(longitude));
-                //latitude_tv.setText(df.format(latitude));
             } else {
                 isloaction = false;
             }

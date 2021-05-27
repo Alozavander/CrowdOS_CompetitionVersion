@@ -29,16 +29,8 @@ public class BeanListViewMineMinor4Wallet {
         return time;
     }
 
-    public void setUserIcon(int userIcon) {
-        this.userIcon = userIcon;
-    }
-
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public void setMount(String mount) {
-        this.mount = mount;
     }
 
     public void setTime(String time) {

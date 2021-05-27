@@ -43,20 +43,15 @@ import com.hills.mcs_02.networkClasses.interfacesPack.PostRequestGridPageTaskLis
 import com.hills.mcs_02.R;
 import com.hills.mcs_02.viewsAdapters.AdapterRecyclerViewHome;
 
-
-
-
-
-
 public class ActivityGridPage extends BaseActivity {
     private String TAG = "Activity_gridPage";
     private int pageTag = -1;
-    private RecyclerView mRecyclerView;                                              //为首页显示任务列表的RecyclerView
-    private List<BeanListViewHome> mBeanListViewGridPage;                           //为上述ListView准备的数据链表
+    private RecyclerView mRecyclerView;                                             /** The front page displays a list of tasks. */
+    private List<BeanListViewHome> mBeanListViewGridPage;                           /** A data linked list of task lists. */
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private AdapterRecyclerViewHome recyclerAdapter;
     private List<Task> mRequestTaskList;
-    private Set<Integer> mHashSetTaskId;                                             //用于获取感知任务去重
+    private Set<Integer> mHashSetTaskId;                                             /** Avoid perceived task duplication */
     int[] photoPath = {R.drawable.testphoto_1, R.drawable.testphoto_2, R.drawable.testphoto_3, R.drawable.testphoto_4};
     private String pageName;
 
@@ -72,7 +67,7 @@ public class ActivityGridPage extends BaseActivity {
     }
 
     private void pageInit() {
-        //通过intent取出不同的title标志
+        /** The Intent fetches the different Title flags. */
         Intent intent = getIntent();
         pageName = intent.getStringExtra("pageName");
         TextView titleTv = findViewById(R.id.gridpage_title);
@@ -88,30 +83,23 @@ public class ActivityGridPage extends BaseActivity {
 
     @SuppressLint("WrongConstant")
     private void initRecyclerView() {
-        //第一次初始化任务
+        /** The first time the task is initialized. */
         if (mBeanListViewGridPage == null) {
             mBeanListViewGridPage = new ArrayList<BeanListViewHome>();
-
-            /*/测试使用
-            for(int i = 0; i < 10; i++){
-                Bean_ListView_home bean_1 = new Bean_ListView_home(R.drawable.cat_usericon, R.drawable.takephoto, R.drawable.star_1, R.drawable.testphoto_1, "猫某", "1小时前", "裂缝识别", "任务描述：该任务是为拍照裂缝……", new Random().nextInt(100) + "元", new Random().nextInt(10) + " 个", "截止时间：2018.12.25");
-                mBean_ListView_gridPage.add(bean_1);
-            }*/
         }
 
-        //初始化SwipeRefreshLayout
+        /** Initialize SwipeRefreshLayout */
         mSwipeRefreshLayout = findViewById(R.id.gridpage_swiperefreshLayout);
         mSwipeRefreshLayout.setColorSchemeColors(Color.RED, Color.BLUE, Color.GREEN);
         mRecyclerView = findViewById(R.id.gridpage_RecyclerView);
-        //进入页面初始化任务列表
+        /** Go to the page to initialize the task list. */
         firstListRefresh();
         recyclerAdapter = new AdapterRecyclerViewHome(ActivityGridPage.this, mBeanListViewGridPage);
-        //recyclerView没有跟listView一样封装OnItemClickListener，所以只能手动实现，这里是将监听器绑定在了适配器上
         recyclerAdapter.setRecyclerItemClickListener(new MCSRecyclerItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 int loginUserId = Integer.parseInt(ActivityGridPage.this.getSharedPreferences("user", MODE_PRIVATE).getString("userID", "-1"));
-                //检查是否登录
+                /** Check if you are logged in. */
                 if (loginUserId == -1) {
                     Toast.makeText(ActivityGridPage.this, getResources().getString(R.string.login_first), Toast.LENGTH_SHORT);
                     Intent intent = new Intent(ActivityGridPage.this, ActivityLogin.class);
@@ -131,7 +119,7 @@ public class ActivityGridPage extends BaseActivity {
         initRefreshListener();
     }
 
-    //第一次刷新列表
+    /** Refresh the list for the first time. */
     private void firstListRefresh() {
         mSwipeRefreshLayout.setRefreshing(true);
         new Handler().postDelayed(new Runnable() {
@@ -145,10 +133,10 @@ public class ActivityGridPage extends BaseActivity {
     }
 
 
-    //初始化刷新监听，包含再请求网络数据传输
+    /** Initialize refresh listener, including request for network data transfer. */
     private void initRefreshListener() {
-        initPullRefresh();  //上拉刷新
-        initLoadMoreListener();  //下拉加载更多
+        initPullRefresh();  /** The pull to refresh. */
+        initLoadMoreListener();  /** Drop down to load more. */
     }
 
     private void initPullRefresh() {
@@ -178,7 +166,7 @@ public class ActivityGridPage extends BaseActivity {
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
 
-                //判断RecyclerView的状态 是空闲时，同时，是最后一个可见的ITEM时才加载
+                /** Determine the state of the RecyclerView when it is idle and when it is the last visible item before loading. */
                 if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItem + 1 == recyclerAdapter.getItemCount()) {
                     new Handler().postDelayed(new Runnable() {
                         @Override
@@ -191,34 +179,34 @@ public class ActivityGridPage extends BaseActivity {
 
             }
 
-            //更新lastvisibleItem数值
+            /** Update the LastVisibleItem value. */
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
 
                 LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
-                //最后一个可见的ITEM
+                /** The last item visible */
                 lastVisibleItem = layoutManager.findLastVisibleItemPosition();
             }
         });
     }
 
     public void postRequest(int tag) {
-        //根据tag标记不同判定添加到列表开头（1）还是列表尾部（2）,0为初始刷新使用
-        final int tempTag = tag;
-        //创建Retrofit对象
+        /** Add the tag to the top of the list (1) or the end of the list (2). 0 is used for initial refresh */
+        final int TEMP_TAG = tag;
+        /** Create a Retrofit object */
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(this.getString(R.string.base_url))
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        //创建网络接口实例
+        /**  Create a network interface instance */
         PostRequestGridPageTaskList requestGetTaskList = retrofit.create(
             PostRequestGridPageTaskList.class);
-        //包装发送请求
+        /** Wrappers send the request */
         Call<ResponseBody> call = requestGetTaskList.getCall(pageTag);
 
-        //异步网络请求
+       /** Asynchronous network request */
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -226,12 +214,9 @@ public class ActivityGridPage extends BaseActivity {
                     Gson gson = new GsonBuilder().setDateFormat("yyyy.MM.dd").create();
                     Type type = new TypeToken<List<Task>>() {}.getType();
                     try {
-                        //在此附近应该加入内容判定，优化响应逻辑
                         String temp = response.body().string();
                         Log.i(TAG, temp);
                         mRequestTaskList = gson.fromJson(temp, type);
-                        //成功获取网络请求内容后，调用内容处理方法
-                        //Toast.makeText(Activity_gridPage.this,temp,Toast.LENGTH_SHORT).show();
                         Log.i(TAG, mRequestTaskList.size() + "");
                         List<BeanListViewHome> tempList = new ArrayList<BeanListViewHome>();
                         if (mRequestTaskList.size() > 0) {
@@ -245,82 +230,16 @@ public class ActivityGridPage extends BaseActivity {
                         } else {
                             Toast.makeText(ActivityGridPage.this, getResources().getString(R.string.FailToGetData) + mRequestTaskList.size(), Toast.LENGTH_SHORT).show();
                         }
-                        if (tempTag == 0) mBeanListViewGridPage.addAll(tempList);
-                        else if(tempTag == 1)recyclerAdapter.addHeaderItem(tempList);
+                        if (TEMP_TAG == 0) mBeanListViewGridPage.addAll(tempList);
+                        else if(TEMP_TAG == 1)recyclerAdapter.addHeaderItem(tempList);
                         else recyclerAdapter.addFooterItem(tempList);
 
-
-                        //刷新完成
                         if (mSwipeRefreshLayout.isRefreshing())
                             mSwipeRefreshLayout.setRefreshing(false);
                         Toast.makeText(ActivityGridPage.this, getResources().getString(R.string.Refresh) + tempList.size() + getResources().getString(R.string.Now) + mBeanListViewGridPage.size() + getResources().getString(R.string.TaskNum), Toast.LENGTH_SHORT).show();
                     } catch (IOException exp) {
                         exp.printStackTrace();
                     }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable throwable) {
-
-            }
-        });
-    }
-
-
-    private void getNewTenTaskRequest(){
-        //创建Retrofit对象
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(this.getString(R.string.base_url))
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        //创建网络接口实例
-        GetNewTenRequestHomeTaskList requestGetTaskList = retrofit.create(
-            GetNewTenRequestHomeTaskList.class);
-        //包装发送请求
-        Call<ResponseBody> call = requestGetTaskList.queryNewTenTask(minTaskId());
-
-
-        //异步网络请求
-        call.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                if (response.code() == 200) {
-                    Gson gson = new GsonBuilder().setDateFormat("yyyy.MM.dd").create();
-                    Type type = new TypeToken<List<Task>>() {}.getType();
-                    try {
-                        //在此附近应该加入内容判定，优化响应逻辑
-                        String temp = response.body().string();
-                        Log.i(TAG, temp);
-                        mRequestTaskList = gson.fromJson(temp, type);
-                        //成功获取网络请求内容后，调用内容处理方法
-                        //Toast.makeText(Activity_gridPage.this,temp,Toast.LENGTH_SHORT).show();
-                        Log.i(TAG, mRequestTaskList.size() + "");
-                        List<BeanListViewHome> tempList = new ArrayList<BeanListViewHome>();
-                        if (mRequestTaskList.size() > 0) {
-                            for (Task task : mRequestTaskList) {
-                                Log.i(TAG,task.toString());
-                                if (!mHashSetTaskId.contains(task.getTaskId())) {
-                                    mHashSetTaskId.add(task.getTaskId());
-                                    tempList.add(new BeanListViewHome(R.drawable.cat_usericon, task.getUsername(), photoPath[new Random().nextInt(3)], getResources().getString(R.string.ordinaryTask), task));
-                                }
-                            }
-                        } else {
-                            Toast.makeText(ActivityGridPage.this, getResources().getString(R.string.taskNoNew), Toast.LENGTH_SHORT).show();
-                        }
-                        recyclerAdapter.addFooterItem(tempList);
-
-
-                        //刷新完成
-                        if (mSwipeRefreshLayout.isRefreshing())
-                            mSwipeRefreshLayout.setRefreshing(false);
-                        Toast.makeText(ActivityGridPage.this, getResources().getString(R.string.Refresh) + " " + tempList.size() + " " + getResources().getString(R.string.Now)  + " " + mBeanListViewGridPage.size()  + " " + getResources().getString(R.string.TaskNum), Toast.LENGTH_SHORT).show();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }else{
-                    Toast.makeText(ActivityGridPage.this, getResources().getString(R.string.FailToGetData), Toast.LENGTH_SHORT).show();
                 }
             }
 

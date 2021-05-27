@@ -35,10 +35,6 @@ import com.hills.mcs_02.networkClasses.interfacesPack.PostRequestUserAuth;
 import com.hills.mcs_02.R;
 import com.hills.mcs_02.sensorFunction.SenseDataUploadService;
 
-
-
-
-
 public class ActivityLogin extends BaseActivity implements View.OnClickListener, View.OnFocusChangeListener,TextWatcher{
     private EditText loginUsernameEt;
     private EditText loginPwdEt;
@@ -57,16 +53,11 @@ public class ActivityLogin extends BaseActivity implements View.OnClickListener,
 
         initAll();
 
-       //
-
-        //Toast.makeText(Activity_2rdPage.this,"pageTag: " + pageTag + ", position: " + position , Toast.LENGTH_SHORT).show();
-
-
     }
 
     private void initAll(){
 
-        //初始化当前页面的回退按钮，这里用了两种不同的方法绑定点击事件
+        /** Initializes the back button for the current page. There are two different ways to bind the click event */
         backIv = (ImageView)findViewById(R.id.minepage_login_backarrow);
         backIv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,15 +66,15 @@ public class ActivityLogin extends BaseActivity implements View.OnClickListener,
             }
         });
 
-        //初始化登陆界面的用户名和密码的EditText
+        /** Initialize the editText for the login interface's username and password */
         loginUsernameEt = (EditText)findViewById(R.id.minepage_login_et_username);
         loginPwdEt = (EditText)findViewById(R.id.minepage_login_et_pwd);
 
-        //初始化提交、注册按钮
+        /** Initialize the Submit/Register button */
         submitBtn = (Button)findViewById(R.id.bt_login_submit);
         submitBtn.setOnClickListener(this);
 
-        //初始化QQ、微信登录接口
+        /** Initialize QQ, WeChat login interface */
         ImageView qqIv = findViewById(R.id.login_qq_iv);
         ImageView wechatIv = findViewById(R.id.login_wechat_iv);
         final Context context = this;
@@ -99,27 +90,10 @@ public class ActivityLogin extends BaseActivity implements View.OnClickListener,
                 Toast.makeText(context,getResources().getString(R.string.notYetOpen),Toast.LENGTH_SHORT).show();
             }
         });
-       /* 测试用代码
-       submit_bt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                User user = new User(11,login_username_et.getText() + "",login_pwd_et.getText() + "","null");
-                SharedPreferences user_SP = getSharedPreferences("user", MODE_PRIVATE);
-                SharedPreferences.Editor editor = user_SP.edit();
-                editor.putString("userID", user.getId() + "");
-                editor.putString("userName", user.getUserName());
-                editor.commit();
-                //发送刷新Fragment_mine的广播
-                Intent intent = new Intent();
-                intent.setAction("action_Fragment_mine_userInfo_fresh");
-                sendBroadcast(intent);
-                finish();
-            }
-        });*/
         registerBtn = (Button)findViewById(R.id.bt_login_register);
         registerBtn.setOnClickListener(this);
 
-        //点击事件绑定
+        /** Click on the event binding */
         loginPwdEt.setOnClickListener(this);
         loginUsernameEt.setOnClickListener(this);
     }
@@ -141,7 +115,7 @@ public class ActivityLogin extends BaseActivity implements View.OnClickListener,
                 if(loginPwdEt.getText().toString() == null || loginUsernameEt.getText().toString() == null) Toast.makeText(this,"用户名或密码不能为空",Toast.LENGTH_SHORT).show();
                 else{
                     RegexVerify regexVerify = new RegexVerify();
-                //密码正则验证并登录
+                /** The password is validated and logged in */
                 if(regexVerify.pwdVerify(loginPwdEt.getText().toString())) loginRequest();
                 else {
                     TextView pwdTv = findViewById(R.id.minepage_login_pwd_error_tv);
@@ -151,20 +125,19 @@ public class ActivityLogin extends BaseActivity implements View.OnClickListener,
                 }
                 break;
             case R.id.bt_login_register:
-                //注册
+                /**  register */
                 startActivity(new Intent(ActivityLogin.this, ActivityEmailRegister.class));
                 break;
             case R.id.tv_login_forget_pwd:
-                //找回密码
+                /** retrieve password */
                 startActivity(new Intent(ActivityLogin.this, ActivityPwdFind.class));
                 break;
         }
     }
 
-    //用户名密码焦点改变
     @Override
-    public void onFocusChange(View v, boolean hasFocus) {
-        int id = v.getId();
+    public void onFocusChange(View view, boolean hasFocus) {
+        int id = view.getId();
 
         if (id == R.id.minepage_login_et_username) {
             if (hasFocus) {
@@ -190,27 +163,13 @@ public class ActivityLogin extends BaseActivity implements View.OnClickListener,
 
     }
 
-    //用户名密码输入事件
+    /**  Enter the username and password event */
     @Override
     public void afterTextChanged(Editable edit) {
         String username = loginUsernameEt.getText().toString().trim();
         String pwd = loginPwdEt.getText().toString().trim();
 
-
-        /****
-        //是否显示清除按钮
-        if (username.length() > 0) {
-            mIvLoginUsernameDel.setVisibility(View.VISIBLE);
-        } else {
-            mIvLoginUsernameDel.setVisibility(View.INVISIBLE);
-        }
-        if (pwd.length() > 0) {
-            mIvLoginPwdDel.setVisibility(View.VISIBLE);
-        } else {
-            mIvLoginPwdDel.setVisibility(View.INVISIBLE);
-        }***/
-
-        //登录按钮是否可用
+        /** Whether the login button is available */
         if (!TextUtils.isEmpty(pwd) && !TextUtils.isEmpty(username)) {
             submitBtn.setBackgroundResource(R.drawable.bg_login_submit);
             submitBtn.setTextColor(getResources().getColor(R.color.white,null));
@@ -235,36 +194,15 @@ public class ActivityLogin extends BaseActivity implements View.OnClickListener,
         mToast.show();
     }
 
-
-    //登录
     private void loginRequest() {
-        //Base64转码用户信息，用于验证
         User user = new User(null,loginUsernameEt.getText() + "",loginPwdEt.getText() + "","null",1000);
         Log.i(TAG,user.toString());
-        /**String userInfo = login_username_et.getText() + ":" + login_pwd_et.getText();
-        final String auth_info = "Basic " + Base64.encodeToString(userInfo.getBytes(), Base64.NO_WRAP);
-
-        //创建Retrofit对象
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl((BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        //创建网络接口实例
-        PostRequest_userAuth postRequest_userAuth = retrofit.create(PostRequest_userAuth.class);
-
-        //包装发送请求
-        Call<Bean_UserAccount> call = postRequest_userAuth.getU(auth_info);*/
 
         final Gson gson = new Gson();
         String postContent = gson.toJson(user);
         Log.i(TAG,postContent);
-
-
-        //发送POST请求
+        /**  Send a POST request */
         Retrofit retrofit = new Retrofit.Builder().baseUrl(this.getResources().getString(R.string.base_url)).addConverterFactory(GsonConverterFactory.create()).build();
-        //For test
-        //Retrofit retrofit = new Retrofit.Builder().baseUrl("http://192.168.43.75:8889/").addConverterFactory(GsonConverterFactory.create()).build();
         RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),postContent);
         PostRequestUserAuth login = retrofit.create(PostRequestUserAuth.class);
         Call<ResponseBody> call = login.userLogin(requestBody);
@@ -275,34 +213,31 @@ public class ActivityLogin extends BaseActivity implements View.OnClickListener,
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 User user = null;
                 if(response.code() == 200) {
-                        //Log.i(TAG,"body: " + response.body());
-                        //Log.i(TAG,"string: " + response.body().string() + "");
                     try {
                         response.body();
                         String temp = response.body().string() + "";
                         Log.i(TAG,"UserInfo: " + temp);
-                       // Log.i(TAG,"UserInfo: " + temp);
                         user = new Gson().fromJson(temp ,User.class);
                     } catch (Exception exp) {
                         exp.printStackTrace();
                     }if(user != null) {
                         Log.i(TAG,"UserInfo: " + user);
                         Toast.makeText(ActivityLogin.this, getResources().getString(R.string.LoginSucceed), Toast.LENGTH_SHORT).show();
-                        //写入一些信息方便其他子页面能够使用
+                        /** Write some information so that other child pages can use it */
                         SharedPreferences userSP = getSharedPreferences("user", MODE_PRIVATE);
                         SharedPreferences.Editor editor = userSP.edit();
                         editor.putString("userID", user.getUserId() + "");
                         Log.i(TAG, user.getUserId() + "");
                         editor.putString("userName", user.getUsername());
                         editor.commit();
-                        //开启手机数据的service
+                        /** Start the phone data service */
                         Intent lIntent = new Intent(ActivityLogin .this, SenseDataUploadService.class);
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                             startForegroundService(lIntent);
                         } else {
                             startService(lIntent);
                         }
-                        //发送刷新Fragment_mine的广播
+                        /** Send a broadcast that refreshes Fragment_mine */
                         Intent intent = new Intent();
                         intent.setAction("action_Fragment_mine_userInfo_login");
                         sendBroadcast(intent);
@@ -321,37 +256,6 @@ public class ActivityLogin extends BaseActivity implements View.OnClickListener,
 
             }
         });
-
-
-        /*//异步网络请求
-        call.enqueue(new Callback<Bean_UserAccount>() {
-            @Override
-            public void onResponse(Call<Bean_UserAccount> call, Response<Bean_UserAccount> response) {
-                 userAccount = response.body();
-            }
-
-            @Override
-            public void onFailure(Call<Bean_UserAccount> call, Throwable throwable) {
-
-            }
-        });
-
-        if(userAccount.getState().equals("0")){
-            Toast toast = Toast.makeText(this,"用户名或密码错误",Toast.LENGTH_LONG);
-        }else{
-            //写入一些信息方便其他子页面能够使用
-            SharedPreferences user_SP = getSharedPreferences("user",MODE_PRIVATE);
-            SharedPreferences.Editor editor = user_SP.edit();
-            editor.putString("userID",userAccount.getId());
-            editor.putString("userName", userAccount.getName());
-            editor.commit();
-            //发送刷新Fragment_mine的广播
-            Intent intent = new Intent();
-            intent.setAction("action_Fragment_mine_userInfo_fresh");
-            sendBroadcast(intent);
-            //结束当前Activity
-            finish();
-        }*/
     }
 
 

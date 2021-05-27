@@ -7,11 +7,7 @@ import retrofit2.http.Path;
 import retrofit2.http.Streaming;
 
 public interface DownloadRequest {
-    /**
-     * @param fileUrl
-     * @return
-     */
-    @Streaming //大文件时要加不然会OOM
+    @Streaming
     @POST("/user_task/downImageFromImage/{image}")
     Call<ResponseBody> downloadFile(@Path("image") String fileUrl);
 

@@ -23,7 +23,6 @@ public class ActivityMineMinor6Notification extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mine_minor7_setting);
-        //初始化列表
         initList();
         initBackBT();
     }
@@ -41,15 +40,13 @@ public class ActivityMineMinor6Notification extends BaseActivity {
 
     private void initList() {
         List<String> list = new ArrayList<>();
-
-        //测试所用
         list.add(getResources().getString(R.string.setting_general));
         list.add(getResources().getString(R.string.setting_help_feedback));
         list.add(getResources().getString(R.string.setting_version));
 
         mListView = findViewById(R.id.minepage_minor7_lv);
         mListView.setAdapter(new ArrayAdapter<String>(this,R.layout.listview_item_minepage_minor7,list));
-        //列表监听器暂时不管-添加点击 设置 进入设置选择界面
+        /** The list listener is ignored for now - click Settings to enter the Settings selection screen */
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

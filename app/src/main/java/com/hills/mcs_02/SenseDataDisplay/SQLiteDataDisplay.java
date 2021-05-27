@@ -15,13 +15,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.hills.mcs_02.R;
 import com.hills.mcs_02.StringStore;
 import com.hills.mcs_02.sensorFunction.SenseHelper;
 import com.hills.mcs_02.sensorFunction.SensorSqliteOpenHelper;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class SqliteDataDisplay extends AppCompatActivity implements View.OnClickListener {
     private RecyclerView mRecyclerView;
@@ -79,14 +79,15 @@ public class SqliteDataDisplay extends AppCompatActivity implements View.OnClick
 
     private Cursor getSqliteCursor() {
         SQLiteDatabase db = new SensorSqliteOpenHelper(this).getReadableDatabase();
-        Cursor cur = db.query(StringStore.SensorDataTable_Name,
-                new String[]{StringStore.SensorDataTable_id,
-                        StringStore.SensorDataTable_SenseType,
-                        StringStore.SensorDataTable_SenseTime,
-                        StringStore.SensorDataTable_SenseData_1,
-                        StringStore.SensorDataTable_SenseData_2,
-                        StringStore.SensorDataTable_SenseData_3},
-                StringStore.SensorDataTable_SenseType + "=?", new String[]{mSensorType}, null, null, StringStore.SensorDataTable_SenseTime + " DESC");
+        Cursor cur = db.query(StringStore.SENSOR_DATATABLE_NAME,
+                new String[]{StringStore.SENSOR_DATATABLE_ID,
+                        StringStore.SENSOR_DATATABLE_SENSE_TYPE,
+                        StringStore.SENSOR_DATATABLE_SENSE_TIME,
+                        StringStore.SENSOR_DATATABLE_SENSE_DATA_1,
+                        StringStore.SENSOR_DATATABLE_SENSE_DATA_2,
+                        StringStore.SENSOR_DATATABLE_SENSE_DATA_3},
+                StringStore.SENSOR_DATATABLE_SENSE_TYPE + "=?", new String[]{mSensorType}, null, null, StringStore.SENSOR_DATATABLE_SENSE_TIME
+                + " DESC");
         return cur;
     }
 

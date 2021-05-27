@@ -41,11 +41,11 @@ public class ActivityTaskDetail extends BaseActivity {
 
     private final String TAG = "activity_task_detail";
     private Task task;
-    private TextView userNameTv;
+    private TextView usernameTv;
     private TextView postTimeTv;
     private TextView describeTv;
     private TextView taskContentTv;
-    private TextView coinsCountTv;
+    private TextView coinCountTv;
     private TextView deadlineTv;
     private TextView taskNameTv;
     private TextView taskKindTv;
@@ -62,9 +62,9 @@ public class ActivityTaskDetail extends BaseActivity {
 
         mScroller = new Scroller(this);
         task = new Task();
-        userNameTv = findViewById(R.id.activity_taskDetail_userName);
+        usernameTv = findViewById(R.id.activity_taskDetail_userName);
         taskContentTv = findViewById(R.id.activity_taskDetail_content);
-        coinsCountTv = findViewById(R.id.activity_taskDetail_coin);
+        coinCountTv = findViewById(R.id.activity_taskDetail_coin);
         deadlineTv = findViewById(R.id.activity_taskDetail_deadline);
         postTimeTv = findViewById(R.id.activity_taskDetail_postTime);
         taskNameTv = findViewById(R.id.activity_taskDetail_taskName);
@@ -78,14 +78,6 @@ public class ActivityTaskDetail extends BaseActivity {
         initData();
         initBackBtn();
         checkUserTask();
-        /*
-        accept_bt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Activity_Task_Detail.this, Activity_Task_Submit.class);
-                startActivity(intent);
-            }
-        });*/
 
 
     }
@@ -105,9 +97,9 @@ public class ActivityTaskDetail extends BaseActivity {
         String taskGson = getIntent().getStringExtra("taskGson");
         Gson gson = new Gson();
         task = gson.fromJson(taskGson, Task.class);
-        userNameTv.setText(task.getUsername());
+        usernameTv.setText(task.getUsername());
         taskContentTv.setText(task.getDescribeTask());
-        coinsCountTv.setText(task.getCoin().toString());
+        coinCountTv.setText(task.getCoin().toString());
         deadlineTv.setText(new SimpleDateFormat("yyyy.MM.dd").format(task.getDeadline()));
         postTimeTv.setText(new SimpleDateFormat("yyyy.MM.dd").format(task.getPostTime()));
         taskNameTv.setText(task.getTaskName());
@@ -130,7 +122,7 @@ public class ActivityTaskDetail extends BaseActivity {
 
     private void checkUserTask() {
         int loginUserId = Integer.parseInt(getSharedPreferences("user", MODE_PRIVATE).getString("userID", "-1"));
-        //检查是否登录
+        /**  Check if you are logged in */
         if (loginUserId == -1) {
             Toast.makeText(this, getResources().getString(R.string.login_first), Toast.LENGTH_SHORT);
             Intent intent = new Intent(ActivityTaskDetail.this, ActivityLogin.class);
@@ -145,30 +137,29 @@ public class ActivityTaskDetail extends BaseActivity {
 
 
     public void queryRequest(final String content) {
-        //创建Retrofit对象
+        /** Create a Retrofit object */
         Retrofit retrofit = new Retrofit.Builder().baseUrl(getResources().getString(R.string.base_url)).addConverterFactory(GsonConverterFactory.create()).build();
-        //Retrofit retrofit = new Retrofit.Builder().baseUrl("http://192.168.43.60:8889/").addConverterFactory(GsonConverterFactory.create()).build();
 
-        //创建网络接口实例
+        /** Create a network interface instance */
         QueryRequestTaskDetail request = retrofit.create(QueryRequestTaskDetail.class);
 
-        //创建RequestBody
+        /**  create the RequestBody */
         RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), content);
 
-        //包装发送请求
+       /** Wrap the send request */
         Call<ResponseBody> call = request.checkUserTask(requestBody);
 
-        final Context context = this;
+        final Context CONTEXT = this;
 
         Log.i(TAG,"NowTime S:" + System.currentTimeMillis());
-        //异步网络请求
+
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 Log.i(TAG,"NowTime E:" + System.currentTimeMillis());
-                //在此处做未接受任务、已接受任务的两种情况处理，并加入用户登录跳转页
+                /** Do the unaccepted task and accepted task here, and add the user login jump page */
                 if (response.code() == 200) {
-                    //根据返回内容初始化按钮
+                   /** Initialize the button based on what is returned */
                     String status = null;
                     try {
                         status = response.body().string() + "";
@@ -178,7 +169,7 @@ public class ActivityTaskDetail extends BaseActivity {
 
                     Log.i(TAG, "Status: " + status);
 
-                    //这里根据返回的字符判定
+                   /**  This is based on the character returned */
                     switch (status) {
                         case "-1":
                             acceptBtn.setVisibility(View.VISIBLE);
@@ -186,7 +177,7 @@ public class ActivityTaskDetail extends BaseActivity {
                             acceptBtn.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
-                                    //判定是否含有要求的传感器，检测即中止
+                                    /** The test is aborted when the required sensor is determined */
                                     String sensorTypesString = task.getSensorTypes();
                                     boolean canAccept = true;
                                     if(sensorTypesString != null){
@@ -207,11 +198,11 @@ public class ActivityTaskDetail extends BaseActivity {
                                             }
                                         }
                                     }
-                                    //canAccept测试后删除
+
                                     if(canAccept) {
                                         addUserTaskRequest(content);
                                         mToSensorServiceIntent = new Intent(ActivityTaskDetail.this, SensorService.class);
-                                        //需要的字符串的转换
+
                                         String taskSensor = task.getSensorTypes();
                                         mToSensorServiceIntent.putExtra("task_sensor_need",taskSensor);
                                         startService(mToSensorServiceIntent);
@@ -225,7 +216,6 @@ public class ActivityTaskDetail extends BaseActivity {
                                                  dialog.dismiss();
                                              }
                                          }).setCancelable(false).show();
-                                        //Toast.makeText(Activity_Task_Detail.this,getString(R.string.taskSensorNeedRemind),Toast.LENGTH_SHORT).show();
                                     }
                                 }
                             });
@@ -239,14 +229,14 @@ public class ActivityTaskDetail extends BaseActivity {
                                     @Override
                                     public void onClick(View view) {
                                         Intent intent = new Intent(ActivityTaskDetail.this, ActivityTaskSubmit.class);
-                                        //将Task需求的传感器类型转换成字符传递给Task_Submit
+                                        /** Convert the sensor type of the Task requirement to a character and pass it to Task_Submit */
                                         if(task.getSensorTypes() == null)   intent.putExtra(getResources().getString(R.string.intent_taskSensorTypes_name), StringStore.SP_STRING_ERROR); //添加空提示
                                         else {
                                             String sensorTypes = task.getSensorTypes();
                                             if (sensorTypes != null) {
                                                 intent.putExtra(getResources().getString(R.string.intent_taskSensorTypes_name), sensorTypes);
                                             } else {
-                                                //添加错误提示字符串
+                                               /**  Add an error string */
                                                 intent.putExtra(getResources().getString(R.string.intent_taskSensorTypes_name), StringStore.SP_STRING_ERROR);
                                             }
                                         }
@@ -269,7 +259,7 @@ public class ActivityTaskDetail extends BaseActivity {
                     }
                 }else{
                     Log.e(TAG,"user_task查询状态码失败");
-                    Toast.makeText(context,getResources().getString(R.string.QueryStatusCodeFailed),Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CONTEXT,getResources().getString(R.string.QueryStatusCodeFailed),Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -283,17 +273,15 @@ public class ActivityTaskDetail extends BaseActivity {
 
     public void addUserTaskRequest(final String content) {
         final Context CONTEXT = this;
-        //创建Retrofit对象
+        /** Create a Retrofit object */
         Retrofit retrofit = new Retrofit.Builder().baseUrl(getResources().getString(R.string.base_url)).addConverterFactory(GsonConverterFactory.create()).build();
-        //Retrofit retrofit = new Retrofit.Builder().baseUrl("http://192.168.43.60:8889/").addConverterFactory(GsonConverterFactory.create()).build();
 
-        //实例化网络接口
+        /** Instantiate the network interface */
         PostRequestUserTaskAdd request = retrofit.create(PostRequestUserTaskAdd.class);
 
-        //初始化requestbody
+        /** Initialize the RequestBody */
         RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), content);
 
-        //初始化call
         Call<ResponseBody> call = request.addUserTask(requestBody);
 
         Log.i(TAG,"NowTime S:" + System.currentTimeMillis());
@@ -312,12 +300,9 @@ public class ActivityTaskDetail extends BaseActivity {
                             Intent intent = new Intent(ActivityTaskDetail.this, ActivityTaskSubmit.class);
                             intent.putExtra(getResources().getString(R.string.intent_taskID_name), task.getTaskId());
                             String sensorType = task.getSensorTypes();
-                            //有效化判定
                             if(sensorType != null){
                                 intent.putExtra(getResources().getString(R.string.intent_taskSensorTypes_name),sensorType);
                             }else {
-                                //TODO：无效化代码
-                                //这里直接给予了默认的GPS传感器-1
                                 intent.putExtra(getResources().getString(R.string.intent_taskSensorTypes_name),"-1");
                             }
                             startActivity(intent);

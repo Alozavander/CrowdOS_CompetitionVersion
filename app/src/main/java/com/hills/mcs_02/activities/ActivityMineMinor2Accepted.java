@@ -39,12 +39,10 @@ import com.hills.mcs_02.networkClasses.interfacesPack.PostRequestMineMinor2Accep
 import com.hills.mcs_02.R;
 import com.hills.mcs_02.viewsAdapters.AdapterRecyclerViewRemind;
 
-
-
 public class ActivityMineMinor2Accepted extends BaseActivity {
 
     private String TAG="Activity_mine_minor2_accepted";
-    private SwipeRefreshLayout mSwipRefreshLayout;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
     private RecyclerView mRecyclerView;
     private AdapterRecyclerViewRemind recyclerAdapter;
     private List<BeanListViewRemind> mBeanListViewRemind;
@@ -58,22 +56,21 @@ public class ActivityMineMinor2Accepted extends BaseActivity {
 
         mHashSetTaskId = new HashSet<Integer>();
 
-        //初始化列表
+        /**  Initialize the list */
         initList();
 
     }
 
     private void initList(){
         mRecyclerView = findViewById(R.id.minepage_minor2_RecyclerView);
-        mSwipRefreshLayout = findViewById(R.id.minepage_minor2_swiperefreshLayout);
-        mSwipRefreshLayout.setColorSchemeColors(Color.RED,Color.BLUE,Color.GREEN);
+        mSwipeRefreshLayout = findViewById(R.id.minepage_minor2_swiperefreshLayout);
+        mSwipeRefreshLayout.setColorSchemeColors(Color.RED,Color.BLUE,Color.GREEN);
 
         if(mBeanListViewRemind == null){
             mBeanListViewRemind = new ArrayList<BeanListViewRemind>();
         }
-
-        //进入页面初始化任务列表
-        first_ListRefresh();
+        /** Go to the page to initialize the task list*/
+        firstListRefresh();
         recyclerAdapter = new AdapterRecyclerViewRemind(this,mBeanListViewRemind);
         recyclerAdapter.setRecyclerItemClickListener(new MCSRecyclerItemClickListener() {
             @Override
@@ -93,13 +90,13 @@ public class ActivityMineMinor2Accepted extends BaseActivity {
     }
 
     private void initRefreshListener() {
-        initPullRefresh();  //上拉刷新
-        initLoadMoreListener();  //下拉加载更多
+        initPullRefresh(); /** Pull up to refresh */
+        initLoadMoreListener();  /** Drop down to load more */
     }
 
-    //第一次刷新列表
-    private void first_ListRefresh(){
-        mSwipRefreshLayout.setRefreshing(true);
+    /**  Refresh the list for the first time */
+    private void firstListRefresh(){
+        mSwipeRefreshLayout.setRefreshing(true);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -110,7 +107,7 @@ public class ActivityMineMinor2Accepted extends BaseActivity {
     }
 
     private void initPullRefresh() {
-        mSwipRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 new Handler().postDelayed(new Runnable() {
@@ -131,7 +128,7 @@ public class ActivityMineMinor2Accepted extends BaseActivity {
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
 
-                //判断RecyclerView的状态 是空闲时，同时，是最后一个可见的ITEM时才加载
+                /** RecyclerView is not loaded until the last ITEM is visible */
                 if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItem + 1 == recyclerAdapter.getItemCount()) {
                     new Handler().postDelayed(new Runnable() {
                         @Override
@@ -141,32 +138,29 @@ public class ActivityMineMinor2Accepted extends BaseActivity {
                     }, 3000);
                 }
             }
-
-            //更新lastvisibleItem数值
+            /** Update LastVisibleItem value*/
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
 
                 LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
-                //最后一个可见的ITEM
                 lastVisibleItem = layoutManager.findLastVisibleItemPosition();
             }
         });
     }
 
     private void postRequest(int tag){
-        //根据tag标记不同判定添加到列表开头（1）还是列表尾部（2）,0为初始刷新使用
+        /** Add the tag to the top of the list (1) or the end of the list (2). 0 is used for initial refresh */
         final int tempTag = tag;
-        //创建Retrofit
+        /** Create a Retrofit object */
         Retrofit retrofit = new Retrofit.Builder().baseUrl(getResources().getString(R.string.base_url))
                 .addConverterFactory(GsonConverterFactory.create()).build();
 
-        //创建网络接口
+        /**  Create a network interface instance */
         PostRequestMineMinor2Accepted postRequest = retrofit.create(PostRequestMineMinor2Accepted.class);
-        String userID = getSharedPreferences("user", Context.MODE_PRIVATE).getString("userID","");
+        String userId = getSharedPreferences("user", Context.MODE_PRIVATE).getString("userID","");
 
-        //创建call
-        Call<ResponseBody> call = postRequest.queryAccepted(Integer.parseInt(userID));
+        Call<ResponseBody> call = postRequest.queryAccepted(Integer.parseInt(userId));
 
         call.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -176,15 +170,14 @@ public class ActivityMineMinor2Accepted extends BaseActivity {
                     Type type = new TypeToken<List<Task>>(){
                     }.getType();
                     try{
-                        String list_string = response.body().string();
-                        Log.i(TAG,list_string);
-                        //将Gson字符串转化成为List
-                        List<Task> task_list = gson.fromJson(list_string,type);
+                        String listString = response.body().string();
+                        Log.i(TAG,listString);
+                        /** Convert the Gson string to a List */
+                        List<Task> taskList = gson.fromJson(listString,type);
                         List<BeanListViewRemind> tempList = new ArrayList<BeanListViewRemind>();
-                        //将List<Task>转化成为需要的List<List<Bean_ListView_remind>>
-                        if(task_list.size() > 0){
-                            System.out.println("收到的任务内容: " + task_list.toString());
-                            for (Task task : task_list) {
+                        if(taskList.size() > 0){
+                            System.out.println("收到的任务内容: " + taskList.toString());
+                            for (Task task : taskList) {
                                 if (task!=null && !mHashSetTaskId.contains(task.getTaskId())) {
                                     mHashSetTaskId.add(task.getTaskId());
                                     Log.i(TAG, task.toString());
@@ -198,12 +191,11 @@ public class ActivityMineMinor2Accepted extends BaseActivity {
                         else if (tempTag == 1) recyclerAdapter.addHeaderItem(tempList);
                         else recyclerAdapter.addFooterItem(tempList);
 
-                        //刷新完成
-                        if (mSwipRefreshLayout.isRefreshing())
-                            mSwipRefreshLayout.setRefreshing(false);
+                        if (mSwipeRefreshLayout.isRefreshing())
+                            mSwipeRefreshLayout.setRefreshing(false);
                         Toast.makeText(ActivityMineMinor2Accepted.this, getResources().getString(R.string.Refresh) + tempList.size() + getResources().getString(R.string.Now) + mBeanListViewRemind.size() + getResources().getString(R.string.TaskNum), Toast.LENGTH_SHORT).show();
-                    } catch (IOException e){
-                        e.printStackTrace();
+                    } catch (IOException exp){
+                        exp.printStackTrace();
                     }
                 }
             }

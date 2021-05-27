@@ -1,56 +1,49 @@
 package com.hills.mcs_02.func_sportsShare;
 
-/**
- * Created by dylan on 16/9/27.
- */
-
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
-/*
-* 算法的主要部分,检测是否是步点
-* */
 
 public class StepSensorDetector implements SensorEventListener {
 
-    //存放三轴数据
+    /** store three axes of data */
     float[] oriValues = new float[3];
     final int VALUE_NUM = 4;
-    //用于存放计算阈值的波峰波谷差值
+    /** The peak-trough difference used to store the calculation threshold */
     float[] tempValue = new float[VALUE_NUM];
     int tempCount = 0;
-    //是否上升的标志位
+    /** Whether to raise the flag bit */
     boolean isDirectionUp = false;
-    //持续上升次数
+    /** Continue to increase the number of times */
     int continueUpCount = 0;
-    //上一点的持续上升的次数，为了记录波峰的上升次数
+    /** The number of times the wave crest has risen */
     int continueUpFormerCount = 0;
-    //上一点的状态，上升还是下降
+    /** The state of the previous point, up or down */
     boolean lastStatus = false;
-    //波峰值
+    /** peak value */
     float peakOfWave = 0;
-    //波谷值
+    /**  trough value */
     float valleyOfWave = 0;
-    //此次波峰的时间
+    /** The time of the peak of the wave */
     long timeOfThisPeak = 0;
-    //上次波峰的时间
+    /**  The time of the last wave peak */
     long timeOfLastPeak = 0;
-    //当前的时间
+    /** The current time */
     long timeOfNow = 0;
-    //当前传感器的值
+    /**The current time*/
     float gravityNew = 0;
-    //上次传感器的值
+    /** The value of the last sensor */
     float gravityOld = 0;
-    //动态阈值需要动态的数据，这个值用于这些动态数据的阈值
+    /** Dynamic thresholds require dynamic data. This value is used for the threshold value of these dynamic data */
     final float INITIAL_VALUE = (float) 1.3;
-    //初始阈值
+    /** Initial threshold value */
     float threadValue = (float) 2.0;
-    //波峰波谷时间差
+    /**  Time difference between peaks and troughs */
     int timeInterval = 250;
     private StepCountListener mStepListeners;
 
     @Override
-    public void onSensorChanged(SensorEvent event) {//当传感器值改变回调此方法
+    public void onSensorChanged(SensorEvent event) {
         for (int temp = 0; temp < 3; temp++) {
             oriValues[temp] = event.values[temp];
         }
@@ -61,19 +54,12 @@ public class StepSensorDetector implements SensorEventListener {
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
-        //
     }
 
     public void initListener(StepCountListener listener) {
         this.mStepListeners = listener;
     }
 
-    /*
-    * 检测步子，并开始计步
-    * 1.传入sersor中的数据
-    * 2.如果检测到了波峰，并且符合时间差以及阈值的条件，则判定为1步
-    * 3.符合时间差条件，波峰波谷差值大于initialValue，则将该差值纳入阈值的计算中
-    * */
     public void detectorNewStep(float values) {
         if (gravityOld == 0) {
             gravityOld = values;
@@ -84,13 +70,6 @@ public class StepSensorDetector implements SensorEventListener {
                 if (timeOfNow - timeOfLastPeak >= timeInterval
                         && (peakOfWave - valleyOfWave >= threadValue)) {
                     timeOfThisPeak = timeOfNow;
-                    /*
-                     * 更新界面的处理，不涉及到算法
-                     * 一般在通知更新界面之前，增加下面处理，为了处理无效运动：
-                     * 1.连续记录10才开始计步
-                     * 2.例如记录的9步用户停住超过3秒，则前面的记录失效，下次从头开始
-                     * 3.连续记录了9步用户还在运动，之前的数据才有效
-                     * */
                     mStepListeners.countStep();
                 }
                 if (timeOfNow - timeOfLastPeak >= timeInterval
@@ -103,17 +82,6 @@ public class StepSensorDetector implements SensorEventListener {
         gravityOld = values;
     }
 
-    /*
-     * 检测波峰
-     * 以下四个条件判断为波峰：
-     * 1.目前点为下降的趋势：isDirectionUp为false
-     * 2.之前的点为上升的趋势：lastStatus为true
-     * 3.到波峰为止，持续上升大于等于2次
-     * 4.波峰值大于20
-     * 记录波谷值
-     * 1.观察波形图，可以发现在出现步子的地方，波谷的下一个就是波峰，有比较明显的特征以及差值
-     * 2.所以要记录每次的波谷值，为了和下次的波峰做对比
-     * */
     public boolean detectorPeak(float newValue, float oldValue) {
         lastStatus = isDirectionUp;
         if (newValue >= oldValue) {
@@ -137,12 +105,6 @@ public class StepSensorDetector implements SensorEventListener {
         }
     }
 
-    /*
-     * 阈值的计算
-     * 1.通过波峰波谷的差值计算阈值
-     * 2.记录4个值，存入tempValue[]数组中
-     * 3.在将数组传入函数averageValue中计算阈值
-     * */
     public float peakValleyThread(float value) {
         float tempThread = threadValue;
         if (tempCount < VALUE_NUM) {
@@ -159,11 +121,6 @@ public class StepSensorDetector implements SensorEventListener {
 
     }
 
-    /*
-     * 梯度化阈值
-     * 1.计算数组的均值
-     * 2.通过均值将阈值梯度化在一个范围里
-     * */
     public float averageValue(float value[], int num) {
         float ave = 0;
         for (int temp = 0; temp < num; temp++) {

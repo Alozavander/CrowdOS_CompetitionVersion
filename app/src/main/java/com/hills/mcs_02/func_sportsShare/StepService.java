@@ -12,47 +12,24 @@ import android.os.IBinder;
 import android.util.Log;
 
 public class StepService extends Service implements SensorEventListener {
-    /**
-     * binder服务与activity交互桥梁
-     */
+
     private LcBinder lcBinder = new LcBinder();
-    /**
-     * 当前步数
-     */
+     /** Number of current steps */
     private int nowStepCount = 0;
-    /**
-     * 传感器管理对象
-     */
+     /** Sensor management objects */
     private SensorManager sensorManager;
-    /**
-     * 加速度传感器中获取的步数
-     */
+    /**  The number of steps acquired in the acceleration sensor */
     private StepCount sStepCount;
-
-    /**
-     * 数据回调接口，通知上层调用者数据刷新
-     */
+    /** The data callback interface notifies the upper caller of the data refresh*/
     private UpdateUiCallBack mCallback;
-
-    /**
-     * 计步传感器类型  Sensor.TYPE_STEP_COUNTER或者Sensor.TYPE_STEP_DETECTOR
-     */
-    private static int STEP_SENSOR_TYPE = -1;
-    /**
-     * 每次第一次启动记步服务时是否从系统中获取了已有的步数记录
-     */
+    /**  Type of pedometer sensor*/
+     private static int STEP_SENSOR_TYPE = -1;
+    /** Whether the existing step count records are obtained from the system when the step counting service is first started*/
     private boolean hasRecord = false;
-    /**
-     * 系统中获取到的已有的步数
-     */
+    /** The number of existing steps retrieved from the system */
     private int hasStepCount = 0;
-    /**
-     * 上一次的步数
-     */
+    /** The number of previous steps */
     private int previousStepCount = 0;
-    /**
-     * 构造函数
-     */
     public StepService() {
     }
 
@@ -69,29 +46,22 @@ public class StepService extends Service implements SensorEventListener {
         }).start();
     }
 
-
-    /**
-     * 选择计步数据采集的传感器
-     * SDK大于等于19，开启计步传感器，小于开启加速度传感器
-     */
     private void startStepDetector() {
         if (sensorManager != null) {
             sensorManager = null;
         }
-        //获取传感器管理类
+        /** Get the sensor management class */
         sensorManager = (SensorManager) this.getSystemService(SENSOR_SERVICE);
-        int versionCodes = Build.VERSION.SDK_INT;//取得SDK版本
+        int versionCodes = Build.VERSION.SDK_INT;
         if (versionCodes >= 19) {
-            //SDK版本大于等于19开启计步传感器
+            /** The SDK version is greater than or equal to 19 pedometer sensors */
             addCountStepListener();
-        } else {        //小于就使用加速度传感器
+        } else {        /** Use the accelerometer if less than */
             addBasePedometerListener();
         }
     }
 
-    /**
-     * 启动计步传感器计步
-     */
+  /** Start the step counting sensor step counting */
     private void addCountStepListener() {
         Sensor countSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
         Sensor detectorSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR);
@@ -109,28 +79,23 @@ public class StepService extends Service implements SensorEventListener {
         }
     }
 
-    /**
-     * 启动加速度传感器计步
-     */
+  /** Start the accelerometer step meter */
     private void addBasePedometerListener() {
         sStepCount = new StepCount();
-        sStepCount.setSteps(nowStepCount);
-        //获取传感器类型 获得加速度传感器
+        sStepCount.setStep(nowStepCount);
+        /** Get the acceleration sensor */
         Sensor sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        //此方法用来注册，只有注册过才会生效，参数：SensorEventListener的实例，Sensor的实例，更新速率
         boolean isAvailable = sensorManager.registerListener(sStepCount.getStepSensorDetector(), sensor, SensorManager.SENSOR_DELAY_UI);
         sStepCount.initListener(new StepValuePassListener() {
             @Override
             public void stepChanged(int steps) {
-                nowStepCount = steps;//通过接口回调获得当前步数
-                updateNotification();    //更新步数通知
+                nowStepCount = steps; /** Get the current step count through the interface callback */
+                updateNotification();    /** Update the step count notification */
             }
         });
     }
 
-    /**
-     * 通知调用者步数更新 数据交互
-     */
+    /** Notifies the caller of the number of steps to update the data interaction */
     private void updateNotification() {
         if (mCallback != null) {
             Log.i("StepService", "数据更新");
@@ -144,33 +109,28 @@ public class StepService extends Service implements SensorEventListener {
         return lcBinder;
     }
 
-    /**
-     * 计步传感器数据变化回调接口
-     */
+    /**  Pedestrian sensor data change callback interface */
     @Override
     public void onSensorChanged(SensorEvent event) {
-        //这种类型的传感器返回步骤的数量由用户自上次重新启动时激活。返回的值是作为浮动(小数部分设置为0),
-        // 只在系统重启复位为0。事件的时间戳将该事件的第一步的时候。这个传感器是在硬件中实现,预计低功率。
+
         if (STEP_SENSOR_TYPE == Sensor.TYPE_STEP_COUNTER) {
-            //获取当前传感器返回的临时步数
+            /** Gets the number of temporary steps returned by the current sensor */
             int tempStep = (int) event.values[0];
-            //首次如果没有获取手机系统中已有的步数则获取一次系统中APP还未开始记步的步数
             if (!hasRecord) {
                 hasRecord = true;
                 hasStepCount = tempStep;
             } else {
-                //获取APP打开到现在的总步数=本次系统回调的总步数-APP打开之前已有的步数
+                /** Gets the total number of steps since the APP was opened */
                 int thisStepCount = tempStep - hasStepCount;
-                //本次有效步数=（APP打开后所记录的总步数-上一次APP打开后所记录的总步数）
+                /** The number of effective steps */
                 int thisStep = thisStepCount - previousStepCount;
-                //总步数=现有的步数+本次有效步数
+                /** the total number */
                 nowStepCount += (thisStep);
-                //记录最后一次APP打开到现在的总步数
+                /** Record the total number of steps since the last time the APP was opened */
                 previousStepCount = thisStepCount;
             }
         }
-        //这种类型的传感器触发一个事件每次采取的步骤是用户。只允许返回值是1.0,为每个步骤生成一个事件。
-        // 像任何其他事件,时间戳表明当事件发生(这一步),这对应于脚撞到地面时,生成一个高加速度的变化。
+
         else if (STEP_SENSOR_TYPE == Sensor.TYPE_STEP_DETECTOR) {
             if (event.values[0] == 1.0) {
                 nowStepCount++;
@@ -180,28 +140,20 @@ public class StepService extends Service implements SensorEventListener {
 
     }
 
-    /**
-     * 计步传感器精度变化回调接口
-     */
+   /** Stepmeter sensor precision change callback interface */
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
     }
 
-    /**
-     * 绑定回调接口
-     */
+    /** Bind the callback interface */
     public class LcBinder extends Binder {
         public StepService getService() {
             return StepService.this;
         }
     }
 
-    /**
-     * 数据传递接口
-     *
-     * @param paramCallback
-     */
+
     public void registerCallback(UpdateUiCallBack paramCallback) {
         this.mCallback = paramCallback;
     }
@@ -209,20 +161,14 @@ public class StepService extends Service implements SensorEventListener {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        //返回START_STICKY ：在运行onStartCommand后service进程被kill后，那将保留在开始状态，但是不保留那些传入的intent。
-        // 不久后service就会再次尝试重新创建，因为保留在开始状态，在创建     service后将保证调用onstartCommand。
-        // 如果没有传递任何开始命令给service，那将获取到null的intent。
         return START_STICKY;
     }
     @Override
     public void onDestroy() {
         super.onDestroy();
-        //取消前台进程
+        /** Cancel the foreground process */
         stopForeground(true);
-        /*if(sStepCount != null){
-            sensorManager.unregisterListener(sStepCount.getStepSensorDetector());
-        }
-        sensorManager.unregisterListener(StepService.this);*/
+
     }
 
     @Override

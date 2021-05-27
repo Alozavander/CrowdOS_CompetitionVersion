@@ -11,13 +11,6 @@ public class BeanRecyclerViewMineMinor4Wallet {
         super();
     }
 
-    public BeanRecyclerViewMineMinor4Wallet(int userId, String username, int userIcon, int userCoin){
-        this.userId = userId;
-        this.username = username;
-        this.userIcon = userIcon;
-        this.userCoin = userCoin;
-    }
-
     public int getUserId(){
         return userId;
     }

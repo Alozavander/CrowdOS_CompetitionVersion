@@ -65,7 +65,7 @@ public class AdapterListViewMinMinor2Accepted extends BaseAdapter {
         viewHolder.taskStateTv.setText(bean.getTaskState());
         viewHolder.describeTv.setText(bean.getDescribe());
         viewHolder.taskContentTv.setText(bean.getTaskContent());
-        viewHolder.coinCountTv.setText(bean.getCoinsCount());
+        viewHolder.coinCountTv.setText(bean.getCoinCount());
         viewHolder.taskCountTv.setText(bean.getTaskCount());
 
         return convertView;

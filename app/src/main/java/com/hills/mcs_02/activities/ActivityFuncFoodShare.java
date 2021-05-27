@@ -25,7 +25,7 @@ import com.hills.mcs_02.func_foodShare.FuncFoodShareAdapter;
 import com.hills.mcs_02.func_foodShare.beans.FuncFoodShareFoodShareListBean;
 import com.hills.mcs_02.R;
 
-//该类作为二级页面启动为Fragment作基石的Activity
+/** This class acts as a secondary page to start the Activity that serves as the cornerstone for the Fragment. */
 public class ActivityFuncFoodShare extends BaseActivity {
     private static final String TAG = "func_foodShare";
 
@@ -33,7 +33,7 @@ public class ActivityFuncFoodShare extends BaseActivity {
     private SwipeRefreshLayout swipeRefreshLayout;
     private FuncFoodShareAdapter recyclerAdapter;
     private List<FuncFoodShareFoodShareListBean> beanList;
-    private ImageView cameraIM;
+    private ImageView cameraIv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +44,6 @@ public class ActivityFuncFoodShare extends BaseActivity {
 
 
         Log.i(TAG, "即将初始化美食分享列表");
-        //Toast.makeText(this,"即将初始化运动分享列表",Toast.LENGTH_SHORT).show();
         initInfoList();
     }
 
@@ -60,45 +59,36 @@ public class ActivityFuncFoodShare extends BaseActivity {
     }
 
     public void bindCamera(){
-        cameraIM = findViewById(R.id.activity_func_foodShare_camera);
-        cameraIM.setOnClickListener(new View.OnClickListener() {
+        cameraIv = findViewById(R.id.activity_func_foodShare_camera);
+        cameraIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Intent intent = new Intent(Activity_func_FoodShare.this,Activity_func_FoodShare_publish.class);
-                //startActivity(intent);
             }
         });
     }
 
     public void initInfoList() {
         Log.i(TAG, "即将初始化分享列表组件");
-        //Toast.makeText(this,"即将初始化分享列表组件",Toast.LENGTH_SHORT).show();
         infoRv = findViewById(R.id.activity_func_food_rv);
         swipeRefreshLayout = findViewById(R.id.activity_func_food_swiperefreshLayout);
         swipeRefreshLayout.setColorSchemeColors(Color.RED, Color.BLUE, Color.GREEN);
         Log.i(TAG, "初始化分享数据List");
-        //Toast.makeText(this,"初始化分享数据List",Toast.LENGTH_SHORT).show();
         initBeanList();
         recyclerAdapter = new FuncFoodShareAdapter(beanList);
 
-        //安装瀑布流布局
+        /** Install waterfall flow layout. */
         infoRv.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         infoRv.setAdapter(recyclerAdapter);
         infoRv.addItemDecoration(new ItemDecoration(this, 5));
-        ;
-
         initRefreshListener();
         Log.i(TAG, "初始化完成");
     }
 
     private void initBeanList() {
         beanList = new ArrayList<FuncFoodShareFoodShareListBean>();
-        //网络获取预留
-        //networkRequestForfoodShareInfo();
-        //测试用数据
         if (beanList.size() <= 0) {
-            for (int i = 0; i < 10; i++) {
-                if(i % 2 == 0){
+            for (int temp = 0; temp < 10; temp++) {
+                if(temp % 2 == 0){
                     beanList.add(new FuncFoodShareFoodShareListBean(R.drawable.dog_usericon + "", "User" + new Random().nextInt(1200), "曲江这家创意菜很不错呢，晚上是酒吧，中午是饭店哦，推荐兵马俑巧克力~", R.drawable.testphoto_2 + "", "2019.1.3.15:55"));
                 }else{
                     beanList.add(new FuncFoodShareFoodShareListBean(R.drawable.dog_usericon + "", "User" + new Random().nextInt(1200), "图片分享", R.drawable.testphoto_4 + "", "2019.3.3.15:55"));
@@ -107,17 +97,11 @@ public class ActivityFuncFoodShare extends BaseActivity {
         }
     }
 
-    private List<FuncFoodShareFoodShareListBean> networkRequestForfoodShareInfo() {
-        List<FuncFoodShareFoodShareListBean> list = new ArrayList<FuncFoodShareFoodShareListBean>();
 
-        /*网络请求更新运动分享数据方法，考虑为更新数组*/
-        return beanList;
-    }
-
-    //初始化刷新监听，包含再请求网络数据传输
+    /** Initialize refresh listener, including request for network data transfer. */
     private void initRefreshListener() {
-        initPullRefresh();  //上拉刷新
-        initLoadMoreListener();  //下拉加载更多
+        initPullRefresh();/** The pull to refresh. */
+        initLoadMoreListener(); /** Drop down to load more. */
     }
 
     private void initPullRefresh() {
@@ -128,8 +112,8 @@ public class ActivityFuncFoodShare extends BaseActivity {
                     @Override
                     public void run() {
                         List<FuncFoodShareFoodShareListBean> headDatas = new ArrayList<FuncFoodShareFoodShareListBean>();
-                        for (int i = 0; i < 5; i++) {
-                            if(i % 2 == 0){
+                        for (int temp = 0; temp < 5; temp++) {
+                            if(temp % 2 == 0){
                                 beanList.add(new FuncFoodShareFoodShareListBean(R.drawable.dog_usericon + "", "User" + new Random().nextInt(1200), "曲江这家创意菜很不错呢，晚上是酒吧，中午是饭店哦，推荐兵马俑巧克力~", R.drawable.testphoto_2 + "", "2019.1.3.15:55"));
                             }else{
                                 beanList.add(new FuncFoodShareFoodShareListBean(R.drawable.dog_usericon + "", "User" + new Random().nextInt(1200), "图片分享", R.drawable.testphoto_4 + "", "2019.3.3.15:55"));
@@ -137,7 +121,7 @@ public class ActivityFuncFoodShare extends BaseActivity {
                         }
                         recyclerAdapter.addHeaderItem(headDatas);
 
-                        //刷新完成
+                       /** Refresh to complete. */
                         swipeRefreshLayout.setRefreshing(false);
                         Toast.makeText(ActivityFuncFoodShare.this, getResources().getString(R.string.Refresh) + headDatas.size() + getResources().getString(R.string.Now) + beanList.size() + getResources().getString(R.string.TaskNum), Toast.LENGTH_SHORT).show();
                     }
@@ -157,14 +141,14 @@ public class ActivityFuncFoodShare extends BaseActivity {
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
 
-                //判断RecyclerView的状态 是空闲时，同时，是最后一个可见的ITEM时才加载
+                /** Determine the state of the RecyclerView when it is idle and when it is the last visible item before loading. */
                 if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItem + 1 == recyclerAdapter.getItemCount()) {
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             List<FuncFoodShareFoodShareListBean> footerDatas = new ArrayList<FuncFoodShareFoodShareListBean>();
-                            for (int i = 0; i < 5; i++) {
-                                if(i % 2 == 0){
+                            for (int temp = 0; temp < 5; temp++) {
+                                if(temp % 2 == 0){
                                     beanList.add(new FuncFoodShareFoodShareListBean(R.drawable.dog_usericon + "", "User" + new Random().nextInt(1200), "曲江这家创意菜很不错呢，晚上是酒吧，中午是饭店哦，推荐兵马俑巧克力~", R.drawable.testphoto_2 + "", "2019.1.3.15:55"));
                                 }else{
                                     beanList.add(new FuncFoodShareFoodShareListBean(R.drawable.dog_usericon + "", "User" + new Random().nextInt(1200), "图片分享", R.drawable.testphoto_4 + "", "2019.3.3.15:55"));
@@ -179,13 +163,13 @@ public class ActivityFuncFoodShare extends BaseActivity {
 
             }
 
-            //更新lastvisibleItem数值
+            /** Update the LastVisibleItem value. */
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
 
                 StaggeredGridLayoutManager layoutManager = (StaggeredGridLayoutManager) recyclerView.getLayoutManager();
-                //最后一个可见的ITEM
+                /** The last item visible */
                 lastVisibleItem = findMax(layoutManager.findLastVisibleItemPositions(new int[layoutManager.getSpanCount()]));
             }
 
@@ -203,12 +187,12 @@ public class ActivityFuncFoodShare extends BaseActivity {
     }
 
 
-    //给RecyclerView设置间距的类
+    /** Class that sets the spacing of the RecyclerView. */
     class ItemDecoration extends RecyclerView.ItemDecoration {
         private Context context;
         private int interval;
 
-        //interval 间隔
+        //interval
         public ItemDecoration(Context context, int interval) {
             this.context = context;
             this.interval = interval;
@@ -216,20 +200,19 @@ public class ActivityFuncFoodShare extends BaseActivity {
 
         @Override
         public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-//        int position = parent.getChildAdapterPosition(view);
             StaggeredGridLayoutManager.LayoutParams params = (StaggeredGridLayoutManager.LayoutParams) view.getLayoutParams();
-            // 获取item在span中的下标
+           /** Gets the index of item in span. */
             int spanIndex = params.getSpanIndex();
             int interval = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
                     this.interval, context.getResources().getDisplayMetrics());
-            // 中间间隔
+            /** interval */
             if (spanIndex % 2 == 0) {
                 outRect.left = 0;
             } else {
-                // item为奇数位，设置其左间隔为5dp
+                /** set Item left interval to 5dp */
                 outRect.left = interval;
             }
-            // 下方间隔
+            /** Below the interval */
             outRect.bottom = interval;
         }
     }

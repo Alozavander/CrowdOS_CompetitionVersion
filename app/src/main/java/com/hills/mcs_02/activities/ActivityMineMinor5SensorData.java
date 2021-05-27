@@ -40,35 +40,33 @@ public class ActivityMineMinor5SensorData extends AppCompatActivity implements V
     }
 
     private void initData() {
-        //menuContent_1:查看感知数据；menuContent_2:删除数据；menuContent_3：开启/关闭感知；menuContent_4：保存文件
-        String[] menuContent1 = new String[2];
-        String[] menuContent2 = new String[2];
-        String[] menuContent3 = new String[2];
-        String[] menuContent4 = new String[2];
+        String[] menuContent1 = new String[2];/** View perceptual data*/
+        String[] menuContent2 = new String[2];/** delete data */
+        String[] menuContent3 = new String[2];/** Turn awareness on/off */
+        String[] menuContent4 = new String[2];/* save file */
         menuContent1[0] = getString(R.string.setting_sensorData_chuanganqishuju);
-        Cursor c = new SensorSqliteOpenHelper(this).getReadableDatabase().query(StringStore.SENSOR_DATATABLE_NAME,
+        Cursor cur = new SensorSqliteOpenHelper(this).getReadableDatabase().query(StringStore.SENSOR_DATATABLE_NAME,
                 new String[]{StringStore.SENSOR_DATATABLE_SENSE_TYPE,
                         StringStore.SENSOR_DATATABLE_SENSE_TIME,
                         StringStore.SENSOR_DATATABLE_SENSE_DATA_1,
                         StringStore.SENSOR_DATATABLE_SENSE_DATA_2,
                         StringStore.SENSOR_DATATABLE_SENSE_DATA_3},
                 null, null, null, null, null);
-        menuContent1[1] = getString(R.string.setting_sensorData_dangqianshujushuliang) + "  " + c.getCount();
-        c.close();
+        menuContent1[1] = getString(R.string.setting_sensorData_dangqianshujushuliang) + "  " + cur.getCount();
+        cur.close();
         menuContent2[0] = getString(R.string.setting_sensorData_qingliganzhishuju);
-        menuContent2[1] = null; //为null时在adapter中会把对应的次级内容组件隐藏
+        menuContent2[1] = null; /** If NULL, the corresponding secondary content component is hidden in the Adapter */
 
         menuContent3[0] = getString(R.string.setting_sensorData_baocunshuju);
-        menuContent3[1] = null; //为null时在adapter中会把对应的次级内容组件隐藏
+        menuContent3[1] = null; /** If NULL, the corresponding secondary content component is hidden in the Adapter */
 
         menuContent4[0] = getString(R.string.setting_sensorData_kaiqiguanbiganzhi);
-        menuContent4[1] = null; //为null时在adapter中会把对应的次级内容组件隐藏
+        menuContent4[1] = null; /** If NULL, the corresponding secondary content component is hidden in the Adapter */
 
         mList = new ArrayList<>();
         mList.add(menuContent1);
         mList.add(menuContent2);
         mList.add(menuContent3);
- /*       mList.add(menuContent_4);*/
     }
 
     private void initViews() {
@@ -79,7 +77,7 @@ public class ActivityMineMinor5SensorData extends AppCompatActivity implements V
         mAdapter.setRecyclerItemClickListener(new MCSRecyclerItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                //添加跳转事件
+                /** Add a jump event */
                 if(position == 0) {
                     startActivity(new Intent(ActivityMineMinor5SensorData.this,ActivityMineMinor5SensorDataSensorContent.class));
                 }
@@ -87,23 +85,22 @@ public class ActivityMineMinor5SensorData extends AppCompatActivity implements V
                     startActivity(new Intent(ActivityMineMinor5SensorData.this,ActivityMineMinor5SensorDataDelete.class));
                 }
                 else if(position == 2){
-                    Cursor c = new SensorSqliteOpenHelper(ActivityMineMinor5SensorData.this).getReadableDatabase().query(StringStore.SENSOR_DATATABLE_NAME,
+                    Cursor cur = new SensorSqliteOpenHelper(ActivityMineMinor5SensorData.this).getReadableDatabase().query(StringStore.SENSOR_DATATABLE_NAME,
                             new String[]{StringStore.SENSOR_DATATABLE_SENSE_TYPE,
                                     StringStore.SENSOR_DATATABLE_SENSE_TIME,
                                     StringStore.SENSOR_DATATABLE_SENSE_DATA_1,
                                     StringStore.SENSOR_DATATABLE_SENSE_DATA_2,
                                     StringStore.SENSOR_DATATABLE_SENSE_DATA_3},
                             null, null, null, null, null);
-                    File saveFile = FileExport.exportToCSV(c,null, null);
+                    File saveFile = FileExport.exportToCSV(cur,null, null);
                     Toast.makeText(ActivityMineMinor5SensorData.this,"Output finishing. The file path is :" + saveFile.getAbsolutePath(),Toast.LENGTH_LONG).show();
-                    c.close();
+                    cur.close();
                 }
             }
         });
         mRecyclerView.setAdapter(mAdapter);
         mSwipeRefreshLayout = findViewById(R.id.setting_sensorData_swiperefreshLayout);
         mSwipeRefreshLayout.setColorSchemeColors(Color.RED,Color.BLUE, Color.GREEN);
-        //绑定列表事件点击
     }
 
     @Override

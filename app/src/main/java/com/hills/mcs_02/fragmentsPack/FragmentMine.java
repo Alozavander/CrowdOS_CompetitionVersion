@@ -32,22 +32,10 @@ import com.hills.mcs_02.R;
 import com.hills.mcs_02.taskSubmit.SelectDialog;
 import com.hills.mcs_02.viewsAdapters.AdapterListViewMine;
 
-
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * to handle interaction events.
- * Use the {@link FragmentMine#newInstance} factory method to
- * create an instance of this fragment.
- */
-//“我的”分页面，还未开始编写
 public class FragmentMine extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
     private ListView mListView;
@@ -62,25 +50,6 @@ public class FragmentMine extends Fragment {
 
 
     public FragmentMine() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment Fragment_mine.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static FragmentMine newInstance(String param1, String param2) {
-        FragmentMine fragment = new FragmentMine();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
     }
 
     @Override
@@ -102,70 +71,34 @@ public class FragmentMine extends Fragment {
         loginBtn = (Button) view.findViewById(R.id.minepage_login_bt);
         userIcon = view.findViewById(R.id.minepage_login_userIcon);
 
-        //初始化按钮，判定是否自动登录
+        /** Initialize the button to determine if it is automatically logged in */
         initButton();
 
-        //初始化列表数据
+        /** Initialize the list data */
         initBeanLvMine(view);
 
         return view;
 
     }
 
-    //暂时弹出框用不上
-    private void initUserIcon() {
-        //绑定点击事件
-        userIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                List<String> choiceList = new ArrayList<String>();
-                choiceList.add(getString(R.string.checkUserIcon));
-                choiceList.add(getString(R.string.updateUserIcon));
-                showDialog(new SelectDialog.SelectDialogListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        if(position == 0){
-
-                        }
-                        if(position == 1){
-
-                        }
-                    }
-                }, choiceList);
-            }
-        });
-    }
 
     private void initButton() {
-        //“登陆”按钮绑定相应事件——点击进入登陆页面，暂定他的int参数为用不到的0
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*for test
-                //写入一些信息方便其他子页面能够使用
-                SharedPreferences user_SP = getActivity().getSharedPreferences("user",mContext.MODE_PRIVATE);
-                SharedPreferences.Editor editor = user_SP.edit();
-                editor.putString("userID","Anna");
-                editor.commit();
-                //发送刷新Fragment_mine的广播
-                Intent intent = new Intent();
-                intent.setAction("action_Fragment_mine_userInfo_fresh");
-                getActivity().sendBroadcast(intent);*/
                 mForTest.jumpToLoginPage();
             }
         });
 
-
-        //编辑资料的button
+        /**  Edit the data */
         editBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //11为此处不会用到的参数
                 mForTest.jumpToEditInfo();
             }
         });
 
-        //根据当前app中的用户信息判定是否登录
+        /** Login or not based on the user information in the current app */
         String username  = getActivity().getSharedPreferences("user", Context.MODE_PRIVATE).getString("userName", "");
         if(username.equals("")) userInfoRecover();
         else userInfoRefresh();
@@ -173,26 +106,24 @@ public class FragmentMine extends Fragment {
 
 
     private void initBeanLvMine(View view) {
-        List<BeanListViewMine> listView_mine = new ArrayList<>();
+        List<BeanListViewMine> listViewMine = new ArrayList<>();
 
-        //填充数据,有几行填充几行
-        listView_mine.add(new BeanListViewMine(R.drawable.icon_yifabu, getResources().getString(R.string.fragment_mine_funclist_published)));
-        listView_mine.add(new BeanListViewMine(R.drawable.icon_yijieshou, getResources().getString(R.string.fragment_mine_funclist_received)));
-        listView_mine.add(new BeanListViewMine(R.drawable.icon_star, getResources().getString(R.string.fragment_mine_funclist_favorite)));
-        listView_mine.add(new BeanListViewMine(R.drawable.icon_wallet, getResources().getString(R.string.fragment_mine_funclist_wallet)));
-        listView_mine.add(new BeanListViewMine(R.drawable.icon_promotion, getResources().getString(R.string.setting_sensorfunction)));
-        listView_mine.add(new BeanListViewMine(R.drawable.icon_message, getResources().getString(R.string.fragment_mine_funclist_notificaiton)));
-        listView_mine.add(new BeanListViewMine(R.drawable.icon_setting, getResources().getString(R.string.fragment_mine_funclist_setting)));
+        listViewMine.add(new BeanListViewMine(R.drawable.icon_yifabu, getResources().getString(R.string.fragment_mine_funclist_published)));
+        listViewMine.add(new BeanListViewMine(R.drawable.icon_yijieshou, getResources().getString(R.string.fragment_mine_funclist_received)));
+        listViewMine.add(new BeanListViewMine(R.drawable.icon_star, getResources().getString(R.string.fragment_mine_funclist_favorite)));
+        listViewMine.add(new BeanListViewMine(R.drawable.icon_wallet, getResources().getString(R.string.fragment_mine_funclist_wallet)));
+        listViewMine.add(new BeanListViewMine(R.drawable.icon_promotion, getResources().getString(R.string.setting_sensorfunction)));
+        listViewMine.add(new BeanListViewMine(R.drawable.icon_message, getResources().getString(R.string.fragment_mine_funclist_notificaiton)));
+        listViewMine.add(new BeanListViewMine(R.drawable.icon_setting, getResources().getString(R.string.fragment_mine_funclist_setting)));
 
-        //关联到布局文件中的listview
         mListView = (ListView) view.findViewById(R.id.minepage_login_funciton_lv);
-        mListView.setAdapter(new AdapterListViewMine(listView_mine, mContext));
+        mListView.setAdapter(new AdapterListViewMine(listViewMine, mContext));
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if(position == 0) {
                     int loginUserId = Integer.parseInt(mContext.getSharedPreferences("user", Context.MODE_PRIVATE).getString("userID", "-1"));
-                    //检查是否登录
+                   /** Check if you are logged in */
                     if (loginUserId == -1) {
                         Intent intent = new Intent(getActivity(), ActivityLogin.class);
                         startActivity(intent);
@@ -202,7 +133,7 @@ public class FragmentMine extends Fragment {
                     }
                 }else if(position == 1){
                     int loginUserId = Integer.parseInt(mContext.getSharedPreferences("user", Context.MODE_PRIVATE).getString("userID", "-1"));
-                    //检查是否登录
+                    /** Check if you are logged in */
                     if (loginUserId == -1) {
                         Intent intent = new Intent(getActivity(), ActivityLogin.class);
                         startActivity(intent);
@@ -212,7 +143,7 @@ public class FragmentMine extends Fragment {
                     }
                 }else if(position == 3){
                     int loginUserId = Integer.parseInt(mContext.getSharedPreferences("user", Context.MODE_PRIVATE).getString("userID", "-1"));
-                    //检查是否登录
+                    /** Check if you are logged in */
                     if (loginUserId == -1) {
                         Intent intent = new Intent(getActivity(), ActivityLogin.class);
                         startActivity(intent);
@@ -233,35 +164,25 @@ public class FragmentMine extends Fragment {
 
     }
 
-    //刷新用户页用户信息的方法
+   /** Refresh user information from user page */
     public void userInfoRefresh() {
-        //这里的sharedPreferences用法暂时保存，其实也可以在login页面使用intent传送对应信息
         String username = getActivity().getSharedPreferences("user", mContext.MODE_PRIVATE).getString("userName", getResources().getString(R.string.fail_to_get_username));
         usernameTv.setText(username);
         loginBtn.setVisibility(View.INVISIBLE);
         editBtn.setVisibility(View.VISIBLE);
     }
 
-    //刷新用户页用户信息的方法
+    /** Refresh user information from user page */
     public void userInfoRecover() {
         usernameTv.setText(getText(R.string.not_login));
         editBtn.setVisibility(View.INVISIBLE);
         loginBtn.setVisibility(View.VISIBLE);
     }
 
-    private SelectDialog showDialog(SelectDialog.SelectDialogListener listener, List<String> names) {
-        SelectDialog dialog = new SelectDialog(getActivity(), R.style.transparentFrameWindowStyle, listener, names);
-        //从activity的isFinishing转换而来，测试点
-        if (!this.isRemoving()) {
-            dialog.show();
-        }
-        return dialog;
-    }
 
-    //为Fragment之间通信设置的回调Activity的方法
     @Override
     public void onAttach(Context context) {
-        super.onAttach(context);//设置广播监听器
+        super.onAttach(context); /** Set the broadcast listener */
         receiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -277,11 +198,9 @@ public class FragmentMine extends Fragment {
         IntentFilter filter = new IntentFilter();
         filter.addAction("action_Fragment_mine_userInfo_login");
         filter.addAction("action_Fragment_mine_userInfo_quit");
-        //注册了跳转页面的广播接收器，记得要解绑
         context.registerReceiver(receiver, filter);
         mContext = context;
 
-        // 保证容器Activity实现了回调接口 否则抛出异常警告
         try {
             mForTest = (ForTest) context;
         } catch (ClassCastException exp) {
@@ -292,7 +211,7 @@ public class FragmentMine extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        //解绑广播接收器
+       /** Unbind the broadcast receiver */
         mContext.unregisterReceiver(receiver);
     }
 }

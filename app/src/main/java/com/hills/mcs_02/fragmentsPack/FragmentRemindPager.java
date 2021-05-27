@@ -44,7 +44,7 @@ import com.hills.mcs_02.R;
 import com.hills.mcs_02.viewsAdapters.AdapterRecyclerViewRemind;
 
 public class FragmentRemindPager extends Fragment {
-    private String page_TAG = "Fragment_remind_pager";
+    private String pageTag = "Fragment_remind_pager";
     private String tag;
     private Context mContext;
     private SwipeRefreshLayout mSwipeRefreshLayout;
@@ -66,24 +66,20 @@ public class FragmentRemindPager extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_remindpage_pager,container,false);
 
-        //初始化各类view和全局变量
+        /** Initialize various views and global variables */
         mSwipeRefreshLayout = view.findViewById(R.id.remindpage_pager_swiperefreshLayout);
         mRecyclerView = view.findViewById(R.id.remindpage_pager_RecyclerView);
         mSwipeRefreshLayout.setColorSchemeColors(Color.RED, Color.BLUE, Color.GREEN);
         mHashSetTaskId = new HashSet<Integer>();
         if(mBeanListViewRemind == null) mBeanListViewRemind = new ArrayList<BeanListViewRemind>();
 
-        //初始化列表
+        /** Initialize the list */
         firstListRefresh();
 
         mRecyclerAdapter = new AdapterRecyclerViewRemind(mContext, mBeanListViewRemind);
         mRecyclerAdapter.setRecyclerItemClickListener(new MCSRecyclerItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                /*Gson gson = new Gson();
-                Intent intent = new Intent(getActivity(), Activity_Task_Detail_Published.class);
-                intent.putExtra("taskGson",gson.toJson(mBean_ListView_remind.get(position).getTask()));
-                startActivity(intent);*/
             }
         });
 
@@ -96,8 +92,7 @@ public class FragmentRemindPager extends Fragment {
     }
 
     private void initRefreshListener() {
-        initPullRefresh();  //上拉刷新
-        //initLoadMoreListener();  //下拉加载更多
+        initPullRefresh();  /** Pull up to refresh */
     }
 
 
@@ -118,50 +113,13 @@ public class FragmentRemindPager extends Fragment {
         });
     }
 
-    private void initLoadMoreListener() {
-        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            int lastVisibleItem;
-
-            @Override
-
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-
-                //判断RecyclerView的状态 是空闲时，同时，是最后一个可见的ITEM时才加载
-                if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItem + 1 == mRecyclerAdapter.getItemCount()) {
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            postRequest(2);
-                        }
-                    }, 3000);
-
-                }
-
-            }
-
-            //更新lastvisibleItem数值
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-
-                LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
-                //最后一个可见的ITEM
-                lastVisibleItem = layoutManager.findLastVisibleItemPosition();
-            }
-        });
-    }
-
-
-
-
-    //第一次刷新列表
+   /** Refresh the list for the first time */
     private void firstListRefresh() {
         mSwipeRefreshLayout.setRefreshing(true);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                //加载列表
+                /** Load the list */
                 postRequest(0);
             }
         },3000);
@@ -169,7 +127,7 @@ public class FragmentRemindPager extends Fragment {
 
 
     private void postRequest(int label) {
-        //根据不同tag到不同的网络接口获取数据
+        /** Retrieves data from different network interfaces based on different tags */
         switch (tag){
             case "doing" :
                 doingRequest(label);
@@ -185,15 +143,13 @@ public class FragmentRemindPager extends Fragment {
     }
 
     private void doingRequest(int label) {
-        //创建Retrofit
+
         Retrofit retrofit = new Retrofit.Builder().baseUrl(getResources().getString(R.string.base_url)).addConverterFactory(GsonConverterFactory.create()).build();
-        String userid = mContext.getSharedPreferences("user", Context.MODE_PRIVATE).getString("userID", "");
-        final int tempLabel = label;
-        //创建网络接口
+        String userId = mContext.getSharedPreferences("user", Context.MODE_PRIVATE).getString("userID", "");
+        final int TEMP_LABEL = label;
         PostRequestRemindDoing postRequest = retrofit.create(PostRequestRemindDoing.class);
 
-        //创建call
-        Call<ResponseBody> call = postRequest.queryDoing(Integer.parseInt(userid));
+        Call<ResponseBody> call = postRequest.queryDoing(Integer.parseInt(userId));
 
         call.enqueue(new Callback<ResponseBody>() {
 
@@ -206,35 +162,32 @@ public class FragmentRemindPager extends Fragment {
                     }.getType();
                     try {
                         String listString = response.body().string();
-                        Log.i(page_TAG, listString);
-                        //将Gson字符串转换成为List
+                        Log.i(pageTag, listString);
                         List<Task> taskList = gson.fromJson(listString, type);
                         List<BeanListViewRemind> tempList = new ArrayList<BeanListViewRemind>();
-                        //将List<Task>转化成为需要的List<List<Bean_ListView_remind>>
                         if (taskList.size() > 0) {
                             System.out.println("收到的任务内容: " + taskList.toString());
                             for (Task task : taskList) {
                                 if (task!=null && !mHashSetTaskId.contains(task.getTaskId())) {
                                     mHashSetTaskId.add(task.getTaskId());
-                                    Log.i(page_TAG, task.toString());
+                                    Log.i(pageTag, task.toString());
                                     tempList.add(new BeanListViewRemind(R.drawable.haimian_usericon, R.drawable.testphoto_4,  getResources().getString(R.string.ordinaryTask), task));
                                 }
                             }
                         } else {
                             Toast.makeText(mContext, getResources().getString(R.string.FailToGetData), Toast.LENGTH_SHORT).show();
                         }
-                        if (tempLabel == 0) mBeanListViewRemind.addAll(tempList);
-                        else if (tempLabel == 1) mRecyclerAdapter.addHeaderItem(tempList);
+                        if (TEMP_LABEL == 0) mBeanListViewRemind.addAll(tempList);
+                        else if (TEMP_LABEL == 1) mRecyclerAdapter.addHeaderItem(tempList);
                         else mRecyclerAdapter.addFooterItem(tempList);
 
-                        //刷新完成
                         if (mSwipeRefreshLayout.isRefreshing())
                             mSwipeRefreshLayout.setRefreshing(false);
                         Toast.makeText(mContext, getResources().getString(R.string.Refresh) + tempList.size() + getResources().getString(R.string.Now) + mBeanListViewRemind
                             .size() + getResources().getString(R.string.TaskNum), Toast.LENGTH_SHORT).show();
 
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                    } catch (IOException exp) {
+                        exp.printStackTrace();
                     }
                 }
             }
@@ -247,15 +200,13 @@ public class FragmentRemindPager extends Fragment {
     }
 
     private void doneRequest(int label) {
-        //创建Retrofit
+
         Retrofit retrofit = new Retrofit.Builder().baseUrl(getResources().getString(R.string.base_url)).addConverterFactory(GsonConverterFactory.create()).build();
-        String userid = mContext.getSharedPreferences("user", Context.MODE_PRIVATE).getString("userID", "");
-        final int tempLabel = label;
-        //创建网络接口
+        String userId = mContext.getSharedPreferences("user", Context.MODE_PRIVATE).getString("userID", "");
+        final int TEMP_LABEL = label;
         PostRequestRemindDone postRequest = retrofit.create(PostRequestRemindDone.class);
 
-        //创建call
-        Call<ResponseBody> call = postRequest.queryDone(Integer.parseInt(userid));
+        Call<ResponseBody> call = postRequest.queryDone(Integer.parseInt(userId));
 
         call.enqueue(new Callback<ResponseBody>() {
 
@@ -268,28 +219,25 @@ public class FragmentRemindPager extends Fragment {
                     }.getType();
                     try {
                         String listString = response.body().string();
-                        Log.i(page_TAG, listString);
-                        //将Gson字符串转换成为List
+                        Log.i(pageTag, listString);
                         List<Task> taskList = gson.fromJson(listString, type);
                         List<BeanListViewRemind> tempList = new ArrayList<BeanListViewRemind>();
-                        //将List<Task>转化成为需要的List<List<Bean_ListView_remind>>
                         if (taskList.size() > 0) {
                             System.out.println(taskList);
                             for (Task task : taskList) {
                                 if (task!=null && !mHashSetTaskId.contains(task.getTaskId())) {
                                     mHashSetTaskId.add(task.getTaskId());
-                                    Log.i(page_TAG, task.toString());
+                                    Log.i(pageTag, task.toString());
                                     tempList.add(new BeanListViewRemind(R.drawable.haimian_usericon, R.drawable.testphoto_4,  getResources().getString(R.string.ordinaryTask), task));
                                 }
                             }
                         } else {
                             Toast.makeText(mContext, getResources().getString(R.string.FailToGetData), Toast.LENGTH_SHORT).show();
                         }
-                        if (tempLabel == 0) mBeanListViewRemind.addAll(tempList);
-                        else if (tempLabel == 1) mRecyclerAdapter.addHeaderItem(tempList);
+                        if (TEMP_LABEL == 0) mBeanListViewRemind.addAll(tempList);
+                        else if (TEMP_LABEL == 1) mRecyclerAdapter.addHeaderItem(tempList);
                         else mRecyclerAdapter.addFooterItem(tempList);
 
-                        //刷新完成
                         if (mSwipeRefreshLayout.isRefreshing())
                             mSwipeRefreshLayout.setRefreshing(false);
                         Toast.makeText(mContext, getResources().getString(R.string.Refresh) + tempList.size() + getResources().getString(R.string.Now) + mBeanListViewRemind
@@ -309,15 +257,14 @@ public class FragmentRemindPager extends Fragment {
     }
 
     private void recommendRequest(int label) {
-        //创建Retrofit
+
         Retrofit retrofit = new Retrofit.Builder().baseUrl(getResources().getString(R.string.base_url)).addConverterFactory(GsonConverterFactory.create()).build();
-        String userid = mContext.getSharedPreferences("user", Context.MODE_PRIVATE).getString("userID", "");
-        final int tempLabel = label;
-        //创建网络接口
+        String userId = mContext.getSharedPreferences("user", Context.MODE_PRIVATE).getString("userID", "");
+        final int TEMP_LABEL = label;
+
         PostRequestRemindRecommend postRequest = retrofit.create(PostRequestRemindRecommend.class);
 
-        //创建call
-        Call<ResponseBody> call = postRequest.queryRecommend(Integer.parseInt(userid));
+        Call<ResponseBody> call = postRequest.queryRecommend(Integer.parseInt(userId));
 
         call.enqueue(new Callback<ResponseBody>() {
 
@@ -329,29 +276,26 @@ public class FragmentRemindPager extends Fragment {
                     Type type = new TypeToken<List<Task>>() {
                     }.getType();
                     try {
-                        String list_string = response.body().string();
-                        Log.i(page_TAG, list_string);
-                        //将Gson字符串转换成为List
-                        List<Task> taskList = gson.fromJson(list_string, type);
+                        String listString = response.body().string();
+                        Log.i(pageTag, listString);
+                        List<Task> taskList = gson.fromJson(listString, type);
                         List<BeanListViewRemind> tempList = new ArrayList<BeanListViewRemind>();
-                        //将List<Task>转化成为需要的List<List<Bean_ListView_remind>>
                         if (taskList.size() > 0) {
                             for (Task task : taskList) {
                                 if(task == null) continue;
                                 if (task!=null && !mHashSetTaskId.contains(task.getTaskId())) {
                                     mHashSetTaskId.add(task.getTaskId());
-                                    Log.i(page_TAG, task.toString());
+                                    Log.i(pageTag, task.toString());
                                     tempList.add(new BeanListViewRemind(R.drawable.haimian_usericon, R.drawable.testphoto_4,  getResources().getString(R.string.ordinaryTask), task));
                                 }
                             }
                         } else {
                             Toast.makeText(mContext, getResources().getString(R.string.FailToGetData), Toast.LENGTH_SHORT).show();
                         }
-                        if (tempLabel == 0) mBeanListViewRemind.addAll(tempList);
-                        else if (tempLabel == 1) mRecyclerAdapter.addHeaderItem(tempList);
+                        if (TEMP_LABEL == 0) mBeanListViewRemind.addAll(tempList);
+                        else if (TEMP_LABEL == 1) mRecyclerAdapter.addHeaderItem(tempList);
                         else mRecyclerAdapter.addFooterItem(tempList);
 
-                        //刷新完成
                         if (mSwipeRefreshLayout.isRefreshing())
                             mSwipeRefreshLayout.setRefreshing(false);
                         Toast.makeText(mContext, getResources().getString(R.string.Refresh) + tempList.size() + getResources().getString(R.string.Now) + mBeanListViewRemind

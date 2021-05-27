@@ -35,20 +35,8 @@ public class FuncFoodShareFoodShareListBean {
         return publishTime;
     }
 
-    public void setUserIconPath(String userIconPath) {
-        this.userIconPath = userIconPath;
-    }
-
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public void setFoodDescription(String foodDescription) {
-        this.foodDescription = foodDescription;
-    }
-
-    public void setFoodImagePath(String foodImagePath) {
-        this.foodImagePath = foodImagePath;
     }
 
     public void setPublishTime(String publishTime) {

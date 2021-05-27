@@ -4,20 +4,19 @@ import java.util.Date;
 
 //当前Bean主要直接对接应用的直接使用
 public class Task {
-    private Integer taskId;               //任务ID
-    private String taskName;              //任务名称
-    private Date postTime;                //发布日期
-    private Date deadLine;                //截止日期
-    private Integer userId;               //任务发布者ID
-    private String username;              //任务发布者的名字
-    private Float coin;                   //激励金
-    private String describeTask;         //任务描述
-    private Integer totalNum;             //该任务的执行总人数
-    private Integer taskStatus;           //该任务的执行状态
-    private Integer taskKind;             //任务的类型，通过整数型和对应的约定映射表来规定任务类型,0-公共安全，1-环境调研，2-民生日常，3-商业应用，4-其他
-    //todo:integer[] -> string
-    private String sensorTypes;        //感知任务需要指明的传感器
-    private float latitude;              //todo:waiting for finishing it.
+    private Integer taskId;
+    private String taskName;
+    private Date postTime;               /** Release date */
+    private Date deadLine;
+    private Integer userId;
+    private String username;
+    private Float coin;                  /** incentives */
+    private String describeTask;         /**  Task description */
+    private Integer totalNum;            /** The total number of people working on this mission */
+    private Integer taskStatus;          /** The execution status of the task */
+    private Integer taskKind;            /**  Task type: 0- Public Safety, 1- Environmental Research, 2- People's Daily, 3- Business Applications, 4- Other*/
+    private String sensorTypes;         /** The sensing task requires the specified sensor */
+    private float latitude;
     private float longitude;
 
     public Task() {
@@ -36,9 +35,9 @@ public class Task {
         this.totalNum = totalNum;
         this.taskStatus = taskStatus;
         this.taskKind = taskKind;
-        sensorTypes = "-1";  //-1代表GPS
-        latitude = -9999;                //-9999表示错误或者未赋值
-        longitude = -9999;
+        sensorTypes = "-1";    /** On behalf of the GPS -1 */
+        latitude = -9999;      /** -9999 indicates an error or unassigned value */
+        longitude = -9999;      /** -9999 indicates an error or unassigned value */
     }
 
     public Task(Integer taskId, String taskName, Date postTime, Date deadLine, Integer userId, String username, Float coin, String describeTask, Integer totalNum, Integer taskStatus, Integer taskKind,String sensorTypes) {
@@ -54,15 +53,15 @@ public class Task {
         this.taskStatus = taskStatus;
         this.taskKind = taskKind;
         this.sensorTypes = sensorTypes;
-        latitude = -9999;                //-9999表示错误或者未赋值
+        latitude = -9999;               /** -9999 indicates an error or unassigned value */
         longitude = -9999;
     }
 
-    public Task(Integer pTaskId, String pTaskName, Date pPostTime, Date pDeadLine, Integer pUserId, String pUsername, Float pCoin, String pDescribeTask, Integer pTotalNum, Integer pTaskStatus, Integer pTaskKind, String pSensorTypes, float pLatitude, float pLongitude) {
+    public Task(Integer pTaskId, String pTaskName, Date pPostTime, Date pDeadline, Integer pUserId, String pUsername, Float pCoin, String pDescribeTask, Integer pTotalNum, Integer pTaskStatus, Integer pTaskKind, String pSensorTypes, float pLatitude, float pLongitude) {
         taskId = pTaskId;
         taskName = pTaskName;
         postTime = pPostTime;
-        deadLine = pDeadLine;
+        deadLine = pDeadline;
         userId = pUserId;
         username = pUsername;
         coin = pCoin;
@@ -111,10 +110,6 @@ public class Task {
         return totalNum;
     }
 
-    public Integer getTaskStatus() {
-        return taskStatus;
-    }
-
     public Integer getTaskKind() {
         return taskKind;
     }
@@ -143,24 +138,8 @@ public class Task {
         this.username = username;
     }
 
-    public void setCoin(Float coin) {
-        this.coin = coin;
-    }
-
     public void setDescribeTask(String describeTask) {
         this.describeTask = describeTask;
-    }
-
-    public void setTotalNum(Integer totalNum) {
-        this.totalNum = totalNum;
-    }
-
-    public void setTaskStatus(Integer taskStatus) {
-        this.taskStatus = taskStatus;
-    }
-
-    public void setTaskKind(Integer taskKind) {
-        this.taskKind = taskKind;
     }
 
     public String getSensorTypes() {

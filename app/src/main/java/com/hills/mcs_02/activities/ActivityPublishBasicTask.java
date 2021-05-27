@@ -42,14 +42,13 @@ import com.hills.mcs_02.R;
 public class ActivityPublishBasicTask extends BaseActivity implements AMapLocationListener {
     private Task task;
     private String TAG = "Fragment_publish";
-    //为日期选择设立的全局变量
-    int mYear,mMonth,mDay;
+    int mYear,mMonth,mDay;   /** Set the global variable for the date selection */
     String dateString;
     Spinner taskKindSpinner;
     int taskKind = -1;
     private TextView longitudeTv;
     private TextView latitudeTv;
-    private boolean isloaction = true; //位置获取是否成功标识
+    private boolean isLocation = true; /** The location is determined to be successful */
     private AMapLocationClient mapLocationClient;
 
     @Override
@@ -63,24 +62,19 @@ public class ActivityPublishBasicTask extends BaseActivity implements AMapLocati
                 postNetworkRequest();
             }
         });
-
-        //初始化经纬度数据
-        //longitude_tv = findViewById(R.id.publishpage_basictaskpublish_1_longitude_tv_content);
-        //latitude_tv = findViewById(R.id.publishpage_basictaskpublish_1_latitude_tv_content);
-
-        //初始化定位类,这里绑定的定位只是单单此Activity，注意如果调整成全应用内通过，需要编程getApplicationContext
+       /**  Initialize the positioning class*/
         mapLocationClient = new AMapLocationClient(this);
         mapLocationClient.setLocationListener(this);
-        //为mapClient配置参数
+        /**  Configure the parameters for MapClient */
         AMapLocationClientOption mLocationOption = new AMapLocationClientOption();
         mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
         mLocationOption.setOnceLocationLatest(true);
         mapLocationClient.setLocationOption(mLocationOption);
-        mapLocationClient.startLocation();//开始定位
+        mapLocationClient.startLocation();
 
-        //给发布页的截止日期选择按钮添加绑定Listener
-        final TextView textView = findViewById(R.id.publishpage_basictaskpublish_1_deadline_dp);
-        textView.setOnClickListener(new View.OnClickListener() {
+        /**  Add a bound Listener to the deadline selection button of the publication page */
+        final TextView TEXT_VIEW = findViewById(R.id.publishpage_basictaskpublish_1_deadline_dp);
+        TEXT_VIEW.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //获取当前日期
@@ -88,9 +82,7 @@ public class ActivityPublishBasicTask extends BaseActivity implements AMapLocati
                 mYear = cal.get(Calendar.YEAR);
                 mMonth = cal.get(Calendar.MONTH);
                 mDay = cal.get(Calendar.DAY_OF_MONTH);
-
-
-                //创建日期选择的对话框，并绑定日期选择的Listener（都是Android内部封装的组件和方法）
+                /** Create a dialog box for date selection and bind the Listener for date selection */
                 DatePickerDialog dialog = new DatePickerDialog(ActivityPublishBasicTask.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
@@ -98,18 +90,16 @@ public class ActivityPublishBasicTask extends BaseActivity implements AMapLocati
                         mMonth = month;
                         mDay = dayOfMonth;
                         dateString = mYear + "." + (mMonth+1) + "." + mDay;
-                        textView.setText(dateString);
+                        TEXT_VIEW.setText(dateString);
                     }
 
                 },mYear,mMonth,mDay);
-                //设置最小时限
+                /** Set a minimum time limit */
                 DatePicker datePicker = dialog.getDatePicker();
                 datePicker.setMinDate(new Date().getTime());
-
                 dialog.show();
             }
         });
-
         taskKindSpinner = findViewById(R.id.publishpage_basictaskpublish_1_taskKind_spinner);
         taskKindSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -122,12 +112,12 @@ public class ActivityPublishBasicTask extends BaseActivity implements AMapLocati
                 taskKind = 0;
             }
         });
-        initBackBT();
+        initBackBtn();
     }
 
         private void postNetworkRequest() {
-            final Context context = this;
-            //收集当前页输入的信息
+            final Context CONTEXT = this;
+            /** Collect information entered on the current page */
             String coinsStr = ((EditText) findViewById(R.id.publishpage_basictaskpublish_1_Coins_ev)).getText().toString();
             String taskName = ((EditText) findViewById(R.id.publishpage_basictaskpublish_1_taskName_ev)).getText().toString();
             String taskCountStr = ((EditText) findViewById(R.id.publishpage_basictaskpublish_1_taskMount_ev)).getText().toString();
@@ -138,12 +128,8 @@ public class ActivityPublishBasicTask extends BaseActivity implements AMapLocati
             else {
                 float coins = Float.parseFloat(coinsStr);
                 int taskCount = Integer.parseInt(taskCountStr);
-
                 int userId = Integer.parseInt(getSharedPreferences("user", MODE_PRIVATE).getString("userID", ""));
                 String userName = getSharedPreferences("user", MODE_PRIVATE).getString("userName", "");
-                //String timeNow = (new SimpleDateFormat("yyyy.MM.dd  HH:mm:ss")).format(new Date(System.currentTimeMillis()));
-
-                //建立任务Bean
                     try {
                         task = new Task(null, taskName, new Date(), new SimpleDateFormat("yyyy.MM.dd").parse(deadline), userId, userName, coins, describe, taskCount, 0, taskKind);
                     } catch (ParseException exp) {
@@ -152,12 +138,8 @@ public class ActivityPublishBasicTask extends BaseActivity implements AMapLocati
                 Log.i(TAG, task.toString());
                 Gson gson = new GsonBuilder().setDateFormat("yyyy.MM.dd").create();
                 String postTask = gson.toJson(task);
-
-
-                //发送POST请求
+                /** Send a POST request */
                 Retrofit retrofit = new Retrofit.Builder().baseUrl(this.getResources().getString(R.string.base_url)).addConverterFactory(GsonConverterFactory.create()).build();
-                //测试用url
-                //Retrofit retrofit = new Retrofit.Builder().baseUrl("http://192.168.43.213:8889/").addConverterFactory(GsonConverterFactory.create()).build();
 
                 RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), postTask);
                 PostRequestPublishTask publish = retrofit.create(PostRequestPublishTask.class);
@@ -167,10 +149,10 @@ public class ActivityPublishBasicTask extends BaseActivity implements AMapLocati
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                         if (response.code() == 200) {
-                            Toast.makeText(context, getResources().getString(R.string.publishSuccess), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(CONTEXT, getResources().getString(R.string.publishSuccess), Toast.LENGTH_SHORT).show();
                             finish();
                         } else {
-                            Toast.makeText(context, getResources().getString(R.string.publishFail), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(CONTEXT, getResources().getString(R.string.publishFail), Toast.LENGTH_SHORT).show();
                         }
                     }
 
@@ -183,7 +165,7 @@ public class ActivityPublishBasicTask extends BaseActivity implements AMapLocati
         }
 
 
-    private void initBackBT() {
+    private void initBackBtn() {
         ImageView backIv = findViewById(R.id.publishpage_basictaskpublish_1_backarrow);
         backIv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -196,20 +178,16 @@ public class ActivityPublishBasicTask extends BaseActivity implements AMapLocati
     @Override
     public void onLocationChanged(AMapLocation aMapLocation) {
         if(aMapLocation == null){
-            isloaction = false;
+            isLocation = false;
             System.out.println("Alert！aMapLocation is null");
         }else{
-            //ErrorCode等于0为无错误
             if(aMapLocation.getErrorCode() == 0){
                 double longitude = aMapLocation.getLongitude();
                 double latitude = aMapLocation.getLatitude();
-                //System.out.println("latitude: " + latitude +" longitude: " + longitude);
-                //做小数位数限制 目前为五位数
+                /**  The decimal limit is currently five digits */
                 DecimalFormat df = new DecimalFormat("#.00000");
-                //longitude_tv.setText(df.format(longitude));
-                //latitude_tv.setText(df.format(latitude));
             }else{
-                isloaction = false;
+                isLocation = false;
             }
         }
     }

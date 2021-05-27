@@ -50,10 +50,10 @@ public class ActivityMineMinor7Setting extends BaseActivity {
         setContentView(R.layout.activity_mine_minor7_setting);
         //初始化列表
         initList();
-        initBackBT();
+        initBackBtn();
     }
 
-    private void initBackBT() {
+    private void initBackBtn() {
         ImageView backIv = findViewById(R.id.minepage_minor7_backarrow);
         backIv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,7 +74,6 @@ public class ActivityMineMinor7Setting extends BaseActivity {
 
         mListView = findViewById(R.id.minepage_minor7_lv);
         mListView.setAdapter(new ArrayAdapter<String>(this,R.layout.listview_item_minepage_minor7,list));
-        //列表监听器暂时不管-添加点击 设置 进入设置选择界面
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -84,7 +83,6 @@ public class ActivityMineMinor7Setting extends BaseActivity {
                     Intent intent = new Intent(ActivityMineMinor7Setting.this, ActivityMineSettingGeneral.class);
                     startActivity(intent);
                 }
-                //在这里填写版本更新相关逻辑代码
                 else if(position == 2){
                     checkVersion();
                 }
@@ -92,8 +90,6 @@ public class ActivityMineMinor7Setting extends BaseActivity {
             }
         });
     }
-
-
     private void checkVersion() {
         Retrofit retrofit = new Retrofit.Builder().baseUrl(getString(R.string.base_url)).addConverterFactory(GsonConverterFactory.create()).build();
         PostRequestMineMinor7Update request = retrofit.create(PostRequestMineMinor7Update.class);
@@ -111,7 +107,6 @@ public class ActivityMineMinor7Setting extends BaseActivity {
                         e.printStackTrace();
                     }
                 }
-                //TODO：这里没有返回的是404
                 else{
                     Toast.makeText(ActivityMineMinor7Setting.this,"暂无新版本可下载",Toast.LENGTH_SHORT).show();
                 }
@@ -125,7 +120,7 @@ public class ActivityMineMinor7Setting extends BaseActivity {
     }
 
     private void downAlertDialog(){
-        //弹出下载的提示框口
+        /** The prompt box for download pops up */
         AlertDialog.Builder builder = new AlertDialog.Builder(ActivityMineMinor7Setting.this);
         builder.setCancelable(false);
         builder.setTitle(R.string.App_Update);
@@ -133,7 +128,7 @@ public class ActivityMineMinor7Setting extends BaseActivity {
         builder.setPositiveButton(getString(R.string.confirm), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                //发送下载应用请求，并显示progrossbar
+                /** Send a request to download the application */
                 downloadNewApp();
             }
         });
@@ -148,7 +143,7 @@ public class ActivityMineMinor7Setting extends BaseActivity {
 
     private void downloadNewApp() {
         File newApp = null;
-        //创建带进度的dialog
+        /**  Create a dialog with progress */
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setCancelable(false);
         builder.setTitle(R.string.App_Update);
@@ -161,17 +156,13 @@ public class ActivityMineMinor7Setting extends BaseActivity {
             }
         });
         AlertDialog dialog = builder.show();
-
-        //拿到布局中的进度条
+        /** Get the progress bar in the layout */
         NumberProgressBar bar = dialog.findViewById(R.id.dialog_progressbar);
-
-        //创建下载监听器
+      /** Create a download listener*/
         DownloadListener listener = new DownloadListener() {
             @Override
             public void onStart() {
-
             }
-
             @Override
             public void onProgress(int currentLength) {
                 bar.setProgress(currentLength);
@@ -186,7 +177,7 @@ public class ActivityMineMinor7Setting extends BaseActivity {
                     getInstallPermission(localPath);
                 }else{
                     System.out.println("JUMP TO APK");
-                    openAPK(new File(localPath));
+                    openApk(new File(localPath));
                 }
                 Looper.loop();
             }
@@ -197,25 +188,21 @@ public class ActivityMineMinor7Setting extends BaseActivity {
                 Toast.makeText(ActivityMineMinor7Setting.this, "Download Failure.", Toast.LENGTH_SHORT).show();
             }
         };
-        //加入后台对标的网址
         newApp = new DownloadFileUtils(getString(R.string.base_url)).downloadFile(System.currentTimeMillis() + appName,listener);
     }
-
-
-
 
     private void getInstallPermission(String localPath) {
         if(! getPackageManager().canRequestPackageInstalls()) {
             System.out.println("can not request installs");
-            //弹出下载的提示框口
+            /**  The prompt box for download pops up */
             AlertDialog.Builder builder = new AlertDialog.Builder(ActivityMineMinor7Setting.this);
             builder.setCancelable(false);
-            builder.setTitle("权限授予");             //后续更改到string文件中
+            builder.setTitle("权限授予");
             builder.setMessage("请给予安装权限");
             builder.setPositiveButton(getString(R.string.confirm), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    //前往设置页面检查开放权限
+                    /**  Go to the Settings page to check for open permissions */
                     Intent intent = new Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES);
                     startActivityForResult(intent, 10086);//注意此处要对返回的code进行识别并进行再判断
                 }
@@ -230,12 +217,12 @@ public class ActivityMineMinor7Setting extends BaseActivity {
         }
     }
 
-    private void openAPK(File newApp) {
+    private void openApk(File newApp) {
         if (newApp.isFile()) {
-            //通过Intent跳转到下载的文件并打开
+            /** Use Intent to jump to the downloaded file and open it */
             Intent intent = new Intent(Intent.ACTION_VIEW);
             Uri uri;
-            //对不同版本特性做适配
+            /** Adapt the features of different versions */
             uri = FileProvider.getUriForFile(ActivityMineMinor7Setting.this,getPackageName() + ".fileprovider", newApp);
             intent.setDataAndType(uri, "application/vnd.android.package-archive");
             try{
@@ -260,7 +247,7 @@ public class ActivityMineMinor7Setting extends BaseActivity {
             if(!getPackageManager().canRequestPackageInstalls()) {
                 getInstallPermission(apkLocalPath);
             }else{
-                openAPK(new File(apkLocalPath));
+                openApk(new File(apkLocalPath));
             }
         }
     }

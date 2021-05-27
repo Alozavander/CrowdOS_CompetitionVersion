@@ -23,14 +23,6 @@ public class BeanUserTaskWithUser {
         return userIcon;
     }
 
-    public void setUserIcon(int userIcon) {
-        this.userIcon = userIcon;
-    }
-
-    public UserTaskWithUser getUserTaskWithUser() {
-        return mUserTaskWithUser;
-    }
-
     public void setUserTaskWithUser(UserTaskWithUser userTaskWithUser) {
         mUserTaskWithUser = userTaskWithUser;
     }

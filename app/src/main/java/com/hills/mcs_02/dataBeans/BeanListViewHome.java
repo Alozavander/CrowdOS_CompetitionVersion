@@ -2,11 +2,9 @@ package com.hills.mcs_02.dataBeans;
 
 import java.text.SimpleDateFormat;
 
-//首页任务列表单项类
+/** Home task column form item class */
 public class BeanListViewHome {
     private int userIcon;
-    //private int categoryIcon;
-    //private int starIcon;
     private int photo;
     private String userId;
     private String describe;
@@ -28,14 +26,6 @@ public class BeanListViewHome {
     public int getUserIcon() {
         return userIcon;
     }
-
-    /*public int getCategoryIcon() {
-        return categoryIcon;
-    }
-
-    public int getStarIcon() {
-        return starIcon;
-    }*/
 
     public int getPhoto() {
         return photo;
@@ -63,10 +53,6 @@ public class BeanListViewHome {
     public String getCoinsCount() {
         return task.getCoin() + "";
     }
-
-    /*public String getTaskCount() {
-        return taskCount;
-    }*/
 
     public Task getTask() {
         return task;
