@@ -1,21 +1,5 @@
 package com.hills.mcs_02.taskSubmit;
 
-import com.google.gson.Gson;
-
-import com.daimajia.numberprogressbar.NumberProgressBar;
-import com.luck.picture.lib.PictureSelector;
-import com.luck.picture.lib.config.PictureConfig;
-import com.luck.picture.lib.config.PictureMimeType;
-import com.luck.picture.lib.entity.LocalMedia;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
@@ -47,25 +31,40 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
+import com.daimajia.numberprogressbar.NumberProgressBar;
+import com.google.gson.Gson;
 import com.hills.mcs_02.BaseActivity;
+import com.hills.mcs_02.R;
+import com.hills.mcs_02.RequestCodes;
+import com.hills.mcs_02.StringStore;
 import com.hills.mcs_02.dataBeans.FamiliarSensor;
 import com.hills.mcs_02.dataBeans.UserTask;
 import com.hills.mcs_02.networkClasses.interfacesPack.PostRequestTaskSubmit;
 import com.hills.mcs_02.networkClasses.interfacesPack.PostRequestTaskSubmitFamiliarFiles;
 import com.hills.mcs_02.networkClasses.interfacesPack.PostRequestTaskSubmitFiles;
-import com.hills.mcs_02.R;
-import com.hills.mcs_02.RequestCodes;
-import com.hills.mcs_02.StringStore;
 import com.hills.mcs_02.sensorFunction.SenseFunction;
 import com.hills.mcs_02.taskSubmit.uploadPack.ProgressRequestBody;
 import com.hills.mcs_02.taskSubmit.uploadPack.UploadCallback;
 import com.hills.mcs_02.viewsAdapters.AdapterRecyclerViewTaskSubmitAudio;
 import com.hills.mcs_02.viewsAdapters.AdapterRecyclerViewTaskSubmitSenseData;
 import com.hills.mcs_02.viewsAdapters.AdapterRecyclerViewTaskSubmitVideo;
+import com.luck.picture.lib.PictureSelector;
+import com.luck.picture.lib.config.PictureConfig;
+import com.luck.picture.lib.config.PictureMimeType;
+import com.luck.picture.lib.entity.LocalMedia;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ActivityTaskSubmit extends BaseActivity {
     public static final int IMAGE_ITEM_ADD = -1;
@@ -76,28 +75,32 @@ public class ActivityTaskSubmit extends BaseActivity {
 
     private Scroller mScroller;
 
-
-    private int maxImgCount = 8;               //允许选择图片最大数
-    private ArrayList<File> audioList;         //音频列表
+    /** Allow to select the maximum number of pictures */
+    private int maxImgCount = 8;
+    private ArrayList<File> audioList;
+    /** Audio List */
     private AdapterRecyclerViewTaskSubmitAudio audioAdapter;
 
-    private ArrayList<File> videoList;         //视频列表
+    /** Video List */
+    private ArrayList<File> videoList;
     private AdapterRecyclerViewTaskSubmitVideo videoAdapter;
 
-    private ArrayList<File> senseDataList;    //感知数据文件列表
+    /** Sensing data file list */
+    private ArrayList<File> senseDataList;
     private AdapterRecyclerViewTaskSubmitSenseData senseDataAdapter;
 
     private RecyclerView mRecyclerView;
     private AdapterRecyclerViewTaskSubmitImage imageAdapter;
 
     private NumberProgressBar mNumberProgressBar;
-    private ArrayList<File> imageList;         //视频列表
-    private long uploadedNow;            //目前传输总过程中已上传的数据量
+    /** Image List */
+    private ArrayList<File> imageList;
+    /** The amount of data that has been uploaded during the current total transfer */
+    private long uploadedNow;
 
     private EditText editText;
     private SQLiteDatabase SqlDb;
     private SensorManager sensorManager;
-    //For test to get sensors data;
     private TextView sensorDataShowTv;
     private BroadcastReceiver receiver;
     private Integer taskId;
@@ -134,20 +137,13 @@ public class ActivityTaskSubmit extends BaseActivity {
         initImagePicker();
         initAudioPicker();
         initVideoPicker();
-        //For sensor data
+
         sensorDataShowTv = (TextView) findViewById(R.id.activity_taskSub_sensorData_tv);
         initSensorDataPicker();
 
-
-        //数据库相关注销
-        //SQLdb = SQLiteDatabase.openOrCreateDatabase(dbPath,null);
-
-        //广播器已截止
-        //registBroadcastReceiver();
     }
 
-    //根据Intent传过来的String判定任务需要哪些传感器
-    //TODO:
+    /** Determine which sensors are needed for the task based on the String passed by the Intent */
     private void initSensorDataPicker() {
         String sensorTypesString = getIntent().getStringExtra(getResources().getString(R.string.intent_taskSensorTypes_name));
         if (sensorTypesString.equals(StringStore.SP_STRING_ERROR)) concealDataChooseViews();
@@ -156,21 +152,21 @@ public class ActivityTaskSubmit extends BaseActivity {
             int[] sensorTypes = new int[tempStirngs.length];
             for (int temp = 0; temp < tempStirngs.length; temp++)
                 sensorTypes[temp] = Integer.valueOf(tempStirngs[temp]);
-            //检测出包含GPS的情况，GPS给的sensor值为-1,暂时隐藏，后续开放
+            /** The sensor value given by GPS is -1 */
             if (sensorTypes.length == 1 && sensorTypes[0] == -1) concealDataChooseViews();
             else {
-                //初始化RECYCLERVIEW和Adapter
+                /** Initialize the recyclerView and Adapter */
                 senseDataList = new ArrayList<File>();
-                //初始化Audio的RV
+                /** Initialize the recyclerView of Audio */
                 RecyclerView senseDataRv = findViewById(R.id.activity_taskSub_chooseData_rv);
                 senseDataRv.setLayoutManager(new LinearLayoutManager(ActivityTaskSubmit.this, LinearLayoutManager.VERTICAL, false));
                 senseDataAdapter = new AdapterRecyclerViewTaskSubmitSenseData(
                     ActivityTaskSubmit.this, senseDataList);
                 senseDataRv.setAdapter(senseDataAdapter);
 
-                //初始化add的按钮
-                //根据传递得到的需求的传感器类型保存得到感知数据文件
+                /** Initialize the add button */
                 Button dataAdd = findViewById(R.id.activity_taskSub_chooseData_add);
+                /** Save and get the sensing data file according to the sensor type of the transmitted demand */
                 dataAdd.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -188,10 +184,9 @@ public class ActivityTaskSubmit extends BaseActivity {
                 });
             }
         }
-
     }
 
-    //隐藏数据选择栏相关的组件
+    /** Hide the view related to sensor data choose */
     private void concealDataChooseViews() {
         findViewById(R.id.activity_taskSub_remind_3).setVisibility(View.GONE);
         findViewById(R.id.activity_taskSub_chooseData_rv).setVisibility(View.GONE);
@@ -218,10 +213,10 @@ public class ActivityTaskSubmit extends BaseActivity {
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         switch (position) {
                             case 0:
-                                //进入相册并选择
+                                /** Enter the album and select the pictures */
                                 PictureSelector.create(ActivityTaskSubmit.this)
                                         .openGallery(PictureMimeType.ofImage())
-                                        .isCamera(false)// 是否显示拍照按钮 true or false
+                                        .isCamera(false)
                                         .forResult(PictureConfig.CHOOSE_REQUEST);
                         }
                     }
@@ -233,13 +228,11 @@ public class ActivityTaskSubmit extends BaseActivity {
     @SuppressLint("WrongConstant")
     private void initAudioPicker() {
         audioList = new ArrayList<File>();
-        //初始化Audio的RV
         RecyclerView audioRv = findViewById(R.id.activity_taskSub_audio_rv);
         audioRv.setLayoutManager(new LinearLayoutManager(ActivityTaskSubmit.this, LinearLayoutManager.VERTICAL, false));
         audioAdapter = new AdapterRecyclerViewTaskSubmitAudio(ActivityTaskSubmit.this, audioList);
         audioRv.setAdapter(audioAdapter);
 
-        //初始化add的按钮
         Button audioAdd = findViewById(R.id.activity_taskSub_audio_add);
         audioAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -255,13 +248,11 @@ public class ActivityTaskSubmit extends BaseActivity {
     @SuppressLint("WrongConstant")
     private void initVideoPicker() {
         videoList = new ArrayList<File>();
-        //初始化Audio的RV
         RecyclerView videoRv = findViewById(R.id.activity_taskSub_video_rv);
         videoRv.setLayoutManager(new LinearLayoutManager(ActivityTaskSubmit.this, LinearLayoutManager.VERTICAL, false));
         videoAdapter = new AdapterRecyclerViewTaskSubmitVideo(ActivityTaskSubmit.this, videoList);
         videoRv.setAdapter(videoAdapter);
 
-        //初始化add的按钮
         Button videoAdd = findViewById(R.id.activity_taskSub_video_add);
         videoAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -293,22 +284,17 @@ public class ActivityTaskSubmit extends BaseActivity {
     }
 
     public void uploadWithFile() {
-        //让进度条可见
         mNumberProgressBar.setVisibility(View.VISIBLE);
-        //将所有图片和视频list集成
-        //List<File> fileAll_list = new ArrayList<File>();
-        //所有file的大小
-        //totalLength = 0;
 
         if (senseDataList != null) {
             if (senseDataList.size() > 0) {
                 for (File file : senseDataList) {
                     uploadedNow = 0;
-                    //实现上传进度监听，
+                    /**  Realize upload progress monitoring */
                     ProgressRequestBody requestBody = new ProgressRequestBody(file, "*/*", new UploadCallback() {
                         @Override
                         public void onProgressUpdate(long uploaded) {
-                            //设置进度条实时进度
+                            /** Set the  real-time  progress bar */
                             uploadedNow += uploaded;
                             mNumberProgressBar.setProgress((int) (100 * uploadedNow / file.length()));
                         }
@@ -317,15 +303,12 @@ public class ActivityTaskSubmit extends BaseActivity {
                         public void onError() {
 
                         }
-
                         @Override
                         public void onFinish() {
 
                         }
                     });
-                    //通过已经复写的能够监视进度的requestBody构建MultipartBody类，完成网络上传操作后续就与普通的Retrofit操作类似
                     MultipartBody.Part body = MultipartBody.Part.createFormData("file", file.getName(), requestBody);
-
 
                     String subText = editText.getText().toString();
 
@@ -339,14 +322,13 @@ public class ActivityTaskSubmit extends BaseActivity {
                             taskId, (float) -9999, (float) -9999, (float) -1, Float.parseFloat(lsType), null);
                         Gson gson = new Gson();
                         String postContent = gson.toJson(lFamiliarSensor);
-                        //创建Retrofit实例
+
+                        /** Create the Retrofit instance */
                         Retrofit retrofit = new Retrofit.Builder().baseUrl(getResources().getString(R.string.base_url)).addConverterFactory(GsonConverterFactory.create()).build();
-                        //测试用url
-                        //Retrofit retrofit = new Retrofit.Builder().baseUrl("http://192.168.43.60:8889/").addConverterFactory(GsonConverterFactory.create()).build();
-                        //创建网络接口实例
+
                         PostRequestTaskSubmitFamiliarFiles subRequest = retrofit.create(
                             PostRequestTaskSubmitFamiliarFiles.class);
-                        //创建RequestBody
+                        /** Create the RequestBody */
                         RequestBody contentBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), postContent);
                         Call<ResponseBody> call = subRequest.taskSubmit(contentBody, body);
                         Log.i(TAG, "post Content of sensor data files request body: " + postContent);
@@ -375,14 +357,13 @@ public class ActivityTaskSubmit extends BaseActivity {
             } else Log.i(TAG, "sensor data files list has no files.");
         } else Log.i(TAG, "sensor data files list is null");
 
+        /** image upload */
         if (imageList.size() > 0) {
             for (File file : imageList) {
                 uploadedNow = 0;
-                //实现上传进度监听，
                 ProgressRequestBody requestBody = new ProgressRequestBody(file, "image/*", new UploadCallback() {
                     @Override
                     public void onProgressUpdate(long uploaded) {
-                        //设置进度条实时进度
                         uploadedNow += uploaded;
                         mNumberProgressBar.setProgress((int) (100 * uploadedNow / file.length()));
                     }
@@ -397,10 +378,7 @@ public class ActivityTaskSubmit extends BaseActivity {
 
                     }
                 });
-                //通过已经复写的能够监视进度的requestBody构建MultipartBody类，完成网络上传操作后续就与普通的Retrofit操作类似
                 MultipartBody.Part body = MultipartBody.Part.createFormData("file", file.getName(), requestBody);
-
-
                 String subText = editText.getText().toString();
 
                 if (subText.equals("") || subText == null) {
@@ -412,13 +390,11 @@ public class ActivityTaskSubmit extends BaseActivity {
                         taskId, 1, subText, null, 1);
                     Gson gson = new Gson();
                     String postContent = gson.toJson(userTask);
-                    //创建Retrofit实例
                     Retrofit retrofit = new Retrofit.Builder().baseUrl(getResources().getString(R.string.base_url)).addConverterFactory(GsonConverterFactory.create()).build();
-                    //Retrofit retrofit = new Retrofit.Builder().baseUrl("http://192.168.43.60:8889/").addConverterFactory(GsonConverterFactory.create()).build();
-                    //创建网络接口实例
+
                     PostRequestTaskSubmitFiles subRequest = retrofit.create(
                         PostRequestTaskSubmitFiles.class);
-                    //创建RequestBody
+
                     RequestBody contentBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), postContent);
                     Call<ResponseBody> call = subRequest.taskSubmit(contentBody, body);
                     Log.i(TAG, postContent);
@@ -445,14 +421,13 @@ public class ActivityTaskSubmit extends BaseActivity {
             }
         } else Log.i(TAG, "image files list has no files.");
 
+        /** audio upload */
         if (audioList.size() > 0) {
             for (File file : audioList) {
                 uploadedNow = 0;
-                //实现上传进度监听，
                 ProgressRequestBody requestBody = new ProgressRequestBody(file, "audio/*", new UploadCallback() {
                     @Override
                     public void onProgressUpdate(long uploaded) {
-                        //设置进度条实时进度
                         uploadedNow += uploaded;
                         mNumberProgressBar.setProgress((int) (100 * uploadedNow / file.length()));
                     }
@@ -467,9 +442,7 @@ public class ActivityTaskSubmit extends BaseActivity {
 
                     }
                 });
-                //通过已经复写的能够监视进度的requestBody构建MultipartBody类，完成网络上传操作后续就与普通的Retrofit操作类似
                 MultipartBody.Part body = MultipartBody.Part.createFormData("file", file.getName(), requestBody);
-
 
                 String subText = editText.getText().toString();
 
@@ -481,13 +454,12 @@ public class ActivityTaskSubmit extends BaseActivity {
                         taskId, 1, subText, null, 2);
                     Gson gson = new Gson();
                     String postContent = gson.toJson(userTask);
-                    //创建Retrofit实例
+
                     Retrofit retrofit = new Retrofit.Builder().baseUrl(getResources().getString(R.string.base_url)).addConverterFactory(GsonConverterFactory.create()).build();
-                    //Retrofit retrofit = new Retrofit.Builder().baseUrl("http://192.168.43.60:8889/").addConverterFactory(GsonConverterFactory.create()).build();
-                    //创建网络接口实例
+
                     PostRequestTaskSubmitFiles subRequest = retrofit.create(
                         PostRequestTaskSubmitFiles.class);
-                    //创建RequestBody
+
                     RequestBody contentBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), postContent);
                     Call<ResponseBody> call = subRequest.taskSubmit(contentBody, body);
                     Log.i(TAG, postContent);
@@ -514,16 +486,13 @@ public class ActivityTaskSubmit extends BaseActivity {
             }
         } else Log.i(TAG, "audio files list has no files.");
 
+        /** video upload */
         if (videoList.size() > 0) {
             for (File file : videoList) {
-
                 uploadedNow = 0;
-                //实现上传进度监听，
                 ProgressRequestBody requestBody = new ProgressRequestBody(file, "video/*", new UploadCallback() {
                     @Override
                     public void onProgressUpdate(long uploaded) {
-                        //设置进度条实时进度
-                        uploadedNow += uploaded;
                         mNumberProgressBar.setProgress((int) (100 * uploadedNow / file.length()));
                     }
 
@@ -537,9 +506,8 @@ public class ActivityTaskSubmit extends BaseActivity {
 
                     }
                 });
-                //通过已经复写的能够监视进度的requestBody构建MultipartBody类，完成网络上传操作后续就与普通的Retrofit操作类似
-                MultipartBody.Part body = MultipartBody.Part.createFormData("file", file.getName(), requestBody);
 
+                MultipartBody.Part body = MultipartBody.Part.createFormData("file", file.getName(), requestBody);
 
                 String subText = editText.getText().toString();
 
@@ -551,10 +519,8 @@ public class ActivityTaskSubmit extends BaseActivity {
                         taskId, 1, subText, null, 3);
                     Gson gson = new Gson();
                     String postContent = gson.toJson(userTask);
-                    //创建Retrofit实例
+
                     Retrofit retrofit = new Retrofit.Builder().baseUrl(getResources().getString(R.string.base_url)).addConverterFactory(GsonConverterFactory.create()).build();
-                    //Retrofit retrofit = new Retrofit.Builder().baseUrl("http://192.168.43.60:8889/").addConverterFactory(GsonConverterFactory.create()).build();
-                    //创建网络接口实例
                     PostRequestTaskSubmitFiles subRequest = retrofit.create(
                         PostRequestTaskSubmitFiles.class);
                     //创建RequestBody
@@ -583,13 +549,12 @@ public class ActivityTaskSubmit extends BaseActivity {
                 }
             }
         } else Log.i(TAG, "video files list has no files.");
-
-        //最后上传文本框内容
+        /** Finnaly upload the text */
         postRequestSubmit();
     }
 
     private void registerBroadcastReceiver() {
-        //SDU = Sense Data Update
+        /** SDU = Sense Data Update */
         IntentFilter intentFilter = new IntentFilter("SDU");
         mContext = this;
         receiver = new BroadcastReceiver() {
@@ -607,28 +572,25 @@ public class ActivityTaskSubmit extends BaseActivity {
                     cursor.close();
                     text += sensorName + ":  " + data + "\n";
                 }
-                //Toast.makeText(context,"接受到SDU广播，当前Text：\n" + text,Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "接受到SDU广播，当前Text：\n" + text);
                 sensorDataShowTv.setText(text);
             }
         };
         registerReceiver(receiver, intentFilter);
         Log.e(TAG, "注册了广播接收器");
-        //Toast.makeText(this,"注册了广播接收器",Toast.LENGTH_SHORT).show();
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        //Image Search & Add
+        /** Image Search & Add */
         if (requestCode == PictureConfig.CHOOSE_REQUEST && resultCode == Activity.RESULT_OK) {
             List<LocalMedia> selectList = PictureSelector.obtainMultipleResult(data);
             List<File> fileList = new ArrayList<File>();
             if (selectList.size() > 0) {
                 for (LocalMedia media : selectList) {
                     File temFile = new File(media.getPath());
-                    //限制20MB大小
+                    /** 20MB size limit */
                     if (temFile.length() / 1024 <= 20480) fileList.add(temFile);
                     else
                         Toast.makeText(ActivityTaskSubmit.this, getString(R.string.Task_Submit_add_size_error), Toast.LENGTH_SHORT);
@@ -637,13 +599,13 @@ public class ActivityTaskSubmit extends BaseActivity {
             } else
                 Toast.makeText(ActivityTaskSubmit.this, getString(R.string.Task_Submit_add_error), Toast.LENGTH_SHORT);
         }
-        //Audio Search & Add
+        /** Audio Search & Add */
         if (requestCode == RequestCodes.AUDIO_SEARCH_RC && resultCode == Activity.RESULT_OK) {
             Uri uri = data.getData();
             String audioPath = getPath(this, uri);
             if (audioPath != null) {
                 File audio = new File(audioPath);
-                //通知Audio的Adapter更新
+                /** notify the audio adapter to update */
                 if (audio.length() / 1024 <= 20480) audioAdapter.addFooterItem(audio);
                 else
                     Toast.makeText(ActivityTaskSubmit.this, getString(R.string.Task_Submit_add_size_error), Toast.LENGTH_SHORT);
@@ -651,7 +613,7 @@ public class ActivityTaskSubmit extends BaseActivity {
             } else
                 Toast.makeText(ActivityTaskSubmit.this, getString(R.string.Task_Submit_add_error), Toast.LENGTH_SHORT);
         }
-        //Video Search & Add
+        /** Video Search & Add */
         if (requestCode == RequestCodes.VIDEO_SEARCH_RC && resultCode == Activity.RESULT_OK) {
             Uri uri = data.getData();
             String videoPath = getPath(this, uri);
@@ -660,14 +622,13 @@ public class ActivityTaskSubmit extends BaseActivity {
                 if (video.length() / 1024 <= 20480) videoAdapter.addFooterItem(video);
                 else
                     Toast.makeText(ActivityTaskSubmit.this, getString(R.string.Task_Submit_add_size_error), Toast.LENGTH_SHORT);
-                //通知Audio的Adapter更新
             } else
                 Toast.makeText(ActivityTaskSubmit.this, getString(R.string.Task_Submit_add_error), Toast.LENGTH_SHORT);
         }
 
     }
 
-
+    /** Upload the text */
     private void postRequestSubmit() {
         String subText = editText.getText().toString();
         int numForRandom = 0;
@@ -680,12 +641,11 @@ public class ActivityTaskSubmit extends BaseActivity {
                 taskId, 1, subText, null, 0);
             Gson gson = new Gson();
             String postContent = gson.toJson(userTask);
-            //创建Retrofit实例
+
             Retrofit retrofit = new Retrofit.Builder().baseUrl(getResources().getString(R.string.base_url)).addConverterFactory(GsonConverterFactory.create()).build();
-            //Retrofit retrofit = new Retrofit.Builder().baseUrl("http://192.168.43.60:8889/").addConverterFactory(GsonConverterFactory.create()).build();
-            //创建网络接口实例
+
             PostRequestTaskSubmit subRequest = retrofit.create(PostRequestTaskSubmit.class);
-            //创建RequestBody
+
             RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), postContent);
             Call<ResponseBody> call = subRequest.taskSubmit(requestBody);
             Log.i(TAG, postContent);
@@ -706,49 +666,16 @@ public class ActivityTaskSubmit extends BaseActivity {
 
                 }
             });
-
-            /*
-            //图片上传列表
-            List<MultipartBody.Part> picList;
-            if (selImageList.size() >= 1) {
-                //创建提交内容对应的picList
-                picList = new ArrayList<>(selImageList.size());
-                for (ImageItem imageItem : selImageList) {
-                    //通过ImageItem的path创建文件
-                    File file = new File(imageItem.path);
-                    RequestBody requestBody = RequestBody.create(MediaType.parse("image/png"), file);
-                    //马克,这里名字是否为空判定
-                    MultipartBody.Part part = MultipartBody.Part.createFormData("picList", imageItem.name + "_" + num_for_random++, requestBody);
-                    picList.add(part);
-                }
-                call = subRequest.task_Submission(subText, picList);    //根据后台格式修改
-            } else {
-                call = subRequest.task_Submission(subText, null);       //根据后台格式修改
-            }
-            call.enqueue(new Callback<ResponseBody>() {
-                @Override
-                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                    if(response.code() == 200){
-                        Toast.makeText(context, "提交数据成功", Toast.LENGTH_LONG).show();
-                    }
-                }
-                @Override
-                public void onFailure(Call<ResponseBody> call, Throwable t) {
-
-                }
-            });*/
         }
     }
 
-
-    //以下皆为Uri转换path的功能代码
+    /** Uri conversion path function code */
     public String getPath(final Context context, final Uri uri) {
 
         final boolean isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
-
-        // DocumentProvider
+        /** DocumentProvider */
         if (isKitKat && DocumentsContract.isDocumentUri(context, uri)) {
-            // ExternalStorageProvider
+            /** ExternalStorageProvider */
             if (isExternalStorageDocument(uri)) {
                 final String docId = DocumentsContract.getDocumentId(uri);
                 final String[] split = docId.split(":");
@@ -758,7 +685,7 @@ public class ActivityTaskSubmit extends BaseActivity {
                     return Environment.getExternalStorageDirectory() + "/" + split[1];
                 }
             }
-            // DownloadsProvider
+            /** DownloadsProvider */
             else if (isDownloadsDocument(uri)) {
 
                 final String id = DocumentsContract.getDocumentId(uri);
@@ -767,7 +694,7 @@ public class ActivityTaskSubmit extends BaseActivity {
 
                 return getDataColumn(context, contentUri, null, null);
             }
-            // MediaProvider
+            /** MediaProvider */
             else if (isMediaDocument(uri)) {
                 final String docId = DocumentsContract.getDocumentId(uri);
                 final String[] split = docId.split(":");
@@ -788,11 +715,11 @@ public class ActivityTaskSubmit extends BaseActivity {
                 return getDataColumn(context, contentUri, selection, selectionArgs);
             }
         }
-        // MediaStore (and general)
+        /** Media Store */
         else if ("content".equalsIgnoreCase(uri.getScheme())) {
             return getDataColumn(context, uri, null, null);
         }
-        // File
+        /** File Store */
         else if ("file".equalsIgnoreCase(uri.getScheme())) {
             return uri.getPath();
         }
@@ -800,16 +727,7 @@ public class ActivityTaskSubmit extends BaseActivity {
     }
 
 
-    /**
-     * Get the value of the data column for this Uri. This is useful for
-     * MediaStore Uris, and other file-based ContentProviders.
-     *
-     * @param context       The context.
-     * @param uri           The Uri to query.
-     * @param selection     (Optional) Filter used in the query.
-     * @param selectionArgs (Optional) Selection arguments used in the query.
-     * @return The value of the _data column, which is typically a file path.
-     */
+    /** Get the value of the data column for this Uri. This is useful for MediaStore Uris, and other file-based ContentProviders. */
     public String getDataColumn(Context context, Uri uri, String selection,
                                 String[] selectionArgs) {
 
@@ -831,64 +749,23 @@ public class ActivityTaskSubmit extends BaseActivity {
         return null;
     }
 
-    /**
-     * @param uri The Uri to check.
-     * @return Whether the Uri authority is ExternalStorageProvider.
-     */
+    /**  Return the result whether the Uri authority is ExternalStorageProvider. */
     public boolean isExternalStorageDocument(Uri uri) {
         return "com.android.externalstorage.documents".equals(uri.getAuthority());
     }
 
-    /**
-     * @param uri The Uri to check.
-     * @return Whether the Uri authority is DownloadsProvider.
-     */
+    /**  Whether the Uri authority is DownloadsProvider. */
     public boolean isDownloadsDocument(Uri uri) {
         return "com.android.providers.downloads.documents".equals(uri.getAuthority());
     }
 
-    /**
-     * @param uri The Uri to check.
-     * @return Whether the Uri authority is MediaProvider.
-     */
+    /** Return the reuslt that whether the Uri authority is MediaProvider.*/
     public boolean isMediaDocument(Uri uri) {
         return "com.android.providers.media.documents".equals(uri.getAuthority());
     }
-    //Uri转换path的功能代码模块结束
-
-
-    @Override
-    protected void onResume() {
-        /* 测试用代码，现在搁置
-        //获取支持的传感器列表
-        List<Sensor> sensorList = sensorManager.getSensorList(Sensor.TYPE_ALL);
-        String sensorS = "本机支持的传感器有：\n";
-        for (Sensor sensor : sensorList) {
-            String name = sensor.getName();
-            int type = sensor.getType();
-            sensorS += name + "  " + type + "\n";
-        }
-        //sensorS_tv.setText(sensorS);
-        //获取温度、重力、加速度三个传感器信息
-        Sensor sensor_gravity = sensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY);
-        Sensor sensor_acceler = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        Sensor sensor_temper = sensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE);
-        sensorManager.registerListener(sensorListener, sensor_acceler, SensorManager.SENSOR_DELAY_NORMAL);
-        sensorManager.registerListener(sensorListener, sensor_gravity, SensorManager.SENSOR_DELAY_NORMAL);
-        sensorManager.registerListener(sensorListener, sensor_temper, SensorManager.SENSOR_DELAY_NORMAL);
-        */
-
-        super.onResume();
-    }
-
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        //暂停使用，如果恢复registBroadcastReceiver()则要重启
-        //unregisterReceiver(receiver);
-
-        //数据库相关暂时注销
-        //SQLdb.close();
     }
 }

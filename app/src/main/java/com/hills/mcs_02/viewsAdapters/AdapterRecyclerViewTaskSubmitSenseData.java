@@ -11,11 +11,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.hills.mcs_02.R;
+import com.hills.mcs_02.fragmentsPack.MCSRecyclerItemClickListener;
+
 import java.io.File;
 import java.util.List;
-
-import com.hills.mcs_02.fragmentsPack.MCSRecyclerItemClickListener;
-import com.hills.mcs_02.R;
 
 public class AdapterRecyclerViewTaskSubmitSenseData extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final static String TAG = "Adapter_RecyclerView_TaskSubmit_SenseData";
@@ -32,13 +32,11 @@ public class AdapterRecyclerViewTaskSubmitSenseData extends RecyclerView.Adapter
         mInflater = LayoutInflater.from(context);
     }
 
-
     @Override
     public long getItemId(int position) {
         return position;
     }
 
-    //根据返回的viewType值创建不同的viewholder，对应不同的item布局,viewType的值是从getItemViewType()方法设置的
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
@@ -48,12 +46,10 @@ public class AdapterRecyclerViewTaskSubmitSenseData extends RecyclerView.Adapter
             return new audioRvViewHolder(view,mListener);
         }else{
             Log.i(TAG,"viewType返回值出错");
-            //Toast.makeText(mConetxt,"viewType返回值出错",Toast.LENGTH_SHORT).show();
             return null;
         }
     }
 
-    //返回Item的viewType
     @Override
     public int getItemViewType(int position) {
         if(mSenseDataFileList.size() <= 0){
@@ -64,10 +60,8 @@ public class AdapterRecyclerViewTaskSubmitSenseData extends RecyclerView.Adapter
         }
     }
 
-
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, final int position) {
-
         if(viewHolder instanceof audioRvViewHolder) {
             audioRvViewHolder holder = (audioRvViewHolder) viewHolder;
             final String audioName =  mSenseDataFileList.get(position).getName();
@@ -76,14 +70,11 @@ public class AdapterRecyclerViewTaskSubmitSenseData extends RecyclerView.Adapter
             holder.deleteIv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    //这样写存在的问题探究
                     deleteItem(mSenseDataFileList.get(position));
                 }
             });
-
         }else{
             Log.i(TAG,"instance 错误");
-            //Toast.makeText(mConetxt,"instance 错误",Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -92,24 +83,18 @@ public class AdapterRecyclerViewTaskSubmitSenseData extends RecyclerView.Adapter
         return mSenseDataFileList.size();
     }
 
-
-    // ViewHolder用于缓存控件，三个属性分别对应item布局文件的三个控件
     class audioRvViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private ImageView deleteIv;
         private TextView audioNameTv;
 
         private MCSRecyclerItemClickListener mRecyclerItemClickListener;
 
-
         public audioRvViewHolder(@NonNull View itemView, MCSRecyclerItemClickListener listener) {
             super(itemView);
-            //对viewHolder的属性进行赋值
             deleteIv = (ImageView) itemView.findViewById(R.id.taskSubmit_audio_rvitem_delete);
             audioNameTv = (TextView) itemView.findViewById(R.id.taskSubmit_audio_name_rvitem);
 
-
-
-            //设置回调接口
+            /** Setting the callback Listener */
             this.mRecyclerItemClickListener = listener;
             itemView.setOnClickListener(this);
         }
@@ -122,7 +107,6 @@ public class AdapterRecyclerViewTaskSubmitSenseData extends RecyclerView.Adapter
         }
     }
 
-    //设置接口
     public void setRecyclerItemClickListener(MCSRecyclerItemClickListener listener) {
         this.mListener = listener;
     }
@@ -141,5 +125,4 @@ public class AdapterRecyclerViewTaskSubmitSenseData extends RecyclerView.Adapter
         mSenseDataFileList.remove(item);
         notifyDataSetChanged();
     }
-
 }

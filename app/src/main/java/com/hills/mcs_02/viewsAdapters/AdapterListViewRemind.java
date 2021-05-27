@@ -8,12 +8,12 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.List;
-
+import com.hills.mcs_02.R;
 import com.hills.mcs_02.dataBeans.BeanListViewRemind;
 import com.hills.mcs_02.dataBeans.Task;
 import com.hills.mcs_02.fragmentsPack.MCSRecyclerItemClickListener;
-import com.hills.mcs_02.R;
+
+import java.util.List;
 
 public class AdapterListViewRemind extends BaseAdapter {
     private List<BeanListViewRemind> mBeanListViewRemindList;
@@ -49,10 +49,8 @@ public class AdapterListViewRemind extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder;
-        //如果view未被实例化过，缓存池中没有对应的缓存
         if (convertView == null) {
             viewHolder = new ViewHolder();
-            // 由于我们只需要将XML转化为View，并不涉及到具体的布局，所以第二个参数通常设置为null
             convertView = mInflater.inflate(R.layout.listview_item_remindpage,null);
 
             viewHolder.userIconIv = (ImageView) convertView.findViewById(R.id.remindpage_tasklv_userIcon);
@@ -64,7 +62,6 @@ public class AdapterListViewRemind extends BaseAdapter {
             viewHolder.coinsCountTv = (TextView)convertView.findViewById(R.id.remindpage_tasklv_CoinsCount);
             viewHolder.taskCountTv = (TextView)convertView.findViewById(R.id.remindpage_tasklv_TaskCount);
 
-            //通过setTag将convertView与viewHolder关联
             convertView.setTag(viewHolder);
         }else{
             viewHolder = (ViewHolder) convertView.getTag();
@@ -82,7 +79,6 @@ public class AdapterListViewRemind extends BaseAdapter {
         viewHolder.taskContentTv.setText(task.getDescribeTask().substring(0,19) + "...");
         viewHolder.coinsCountTv.setText(task.getCoin() + "");
         viewHolder.taskCountTv.setText(task.getTotalNum() + "");
-
 
         return convertView;
     }

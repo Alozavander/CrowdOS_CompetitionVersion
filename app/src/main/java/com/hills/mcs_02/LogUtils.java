@@ -3,14 +3,11 @@ package com.hills.mcs_02;
 import android.util.Log;
 
 public class LogUtils {
-    static String className;//类名
-    static String methodName;//方法名
-    static int lineNumber;//行数
+    static String className;
+    static String methodName;
+    static int lineNumber;
 
-    /**
-     * 判断是否可以调试
-     * @return
-     */
+    /** Determine whether it can be debugged */
     public static boolean IS_DEBUGGABLE() {
         return BuildConfig.DEBUG;
     }
@@ -23,10 +20,7 @@ public class LogUtils {
         return buffer.toString();
     }
 
-    /**
-     * 获取文件名、方法名、所在行数
-     * @param sElements
-     */
+    /** Get the file name, method name, and number of lines */
     private static void GET_METHOD_NAME(StackTraceElement[] sElements){
         className = sElements[1].getFileName();
         methodName = sElements[1].getMethodName();

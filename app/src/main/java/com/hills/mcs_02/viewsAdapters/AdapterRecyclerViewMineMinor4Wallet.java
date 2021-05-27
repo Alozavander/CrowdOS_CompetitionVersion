@@ -8,11 +8,11 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.List;
-
-import com.hills.mcs_02.dataBeans.BeanRecyclerViewMineMinor4Wallet;
 import com.hills.mcs_02.R;
+import com.hills.mcs_02.dataBeans.BeanRecyclerViewMineMinor4Wallet;
 import com.hills.mcs_02.viewsAdapters.AdapterRecyclerViewMineMinor4Wallet.viewHolder;
+
+import java.util.List;
 
 public class AdapterRecyclerViewMineMinor4Wallet extends RecyclerView.Adapter<viewHolder> {
 
@@ -34,7 +34,6 @@ public class AdapterRecyclerViewMineMinor4Wallet extends RecyclerView.Adapter<vi
     public AdapterRecyclerViewMineMinor4Wallet(List<BeanRecyclerViewMineMinor4Wallet> beanRecyclerViewmineminor4wallet_list){
         mBeanRecyclerViewMineMinor4WalletList = beanRecyclerViewmineminor4wallet_list;
     }
-
 
     @Override
     public viewHolder onCreateViewHolder( ViewGroup viewGroup, int temp) {

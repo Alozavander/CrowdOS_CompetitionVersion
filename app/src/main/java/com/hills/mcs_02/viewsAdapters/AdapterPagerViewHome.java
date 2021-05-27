@@ -9,10 +9,10 @@ import androidx.viewpager.widget.PagerAdapter;
 
 import java.util.List;
 
-//首页为图片轮换设置的数据适配器类
+/** Homepage PagerView Adapter */
 public class AdapterPagerViewHome extends PagerAdapter {
     private List<ImageView> views;
-    private Context mContext;//作为能够准确定位到首页图片轮转view的媒介
+    private Context mContext;
 
     public AdapterPagerViewHome(List<ImageView> views, Context context) {
         this.views = views;
@@ -31,7 +31,6 @@ public class AdapterPagerViewHome extends PagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        // return super.instantiateItem(container, position);
         View view = views.get(position);
         container.addView(view);
         return view;
@@ -39,7 +38,6 @@ public class AdapterPagerViewHome extends PagerAdapter {
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
-        //super.destroyItem(container, position, object);
         container.removeView(views.get(position));
     }
 

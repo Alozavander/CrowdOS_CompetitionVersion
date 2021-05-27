@@ -8,34 +8,34 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.List;
-
-import com.hills.mcs_02.dataBeans.BeanListViewMine;
 import com.hills.mcs_02.R;
+import com.hills.mcs_02.dataBeans.BeanListViewMine;
+
+import java.util.List;
 
 
 public class AdapterListViewMine extends BaseAdapter {
     private List<BeanListViewMine> mBeanListView;
-    private LayoutInflater mInflater;//布局装载器对象
+    private LayoutInflater mInflater;
 
     public AdapterListViewMine(List<BeanListViewMine> beanListView, Context context) {
         mBeanListView = beanListView;
         mInflater = LayoutInflater.from(context);
     }
 
-    //显示数据数量
+    /** Display the number of the data */
     @Override
     public int getCount() {
         return mBeanListView.size();
     }
 
-    //索引对应的数据项
+    /** Index of the corresponding data item */
     @Override
     public Object getItem(int position) {
         return mBeanListView.get(position);
     }
 
-    //索引对应数据项的ID
+    /** Index of the corresponding data item ID */
     @Override
     public long getItemId(int position) {
         return position;
@@ -44,16 +44,16 @@ public class AdapterListViewMine extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         viewHolder viewHolder;
-        //如果view未被实例化过，缓存池中没有对应的缓存
+        /** Judge the view have been initiated or not */
         if (convertView == null) {
             viewHolder = new viewHolder();
-            // 由于我们只需要将XML转化为View，并不涉及到具体的布局，所以第二个参数通常设置为null
+            /** We don't nee convert the XML file to View, so the second parmeter is null */
             convertView = mInflater.inflate(R.layout.listview_item_minepage,null);
 
             viewHolder.iconIv = (ImageView) convertView.findViewById(R.id.homepage_lvItem_icon);
             viewHolder.titleTv = (TextView) convertView.findViewById(R.id.homepage_lvItem_title);
 
-            //通过setTag将convertView与viewHolder关联
+            /** Connect the viewHolder and convertView with setTag */
             convertView.setTag(viewHolder);
         }else{
             viewHolder = (AdapterListViewMine.viewHolder) convertView.getTag();
@@ -68,7 +68,7 @@ public class AdapterListViewMine extends BaseAdapter {
     }
 
 
-    //为缓冲机制设立的内部类
+    /** Inner Class */
     class viewHolder {
         private ImageView iconIv;
         private TextView titleTv;

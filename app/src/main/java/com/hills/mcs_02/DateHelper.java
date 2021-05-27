@@ -11,16 +11,12 @@ public class DateHelper {
         return SIMPLE_DATE_FORMAT;
     }
 
-    /*
-     * s must be yyyy-MM-dd HH:mm:ss
-     */
+    /** str must be yyyy-MM-dd HH:mm:ss */
     public static Date string2Date (String str) throws ParseException {
         return SIMPLE_DATE_FORMAT.parse(str);
     }
 
-    /*
-     * s must be yyyy-MM-dd HH:mm:ss
-     */
+    /** str must be yyyy-MM-dd HH:mm:ss */
     public static long string2TimeStamp(String str) throws ParseException {
         return SIMPLE_DATE_FORMAT.parse(str).getTime();
     }

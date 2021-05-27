@@ -11,38 +11,32 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.List;
-
+import com.hills.mcs_02.R;
 import com.hills.mcs_02.dataBeans.BeanListViewHome;
 import com.hills.mcs_02.fragmentsPack.MCSRecyclerItemClickListener;
-import com.hills.mcs_02.R;
+
+import java.util.List;
 
 
 public class AdapterRecyclerViewHome extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final static String TAG = "Adapter_RecyclerView_home";
     private List<BeanListViewHome> mBeanListViewHome;
     private Context mContext;
-    private LayoutInflater mInflater;//布局装载器对象
+    private LayoutInflater mInflater;
     private MCSRecyclerItemClickListener mListener;
-    //private Context mContext;
 
     public AdapterRecyclerViewHome(Context context, List<BeanListViewHome> list) {
         mContext = context;
         this.mInflater = LayoutInflater.from(context);
         this.mBeanListViewHome = list;
-        //mContext = context;
     }
 
-
-
-
-    //索引对应数据项的ID
     @Override
     public long getItemId(int position) {
         return position;
     }
 
-    //根据返回的viewType值创建不同的viewholder，对应不同的item布局,viewType的值是从getItemViewType()方法设置的
+    /** Create different viewHolders according to the returned viewType value, corresponding to different item layouts */
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
@@ -52,12 +46,11 @@ public class AdapterRecyclerViewHome extends RecyclerView.Adapter<RecyclerView.V
             return new homeViewHolder(view,mListener);
         }else{
             Log.i(TAG,"viewType返回值出错");
-            //Toast.makeText(mConetxt,"viewType返回值出错",Toast.LENGTH_SHORT).show();
             return null;
         }
     }
 
-    //返回Item的viewType
+    /** Return viewType of view */
     @Override
     public int getItemViewType(int position) {
         if(mBeanListViewHome.size() <= 0){
@@ -70,7 +63,6 @@ public class AdapterRecyclerViewHome extends RecyclerView.Adapter<RecyclerView.V
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, final int position) {
-
         if(viewHolder instanceof homeViewHolder){
             homeViewHolder holder = (homeViewHolder) viewHolder;
             BeanListViewHome bean = (BeanListViewHome) mBeanListViewHome.get(position);
@@ -91,13 +83,11 @@ public class AdapterRecyclerViewHome extends RecyclerView.Adapter<RecyclerView.V
             holder.taskContentTv.setText(bean.getTaskContent());
             holder.timeTv.setText(bean.getPostTime());
             holder.photoIv.setImageResource(bean.getPhoto());
-            //测试使用，实际应使用网络加载路径
             holder.userIconIv.setImageResource(bean.getUserIcon());
             holder.userIdTv.setText(bean.getUserId());
             holder.taskCountTv.setText(bean.getTaskCount() + "");
         }else{
             Log.i(TAG,"instance 错误");
-            //Toast.makeText(mConetxt,"instance 错误",Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -105,15 +95,12 @@ public class AdapterRecyclerViewHome extends RecyclerView.Adapter<RecyclerView.V
 
     @Override
     public int getItemCount() {
-        //Toast.makeText(mContext,"当前列表长度为：" + mBean_ListView_homes.size(),Toast.LENGTH_SHORT).show();
         return mBeanListViewHome.size();
     }
 
-    // ViewHolder用于缓存控件，三个属性分别对应item布局文件的三个控件
+    /** ViewHolder is used to cache controls, and the three properties correspond to the three controls of the item layout file. */
     class homeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private ImageView userIconIv;
-        //private ImageView categoryIcon_iv;
-        // private ImageView starIcon_iv;
         private TextView taskNameTv;
         private ImageView photoIv;
         private TextView userIdTv;
@@ -125,10 +112,9 @@ public class AdapterRecyclerViewHome extends RecyclerView.Adapter<RecyclerView.V
         private TextView deadlineTv;
         private MCSRecyclerItemClickListener mRecyclerItemClickListener;
 
-
         public homeViewHolder(@NonNull View itemView, MCSRecyclerItemClickListener listener) {
             super(itemView);
-            //对viewHolder的属性进行赋值
+            /** Assign values to the attributes of viewHolder */
             taskNameTv = itemView.findViewById(R.id.listview_TaskName);
             userIconIv = (ImageView) itemView.findViewById(R.id.listview_userIcon);
             timeTv = (TextView) itemView.findViewById(R.id.listview_Time);
@@ -140,7 +126,7 @@ public class AdapterRecyclerViewHome extends RecyclerView.Adapter<RecyclerView.V
             userIdTv = (TextView)itemView.findViewById(R.id.listview_userID);
             photoIv = itemView.findViewById(R.id.listview_Photo);
 
-            //设置回调接口
+            /** Set callback interface */
             this.mRecyclerItemClickListener = listener;
             itemView.setOnClickListener(this);
         }
@@ -153,7 +139,7 @@ public class AdapterRecyclerViewHome extends RecyclerView.Adapter<RecyclerView.V
         }
     }
 
-    //设置接口
+    /** Set callback interface */
     public void setRecyclerItemClickListener(MCSRecyclerItemClickListener listener) {
         this.mListener = listener;
     }
@@ -167,5 +153,4 @@ public class AdapterRecyclerViewHome extends RecyclerView.Adapter<RecyclerView.V
         mBeanListViewHome.addAll(items);
         notifyDataSetChanged();
     }
-
 }

@@ -8,16 +8,15 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.List;
-
-import com.hills.mcs_02.dataBeans.BeanListViewMineMinor4Wallet;
 import com.hills.mcs_02.R;
+import com.hills.mcs_02.dataBeans.BeanListViewMineMinor4Wallet;
+
+import java.util.List;
 
 
 public class AdapterListViewMineMinor4Wallet extends BaseAdapter {
     private List<BeanListViewMineMinor4Wallet> mBeanListViewMineMinor4Wallet;
     private LayoutInflater mInflater;
-
 
     public AdapterListViewMineMinor4Wallet() {
         super();

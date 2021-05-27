@@ -18,14 +18,10 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import java.util.List;
-
 import com.hills.mcs_02.R;
 
-/**
- * 选择对话框
- *
- */
+import java.util.List;
+
 
 public class SelectDialog extends Dialog implements OnClickListener,OnItemClickListener {
     private SelectDialogListener mListener;
@@ -42,10 +38,7 @@ public class SelectDialog extends Dialog implements OnClickListener,OnItemClickL
         public void onItemClick(AdapterView<?> parent, View view, int position, long id);
     }
 
-    /**
-     * 取消事件监听接口
-     *
-     */
+    /** Cancel event monitoring interface */
     private SelectDialogCancelListener mCancelListener;
 
     public interface SelectDialogCancelListener {
@@ -62,14 +55,7 @@ public class SelectDialog extends Dialog implements OnClickListener,OnItemClickL
         setCanceledOnTouchOutside(true);
     }
 
-    /**
-     * @param activity 调用弹出菜单的activity
-     * @param theme 主题
-     * @param listener 菜单项单击事件
-     * @param cancelListener 取消事件
-     * @param names 菜单项名称
-     *
-     */
+    /** The activity that calls the pop-up menu */
     public SelectDialog(Activity activity, int theme,SelectDialogListener listener,SelectDialogCancelListener cancelListener ,List<String> names) {
         super(activity, theme);
         mActivity = activity;
@@ -77,18 +63,10 @@ public class SelectDialog extends Dialog implements OnClickListener,OnItemClickL
         mCancelListener = cancelListener;
         this.mName=names;
 
-        // 设置是否点击外围不解散
+        /** Set whether to click on the periphery to not dismiss  */
         setCanceledOnTouchOutside(false);
     }
 
-    /**
-     * @param activity 调用弹出菜单的activity
-     * @param theme 主题
-     * @param listener 菜单项单击事件
-     * @param names 菜单项名称
-     * @param title 菜单标题文字
-     *
-     */
     public SelectDialog(Activity activity, int theme,SelectDialogListener listener,List<String> names,String title) {
         super(activity, theme);
         mActivity = activity;
@@ -96,7 +74,6 @@ public class SelectDialog extends Dialog implements OnClickListener,OnItemClickL
         this.mName=names;
         mTitle = title;
 
-        // 设置是否点击外围可解散
         setCanceledOnTouchOutside(true);
     }
 
@@ -108,7 +85,6 @@ public class SelectDialog extends Dialog implements OnClickListener,OnItemClickL
         this.mName=names;
         mTitle = title;
 
-        // 设置是否点击外围可解散
         setCanceledOnTouchOutside(true);
     }
 
@@ -120,16 +96,16 @@ public class SelectDialog extends Dialog implements OnClickListener,OnItemClickL
         setContentView(view, new LayoutParams(LayoutParams.FILL_PARENT,
                 LayoutParams.WRAP_CONTENT));
         Window window = getWindow();
-        // 设置显示动画
+        /**Set the animation of display */
         window.setWindowAnimations(R.style.main_menu_animstyle);
         WindowManager.LayoutParams wl = window.getAttributes();
         wl.x = 0;
         wl.y = mActivity.getWindowManager().getDefaultDisplay().getHeight();
-        // 以下这两句是为了保证按钮可以水平满屏
+        /** Ensure that the button can fill the screen horizontally */
         wl.width = LayoutParams.MATCH_PARENT;
         wl.height = LayoutParams.WRAP_CONTENT;
 
-        // 设置显示位置
+        /** Set the display location */
         onWindowAttributesChanged(wl);
 
         initViews();
@@ -143,9 +119,7 @@ public class SelectDialog extends Dialog implements OnClickListener,OnItemClickL
         mBtnCancel = (Button) findViewById(R.id.mBtn_Cancel);
         mTvTitle = (TextView) findViewById(R.id.mTv_Title);
 
-
         mBtnCancel.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View view) {
                 if(mCancelListener != null){
@@ -237,9 +211,7 @@ public class SelectDialog extends Dialog implements OnClickListener,OnItemClickL
         public TextView dialogItemButton;
     }
 
-    /**
-     * 设置列表项的文本颜色
-     */
+    /** Set the text color of the list item */
     public void setItemColor(int firstItemColor, int otherItemColor) {
         mFirstItemColor = firstItemColor;
         mOtherItemColor = otherItemColor;

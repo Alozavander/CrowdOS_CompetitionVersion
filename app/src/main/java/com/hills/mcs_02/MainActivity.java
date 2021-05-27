@@ -1,15 +1,7 @@
 
 package com.hills.mcs_02;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-
-import com.daimajia.numberprogressbar.NumberProgressBar;
-import okhttp3.ResponseBody;
-import pub.devrel.easypermissions.EasyPermissions;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.ComponentName;
 import android.content.DialogInterface;
@@ -19,7 +11,6 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
-import android.Manifest;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -37,16 +28,10 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
+import com.daimajia.numberprogressbar.NumberProgressBar;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.hills.mcs_02.activities.ActivityEditInfo;
-import com.hills.mcs_02.activities.ActivityFuncFoodShare;
-import com.hills.mcs_02.activities.ActivityFuncSportShare;
 import com.hills.mcs_02.activities.ActivityLogin;
-import com.hills.mcs_02.activities.ActivitySecondPage;
 import com.hills.mcs_02.activities.ActivityTaskDetail;
 import com.hills.mcs_02.activities.SearchActivity;
 import com.hills.mcs_02.downloadPack.DownloadFileUtils;
@@ -64,28 +49,37 @@ import com.hills.mcs_02.sensorFunction.SenseHelper;
 import com.hills.mcs_02.sensorFunction.SensorService;
 import com.hills.mcs_02.sensorFunction.SensorServiceInterface;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import okhttp3.ResponseBody;
+import pub.devrel.easypermissions.EasyPermissions;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class MainActivity extends BaseActivity implements ForTest {
     public static final String TAG = "MainActivity";
     public static final String dbPath = "data/data/com.hills.mcs_02/cache" + File.separator + "sensorData" + File.separator + "sensorData.db";
     public int PERMISSION_REQUEST_CODE = 10001;
-    //自己封装的传感器获取信息类
     private String appName;
-    //GPS
     private LocationManager locationManager;
     private int GpsRequestCode = 1;
+    /** Location permission requests */
     static final String[] LOCATION_GPS = new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,
         Manifest.permission.ACCESS_FINE_LOCATION,
         Manifest.permission.READ_PHONE_STATE};
-    private static final int READ_PHONE_STATE = 100;//定位权限请求
+    private static final int READ_PHONE_STATE = 100;
     private FragmentManager fragmentManager;
-    //为解决多重点击底部导航栏导致回退栈错误设立的tag
-    //自定义底部导航栏的点击相应监听器
+    /** Customize the click listener in the BottomNavigationBar  */
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener;
     private String apkLocalPath;
     public List<Fragment> mFragmentList;
     public int lastFragmentIndex = 0;
 
-    //开启sensorService服务
+    /** Open sensorService */
     private SensorServiceInterface sensorServiceInterface;
     private boolean isBind;
     private ServiceConnection conn;
@@ -97,7 +91,7 @@ public class MainActivity extends BaseActivity implements ForTest {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         locationManager = (LocationManager) this.getSystemService(this.LOCATION_SERVICE);
-        //涉及到Fragment返回重建问题,initFragment时初始化函数，只有在没有前置保留地InstanceState情况下才执行
+        /** The initialization function when initFragment is executed only when there is no pre-reserved InstanceState  */
         initBottomNavigationView();
         if (savedInstanceState == null) {
             initFragment();
@@ -110,7 +104,7 @@ public class MainActivity extends BaseActivity implements ForTest {
 
     private void livenessInit() {
         int loginUserId = Integer.parseInt(getSharedPreferences("user", MODE_PRIVATE).getString("userID", "-1"));
-        //检查是否登录
+        /** Check login or logout */
         if (loginUserId != -1) {
             Call<ResponseBody> call = MainRetrofitCallGenerator.getLivenessCall(MainActivity.this, loginUserId, getResources().getString(R.string.base_url));
             call.enqueue(new Callback<ResponseBody>() {
@@ -132,16 +126,14 @@ public class MainActivity extends BaseActivity implements ForTest {
     private void initPermission() {
         String[] perms = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.CAMERA, Manifest.permission.INSTALL_PACKAGES};
         if (!EasyPermissions.hasPermissions(this, perms)) {
-            // Do not have permissions, request them now
+            /** Do not have permissions, request them now */
             EasyPermissions.requestPermissions(this, getString(R.string.permission),
                 PERMISSION_REQUEST_CODE, perms);
         }
     }
 
     private void initBottomNavigationView() {
-        //获取底部导航栏并添加监听器
         mBottomNavigationView = (BottomNavigationView) findViewById(R.id.navigation);
-        //创建BNV底部点击监听器
         mOnNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -163,10 +155,10 @@ public class MainActivity extends BaseActivity implements ForTest {
                         break;
                     case R.id.navigation_remind:
                         int loginUserId = Integer.parseInt(getSharedPreferences("user", MODE_PRIVATE).getString("userID", "-1"));
-                        //检查是否登录
+                        /** Check Login or Logout */
                         if (loginUserId == -1) {
                             bottomNavigationViewIconFresh();
-                            //跳转到登录页面
+                            /** Jump to the login page  */
                             Intent intent = new Intent(MainActivity.this, ActivityLogin.class);
                             startActivity(intent);
                             mBottomNavigationView.getMenu().getItem(2).setIcon(R.drawable.navi_remind_press);
@@ -182,7 +174,7 @@ public class MainActivity extends BaseActivity implements ForTest {
             }
         };
         mBottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        //导航栏颜色，文本等设置
+        /** Navigation bar color, text and other settings  */
         Resources resource = (Resources) getBaseContext().getResources();
         ColorStateList csl = (ColorStateList) resource.getColorStateList(R.color.bottom_navigation_color_list, null);
         mBottomNavigationView.setItemTextColor(csl);
@@ -192,7 +184,7 @@ public class MainActivity extends BaseActivity implements ForTest {
     }
 
     private void initUserInfo() {
-        //为用户登录信息初始化sharedPreference
+        /** Init the user login infomation with sharedPreference */
         SharedPreferences userSp = getSharedPreferences("user", MODE_PRIVATE);
         userSp.edit().putString("userID", "-1");   //userID设置为-1初始化
         userSp.edit().commit();
@@ -200,7 +192,7 @@ public class MainActivity extends BaseActivity implements ForTest {
 
     private void initService() {
         Log.i(TAG, "=======Now Init the sensor Service...===========");
-        //初始化传感器感知服务Service
+        /** Init the sensor sensing function Service */
         sh = new SenseHelper(this);
         Intent intent = new Intent(MainActivity.this, SensorService.class);
         if (conn == null) {
@@ -208,10 +200,8 @@ public class MainActivity extends BaseActivity implements ForTest {
             conn = new ServiceConnection() {
                 @Override
                 public void onServiceConnected(ComponentName name, IBinder service) {
-
                     sensorServiceInterface = (SensorServiceInterface) service;
                     Log.i(TAG, "sensorService_interface connection is done.");
-                    //测试使用调用接口，启动所有传感器
                     sensorServiceInterface.binderSensorOn(sh.getSensorListTypeIntIntegers());
                     Log.i(TAG, "SensorService's sensorOn has been remote.");
                 }
@@ -226,14 +216,12 @@ public class MainActivity extends BaseActivity implements ForTest {
         }
         isBind = bindService(intent, conn, BIND_AUTO_CREATE);
         Log.i(TAG, "=============SensorService has been bound :" + isBind + "==============");
-
         Log.i(TAG, "ForegroundService");
-        //启动开源竞赛数据收集服务
+        /** Open the SensorDataUploadService */
         int userId = Integer.parseInt(getSharedPreferences("user", MODE_PRIVATE).getString("userID", "-1"));
         if(userId == -1){
             Log.i(TAG,"SenseDataUploadService is not on because of logout.");
         }else{
-            //启动开源竞赛数据收集服务
             Intent lIntent = new Intent(MainActivity.this, SenseDataUploadService.class);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 startForegroundService(lIntent);
@@ -245,13 +233,13 @@ public class MainActivity extends BaseActivity implements ForTest {
 
     @Override
     protected void onStart() {
-        //活跃度检测：上线
+        /** Init liveness function */
         livenessInit();
         super.onStart();
     }
 
     private void bottomNavigationViewIconFresh() {
-        //添加底部导航栏的图标
+        /** Add the icon for the BottomNavigationBar */
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.getMenu().getItem(0).setIcon(R.drawable.navi_home);
         navigation.getMenu().getItem(1).setIcon(R.drawable.navi_publish);
@@ -272,9 +260,8 @@ public class MainActivity extends BaseActivity implements ForTest {
             MainAlertDilalogGenerator.getGPSPermissionDialog(MainActivity.this).setPositiveButton("设置", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int temp) {
-                    //跳转到手机原生设置页面
+                    /** Jump to phone setting page */
                     Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                    //测试关注点
                     startActivityForResult(intent, GpsRequestCode);
                 }
             }).show();
@@ -288,7 +275,7 @@ public class MainActivity extends BaseActivity implements ForTest {
     }
 
     private void initFragment() {
-        //获取FragmentManager,初始化添加首页Fragment
+        /** Get the FragmentManager and init the homepage Fragment */
         fragmentManager = getSupportFragmentManager();
         mFragmentList = new ArrayList<>();
         mFragmentList.add(new FragmentHome());
@@ -314,21 +301,6 @@ public class MainActivity extends BaseActivity implements ForTest {
         ft.commitAllowingStateLoss();
     }
 
-    @Override
-    public void buttonAddItem() {
-        //bean =  new Bean_ListView_home(R.drawable.haimian_usericon, R.drawable.takephoto, R.drawable.star_1, R.drawable.testphoto_4, "海绵宝宝" , "20分钟前", "公共资源", "任务描述：国安大厦停车位还有吗……",  "5.0 元", "3 个", "截止时间：2018.12.12");
-    }
-
-    //接口设置
-    //二级页面跳转入口，将二级页面得Tag名称以及处于对应页面ListView的position值作为能够唯一识别的触发条件
-    @Override
-    public void jumpTo2rdPage(String pageTag, int position) {
-        Intent intent = new Intent(MainActivity.this, ActivitySecondPage.class);
-        intent.putExtra("pageTag", pageTag);
-        intent.putExtra("position", position);
-        startActivity(intent);
-    }
-
     public void jumpToLoginPage() {
         Intent intent = new Intent(MainActivity.this, ActivityLogin.class);
         startActivity(intent);
@@ -346,25 +318,13 @@ public class MainActivity extends BaseActivity implements ForTest {
         startActivity(intent);
     }
 
-    public void jumpToFuncSportActivity() {
-        Intent intent = new Intent(MainActivity.this, ActivityFuncSportShare.class);
-        startActivity(intent);
-    }
-
-    public void jumpToFuncFoodActivity() {
-        Intent intent = new Intent(MainActivity.this, ActivityFuncFoodShare.class);
-        startActivity(intent);
-    }
-
     @Override
     public void jumpToEditInfo() {
         Intent intent = new Intent(MainActivity.this, ActivityEditInfo.class);
         startActivity(intent);
     }
 
-
-
-    //检查最新版本
+    /** Check the new version */
     private void checkVersion() {
         appName = null;
         Call<ResponseBody> call = MainRetrofitCallGenerator.getCheckVersionCall(MainActivity.this, getResources().getString(R.string.base_url));
@@ -390,12 +350,12 @@ public class MainActivity extends BaseActivity implements ForTest {
     }
 
     private void downAlertDialog() {
-        //弹出下载的提示框口
+        /** Pop up the download box  */
         AlertDialog.Builder builder = MainAlertDilalogGenerator.getDownAlertDialog(MainActivity.this);
         builder.setPositiveButton(getString(R.string.confirm), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                //发送下载应用请求，并显示progrossbar
+                /** Sengd download request and display the progressbar */
                 downloadNewApp();
             }
         });
@@ -405,9 +365,9 @@ public class MainActivity extends BaseActivity implements ForTest {
     private void downloadNewApp() {
         File newApp = null;
         AlertDialog dialog = MainAlertDilalogGenerator.getProgressbarDownAlertDialog(MainActivity.this).show();
-        //拿到布局中的进度条
+        /** Get the progressbar view in layout */
         NumberProgressBar bar = dialog.findViewById(R.id.dialog_progressbar);
-        //创建下载监听器
+        /** Create the download listener */
         DownloadListener listener = new DownloadListener() {
             @Override
             public void onStart() {
@@ -437,19 +397,19 @@ public class MainActivity extends BaseActivity implements ForTest {
                 Toast.makeText(MainActivity.this, "Download Failure.", Toast.LENGTH_SHORT).show();
             }
         };
-        //加入后台对标的网址 System.currentTimeMillis() + appName
+        /** Get the file after dowoloading */
         newApp = new DownloadFileUtils(getString(R.string.base_url)).downloadFile(System.currentTimeMillis() + appName, listener);
     }
 
     private void getInstallPermission(String localPath) {
         if (!getPackageManager().canRequestPackageInstalls()) {
             System.out.println("can not request installs");
-            //弹出下载的提示框口
+            /** Pop up the update remind box */
             AlertDialog.Builder builder = MainAlertDilalogGenerator.getInstallPermissionDialog(MainActivity.this);
             builder.setPositiveButton(getString(R.string.confirm), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    //前往设置页面检查开放权限
+                    /** Go to the phone setting page to request the setup permission */
                     Intent intent = new Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES);
                     startActivityForResult(intent, 10086);//注意此处要对返回的code进行识别并进行再判断
                 }
@@ -467,7 +427,6 @@ public class MainActivity extends BaseActivity implements ForTest {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        //如果没有打开GPS权限就一直打开!
         if (requestCode == GpsRequestCode) {
             openGpsSetting();
         }
@@ -488,14 +447,14 @@ public class MainActivity extends BaseActivity implements ForTest {
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        // Forward results to EasyPermissions
+        /** Forward results to EasyPermissions */
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        //活跃度检测：下线
+        /** Get the logout state */
         userLogout();
     }
 
@@ -508,11 +467,10 @@ public class MainActivity extends BaseActivity implements ForTest {
         super.onDestroy();
     }
 
-    //服务器活跃度检测功能向方法
+    /** The liveness function method */
     private void userLogout() {
         int loginUserId = Integer.parseInt(getSharedPreferences("user", MODE_PRIVATE).getString("userID", "-1"));
         String url = getResources().getString(R.string.base_url);
-        //检查是否登录
         if (loginUserId != -1) {
             UserLivenessFunction ulFunction = new UserLivenessFunction(MainActivity.this);
             ulFunction.userLogout(loginUserId, url);

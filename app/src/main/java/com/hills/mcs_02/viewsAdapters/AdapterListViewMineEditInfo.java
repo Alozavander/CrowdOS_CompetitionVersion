@@ -7,10 +7,10 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import java.util.List;
-
-import com.hills.mcs_02.dataBeans.BeanListViewMineEditInfo;
 import com.hills.mcs_02.R;
+import com.hills.mcs_02.dataBeans.BeanListViewMineEditInfo;
+
+import java.util.List;
 
 public class AdapterListViewMineEditInfo extends BaseAdapter {
     private List<BeanListViewMineEditInfo> mBeanListViewMineEditInfos;
@@ -67,7 +67,7 @@ public class AdapterListViewMineEditInfo extends BaseAdapter {
         TextView contentTv;
     }
 
-    //此方法用于改变列表中的数据
+    /** Change the data of the listview */
     public void textChange(int position, String text){
         mBeanListViewMineEditInfos.get(position).setContent(text);
         notifyDataSetChanged();

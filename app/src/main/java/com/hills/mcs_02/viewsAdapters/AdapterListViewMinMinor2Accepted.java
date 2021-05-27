@@ -8,10 +8,10 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.List;
-
-import com.hills.mcs_02.dataBeans.BeanListViewMineMinor2Accepted;
 import com.hills.mcs_02.R;
+import com.hills.mcs_02.dataBeans.BeanListViewMineMinor2Accepted;
+
+import java.util.List;
 
 public class AdapterListViewMinMinor2Accepted extends BaseAdapter {
     private List<BeanListViewMineMinor2Accepted> mBeanListViewMineMinor2Accepted;
@@ -41,10 +41,9 @@ public class AdapterListViewMinMinor2Accepted extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder;
-        //如果view未被实例化过，缓存池中没有对应的缓存
+        /** Judge whether the convertView is initiated or not */
         if (convertView == null) {
             viewHolder = new ViewHolder();
-            // 由于我们只需要将XML转化为View，并不涉及到具体的布局，所以第二个参数通常设置为null
             convertView = mInflater.inflate(R.layout.listview_item_minepage_minor2,null);
 
             viewHolder.picIv = (ImageView) convertView.findViewById(R.id.minepage_minor2_lvItem_pic);
@@ -55,8 +54,6 @@ public class AdapterListViewMinMinor2Accepted extends BaseAdapter {
             viewHolder.coinCountTv = (TextView) convertView.findViewById(R.id.minepage_minor2_lvItem_CoinsCount);
             viewHolder.taskCountTv = (TextView) convertView.findViewById(R.id.minepage_minor2_lvItem_TaskCount);
 
-
-            //通过setTag将convertView与viewHolder关联
             convertView.setTag(viewHolder);
         }else{
             viewHolder = (ViewHolder) convertView.getTag();
@@ -73,7 +70,6 @@ public class AdapterListViewMinMinor2Accepted extends BaseAdapter {
 
         return convertView;
     }
-
 
     class ViewHolder{
         private ImageView picIv;
