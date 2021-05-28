@@ -15,35 +15,34 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.hills.mcs_02.R;
 import com.hills.mcs_02.StringStore;
 import com.hills.mcs_02.sensorFunction.SenseHelper;
 import com.hills.mcs_02.sensorFunction.SensorSQLiteOpenHelper;
 
-/** 测试 test 5.28*/
+import java.util.ArrayList;
+import java.util.List;
+
 public class SQLiteDataDisplay extends AppCompatActivity implements View.OnClickListener {
     private RecyclerView mRecyclerView;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private AdapterRecyclerViewSqliteDataDisplay mDataDisplayAdapter;
-    private List<SqliteDataBean> mList;
+    private List<SQLiteDataBean> mList;
     private String mSensorType;
     private String TAG = "SQLiteDataDisplay";
-    private int mListLoadRecord;        //记录当前列表加载数量
+    private int mListLoadRecord;        /** Record the current List item number */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sqlite_data_display);
 
-        //获取Sensor的名字
+        /** Get the sensor name */
         String sensorName = getIntent().getStringExtra("sensorName");
         mSensorType = SenseHelper.sensorType2XmlName(this, sensorName) + "";
         Log.i(TAG, "The SQLiteDataDisplay sensor type is :" + mSensorType);
 
-        //修改布局的title名字
+        /** Change the title of the layout */
         ((TextView) findViewById(R.id.sqlitedata_title)).setText(sensorName);
 
         initDataList();
@@ -51,7 +50,6 @@ public class SQLiteDataDisplay extends AppCompatActivity implements View.OnClick
         initRefreshListener();
     }
 
-    //
     private void initDataList() {
         mList = new ArrayList<>();
         Cursor c = getSqliteCursor();
@@ -60,7 +58,7 @@ public class SQLiteDataDisplay extends AppCompatActivity implements View.OnClick
         if (c.getCount() > 0) {
             for (int temp = 0; temp < len; temp++) {
                 c.moveToPosition(temp);
-                SqliteDataBean bean = new SqliteDataBean();
+                SQLiteDataBean bean = new SQLiteDataBean();
                 bean.setSenseDataId(c.getInt(0));
                 bean.setSensorType(c.getInt(1));
                 bean.setSenseTime(c.getString(2));
@@ -94,7 +92,7 @@ public class SQLiteDataDisplay extends AppCompatActivity implements View.OnClick
 
     private void initRefreshListener() {
         initPullRefresh();
-        initLoadMoreListener();  //下拉加载更多
+        initLoadMoreListener();
     }
 
     private void initPullRefresh() {
@@ -121,7 +119,7 @@ public class SQLiteDataDisplay extends AppCompatActivity implements View.OnClick
 
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                //判断RecyclerView的状态 是空闲时，同时，是最后一个可见的ITEM时才加载
+                /** Judge the status of RecyclerView when it is idle, and at the same time, load only when it is the last visible ITEM  */
                 if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItem + 1 == mDataDisplayAdapter
                     .getItemCount()) {
                     mSwipeRefreshLayout.setRefreshing(true);
@@ -137,20 +135,18 @@ public class SQLiteDataDisplay extends AppCompatActivity implements View.OnClick
 
             }
 
-            //更新lastvisibleItem数值
+            /** Update the value of last visible Item */
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-
                 LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
-                //最后一个可见的ITEM
                 lastVisibleItem = layoutManager.findLastVisibleItemPosition();
             }
         });
     }
 
     private void LoadMoreData() {
-        ArrayList<SqliteDataBean> lBeans = new ArrayList<>();
+        ArrayList<SQLiteDataBean> lBeans = new ArrayList<>();
         Cursor cur = getSqliteCursor();
         if (mListLoadRecord == cur.getCount()) {
             Toast.makeText(SQLiteDataDisplay.this, getString(R.string.no_more_sqlitedata), Toast.LENGTH_SHORT).show();
@@ -161,7 +157,7 @@ public class SQLiteDataDisplay extends AppCompatActivity implements View.OnClick
                 int temMax = -1;
                 for (int i = mListLoadRecord; i < nextLen; i++) {
                     cur.moveToPosition(i);
-                    SqliteDataBean bean = new SqliteDataBean();
+                    SQLiteDataBean bean = new SQLiteDataBean();
                     bean.setSenseDataId(cur.getInt(0));
                     bean.setSensorType(cur.getInt(1));
                     bean.setSenseTime(cur.getString(2));
