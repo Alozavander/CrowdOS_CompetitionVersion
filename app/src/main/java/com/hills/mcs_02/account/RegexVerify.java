@@ -12,7 +12,6 @@ public class RegexVerify {
         /**  User name regular expression. */
         this.regexes.put("registerUsernameRegex", "^[a-zA-Z][a-zA-Z0-9]{4,16}$");
     }
-
     public boolean pwdVerify(String pwdInput) {
         String regex = this.regexes.get("pwdRegex");
         if (pwdInput.matches(regex)) return true;

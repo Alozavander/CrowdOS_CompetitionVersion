@@ -6,7 +6,7 @@ import java.util.Calendar;
 
 public class SqliteTimeUtil {
     public static String[] getStartAndEndTime(){
-        /** get the specific pattern current time. */
+        //get the specific pattern current time.
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
@@ -14,7 +14,7 @@ public class SqliteTimeUtil {
         int hour = calendar.get(Calendar.HOUR_OF_DAY);
         int minute = calendar.get(Calendar.MINUTE);
         int second = calendar.get(Calendar.SECOND);
-        /** Batching the 0 string to the Date */
+        //补足0
         String endTime = "";
         String startTime = year + "-";
         month++;
