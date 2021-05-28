@@ -6,25 +6,25 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import com.hills.mcs_02.StringStore;
 
-
+/** 测试 test 5.28*/
 /*
  *  SQLite打开辅助类
  *  专门为Sensor存储感知数据设立
  *  功能：根据传入的SensorType(依照SenseHelper中对SensorType存储到SP的格式进行解析)分别为当前设备支持的各类传感器创建对应Table
  */
-public class SensorSqliteOpenHelper extends SQLiteOpenHelper {
+public class SensorSQLiteOpenHelper extends SQLiteOpenHelper {
 
     public final String senseTime = "senseTime";
     public final String sNumber = "snumber";
     private String types;
 
 
-    public SensorSqliteOpenHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
+    public SensorSQLiteOpenHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
     }
 
 
-    public SensorSqliteOpenHelper(Context context) {
+    public SensorSQLiteOpenHelper(Context context) {
         super(context, StringStore.SENSOR_DATABASE_NAME, null, 1);
     }
 
