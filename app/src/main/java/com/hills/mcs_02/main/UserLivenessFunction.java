@@ -23,14 +23,13 @@ public class UserLivenessFunction {
         mContext = pContext;
     }
 
-    //服务器活跃度检测功能向方法
-    public void userLogout(int userID,String url) {
-        //检查是否登录
-        if (userID != -1) {
-            Liveness lLiveness = new Liveness(null, userID, null, null, null, null, null, null, null, null);
+    /** server activity detection function direction method */
+    public void userLogout(int userId,String url) {
+      /**  Check if you are logged in */
+        if (userId != -1) {
+            Liveness lLiveness = new Liveness(null, userId, null, null, null, null, null, null, null, null);
             Gson lGson = new Gson();
             String content = lGson.toJson(lLiveness);
-            //创建Retrofit实例
             Retrofit retrofit = new Retrofit.Builder().baseUrl(url).addConverterFactory(GsonConverterFactory.create()).build();
             PostRequestLivenessLogout lLivenessLogout = retrofit.create(PostRequestLivenessLogout.class);
             RequestBody contentBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), content);
@@ -44,7 +43,7 @@ public class UserLivenessFunction {
                     }
                 }
                 @Override
-                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                public void onFailure(Call<ResponseBody> call, Throwable throwable) {
                 }
             });
         }

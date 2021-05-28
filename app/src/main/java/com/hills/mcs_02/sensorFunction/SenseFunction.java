@@ -124,7 +124,7 @@ public class SenseFunction {
      * cursor使用完成后应当使用close讲它关闭
      */
     public Cursor querySenseData(int pSensorType) {
-        SQLiteDatabase db = new SensorSqliteOpenHelper(mContext).getReadableDatabase();
+        SQLiteDatabase db = new SensorSQLiteOpenHelper(mContext).getReadableDatabase();
         Cursor cur = db.query(StringStore.SENSOR_DATATABLE_NAME,
                 new String[]{StringStore.SENSOR_DATATABLE_ID,
                         StringStore.SENSOR_DATATABLE_SENSE_TYPE,
@@ -140,7 +140,7 @@ public class SenseFunction {
      * 返回删除的数据数量，-1为出错，如果startTime和endTime为null，则该传感器类型的感知数据全部删除
      */
     public int sqliteDelete(int sensorType, String startTime, String endTime) {
-        SQLiteDatabase db = new SensorSqliteOpenHelper(mContext).getReadableDatabase();
+        SQLiteDatabase db = new SensorSQLiteOpenHelper(mContext).getReadableDatabase();
         int lI = -1;
         //四种时间不同的情况
         if (startTime == null && endTime != null) {
@@ -187,7 +187,7 @@ public class SenseFunction {
      */
     public File storeDataToCSV(int sensorType, String fileName, String fileParentPath) {
         File saveFile;
-        Cursor cur = new SensorSqliteOpenHelper(mContext).getReadableDatabase().query(StringStore.SENSOR_DATATABLE_NAME,
+        Cursor cur = new SensorSQLiteOpenHelper(mContext).getReadableDatabase().query(StringStore.SENSOR_DATATABLE_NAME,
                 new String[]{StringStore.SENSOR_DATATABLE_SENSE_TYPE,
                         StringStore.SENSOR_DATATABLE_SENSE_TIME,
                         StringStore.SENSOR_DATATABLE_SENSE_DATA_1,

@@ -40,7 +40,7 @@ import com.hills.mcs_02.fragmentsPack.FragmentHome;
 import com.hills.mcs_02.fragmentsPack.FragmentMine;
 import com.hills.mcs_02.fragmentsPack.FragmentPublish;
 import com.hills.mcs_02.fragmentsPack.FragmentRemind;
-import com.hills.mcs_02.main.MainAlertDilalogGenerator;
+import com.hills.mcs_02.main.MainAlertDialogGenerator;
 import com.hills.mcs_02.main.MainRetrofitCallGenerator;
 import com.hills.mcs_02.main.OpenApk;
 import com.hills.mcs_02.main.UserLivenessFunction;
@@ -257,7 +257,8 @@ public class MainActivity extends BaseActivity implements ForTest {
                 }
             }
         } else {
-            MainAlertDilalogGenerator.getGPSPermissionDialog(MainActivity.this).setPositiveButton("设置", new DialogInterface.OnClickListener() {
+            MainAlertDialogGenerator
+                .getGPSPermissionDialog(MainActivity.this).setPositiveButton("设置", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int temp) {
                     /** Jump to phone setting page */
@@ -351,7 +352,7 @@ public class MainActivity extends BaseActivity implements ForTest {
 
     private void downAlertDialog() {
         /** Pop up the download box  */
-        AlertDialog.Builder builder = MainAlertDilalogGenerator.getDownAlertDialog(MainActivity.this);
+        AlertDialog.Builder builder = MainAlertDialogGenerator.getDownAlertDialog(MainActivity.this);
         builder.setPositiveButton(getString(R.string.confirm), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -364,7 +365,7 @@ public class MainActivity extends BaseActivity implements ForTest {
 
     private void downloadNewApp() {
         File newApp = null;
-        AlertDialog dialog = MainAlertDilalogGenerator.getProgressbarDownAlertDialog(MainActivity.this).show();
+        AlertDialog dialog = MainAlertDialogGenerator.getProgressbarDownAlertDialog(MainActivity.this).show();
         /** Get the progressbar view in layout */
         NumberProgressBar bar = dialog.findViewById(R.id.dialog_progressbar);
         /** Create the download listener */
@@ -405,7 +406,7 @@ public class MainActivity extends BaseActivity implements ForTest {
         if (!getPackageManager().canRequestPackageInstalls()) {
             System.out.println("can not request installs");
             /** Pop up the update remind box */
-            AlertDialog.Builder builder = MainAlertDilalogGenerator.getInstallPermissionDialog(MainActivity.this);
+            AlertDialog.Builder builder = MainAlertDialogGenerator.getInstallPermissionDialog(MainActivity.this);
             builder.setPositiveButton(getString(R.string.confirm), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {

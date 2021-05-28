@@ -22,7 +22,7 @@ import java.util.Date;
 import com.hills.mcs_02.R;
 import com.hills.mcs_02.StringStore;
 import com.hills.mcs_02.sensorFunction.SenseHelper;
-import com.hills.mcs_02.sensorFunction.SensorSqliteOpenHelper;
+import com.hills.mcs_02.sensorFunction.SensorSQLiteOpenHelper;
 
 public class ActivityMineMinor5SensorDataDelete extends AppCompatActivity implements View.OnClickListener, TextWatcher {
     private static final String TAG = "SensorDataDelete";
@@ -209,7 +209,7 @@ public class ActivityMineMinor5SensorDataDelete extends AppCompatActivity implem
     }
 
     private int SqliteDelete(String sensorType, String startTime, String endTime) {
-        SQLiteDatabase db = new SensorSqliteOpenHelper(this).getReadableDatabase();
+        SQLiteDatabase db = new SensorSQLiteOpenHelper(this).getReadableDatabase();
         String whereClaus = StringStore.SENSOR_DATATABLE_SENSE_TYPE + "=?" + " AND " + StringStore.SENSOR_DATATABLE_SENSE_TIME
             + " > ? AND " + StringStore.SENSOR_DATATABLE_SENSE_TIME + " < ?";
         int lI = db.delete(StringStore.SENSOR_DATATABLE_NAME,

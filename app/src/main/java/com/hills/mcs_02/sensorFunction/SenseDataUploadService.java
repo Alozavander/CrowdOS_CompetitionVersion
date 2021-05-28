@@ -113,7 +113,7 @@ public class SenseDataUploadService extends Service {
     for (int i : sensorTypeList) {
       String whereClaus = StringStore.SENSOR_DATATABLE_SENSE_TYPE + "=?" + " AND " + StringStore.SENSOR_DATATABLE_SENSE_TIME
           + " > ? AND " + StringStore.SENSOR_DATATABLE_SENSE_TIME + " < ?";
-      Cursor cursor = new SensorSqliteOpenHelper(this).getReadableDatabase().query(StringStore.SENSOR_DATATABLE_NAME,
+      Cursor cursor = new SensorSQLiteOpenHelper(this).getReadableDatabase().query(StringStore.SENSOR_DATATABLE_NAME,
           new String[]{StringStore.SENSOR_DATATABLE_SENSE_TYPE,
               StringStore.SENSOR_DATATABLE_SENSE_TIME,
               StringStore.SENSOR_DATATABLE_SENSE_DATA_1,

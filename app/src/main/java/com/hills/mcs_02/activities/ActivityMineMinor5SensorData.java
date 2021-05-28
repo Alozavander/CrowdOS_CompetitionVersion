@@ -20,7 +20,7 @@ import com.hills.mcs_02.fragmentsPack.MCSRecyclerItemClickListener;
 import com.hills.mcs_02.R;
 import com.hills.mcs_02.StringStore;
 import com.hills.mcs_02.saveFile.FileExport;
-import com.hills.mcs_02.sensorFunction.SensorSqliteOpenHelper;
+import com.hills.mcs_02.sensorFunction.SensorSQLiteOpenHelper;
 import com.hills.mcs_02.viewsAdapters.AdapterRecyclerViewSettingSensorData;
 
 public class ActivityMineMinor5SensorData extends AppCompatActivity implements View.OnClickListener {
@@ -45,7 +45,7 @@ public class ActivityMineMinor5SensorData extends AppCompatActivity implements V
         String[] menuContent3 = new String[2];/** Turn awareness on/off */
         String[] menuContent4 = new String[2];/* save file */
         menuContent1[0] = getString(R.string.setting_sensorData_chuanganqishuju);
-        Cursor cur = new SensorSqliteOpenHelper(this).getReadableDatabase().query(StringStore.SENSOR_DATATABLE_NAME,
+        Cursor cur = new SensorSQLiteOpenHelper(this).getReadableDatabase().query(StringStore.SENSOR_DATATABLE_NAME,
                 new String[]{StringStore.SENSOR_DATATABLE_SENSE_TYPE,
                         StringStore.SENSOR_DATATABLE_SENSE_TIME,
                         StringStore.SENSOR_DATATABLE_SENSE_DATA_1,
@@ -85,7 +85,7 @@ public class ActivityMineMinor5SensorData extends AppCompatActivity implements V
                     startActivity(new Intent(ActivityMineMinor5SensorData.this,ActivityMineMinor5SensorDataDelete.class));
                 }
                 else if(position == 2){
-                    Cursor cur = new SensorSqliteOpenHelper(ActivityMineMinor5SensorData.this).getReadableDatabase().query(StringStore.SENSOR_DATATABLE_NAME,
+                    Cursor cur = new SensorSQLiteOpenHelper(ActivityMineMinor5SensorData.this).getReadableDatabase().query(StringStore.SENSOR_DATATABLE_NAME,
                             new String[]{StringStore.SENSOR_DATATABLE_SENSE_TYPE,
                                     StringStore.SENSOR_DATATABLE_SENSE_TIME,
                                     StringStore.SENSOR_DATATABLE_SENSE_DATA_1,

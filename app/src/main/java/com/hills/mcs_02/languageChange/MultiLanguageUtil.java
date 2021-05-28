@@ -20,29 +20,19 @@ import com.hills.mcs_02.LogUtils;
 
 public class MultiLanguageUtil {
     private static final String TAG = "MultiLanguageUtil_reference";
-    /**
-     * TODO 1、 修改应用内语言设置
-     * @param language    语言  zh/en
-     * @param area      地区
-     */
     public static void changeLanguage(Context context,String language, String area) {
         if (TextUtils.isEmpty(language) && TextUtils.isEmpty(area)) {
-            //如果语言和地区都是空，那么跟随系统s
+            /** If the language and locale are empty, follow the system */
             SpUtils.put(context, Constants.SP_LANGUAGE,"");
             SpUtils.put(context, Constants.SP_COUNTRY,"");
         } else {
-            //不为空，那么修改app语言，并true是把语言信息保存到sp中，false是不保存到sp中
+            /** If it is not empty, change the app language */
             Locale newLocale = new Locale(language, area);
             setAppLanguage(context,newLocale);
             saveLanguageSetting(context, newLocale);
         }
     }
 
-    /**
-     * Todo 更新应用语言
-     * @param context
-     * @param locale
-     */
     private static Context setAppLanguage(Context context, Locale locale) {
         Context context1 = context;
         Resources resources = context.getResources();
@@ -62,23 +52,18 @@ public class MultiLanguageUtil {
         return context1;
     }
 
-    /**
-     * TODO 3、 跟随系统语言
-     */
     public static Context attachBaseContext(Context context) {
         String spLanguage = (String) SpUtils.get(context, Constants.SP_LANGUAGE,"");
         String spCountry = (String) SpUtils.get(context, Constants.SP_COUNTRY,"");
         if(!TextUtils.isEmpty(spLanguage)&&!TextUtils.isEmpty(spCountry)){
             Locale locale = new Locale(spLanguage, spCountry);
-            //这里为8.0以后适配
+           /**  This is for post-8.0 adaptations */
             return setAppLanguage(context, locale);
         }
         return context;
     }
 
-    /**
-     * 判断sp中和app中的多语言信息是否相同
-     */
+   /**  Determine whether the multilingual information in SharedPreference and APP is the same */
     public static boolean isSameWithSetting(Context context) {
         Locale locale = getAppLocale(context);
         String language = locale.getLanguage();
@@ -92,17 +77,13 @@ public class MultiLanguageUtil {
         }
     }
 
-    /**
-     * 保存多语言信息到sp中
-     */
+   /** Save multilingual information to SharedPreference */
     public static void saveLanguageSetting(Context context, Locale locale) {
         SpUtils.put(context, Constants.SP_LANGUAGE,locale.getLanguage());
         SpUtils.put(context, Constants.SP_COUNTRY,locale.getCountry());
     }
 
-    /**
-     * 获取应用语言
-     */
+   /** Get the application language */
     public static Locale getAppLocale(Context context){
         Locale local;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -113,17 +94,14 @@ public class MultiLanguageUtil {
         return local;
     }
 
-    /**
-     * 获取系统语言
-     */
+   /** Get the system language */
     public static LocaleListCompat getSystemLanguage(){
         Configuration configuration = Resources.getSystem().getConfiguration();
         LocaleListCompat locales = ConfigurationCompat.getLocales(configuration);
         return locales;
     }
 
-    //注册Activity生命周期监听回调，此部分一定加上，因为有些版本不加的话多语言切换不回来
-    //registerActivityLifecycleCallbacks(callbacks);
+  /** Register the Activity lifecycle to listen for callbacks */
     public static  Application.ActivityLifecycleCallbacks callbacks = new Application.ActivityLifecycleCallbacks() {
         @Override
         public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
@@ -131,7 +109,7 @@ public class MultiLanguageUtil {
             String country = (String) SpUtils.get(activity, Constants.SP_COUNTRY,"");
             LogUtils.e(language);
             if (!TextUtils.isEmpty(language) && !TextUtils.isEmpty(country)) {
-                //强制修改应用语言
+                /** Force changes to the application language */
                 if (!isSameWithSetting(activity)) {
                     Locale locale = new Locale(language, country);
                     setAppLanguage(activity,locale);

@@ -8,47 +8,33 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 public class MainBottomNavHelper<T> {
-    private final SparseArray<Tab<T>> tabs = new SparseArray<Tab<T>>();
+    private final SparseArray<Tab<T>> TAB = new SparseArray<Tab<T>>();
 
-    private final Context mContext;
-    private final int containerId;
-    private final FragmentManager fragmentManager;
-    private final OnTabChangeListener<T> mListener;
+    private final Context M_CONTEXT;
+    private final int CONTAINER_ID;
+    private final FragmentManager FRAGMENT_MANAGER;
+    private final OnTabChangeListener<T> M_LISTENER;
 
     private Tab<T> currentTab;
 
     public MainBottomNavHelper(Context mContext, int containerId, FragmentManager fragmentManager, OnTabChangeListener<T> mListener) {
-        this.mContext = mContext;
-        this.containerId = containerId;
-        this.fragmentManager = fragmentManager;
-        this.mListener = mListener;
+        this.M_CONTEXT = mContext;
+        this.CONTAINER_ID = containerId;
+        this.FRAGMENT_MANAGER = fragmentManager;
+        this.M_LISTENER = mListener;
     }
 
-    /**
-     * 添加tab
-     */
     public MainBottomNavHelper<T> add(int menuId, Tab<T> tab) {
-        tabs.put(menuId, tab);
+        TAB.put(menuId, tab);
         return this;
     }
 
-    /**
-     * 获取当前Tab
-     *
-     * @return
-     */
     public Tab<T> getCurrentTab() {
         return currentTab;
     }
 
-    /**
-     * 执行点击菜单的操作
-     *
-     * @param menuId
-     * @return
-     */
     public boolean performClickMenu(int menuId) {
-        Tab<T> tab = tabs.get(menuId);
+        Tab<T> tab = TAB.get(menuId);
         if (tab != null) {
             doSelect(tab);
             return true;
@@ -57,16 +43,11 @@ public class MainBottomNavHelper<T> {
         return false;
     }
 
-    /**
-     * 进行tab的选择操作
-     * @param tab
-     */
     private void doSelect(Tab<T> tab){
         Tab<T> oldTab = null;
         if (currentTab!=null){
             oldTab=currentTab;
             if (oldTab==tab){
-                //如果当前tab点击的tab，不做任何操作或者刷新
                 notifyReselect(tab);
                 return;
             }
@@ -75,27 +56,21 @@ public class MainBottomNavHelper<T> {
         doTabChanged(currentTab,oldTab);
     }
 
-    /**
-     * Tab切换方法
-     * @param newTab
-     * @param oldTab
-     */
     private void doTabChanged(Tab<T> newTab,Tab<T> oldTab){
-        FragmentTransaction ft = fragmentManager.beginTransaction();
+        FragmentTransaction ft = FRAGMENT_MANAGER.beginTransaction();
 
         if (oldTab!=null){
             if (oldTab.fragment!=null){
-                //从界面移除，但在Fragment的缓存中
                 ft.detach(oldTab.fragment);
             }
         }
 
         if (newTab!=null){
             if (newTab.fragment==null){
-                //首次新建并缓存
-                Fragment fragment = Fragment.instantiate(mContext,newTab.clx.getName(),null);
+               /** Create and cache for the first time */
+                Fragment fragment = Fragment.instantiate(M_CONTEXT,newTab.clx.getName(),null);
                 newTab.fragment = fragment;
-                ft.add(containerId,fragment,newTab.clx.getName());
+                ft.add(CONTAINER_ID,fragment,newTab.clx.getName());
             }else {
                 ft.attach(newTab.fragment);
             }
@@ -104,20 +79,15 @@ public class MainBottomNavHelper<T> {
         notifySelect(newTab,oldTab);
     }
 
-    /**
-     * 选择通知回调
-     * @param newTab
-     * @param oldTab
-     */
     private void notifySelect(Tab<T> newTab,Tab<T> oldTab){
-        if (mListener!=null){
-            mListener.onTabChange(newTab,oldTab);
+        if (M_LISTENER !=null){
+            M_LISTENER.onTabChange(newTab,oldTab);
         }
 
     }
 
     private void notifyReselect(Tab<T> tab){
-        //TODO 刷新
+
     }
 
     public static class Tab<T> {
@@ -128,15 +98,9 @@ public class MainBottomNavHelper<T> {
 
         Class<?> clx;
         public T extra;
-        //内部缓存对应的Fragment
         private Fragment fragment;
     }
 
-    /**
-     * 事件处理回调接口
-     *
-     * @param <T>
-     */
     public interface OnTabChangeListener<T> {
         void onTabChange(Tab<T> newTab, Tab<T> oldTab);
     }

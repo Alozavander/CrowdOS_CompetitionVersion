@@ -23,7 +23,6 @@ public class MainRetrofitCallGenerator {
         Gson lGson = new Gson();
         String content = lGson.toJson(lLiveness);
         Retrofit retrofit = new Retrofit.Builder().baseUrl(url).addConverterFactory(GsonConverterFactory.create()).build();
-        //创建网络接口实例
         PostRequestLivenessLogin lLivenessLogin = retrofit.create(PostRequestLivenessLogin.class);
         RequestBody contentBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), content);
         Call<ResponseBody> call = lLivenessLogin.livenessLogin(contentBody);

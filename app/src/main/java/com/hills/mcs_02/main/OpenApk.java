@@ -23,10 +23,10 @@ public class OpenApk {
 
     public void openApk(){
         if (mFile.isFile()) {
-            //通过Intent跳转到下载的文件并打开
+            /** Use Intent to jump to the downloaded file and open it */
             Intent intent1 = new Intent(Intent.ACTION_VIEW);
             Uri uri;
-            //对不同版本特性做适配
+            /** Adapt the features of different versions */
             uri = FileProvider.getUriForFile(mContext, mContext.getPackageName() + ".fileprovider", mFile);
             intent1.setDataAndType(uri, "application/vnd.android.package-archive");
             try {
@@ -35,8 +35,8 @@ public class OpenApk {
                     intent1.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                     startActivity(intent1);
                 }
-            } catch (ActivityNotFoundException e) {
-                e.printStackTrace();
+            } catch (ActivityNotFoundException exp) {
+                exp.printStackTrace();
             }
             System.out.println("openAPK over");
         } else {

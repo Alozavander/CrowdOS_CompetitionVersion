@@ -21,9 +21,9 @@ import java.util.List;
 import com.hills.mcs_02.R;
 import com.hills.mcs_02.StringStore;
 import com.hills.mcs_02.sensorFunction.SenseHelper;
-import com.hills.mcs_02.sensorFunction.SensorSqliteOpenHelper;
+import com.hills.mcs_02.sensorFunction.SensorSQLiteOpenHelper;
 
-public class SqliteDataDisplay extends AppCompatActivity implements View.OnClickListener {
+public class SQLiteDataDisplay extends AppCompatActivity implements View.OnClickListener {
     private RecyclerView mRecyclerView;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private AdapterRecyclerViewSqliteDataDisplay mDataDisplayAdapter;
@@ -78,7 +78,7 @@ public class SqliteDataDisplay extends AppCompatActivity implements View.OnClick
     }
 
     private Cursor getSqliteCursor() {
-        SQLiteDatabase db = new SensorSqliteOpenHelper(this).getReadableDatabase();
+        SQLiteDatabase db = new SensorSQLiteOpenHelper(this).getReadableDatabase();
         Cursor cur = db.query(StringStore.SENSOR_DATATABLE_NAME,
                 new String[]{StringStore.SENSOR_DATATABLE_ID,
                         StringStore.SENSOR_DATATABLE_SENSE_TYPE,
@@ -152,7 +152,7 @@ public class SqliteDataDisplay extends AppCompatActivity implements View.OnClick
         ArrayList<SqliteDataBean> lBeans = new ArrayList<>();
         Cursor cur = getSqliteCursor();
         if (mListLoadRecord == cur.getCount()) {
-            Toast.makeText(SqliteDataDisplay.this, getString(R.string.no_more_sqlitedata), Toast.LENGTH_SHORT).show();
+            Toast.makeText(SQLiteDataDisplay.this, getString(R.string.no_more_sqlitedata), Toast.LENGTH_SHORT).show();
         } else {
             int nextLen = mListLoadRecord + 20;
             nextLen = nextLen + 1 >= cur.getCount() ? cur.getCount() : nextLen;
@@ -182,7 +182,7 @@ public class SqliteDataDisplay extends AppCompatActivity implements View.OnClick
         mRecyclerView = findViewById(R.id.sqlitedata_rv);
         mSwipeRefreshLayout = findViewById(R.id.sqlitedata_swiperefreshLayout);
         mSwipeRefreshLayout.setColorSchemeColors(Color.RED, Color.BLUE, Color.GREEN);
-        mDataDisplayAdapter = new AdapterRecyclerViewSqliteDataDisplay(mList, SqliteDataDisplay.this);
+        mDataDisplayAdapter = new AdapterRecyclerViewSqliteDataDisplay(mList, SQLiteDataDisplay.this);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
         mRecyclerView.setAdapter(mDataDisplayAdapter);
 

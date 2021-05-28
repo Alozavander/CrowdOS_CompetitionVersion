@@ -77,7 +77,7 @@ public class SensorService extends Service implements SensorEventListener {
         mSenseHelper = new SenseHelper(this);                                              //传感器感知辅助类
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         mSensorWorkMap = new HashMap<>();                                                           //使用hashMap记录传感器被要求使用的状态，每一个感知任务要求使用的传感器，都会为对应的传感器Key的值+1，反之，任务完成则减1，如果值<=0，则解绑对应传感器的监听器，释放资源
-        mSensorWritableDb = new SensorSqliteOpenHelper(this).getWritableDatabase();   //SQLite数据库的初始化，使用创建的数据库辅助类构建
+        mSensorWritableDb = new SensorSQLiteOpenHelper(this).getWritableDatabase();   //SQLite数据库的初始化，使用创建的数据库辅助类构建
         contentValues = new ContentValues();                                                        //数据存储用到的格式类
         mSensorWorkDataMap = new HashMap<>();
         isSensorDataChangeMap = new HashMap<>();

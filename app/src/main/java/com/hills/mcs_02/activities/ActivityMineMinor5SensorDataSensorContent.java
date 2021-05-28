@@ -15,10 +15,10 @@ import java.util.List;
 
 import com.hills.mcs_02.fragmentsPack.MCSRecyclerItemClickListener;
 import com.hills.mcs_02.R;
-import com.hills.mcs_02.SenseDataDisplay.SqliteDataDisplay;
+import com.hills.mcs_02.SenseDataDisplay.SQLiteDataDisplay;
 import com.hills.mcs_02.StringStore;
 import com.hills.mcs_02.sensorFunction.SenseHelper;
-import com.hills.mcs_02.sensorFunction.SensorSqliteOpenHelper;
+import com.hills.mcs_02.sensorFunction.SensorSQLiteOpenHelper;
 import com.hills.mcs_02.viewsAdapters.AdapterRecyclerViewSettingSensorData;
 
 public class ActivityMineMinor5SensorDataSensorContent extends AppCompatActivity implements View.OnClickListener {
@@ -45,7 +45,7 @@ public class ActivityMineMinor5SensorDataSensorContent extends AppCompatActivity
         mList = new ArrayList<>();
         for(String s : mSensorS) {
             int sensorType = SenseHelper.sensorType2XmlName(this,s);
-            Cursor lCursor = new SensorSqliteOpenHelper(this).getReadableDatabase().query(StringStore.SENSOR_DATATABLE_NAME,
+            Cursor lCursor = new SensorSQLiteOpenHelper(this).getReadableDatabase().query(StringStore.SENSOR_DATATABLE_NAME,
                     new String[]{StringStore.SENSOR_DATATABLE_SENSE_TYPE,
                             StringStore.SENSOR_DATATABLE_SENSE_TIME,
                             StringStore.SENSOR_DATATABLE_SENSE_DATA_1,
@@ -67,7 +67,7 @@ public class ActivityMineMinor5SensorDataSensorContent extends AppCompatActivity
             @Override
             public void onItemClick(View view, int position) {
                 /** Add a jump event*/
-                Intent lIntent = new Intent(ActivityMineMinor5SensorDataSensorContent.this, SqliteDataDisplay.class);
+                Intent lIntent = new Intent(ActivityMineMinor5SensorDataSensorContent.this, SQLiteDataDisplay.class);
                 lIntent.putExtra("sensorName",mSensorS[position]);
                 startActivity(lIntent);
             }
