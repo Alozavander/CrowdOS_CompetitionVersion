@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import com.hills.mcs_02.StringStore;
 
-
+/** 测试 test 5.28*/
 /*
  *  SQLite打开辅助类
  *  专门为Sensor存储感知数据设立

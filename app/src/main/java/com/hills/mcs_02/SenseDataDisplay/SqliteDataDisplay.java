@@ -23,6 +23,7 @@ import com.hills.mcs_02.StringStore;
 import com.hills.mcs_02.sensorFunction.SenseHelper;
 import com.hills.mcs_02.sensorFunction.SensorSQLiteOpenHelper;
 
+/** 测试 test 5.28*/
 public class SQLiteDataDisplay extends AppCompatActivity implements View.OnClickListener {
     private RecyclerView mRecyclerView;
     private SwipeRefreshLayout mSwipeRefreshLayout;
